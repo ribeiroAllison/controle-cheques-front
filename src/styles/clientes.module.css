@@ -3,6 +3,7 @@
     display: flex;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .name{
@@ -25,16 +26,20 @@
 
 .button{
     height:50px;
-    background-color: lightcoral;
-    color: #303030;
+    background-color: #00A86B;
+    color: white;
     border-radius: 5px;
 }
 
 .button:hover{
     cursor: pointer;
-    background-color: rgba(240, 128, 128, 0.562);
+    background-color: #00a86abb;
 }
 
 .editButton{
     display: none;
-}    
+}
+
+#smallTable{
+    width: 50%;
+}

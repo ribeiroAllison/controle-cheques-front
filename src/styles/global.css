@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;400;700&display=swap');
 
+
+:root{
+
+    --navColor: #004225;
+}
+
 *{
     font-family: 'Roboto';
     color: #303030;
@@ -32,4 +38,17 @@
 .table img:hover{
     cursor: pointer;
 
+}
+
+.Bom{
+    background-color: greenyellow;
+}
+
+.Médio{
+    background-color: yellow;
+}
+
+.Ruim{
+    background-color: crimson;
+    color:aliceblue
 }

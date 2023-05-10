@@ -1,3 +1,5 @@
+import styles from "../styles/HeaderLine.module.css"
+
 export function getKeyByValue(object, value) {
     let correctObj;
     for(let obj of object){

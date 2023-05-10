@@ -1,7 +1,7 @@
 import GruposHeader from "@/components/GruposHeader"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
-import { baseURL } from "../../utils/url"
+import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 
 
@@ -174,19 +174,19 @@ export default function Grupos() {
                 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required/>
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas"/>
                 </div>
                 <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
                 <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
-            <gruposHeader />
+            <GruposHeader />
 
-            <table className="table">
+            <table className="table" id={style.smallTable}>
                 <thead>
                     <tr>
-                        <th>Cliente</th>
+                        <th>Grupo</th>
                         <th>Editar</th>
                         <th>Excluir</th>
                     </tr>

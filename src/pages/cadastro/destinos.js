@@ -1,7 +1,7 @@
 import DestinosHeader from "@/components/DestinosHeader"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
-import { baseURL } from "../../utils/url"
+import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 
 
@@ -61,7 +61,7 @@ export default function Destinos() {
         })
         .then(response => {
             if(response.ok){
-                alert(`Destino ${formValues.nome} cadastrado com sucesso!`)
+                
                 getAllDestinos();
             }
         }
@@ -174,7 +174,7 @@ export default function Destinos() {
                 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required/>
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Destinos de Cheques"/>
                 </div>
                 <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
                 <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
@@ -183,10 +183,10 @@ export default function Destinos() {
 
             <DestinosHeader />
 
-            <table className="table">
+            <table className="table" id={style.smallTable}>
                 <thead>
                     <tr>
-                        <th>Cliente</th>
+                        <th>Destino</th>
                         <th>Editar</th>
                         <th>Excluir</th>
                     </tr>

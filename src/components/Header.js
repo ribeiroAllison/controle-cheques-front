@@ -8,7 +8,7 @@ export default function Header (){
             <header className={style.header}> 
 
                 <div className={style.imgCtr}>
-                    <Link href="/"><img className={style.img}  src="https://multitoc.com.br/wp-content/uploads/2021/08/LOGO-MULTITOC-GRANDE-PRETA-1024x266.png" /></Link>
+                    <Link href="/"><img className={style.img}  src="/images/LISKO-TECH.png" /></Link>
                 </div>
                 
                 
@@ -19,9 +19,10 @@ export default function Header (){
                         <h2>Cadastro</h2>
                                                 
                         <div className={style.option}>
-                            <h3><Link href="/clientes">Clientes</Link></h3>
-                            <h3><Link href="/destinos">Destinos</Link></h3>
-                            <h3><Link href="/grupos">Grupos</Link></h3>
+                            <h3><Link href="/cadastro/clientes">Clientes</Link></h3>
+                            <h3><Link href="/cadastro/destinos">Destinos</Link></h3>
+                            <h3><Link href="/cadastro/grupos">Grupos</Link></h3>
+                            <h3><Link href="/cadastro/vendedores">Vendedores</Link></h3>
                         </div>
                     </div>
 
@@ -29,7 +30,7 @@ export default function Header (){
                         <h2>Cheques</h2>
                                                 
                         <div className={style.option}>
-                            <h3><Link href="">Cadastro</Link></h3>
+                            <h3><Link href="/cheques/cadastro">Cadastro</Link></h3>
                         </div>
                     </div>
 

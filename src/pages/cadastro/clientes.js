@@ -1,7 +1,7 @@
 import ClientesHeader from "@/components/ClientesHeader"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
-import { baseURL } from "../../utils/url"
+import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 
 export default function Clientes() {
@@ -10,7 +10,8 @@ export default function Clientes() {
         {
             codigo: "",
             nome: "",
-            doc:""
+            doc:"",
+            status:""
         }
 
     );
@@ -23,20 +24,28 @@ export default function Clientes() {
     //SUBMIT FUNCTIONS
 
     const clearInputs = () =>{
+        
 
         const codInput = document.getElementById('codigo');
         const nomeInput = document.getElementById('nome');
         const docInput = document.getElementById('doc');
         const grupoInput = document.getElementById('grupo');
+        const statusInput = document.getElementById('status');
 
         codInput.value = "";
         nomeInput.value = "";
         docInput.value = "";
         grupoInput.value = "";
+        statusInput.value = "";
+
+        
 }
 
     const handleSubmit = (e) =>{
         e.preventDefault();
+        const grupoName = document.getElementById('grupo').value;
+
+        const grupoId = getKeyByValue(grupo, grupoName);
 
         formValues.codigo && fetch(`${baseURL}/clientes`, {
             method: 'POST',
@@ -46,7 +55,9 @@ export default function Clientes() {
             body:JSON.stringify({
                 cod: formValues.codigo,
                 nome:formValues.nome,
-                doc: formValues.doc
+                doc: formValues.doc,
+                grupo_id: grupoId ? grupoId : null,
+                status_pagador: formValues.status
             })
         })
         .then(response => {
@@ -71,16 +82,19 @@ export default function Clientes() {
         const nome = document.getElementById(`client${cod}`).innerHTML;
         const doc = document.getElementById(`doc${cod}`).innerHTML;
         const grup = document.getElementById(`grupo${cod}`).innerHTML;
+        const status = document.getElementById(`status${cod}`).innerHTML;
 
         const codInput = document.getElementById('codigo');
         const nomeInput = document.getElementById('nome');
         const docInput = document.getElementById('doc');
         const grupoInput = document.getElementById('grupo');
+        const statusInput = document.getElementById('status');
 
         codInput.value = cod;
         nomeInput.value = nome;
         docInput.value = doc;
         grupoInput.value = grup;
+        statusInput.value = status;
 
         const addButton = document.getElementById('adicionaCliente');
         addButton.style.display = 'none';
@@ -102,6 +116,20 @@ export default function Clientes() {
 
         const editButton = document.getElementById('editButton');
         editButton.style.display = "none";
+
+        const codInput = document.getElementById('codigo');
+        codInput.removeAttribute('disabled');
+
+        setFormValues(
+            {codigo: "",
+            nome: "",
+            doc:"",
+            status:""}
+
+
+
+
+        )
     }
 
     function getKeyByValue(object, value) {
@@ -127,6 +155,7 @@ export default function Clientes() {
         const cod = document.getElementById('codigo').value;
         const doc = document.getElementById('doc').value;
         const nome = document.getElementById('nome').value;
+        const status = document.getElementById('status').value;
 
 
         cod && fetch(`${baseURL}/clientes`, {
@@ -138,7 +167,8 @@ export default function Clientes() {
                 cod: cod,
                 nome: nome,
                 doc: doc,
-                grupo_id: grupoId
+                grupo_id: grupoId,
+                status_pagador: status
             })
         })
         .then(response => {
@@ -167,23 +197,25 @@ export default function Clientes() {
     const [clientList, setClientList] = useState('');
 
     async function getAllClients(){
-    try{
-        const response = await fetch(`${baseURL}/clientes`);
+        try{
+            const response = await fetch(`${baseURL}/clientes`);
 
-        if(response.ok){
-            let jsonResponse = await response.json();
-            setClientList(jsonResponse);
+            if(response.ok){
+                let jsonResponse = await response.json();
+                setClientList(jsonResponse);
+            }
+
+        } catch(error){
+            console.log(error);
         }
-
-    } catch(error){
-        console.log(error);
     }
-}
 
     useEffect(() => {
         getAllClients()
     },[])
 
+
+    //DELETE FUNCTION
     const handleDelete = (e) => {
 
         const cod = e.target.closest('tr').getAttribute('data-cod');
@@ -236,16 +268,19 @@ export default function Clientes() {
                 
                 <div className={style.inputCtr} >
                     <h4>Código:</h4>
-                    <input type="number" name="codigo" onChange={handleInputChange} id="codigo" required/>
+                    <input type="number" name="codigo" onChange={handleInputChange} id="codigo" required placeholder="Código do Cliente"/>
                 </div>
+
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required/>
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente"/>
                 </div>
+
                 <div className={style.inputCtr} >
                     <h4>CPF/CNPJ:</h4>
-                    <input type="text" name="doc" onChange={handleInputChange} id="doc" required/>
+                    <input type="text" name="doc" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ"/>
                 </div>
+
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Grupo:</h4>
                     
@@ -256,6 +291,16 @@ export default function Clientes() {
                                 return <option key={emp.id} data={emp.id}>{emp.nome}</option>
                             })
                         }
+                    </select>
+                </div>
+
+                <div className={style.inputCtr} >
+                    <h4>Status:</h4>
+                    <select className={style.select} id="status" name="status" onChange={handleInputChange}>
+                        <option></option>
+                        <option>Bom</option>
+                        <option>Médio</option>
+                        <option>Ruim</option>
                     </select>
                 </div>
                 <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit}>Editar</button>
@@ -272,6 +317,7 @@ export default function Clientes() {
                 <th>Nome</th>
                 <th>CPF / CNPJ</th>
                 <th>Grupo</th>
+                <th>Status</th>
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
@@ -283,6 +329,7 @@ export default function Clientes() {
                     <td id={`client${client.cod}`}>{client.cliente}</td>
                     <td id={`doc${client.cod}`}>{client.doc}</td>
                     <td id={`grupo${client.cod}`}>{client.grupo}</td>
+                    <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
                     <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod}/></td>
                     <td> <img src="/images/trash-bin.svg" onClick={handleDelete}/></td>
                 
