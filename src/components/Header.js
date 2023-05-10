@@ -20,8 +20,25 @@ export default function Header (){
                                                 
                         <div className={style.option}>
                             <h3><Link href="/clientes">Clientes</Link></h3>
-                            <h3><Link href="">Destinos</Link></h3>
-                            <h3><Link href="">Grupos</Link></h3>
+                            <h3><Link href="/destinos">Destinos</Link></h3>
+                            <h3><Link href="/grupos">Grupos</Link></h3>
+                        </div>
+                    </div>
+
+                    <div className={style.menu}>
+                        <h2>Cheques</h2>
+                                                
+                        <div className={style.option}>
+                            <h3><Link href="">Cadastro</Link></h3>
+                        </div>
+                    </div>
+
+                    <div className={style.menu}>
+                        <h2>Relatórios</h2>
+                                                
+                        <div className={style.option}>
+                            <h3><Link href="">Cheques Vencidos</Link></h3>
+                            <h3><Link href="">Recebíveis</Link></h3>
                         </div>
                     </div>
                     

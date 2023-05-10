@@ -38,7 +38,7 @@ export default function Clientes() {
     const handleSubmit = (e) =>{
         e.preventDefault();
 
-        fetch(`${baseURL}/clientes`, {
+        formValues.codigo && fetch(`${baseURL}/clientes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,6 +51,7 @@ export default function Clientes() {
         })
         .then(response => {
             if(response.ok){
+                alert(`Cliente ${formValues.nome} cadastrado com sucesso!`)
                 getAllClients();
             }
         }
@@ -128,7 +129,7 @@ export default function Clientes() {
         const nome = document.getElementById('nome').value;
 
 
-        fetch(`${baseURL}/clientes`, {
+        cod && fetch(`${baseURL}/clientes`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -142,6 +143,7 @@ export default function Clientes() {
         })
         .then(response => {
             if(response.ok){
+                console.log(response)
                 getAllClients();
             }
         }
@@ -247,7 +249,7 @@ export default function Clientes() {
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Grupo:</h4>
                     
-                    <select id="grupo">
+                    <select id="grupo" className={style.select}>
                         <option></option>
                         {
                             grupo && grupo.map((emp) => {
