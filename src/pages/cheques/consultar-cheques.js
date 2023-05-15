@@ -40,7 +40,7 @@ export default function ConsultarCheques() {
 
     return(
         <>
-        <Header />
+            <Header />
         </>
     )
 }
