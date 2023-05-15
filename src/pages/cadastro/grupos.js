@@ -169,7 +169,7 @@ export default function Grupos() {
     return(
         <>
             <Header />
-            <h3 className={style.name}>Cadastro de grupos</h3>
+            <h3 className={style.name}>Cadastro de Grupos</h3>
             <form className={style.formCtr}>
                 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >

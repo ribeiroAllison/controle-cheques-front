@@ -30,7 +30,8 @@ export default function Header (){
                         <h2>Cheques</h2>
                                                 
                         <div className={style.option}>
-                            <h3><Link href="/cheques/cadastro">Cadastro</Link></h3>
+                            <h3><Link href="/cheques/cadastro">Cadastrar</Link></h3>
+                            <h3><Link href="/cheques/consultar-cheques">Consultar</Link></h3>
                         </div>
                     </div>
 

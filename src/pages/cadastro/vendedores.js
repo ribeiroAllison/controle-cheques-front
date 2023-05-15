@@ -169,7 +169,7 @@ export default function Vendedores() {
     return(
         <>
             <Header />
-            <h3 className={style.name}>Cadastro de vendedores</h3>
+            <h3 className={style.name}>Cadastro de Vendedores</h3>
             <form className={style.formCtr}>
                 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >

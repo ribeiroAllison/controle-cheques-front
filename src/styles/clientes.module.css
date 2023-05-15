@@ -1,9 +1,16 @@
-.formCtr{
+.formCtr, .formCtrCenter{
     margin: 20px;
     display: flex;
     gap: 20px;
-    align-items: center;
     flex-wrap: wrap;
+}
+
+.formCtr{
+    align-items: flex-start;
+}
+
+.formCtrCenter{
+    align-items: center;
 }
 
 .name{
@@ -18,6 +25,9 @@
     height: 20px;
 }
 
+#search{
+    align-items: flex-start;
+}
 
 
 .nameCtr input{
@@ -42,4 +52,40 @@
 
 #smallTable{
     width: 50%;
+}
+
+.searchBox{
+    display: none;
+    margin-bottom: -300px;
+    
+    
+}
+
+.searchBox option{
+    width: 283px;
+    position: relative;
+    z-index: 150;
+    background-color: white;
+    
+    
+}
+
+.searchBox option:hover{
+    background-color: #02ce83;
+    cursor: pointer;
+}
+
+.searchBox select{
+    background-color: white;
+    z-index: 100;
+}
+
+#clienteSelect{
+    z-index: 100;
+
+}
+
+.obs textarea{
+    width: 190px;
+    height: 100px;
 }
