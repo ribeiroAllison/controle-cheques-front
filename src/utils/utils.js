@@ -1,16 +1,10 @@
-import styles from "../styles/HeaderLine.module.css"
-
-export function getKeyByValue(object, value) {
-    let correctObj;
-    for(let obj of object){
-    
-        if(obj['nome'] === value){
-            correctObj = obj;
-        } 
+export const clearInputs = (e) =>{
         
-    }
-    const result = correctObj ? correctObj.id : null;
-    return result;
+    e && e.preventDefault();
     
-    
+    const inputs = document.getElementsByClassName('input');
+    for(let input of inputs){
+        input.value = ""
     }
+    
+}

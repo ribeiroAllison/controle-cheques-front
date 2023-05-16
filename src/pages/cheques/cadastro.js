@@ -44,10 +44,6 @@ export default function CadastroCheques() {
         for(let input of inputs){
             input.value = ""
         }
-
-    
-
-        
         
     }
 

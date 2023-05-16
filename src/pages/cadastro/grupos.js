@@ -74,27 +74,30 @@ export default function Grupos() {
     // DELETE 
 
     const handleDelete = (e) => {
-
         const id = e.target.closest('tr').getAttribute('data-cod');
-        console.log(id)
-        
-
+    
         fetch(`${baseURL}/grupos`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: id})
+                id: id
+            })
         })
         .then(response => {
-            if(response.ok){
+            if (response.ok) {
                 getAllGrupos();
+            } else {
+                response.text().then(errorMessage => {
+                    alert(errorMessage);
+                });
             }
         })
-    
+        .catch(error => {
+            alert('Error: ' + error.message);
+        });
     }
-
     // UPDATE
 
     const [editId, setEditId] = useState();
