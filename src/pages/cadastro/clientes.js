@@ -311,32 +311,32 @@ export default function Clientes() {
 
             <ClientesHeader />
             <table className="table">
-            <thead>
-            <tr>
-                <th>Código do Cliente</th>
-                <th>Nome</th>
-                <th>CPF / CNPJ</th>
-                <th>Grupo</th>
-                <th>Status</th>
-                <th>Editar</th>
-                <th>Excluir</th>
-            </tr>
-            </thead>
-            <tbody>
-            {clientList && clientList.map((client) => (
-                <tr key={client.cod} data-cod={client.cod}>
-                    <td >{client.cod}</td>
-                    <td id={`client${client.cod}`}>{client.cliente}</td>
-                    <td id={`doc${client.cod}`}>{client.doc}</td>
-                    <td id={`grupo${client.cod}`}>{client.grupo}</td>
-                    <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
-                    <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod}/></td>
-                    <td> <img src="/images/trash-bin.svg" onClick={handleDelete}/></td>
-                
+                <thead>
+                <tr>
+                    <th>Código do Cliente</th>
+                    <th>Nome</th>
+                    <th>CPF / CNPJ</th>
+                    <th>Grupo</th>
+                    <th>Status</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
                 </tr>
-            ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {clientList && clientList.map((client) => (
+                    <tr key={client.cod} data-cod={client.cod}>
+                        <td >{client.cod}</td>
+                        <td id={`client${client.cod}`}>{client.cliente}</td>
+                        <td id={`doc${client.cod}`}>{client.doc}</td>
+                        <td id={`grupo${client.cod}`}>{client.grupo}</td>
+                        <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
+                        <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod}/></td>
+                        <td> <img src="/images/trash-bin.svg" onClick={handleDelete}/></td>
+                    
+                    </tr>
+                ))}
+                </tbody>
+            </table>
 
         </>
     )

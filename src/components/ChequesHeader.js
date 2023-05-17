@@ -6,7 +6,7 @@ export default function ChequesHeader () {
     return(
         <>
             <header className={styles.header}>
-                <h1>Dados do Cheque</h1>
+                <h1>Cheques</h1>
                 <img src="/images/header-line.svg"/>
             </header>
         </>

@@ -3,6 +3,8 @@ import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 import { clearInputs } from "@/utils/utils"
+import ChequesHeader from "@/components/ChequesHeader"
+
 
 
 export default function ConsultarCheques() {
@@ -53,7 +55,6 @@ export default function ConsultarCheques() {
 
     const findClient = () => {
 
-
         if(clientList){
             const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
             setSearchResult(foundClientByName);
@@ -92,33 +93,64 @@ export default function ConsultarCheques() {
         }
     }   
 
-    const handleSubmit = (e) => {
+    const [chequesList, setChequeslist] = useState();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        formValues.num && fetch(`${baseURL}/cheques`, {
+        const searchParams = new URLSearchParams({
+                cliente_cod: formValues.cliente_cod ? formValues.cliente_cod : '',
+                data_init: formValues.data_init ? formValues.data_init : '',
+                data_fim: formValues.data_fim ? formValues.data_fim : '',
+                compensado: formValues.compensado ? formValues.compensado : '',
+                destino_id: formValues.destino_id ? formValues.destino_id : '',
+                vencido: formValues.vencido ? formValues.vencido : ''
+        })
+
+        const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
-                cliente_cod: formValues.cliente_cod ? formValues.cliente_cod : null,
-                data_init: formValues.data_init ? formValues.data_init : null,
-                data_fim: formValues.data_fim ? formValues.data_fim : null,
-                compensado: formValues.compensado ? formValues.compensado : null,
-                destino_id: formValues.destino_id ? formValues.destino_id : null,
-                vencido: formValues.vencido ? formValues.vencido : null
-            
-            })
         })
-        .then(response => {
-            if(response.ok){
-                alert(`Cheque ${formValues.num} cadastrado com sucesso!`)
+        
+        if(response.ok){
+            let jsonResponse = await response.json();
+            setChequeslist(jsonResponse);
+            clearInputs();
                 
-            }
+        }  else {
+            console.error('Erro ao obter os cheques da API.');
         }
 
-        )
-        .then(clearInputs())
+        setFormValues({
+            cliente: "",
+            cliente_cod: null,
+            data_init: null,
+            data_fim: null,
+            compensado:null,
+            destino_id:null,
+            vencido:null
+        })
+    }
+
+    const handleClear = (e) => {
+        e.preventDefault();
+        clearInputs();
+        setFormValues({
+            cliente: "",
+            cliente_cod: null,
+            data_init: null,
+            data_fim: null,
+            compensado:null,
+            destino_id:null,
+            vencido:null
+        })
+    }
+
+    const transformDate = (data) =>{
+        const date = new Date(data);
+        return new Intl.DateTimeFormat('pt-BR').format(date);
     }
 
     return(
@@ -192,12 +224,51 @@ export default function ConsultarCheques() {
 
                         </fieldset>
                     <div className={style.buttonCtr}>
-                        <button type="submit" className={style.button} id="buscaCheque">Buscar</button>
-                        <button className={style.button} onClick={clearInputs}>Limpar</button>
+                        <button type="submit" className={style.button} id="buscaCheque" onClick={handleSubmit}>Buscar</button>
+                        <button className={style.button} onClick={handleClear}>Limpar</button>
                     </div>
                     
                 </form>
             </fieldset>
+
+            <ChequesHeader />
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Grupo</th>
+                        <th>No. Cheque</th>
+                        <th>Valor</th>
+                        <th>Data Venc.</th>
+                        <th>Comp.</th>
+                        <th>Venc.</th>
+                        <th>Linha</th>
+                        <th>Destino</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {chequesList && chequesList.map((cheque) => (
+                    <tr key={cheque.id}>
+                        <td id={`codCli${cheque.id}`}>{cheque.cod_cliente}</td>
+                        <td id={`client${cheque.id}`}>{cheque.cliente}</td>
+                        <td id={`grupo${cheque.id}`}>{cheque.grupo}</td>
+                        <td id={`numCheque${cheque.id}`} >{cheque.número_cheque}</td>
+                        <td id={`valor${cheque.id}`} >{cheque.valor}</td>
+                        <td id={`data_venc${cheque.id}`} >{transformDate(cheque.data_venc)}</td>
+                        <td id={`compensado${cheque.id}`} >{cheque.compensado ? "SIM" : 'NÃO'}</td>
+                        <td id={`vencido${cheque.id}`} >{cheque.vencido ? "SIM" : "NÃO"}</td>
+                        <td id={`linha${cheque.id}`} >{cheque.linha}</td>
+                        <td id={`destino${cheque.id}`} >{cheque.destino}</td>
+                        <td> <img src="/images/edit.svg" name={cheque.id}/></td>
+                        <td> <img src="/images/trash-bin.svg" /></td>
+                    
+                    </tr>
+                ))}
+                </tbody>
+            </table>
         </>
     )
 }
