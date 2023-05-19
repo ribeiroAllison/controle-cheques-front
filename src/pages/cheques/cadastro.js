@@ -3,6 +3,7 @@ import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
+import { linhas } from "@/utils/utils"
 
 
 
@@ -108,8 +109,7 @@ export default function CadastroCheques() {
         
     // },[formValues.cliente])
 
-    const linhas =[11, 12, 13, 14, 20, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 45, 48, 49, 59, 60, 61, 64]
-
+    
 
     const [vendedorList, setVendedorList] = useState()
     

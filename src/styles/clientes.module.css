@@ -108,8 +108,37 @@
 
 .filterField{
     margin: 20px;
+    background-color: #D9DDDC;
 }
 
 #mainLegend{
     font-size: 25px;
+}
+
+#editForm{
+    justify-content: center;
+}
+
+#editForm h4{
+    font-size: 13px;
+}
+
+#editForm input{
+    width: 100px;
+}
+
+#editForm .nameCtr input{
+    width: 200px;
+}
+
+#editForm option{
+    width: 184px;
+}
+
+.editFieldset{
+    width: 70%;
+    height: 200px;
+    margin: auto;
+    display: none;
+    background-color: #D9DDDC;
 }
