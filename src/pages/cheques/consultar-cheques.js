@@ -152,7 +152,7 @@ export default function ConsultarCheques() {
         if(response.ok){
             let jsonResponse = await response.json();
             setChequeslist(jsonResponse);
-            clearInputs(e, 'input');
+            clearInputs('input');
                 
         }  else {
             console.error('Erro ao obter os cheques da API.');
@@ -195,19 +195,17 @@ export default function ConsultarCheques() {
         })
     }
 
-    const handleClearEdit = (e) => {
+    const handleCloseEdit = (e) => {
+
         e.preventDefault();
         clearInputs('editInput');
-        setEditFormValues({
-            cliente: "",
-            cliente_cod: null,
-            número_cheque: null,
-            valor: null,
-            data_venc: null,
-            compensado: null,
-            vencido: null,
-            destino_id: null
-        })
+
+        const editWindow = document.getElementById('editWindow');
+        editWindow.style.display = "none";
+
+        const editRow = document.getElementById(`row${chequeId}`);
+        editRow.style.backgroundColor = "white"
+        
     }
 
     const transformDate = (data) =>{
@@ -267,6 +265,13 @@ export default function ConsultarCheques() {
         refreshSearch()
     }
 
+    const setBackgroundWhite = () => {
+        const rows = document.getElementsByClassName('chequeRow');
+        for(let row of rows){
+            row.style.backgroundColor = "white";
+        }
+    }
+
     const [chequeId, setChequeId] = useState(); 
 
     const handleEdit = (e) => {
@@ -276,6 +281,11 @@ export default function ConsultarCheques() {
 
         const id = e.target.name;
         setChequeId(id);
+
+        setBackgroundWhite();
+
+        const editRow = document.getElementById(`row${id}`);
+        editRow.style.backgroundColor = "#77DD77"
 
         const codCli = document.getElementById(`codCli${id}`).innerHTML;
         setEditFormValues({...editFormValues, cliente_cod: codCli})
@@ -332,6 +342,7 @@ export default function ConsultarCheques() {
         const compensado = document.getElementById('editCompensado').value;
         const vencido = document.getElementById('editVencido').value;
         const linha = document.getElementById('editLinha').value;
+        const destino = document.getElementById('editDestino').value;
 
         chequeId && fetch(`${baseURL}/cheques`,{
             method: 'PUT',
@@ -346,7 +357,8 @@ export default function ConsultarCheques() {
                 data_venc: data_venc,
                 compensado: compensado,
                 vencido: vencido,
-                linha: linha
+                linha: linha,
+                destino: destino
             })
         })
         .then(response => {
@@ -363,6 +375,9 @@ export default function ConsultarCheques() {
         
         const editWindow = document.getElementById('editWindow');
         editWindow.style.display = "none";
+
+        const editRow = document.getElementById(`row${chequeId}`);
+        editRow.style.backgroundColor = "white"
     }
     
 
@@ -370,6 +385,7 @@ export default function ConsultarCheques() {
         <>
             <Header />
 
+            {/* FILTER SCREEN */}
             <fieldset className={style.filterField}>
                 <legend id={style.mainLegend}>Opções de Filtros</legend>
                 <form className={style.formCtr} id={style.clienteForm}>
@@ -444,6 +460,7 @@ export default function ConsultarCheques() {
                 </form>
             </fieldset>
 
+            {/* EDIT SCREEN */}
             <ChequesHeader />
             <fieldset className={style.editFieldset} id="editWindow">
                 <legend>Edição de Cheque</legend>
@@ -459,7 +476,7 @@ export default function ConsultarCheques() {
                         <div className={style.searchBox} id="searchBoxEdit">
                             <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
                                 {
-                                    searchResult.map(client => <option onClick={handleEditClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
+                                searchResult.map(client => <option onClick={handleEditClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
                                 }
                             </select>
                         </div>
@@ -524,6 +541,7 @@ export default function ConsultarCheques() {
 
                     <div className={style.buttonCtr}>
                             <button type="submit" className={style.button} id="editaCheque" onClick={handleEditSubmit}>Editar</button>
+                            <button type="submit" className={style.button} id="fechar" onClick={handleCloseEdit}>Fechar</button>
                     </div>
                     
                 </form>
@@ -551,7 +569,7 @@ export default function ConsultarCheques() {
                 </thead>
                 <tbody>
                 {chequesList && chequesList.map((cheque) => (
-                    <tr key={cheque.id}>
+                    <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
                         <td id={`codCli${cheque.id}`}>{cheque.cod_cliente}</td>
                         <td id={`client${cheque.id}`}>{cheque.cliente}</td>
                         <td id={`grupo${cheque.id}`}>{cheque.grupo}</td>
