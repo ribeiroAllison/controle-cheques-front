@@ -379,7 +379,30 @@ export default function ConsultarCheques() {
         const editRow = document.getElementById(`row${chequeId}`);
         editRow.style.backgroundColor = "white"
     }
-    
+
+    const closeObs = () =>{
+        const module = document.getElementsByClassName('obsScreen')[0];
+
+        module.style.display = "none";
+    }
+
+    const [obsDetails, setObsDetails] = useState({
+        cliente: "",
+        obs: "",
+        num: ""
+    });
+    const handleOpenObs = (cheque) => {
+
+        cheque &&
+        setObsDetails({
+            cliente: cheque.cliente,
+            obs: cheque.obs,
+            num: cheque.número_cheque
+        })
+        const module = document.getElementsByClassName('obsScreen')[0];
+
+        module.style.display = "flex";
+    }
 
     return(
         <>
@@ -563,6 +586,7 @@ export default function ConsultarCheques() {
                         <th>Venc.</th>
                         <th>Linha</th>
                         <th>Destino</th>
+                        <th>Obs</th>
                         <th>Editar</th>
                         <th>Excluir</th>
                     </tr>
@@ -580,13 +604,29 @@ export default function ConsultarCheques() {
                         <td id={`vencido${cheque.id}`} >{cheque.vencido ? "Sim" : "Não"}</td>
                         <td id={`linha${cheque.id}`} >{cheque.linha}</td>
                         <td id={`destino${cheque.id}`} >{cheque.destino}</td>
+                        <td id={`obs${cheque.id}`}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)}/>}</td>
                         <td> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit}/></td>
                         <td> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)}/></td>
                     
                     </tr>
+                    
                 ))}
                 </tbody>
             </table>
+            <div id={style.obsBackground} className="obsScreen">
+                <div id={style.obsCtr}>
+                    <div className={style.popupHeader}>
+                        <h4>{`Observação do Cheque ${obsDetails.num} do cliente ${obsDetails.cliente}`}</h4>
+                        <img src="/images/x-icon.svg" onClick={closeObs}/>
+                    </div>
+                    <div className={style.obsContent}>
+                        <textarea value={obsDetails.obs} onChange={(e) => setObsDetails({...obsDetails, obs: e.target.value})}></textarea>
+                    </div>
+
+                    <button type="submit" className={style.button} id="editaCheque">Salvar</button>
+                    
+                </div>
+            </div>
         </>
     )
 }

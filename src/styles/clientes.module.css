@@ -142,3 +142,62 @@
     display: none;
     background-color: #D9DDDC;
 }
+
+#obsBackground{
+    z-index: 200;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #30303069;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#obsCtr{
+    background-color: #D9DDDC;
+    width: 400px;
+    height: 200px;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#obsCtr textarea{
+    width: 97%;
+    height: 90%;
+    
+}
+
+.popupHeader{
+    display: flex;
+    height: 25%;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.popupHeader h4{
+    width: 95%;
+}
+
+.popupHeader img{
+    width: 15px;
+}
+
+.popupHeader img:hover{
+    opacity: 50%;
+    cursor: pointer;
+}
+
+.obsContent{
+    height: 65%;
+}
+
+#obsCtr button{
+    width: 15%;
+    height: 35px;
+}
