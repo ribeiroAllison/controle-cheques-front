@@ -145,7 +145,7 @@
 
 #obsBackground{
     z-index: 200;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     height: 100%;
@@ -200,4 +200,28 @@
 #obsCtr button{
     width: 15%;
     height: 35px;
+}
+
+.obsButtonCtr{
+    display: flex;
+    gap: 10px;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+.statusCtr{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.statusCtr .formCtr{
+    margin: 0;
+}
+
+#editObs textarea{
+    width: 230px;
+    height: 70px;
 }

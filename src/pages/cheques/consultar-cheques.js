@@ -311,6 +311,7 @@ export default function ConsultarCheques() {
         const compensadoInput = document.getElementById('editCompensado');
         const vencidoInput = document.getElementById('editVencido');
         const linhaInput = document.getElementById('editLinha');
+        
 
         const destinoInput = document.getElementById('editDestino');
         const destinoName = document.getElementById(`destino${id}`).innerHTML;
@@ -330,8 +331,29 @@ export default function ConsultarCheques() {
         compensadoInput.value = compensado === "Não" ? false : true;
         vencidoInput.value = vencido === "Não" ? false : true;
         linhaInput.value = linha;
+        
 
     }
+
+    const [selectedObs, setSelectedObs] = useState("");
+    const [textareaValue, setTextareaValue] = useState("");
+
+    useEffect(() => {
+    if (chequeId !== undefined) {
+        setSelectedObs(
+        chequesList && chequesList.find(cheque => cheque.id === Number(chequeId)).obs || ""
+        );
+    }
+    }, [chequeId, chequesList]);
+
+    useEffect(() => {
+        setTextareaValue(selectedObs);
+    }, [selectedObs]);
+
+    const handleTextareaChange = (e) => {
+        setTextareaValue(e.target.value);
+};
+
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
@@ -343,6 +365,8 @@ export default function ConsultarCheques() {
         const vencido = document.getElementById('editVencido').value;
         const linha = document.getElementById('editLinha').value;
         const destino = document.getElementById('editDestino').value;
+        const obs = document.getElementById('editObsTextarea').value;
+        
 
         chequeId && fetch(`${baseURL}/cheques`,{
             method: 'PUT',
@@ -358,7 +382,8 @@ export default function ConsultarCheques() {
                 compensado: compensado,
                 vencido: vencido,
                 linha: linha,
-                destino: destino
+                destino: destino,
+                obs : obs
             })
         })
         .then(response => {
@@ -380,10 +405,18 @@ export default function ConsultarCheques() {
         editRow.style.backgroundColor = "white"
     }
 
+    const toggleOverflow = () => {
+        document.body.style.overflow = document.body.style.overflow === 'hidden' ? 'auto' : 'hidden';
+    };
+
     const closeObs = () =>{
         const module = document.getElementsByClassName('obsScreen')[0];
 
+        toggleOverflow();
+
         module.style.display = "none";
+
+        
     }
 
     const [obsDetails, setObsDetails] = useState({
@@ -391,17 +424,74 @@ export default function ConsultarCheques() {
         obs: "",
         num: ""
     });
+
+
     const handleOpenObs = (cheque) => {
 
         cheque &&
         setObsDetails({
+            id: cheque.id,
             cliente: cheque.cliente,
             obs: cheque.obs,
             num: cheque.número_cheque
         })
-        const module = document.getElementsByClassName('obsScreen')[0];
 
+        toggleOverflow();
+        const module = document.getElementsByClassName('obsScreen')[0];
         module.style.display = "flex";
+
+    }
+
+    const handleEditObs = async (e) =>{
+        e.preventDefault();
+
+        try{
+            const response = await fetch(`${baseURL}/cheques/obs`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: obsDetails.id,
+                    obs: obsDetails.obs
+                })
+            })
+
+            if(response.ok){
+                alert('Observação atualizada com sucesso!')
+                closeObs();
+                refreshSearch();
+                
+            }
+
+        }catch(error){
+            alert('Erro' + error.message);
+        }
+    }
+
+    const handleClearObs = async (e) =>{
+        e.preventDefault();
+
+        try{
+            const response = await fetch(`${baseURL}/cheques/obs`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    id: obsDetails.id,
+                    obs: null
+                })
+            })
+
+            if(response.ok){
+                alert('Observação deletada com sucesso!');
+                closeObs();
+                refreshSearch();
+            }
+        } catch(error) {
+            alert('Erro' + error.message);
+        }
     }
 
     return(
@@ -504,9 +594,6 @@ export default function ConsultarCheques() {
                             </select>
                         </div>
 
-                            
-
-                        
                     </div>
                     
                     <div className={style.inputCtr}>
@@ -523,11 +610,12 @@ export default function ConsultarCheques() {
                                 destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
                             }
                         </select>
+                        
 
                     </div>
                     
-                        
-                        <fieldset className={style.formCtr}>
+                        <div className={style.statusCtr}>
+                            <fieldset className={style.formCtr}>
                             <legend>Status</legend>
                             <div className={style.inputCtr} >
                                 <h4>Compensado:</h4>
@@ -560,6 +648,13 @@ export default function ConsultarCheques() {
                             </div>
 
                     </fieldset>
+
+                        <div className={style.inputCtr} id={style.editObs}>
+                            <h4>Observação:</h4>
+                            <textarea id="editObsTextarea" value={textareaValue} onChange={handleTextareaChange}></textarea>
+                        </div>
+                    </div>
+                        
 
 
                     <div className={style.buttonCtr}>
@@ -623,7 +718,11 @@ export default function ConsultarCheques() {
                         <textarea value={obsDetails.obs} onChange={(e) => setObsDetails({...obsDetails, obs: e.target.value})}></textarea>
                     </div>
 
-                    <button type="submit" className={style.button} id="editaCheque">Salvar</button>
+                    <div className={style.obsButtonCtr}>
+                        <button type="submit" className={style.button} id="editObs" onClick={handleEditObs}>Salvar</button>
+                        <button type="submit" className={style.button} id="deleteObs" onClick={handleClearObs}>Deletar</button>
+                    </div>
+                    
                     
                 </div>
             </div>
