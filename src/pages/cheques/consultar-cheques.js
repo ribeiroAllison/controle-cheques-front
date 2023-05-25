@@ -676,11 +676,11 @@ export default function ConsultarCheques() {
                         <th>Grupo</th>
                         <th>No. Cheque</th>
                         <th>Valor</th>
+                        <th>Destino</th>
                         <th>Data Venc.</th>
                         <th>Comp.</th>
                         <th>Venc.</th>
                         <th>Linha</th>
-                        <th>Destino</th>
                         <th>Obs</th>
                         <th>Editar</th>
                         <th>Excluir</th>
@@ -694,11 +694,11 @@ export default function ConsultarCheques() {
                         <td id={`grupo${cheque.id}`}>{cheque.grupo}</td>
                         <td id={`numCheque${cheque.id}`} >{cheque.número_cheque}</td>
                         <td id={`valor${cheque.id}`} >{cheque.valor}</td>
+                        <td id={`destino${cheque.id}`} >{cheque.destino}</td>
                         <td id={`data_venc${cheque.id}`} >{transformDate(cheque.data_venc)}</td>
                         <td id={`compensado${cheque.id}`} >{cheque.compensado ? "Sim" : 'Não'}</td>
                         <td id={`vencido${cheque.id}`} >{cheque.vencido ? "Sim" : "Não"}</td>
                         <td id={`linha${cheque.id}`} >{cheque.linha}</td>
-                        <td id={`destino${cheque.id}`} >{cheque.destino}</td>
                         <td id={`obs${cheque.id}`}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)}/>}</td>
                         <td> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit}/></td>
                         <td> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)}/></td>

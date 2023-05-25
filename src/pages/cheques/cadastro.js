@@ -3,7 +3,8 @@ import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { linhas } from "@/utils/utils"
+import { linhas, clearInputs, isVencido } from "@/utils/utils"
+
 
 
 
@@ -25,7 +26,8 @@ export default function CadastroCheques() {
             destino_id:"",
             terceiro:false,
             obs:"",
-            vendedor_id:""
+            vendedor_id:"",
+            data_compen: ""
         }
 
     );
@@ -37,14 +39,11 @@ export default function CadastroCheques() {
 
     //SUBMIT FUNCTIONS
 
-    const clearInputs = (e) =>{
+    const handleClear = (e) =>{
         
         e && e.preventDefault();
         
-        const inputs = document.getElementsByClassName('input');
-        for(let input of inputs){
-            input.value = ""
-        }
+        clearInputs('input')
         
     }
 
@@ -97,18 +96,6 @@ export default function CadastroCheques() {
         findClient()
     },[formValues.cliente])
 
-    // const [clearClient, setClearClient] = useState(false)
-
-    // useEffect(() =>{
-
-    //     formValues.cliente ? setClearClient(false) : setClearClient(true)
-    //     if(clearClient){
-            
-    //     }
-        
-        
-    // },[formValues.cliente])
-
     
 
     const [vendedorList, setVendedorList] = useState()
@@ -152,6 +139,8 @@ export default function CadastroCheques() {
         getAllDestinos()
     }, []);
 
+    
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -165,16 +154,17 @@ export default function CadastroCheques() {
                 valor:formValues.valor,
                 data_rec: formValues.data_rec,
                 tipo: formValues.tipo,
-                data_venc: formValues.data_venc,
                 cliente_cod: formValues.cliente_cod,
                 pedido: formValues.pedido ?  formValues.pedido : null,
-                compensado: formValues.compensado ?  formValues.compensado : null,
-                vencido: formValues.vencido ? formValues.vencido : null,
                 linha: formValues.linha ? formValues.linha : null,
                 destino_id: formValues.destino_id ? formValues.destino_id : null,
                 terceiro: formValues.terceiro ? formValues.terceiro : null,
                 obs: formValues.obs ? formValues.obs : null,
-                vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null
+                vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
+                compensado: formValues.data_compen ?  true : false,
+                vencido: isVencido(formValues, 4),
+                data_venc: formValues.data_venc,
+                data_compen: formValues.data_compen
             
             })
         })
@@ -186,7 +176,7 @@ export default function CadastroCheques() {
         }
 
         )
-        .then(clearInputs())
+        .then(clearInputs('input'))
     }
 
 
@@ -223,23 +213,10 @@ export default function CadastroCheques() {
                 </div>
 
                 <fieldset className={style.formCtr}>
-                    <legend>Status</legend>
+                    <legend>Status de Pagamento</legend>
                     <div className={style.inputCtr} >
-                        <h4>Compensado:</h4>
-                        <select className={`${style.select} input`} name="compensado" id="compensado" onChange={handleInputChange} >
-                            <option value={false}>Não</option>
-                            <option value={true}>Sim</option>
-                            
-                        </select>
-                    </div>
-
-                    <div className={style.inputCtr} >
-                        <h4>Vencido:</h4>
-                        <select className={`${style.select} input`} name="vencido" id="vencido" onChange={handleInputChange}>
-                            <option value={false}>Não</option>
-                            <option value={true}>Sim</option>
-                            
-                        </select>
+                        <h4>Compensação:</h4>
+                        <input type="date" name="data_compen" onChange={handleInputChange} id="data_compen" className="input"/>
                     </div>
 
                     <div className={style.inputCtr} >
@@ -323,7 +300,7 @@ export default function CadastroCheques() {
             
             <form className={style.formCtr}>
                 <button type="submit" className={style.button} id="adicionaCliente" onClick={handleSubmit}>Salvar</button>
-                <button className={style.button} onClick={clearInputs}>Limpar</button>
+                <button className={style.button} onClick={handleClear}>Limpar</button>
             </form>
 
             
