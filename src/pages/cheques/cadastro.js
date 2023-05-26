@@ -1,4 +1,3 @@
-import ChequesHeader from "@/components/ChequesHeader"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"

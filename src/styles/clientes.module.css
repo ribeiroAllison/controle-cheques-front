@@ -21,7 +21,7 @@
 .inputCtr input, .select{
     border-radius: 5px;
     border-style: none;
-    border: 1px solid #303030;
+    border: 1px solid var(--black30);
     height: 20px;
 }
 
@@ -32,14 +32,14 @@
 
 .button{
     height:50px;
-    background-color: #00A86B;
-    color: white;
+    background-color: var(--buttonGreen);
+    color: var(--white);
     border-radius: 5px;
 }
 
 .button:hover{
     cursor: pointer;
-    background-color: #00a86abb;
+    background-color: var(--buttonGreenHover);
 }
 
 .buttonCtr{
@@ -69,18 +69,18 @@
     width: 283px;
     position: relative;
     z-index: 150;
-    background-color: white;
+    background-color: var(--white);
     
     
 }
 
 .searchBox option:hover{
-    background-color: #02ce83;
+    background-color: var(--optionGrenn);
     cursor: pointer;
 }
 
 .searchBox select{
-    background-color: white;
+    background-color: var(--white);
     z-index: 100;
 }
 
@@ -90,7 +90,7 @@
 }
 
 #clienteSelect option{
-    color:#303030;
+    color: var(--black30);
 }
 
 .obs textarea{
@@ -108,7 +108,7 @@
 
 .filterField{
     margin: 20px;
-    background-color: #D9DDDC;
+    background-color: var(--lightGray);
 }
 
 #mainLegend{
@@ -140,7 +140,7 @@
     height: 200px;
     margin: auto;
     display: none;
-    background-color: #D9DDDC;
+    background-color: var(--lightGray);
 }
 
 #obsBackground{
@@ -149,18 +149,18 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: #30303069;
+    background-color: var(--black30Faint);
     display: none;
     align-items: center;
     justify-content: center;
 }
 
 #obsCtr{
-    background-color: #D9DDDC;
+    background-color: var(--lightGray);
     width: 400px;
     height: 200px;
     border-radius: 10px;
-    border: 1px solid black;
+    border: 1px solid var(--black);
     padding: 5px;
     display: flex;
     justify-content: space-between;
@@ -224,4 +224,27 @@ body.no-scroll {
 #editObs textarea{
     width: 230px;
     height: 70px;
+}
+
+.vencTrue{
+    background-color: var(--yellowTd) ;
+    color: var(--black);
+}
+
+.semFundo{
+    background-color: var(--redTd) ;
+    color: var(--black);
+}
+
+.chequeOK{
+    background-color: var(--optionGreen) ;
+    color: var(--black);
+}
+
+.editTrue{
+    background-color: var(--lightGray);
+}
+
+.chequeOK.editTrue{
+    background-color: var(--lightGray);
 }

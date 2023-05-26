@@ -4,12 +4,24 @@
 :root{
 
     --navColor: #004225;
+    --black30: #303030;
+    --black: black;
+    --black30Faint: #30303069;
+    --buttonGreen: #00A86B;
+    --buttonGreenHover: #00a86abb;
+    --optionGreen: #02ce83;
+    --lightGray: #D9DDDC;
+    --white: white;
+    --yellowTd: #FADA5E;
+    --redTd: #FF6347;
+
 }
 
 *{
     font-family: 'Roboto';
-    color: #303030;
+    color: var(--black30);
     margin: 0;
+
 }
 
 .table{
@@ -30,9 +42,10 @@
 
 .table td{
     text-align: center;
-    border: 1px solid #303030;
+    border: 1px solid var(--black30);
     padding: 5px;
     font-size: 14px;
+
 }
 
 .table img:hover{
@@ -52,4 +65,5 @@
     background-color: crimson;
     color:aliceblue
 }
+
 
