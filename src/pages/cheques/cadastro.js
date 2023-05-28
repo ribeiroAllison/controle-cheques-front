@@ -26,7 +26,8 @@ export default function CadastroCheques() {
             terceiro:false,
             obs:"",
             vendedor_id:"",
-            data_compen: ""
+            data_compen: "",
+            data_destino: ""
         }
 
     );
@@ -157,13 +158,14 @@ export default function CadastroCheques() {
                 pedido: formValues.pedido ?  formValues.pedido : null,
                 linha: formValues.linha ? formValues.linha : null,
                 destino_id: formValues.destino_id ? formValues.destino_id : null,
-                terceiro: formValues.terceiro ? formValues.terceiro : null,
+                terceiro: formValues.terceiro,
                 obs: formValues.obs ? formValues.obs : null,
                 vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
-                compensado: formValues.data_compen ?  true : false,
+                compensado: formValues.data_compen || formValues.data_destino ?  true : false,
                 vencido: isVencido(formValues, 4),
                 data_venc: formValues.data_venc,
-                data_compen: formValues.data_compen
+                data_compen: formValues.data_compen,
+                data_destino: formValues.data_destino ? formValues.data_destino : null
             
             })
         })
@@ -278,6 +280,11 @@ export default function CadastroCheques() {
                         destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
                     }
                 </select>
+            </div>
+
+            <div className={style.inputCtr}>
+                <h4>Data Entrega:</h4>
+                <input name="data_destino" onChange={handleInputChange} type="date"/>
             </div>
 
             <div className={style.inputCtr} >

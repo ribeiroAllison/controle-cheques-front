@@ -8,6 +8,7 @@ import ChequesHeader from "@/components/ChequesHeader"
 
 export default function ConsultarCheques() {
 
+    //Search by filter inputs
     const [formValues, setFormValues] = useState(
         {
             cliente: "",
@@ -28,6 +29,7 @@ export default function ConsultarCheques() {
         setFormValues({ ...formValues, [name]: value });
     };
 
+    //Edit row Inputs
     const [editFormValues, setEditFormValues] = useState(
         {
             id: null,
@@ -39,7 +41,8 @@ export default function ConsultarCheques() {
             compensado: null,
             vencido: null,
             destino_id: null,
-            data_compen: null
+            data_compen: null,
+            data_destino: null
 
             
         }
@@ -51,6 +54,7 @@ export default function ConsultarCheques() {
     };
     
 
+    //Get name and id of all clients in db, so it can be searched by typing the a name
     const [clientList, setClientList] = useState('');
 
     async function getAllClients(){
@@ -84,6 +88,7 @@ export default function ConsultarCheques() {
 
     }
 
+    //Effects to change the options as user types client name on search or edit box
     useEffect(() => {
         findClient(formValues, "searchBox", 'cliente')
     },[formValues.cliente])
@@ -109,7 +114,7 @@ export default function ConsultarCheques() {
  
     }
 
-
+    //Get all destinos and their IDs so destino options of select input can be populated
     const [destinoList, setDestinoList] = useState();
 
     async function getAllDestinos(){
@@ -127,9 +132,13 @@ export default function ConsultarCheques() {
         }
     }   
 
+    //State to search checks by filter
     const [chequesList, setChequeslist] = useState();
+
+    //State to store the search params, so it can be reloaded after user makes an edit
     const [frozenParams, setFrozenParams] = useState(); 
 
+    //Submit check search and het results from db
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -341,7 +350,8 @@ export default function ConsultarCheques() {
             data_venc: data_venc,
             linha: linha,
             data_compen: dataComp,
-            destino_id: destinoInput.value
+            destino_id: destinoInput.value,
+            
         })
     }
 
