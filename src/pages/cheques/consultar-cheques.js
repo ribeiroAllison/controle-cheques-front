@@ -382,10 +382,7 @@ export default function ConsultarCheques() {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-
         const obs = document.getElementById('editObsTextarea').value;
-
-                
 
         chequeId && fetch(`${baseURL}/cheques`,{
             method: 'PUT',
