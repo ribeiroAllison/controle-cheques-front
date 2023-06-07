@@ -41,37 +41,95 @@ export default function Clientes() {
         
 }
 
+
+    const [clientSerialId, setClientSerialId] = useState();
+
+    const getAllSerialId = async () =>{
+        try{
+            const response = await fetch(`${baseURL}/clientes_id`);
+
+            if(response.ok){
+                const jsonResponse = await response.json();
+                setClientSerialId(jsonResponse);
+            }
+
+        } catch(error){ 
+            console.log(error);
+        }
+    }
+
+    const [lastClientId, setLastClientId] = useState();
+
+    let serialList = [];
+    const findLastId = () => {
+    if (clientSerialId && Array.isArray(clientSerialId) && clientSerialId.length > 0) {
+        for (let obj of clientSerialId) {
+        if (obj.id && !isNaN(Number(obj.id))) {
+            serialList.push(Number(obj.id));
+        }
+        }
+        if (serialList.length > 0) {
+        setLastClientId(Math.max(...serialList));
+        }
+    }
+    };
+
     const handleSubmit = (e) =>{
         e.preventDefault();
         const grupoName = document.getElementById('grupo').value;
 
         const grupoId = getKeyByValue(grupo, grupoName);
 
-        formValues.codigo && fetch(`${baseURL}/clientes`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({
-                cod: formValues.codigo,
-                nome:formValues.nome,
-                doc: formValues.doc,
-                grupo_id: grupoId ? grupoId : null,
-                status_pagador: formValues.status
-            })
-        })
-        .then(response => {
-            if(response.ok){
-                alert(`Cliente ${formValues.nome} cadastrado com sucesso!`)
-                getAllClients();
+        const treatDoc = (client) =>{
+            return client.replace(/[^\d]+/g,'');
+        } 
+
+        for (let client of clientList){
+            if(treatDoc(client.doc) === treatDoc(formValues.doc)){
+                alert(`Cliente com esse CPF/CNPJ já cadastrado com nome de ${client.cliente}`)
+                clearInputs();
+                return;
             }
+
         }
 
-        )
-        .then(clearInputs())
-        
-    
-        
+                fetch(`${baseURL}/clientes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({
+                        cod: formValues.codigo || `IT${lastClientId}`,
+                        nome:formValues.nome,
+                        doc: formValues.doc,
+                        grupo_id: grupoId ? grupoId : null,
+                        status_pagador: formValues.status
+                    })
+                })
+                .then(response => {
+                    if(response.ok){
+                        alert(`Cliente ${formValues.nome} cadastrado com sucesso!`)
+                        
+                    }
+                })
+                .then(
+                    fetch(`${baseURL}/clientes_id`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body:JSON.stringify({
+                            id: lastClientId + 1
+                        })
+                    })
+                )
+                .then(clearInputs())
+                .then(clearInputs)
+                .then(getAllClients)
+                .then(findLastId) // Call findLastId to update lastClientId
+                .then(getAllSerialId)
+            
+            
     }
 
     //EDIT FUNCTIONS
@@ -210,9 +268,7 @@ export default function Clientes() {
         }
     }
 
-    useEffect(() => {
-        getAllClients()
-    },[])
+
 
 
     //DELETE FUNCTION
@@ -256,8 +312,14 @@ export default function Clientes() {
     }
 
     useEffect(() => {
+        getAllClients();
+        getAllSerialId();
         getGrupos()
-    }, []);
+    },[])
+
+    useEffect(() =>{
+        findLastId();
+    },[clientSerialId])
 
     return(
         <>
@@ -268,7 +330,7 @@ export default function Clientes() {
                 
                 <div className={style.inputCtr} >
                     <h4>Código:</h4>
-                    <input type="number" name="codigo" onChange={handleInputChange} id="codigo" required placeholder="Código do Cliente"/>
+                    <input type="text" name="codigo" onChange={handleInputChange} id="codigo" required placeholder="Código do Cliente"/>
                 </div>
 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >

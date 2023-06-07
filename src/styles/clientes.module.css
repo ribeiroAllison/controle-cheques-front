@@ -227,7 +227,7 @@ body.no-scroll {
 }
 
 .vencTrue{
-    background-color: var(--yellowTd) ;
+    background-color: var(--blueTd) ;
     color: var(--black);
 }
 
