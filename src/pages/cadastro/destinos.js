@@ -75,24 +75,26 @@ export default function Destinos() {
 
     const handleDelete = (e) => {
 
-        const id = e.target.closest('tr').getAttribute('data-cod');
-        console.log(id)
-        
+        const confirmation = confirm('Você realmente deseja apagar esse destino?')
 
-        fetch(`${baseURL}/destinos`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id})
-        })
-        .then(response => {
-            if(response.ok){
-                getAllDestinos();
-            }
-        })
+        if(confirmation){
+            const id = e.target.closest('tr').getAttribute('data-cod');
+            fetch(`${baseURL}/destinos`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id})
+            })
+            .then(response => {
+                if(response.ok){
+                    getAllDestinos();
+                }
+            })
     
+        }
+        
     }
 
     // UPDATE

@@ -49,8 +49,13 @@
 
 }
 
+.table img{
+    height: 22px;
+}
+
 .table img:hover{
     cursor: pointer;
+    opacity: 50%;
 
 }
 

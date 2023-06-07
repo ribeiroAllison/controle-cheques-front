@@ -38,6 +38,14 @@ export default function Clientes() {
         grupoInput.value = "";
         statusInput.value = "";
 
+        setFormValues({
+            codigo: "",
+            nome: "",
+            doc:"",
+            status:""
+            
+        });
+
         
 }
 
@@ -124,9 +132,8 @@ export default function Clientes() {
                     })
                 )
                 .then(clearInputs())
-                .then(clearInputs)
                 .then(getAllClients)
-                .then(findLastId) // Call findLastId to update lastClientId
+                .then(findLastId)
                 .then(getAllSerialId)
             
             
@@ -274,23 +281,24 @@ export default function Clientes() {
     //DELETE FUNCTION
     const handleDelete = (e) => {
 
-        const cod = e.target.closest('tr').getAttribute('data-cod');
-        
+        const confirmation = confirm('Você realmente quer apagar este cliente?')
 
-        fetch(`${baseURL}/clientes`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cod: cod})
-        })
-        .then(response => {
-            if(response.ok){
-                getAllClients();
-            }
-        })
-    
+        if(confirmation){
+            const cod = e.target.closest('tr').getAttribute('data-cod');
+            fetch(`${baseURL}/clientes`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cod: cod})
+            })
+            .then(response => {
+                if(response.ok){
+                    getAllClients();
+                }
+            })  
+        }
     }
 
     // GET FUNCTION

@@ -74,29 +74,34 @@ export default function Grupos() {
     // DELETE 
 
     const handleDelete = (e) => {
-        const id = e.target.closest('tr').getAttribute('data-cod');
-    
-        fetch(`${baseURL}/grupos`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id
+        const confirmation = confirm('Você realmente deseja apagar esse grupo?');
+
+        if(confirmation){
+            const id = e.target.closest('tr').getAttribute('data-cod');
+        
+            fetch(`${baseURL}/grupos`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id
+                })
             })
-        })
-        .then(response => {
-            if (response.ok) {
-                getAllGrupos();
-            } else {
-                response.text().then(errorMessage => {
-                    alert(errorMessage);
-                });
+            .then(response => {
+                if (response.ok) {
+                    getAllGrupos();
+                } else {
+                    response.text().then(errorMessage => {
+                        alert(errorMessage);
+                    });
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
             }
-        })
-        .catch(error => {
-            alert('Error: ' + error.message);
-        });
+        
     }
     // UPDATE
 

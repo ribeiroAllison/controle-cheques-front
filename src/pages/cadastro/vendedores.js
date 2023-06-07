@@ -75,25 +75,29 @@ export default function Vendedores() {
 
     const handleDelete = (e) => {
 
-        const id = e.target.closest('tr').getAttribute('data-cod');
-        console.log(id)
-        
+        const confirmation = confirm('Você realmente quer apagar este vendedor?');
 
-        fetch(`${baseURL}/vendedores`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id})
-        })
-        .then(response => {
-            if(response.ok){
-                getAllVendedores();
-            }
-        })
-    
+        if(confirmation){
+            const id = e.target.closest('tr').getAttribute('data-cod');
+
+            fetch(`${baseURL}/vendedores`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id})
+            })
+            .then(response => {
+                if(response.ok){
+                    getAllVendedores();
+                }
+            })
+        
     }
+        }
+
+        
 
     // UPDATE
 

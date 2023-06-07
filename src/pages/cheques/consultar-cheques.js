@@ -249,26 +249,31 @@ export default function ConsultarCheques() {
     }
 
     const handleDelete = async (id) =>{
-        try{
-            const response = await fetch(`${baseURL}/cheques`,{
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
-            }
-            );
+        const confirmation = confirm('Você realmente deseja apagar esse cheque?')
 
-            if(response.ok){
-                alert('Cheque removido com sucesso!')
+        if(confirmation){
+            try{
+                const response = await fetch(`${baseURL}/cheques`,{
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id
+                    })
+                }
+                );
+    
+                if(response.ok){
+                    alert('Cheque removido com sucesso!')
+                }
+            } catch(error){
+                alert('Erro:' + error.message)
             }
-        } catch(error){
-            alert('Erro:' + error.message)
+    
+            refreshSearch()
         }
-
-        refreshSearch()
+        
     }
 
 
