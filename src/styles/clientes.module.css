@@ -248,3 +248,7 @@ body.no-scroll {
 .chequeOK.editTrue{
     background-color: var(--lightGray);
 }
+
+.withDestino{
+    background-color: var(--yellowTd);
+}

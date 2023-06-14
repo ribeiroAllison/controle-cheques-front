@@ -33,3 +33,31 @@ export const isVencido = (formValues, excessDays) => {
     
 }
 
+export const isCompensado = (formValues, excessDays) => {
+
+    const hoje = new Date();
+    const compDate = formValues.data_compen && new Date(formValues.data_compen); 
+    const destino = formValues.destino_id;
+    const data_venc = formValues.data_venc && new Date(formValues.data_venc);
+    const dataAutoCompensaçao = destino && data_venc.setDate(data_venc.getDate() + excessDays);
+    const linha = formValues.linha;
+
+    let result;
+
+    if(!compDate && !destino){
+        result = false;
+    }else if(hoje > dataAutoCompensaçao && !linha){
+        result = true;
+    } else if(compDate){
+        result = true;
+    } else{
+        result = false;
+    }
+
+    console.log(destino)
+
+    return result;
+
+
+} 
+

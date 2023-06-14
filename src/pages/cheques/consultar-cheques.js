@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { clearInputs, linhas, isVencido } from "@/utils/utils"
+import { clearInputs, linhas, isVencido, isCompensado } from "@/utils/utils"
 import ChequesHeader from "@/components/ChequesHeader"
 
 
@@ -43,8 +43,6 @@ export default function ConsultarCheques() {
             destino_id: null,
             data_compen: null,
             data_destino: null
-
-            
         }
     );
 
@@ -138,7 +136,7 @@ export default function ConsultarCheques() {
     //State to store the search params, so it can be reloaded after user makes an edit
     const [frozenParams, setFrozenParams] = useState(); 
 
-    //Submit check search and het results from db
+    //Submit check search and get results from db
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -219,6 +217,10 @@ export default function ConsultarCheques() {
     const transformDate = (data) =>{
         const date = new Date(data);
         return new Intl.DateTimeFormat('pt-BR').format(date);
+    }
+
+    const transformCurrency = (value) => {
+        return value.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
     }
 
     const refreshSearch = async () =>{
@@ -311,7 +313,7 @@ export default function ConsultarCheques() {
         const numCheque = document.getElementById(`numCheque${id}`).innerHTML;
 
         const valorString = document.getElementById(`valor${id}`).innerHTML;
-        const valor = parseFloat(valorString.replace("R$ ", "").replace(".", "").replace(",","."));
+        const valor = Number(valorString.replace('R$', '').replace('.', '').replace(',', '.'))
 
         const dataVencString = document.getElementById(`data_venc${id}`).innerHTML;
         const data_venc = rearrangeDate(dataVencString);
@@ -395,7 +397,7 @@ export default function ConsultarCheques() {
                 numCheque: editFormValues.número_cheque,
                 valor: editFormValues.valor,
                 data_venc: editFormValues.data_venc,
-                compensado: editFormValues.data_compen ? true : false,
+                compensado: isCompensado(editFormValues, 15),
                 vencido: isVencido(editFormValues, 4),
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
@@ -445,7 +447,6 @@ export default function ConsultarCheques() {
 
 
     const handleOpenObs = (cheque) => {
-
         cheque &&
         setObsDetails({
             id: cheque.id,
@@ -511,6 +512,22 @@ export default function ConsultarCheques() {
             alert('Erro' + error.message);
         }
     }
+    
+    const assignClassStyle = (cheque) =>{
+    
+        if (cheque.vencido && !cheque.compensado && !cheque.linha && !cheque.destino) {
+            return style.vencTrue;
+        } else if (cheque.compensado) {
+            return style.chequeOK;
+        } else if (cheque.linha) {
+            return style.semFundo;
+        } else if(!cheque.compensado && cheque.destino){
+            return style.withDestino;
+        }
+            
+    }
+
+    
 
     return(
         <>
@@ -612,11 +629,13 @@ export default function ConsultarCheques() {
                             </select>
                         </div>
 
+                        <h4>Valor</h4>
+                        <input type="number" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"/>
+
                     </div>
                     
                     <div className={style.inputCtr}>
-                        <h4>Valor</h4>
-                        <input type="number" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"/>
+                        
 
                         <h4>Vencimento</h4>
                         <input type="date" onChange={handleEditInputChange} name="data_venc" className="editInput" id="editDataVenc"/>
@@ -628,6 +647,9 @@ export default function ConsultarCheques() {
                                 destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
                             }
                         </select>
+
+                        <h4>Data Entrega:</h4>
+                        <input type="date" name="data_destino" onChange={handleEditInputChange} className="input"/>
                         
 
                     </div>
@@ -692,19 +714,19 @@ export default function ConsultarCheques() {
                 <tbody>
                 {chequesList && chequesList.map((cheque) => (
                     <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
-                        <td name={cheque.id} id={`codCli${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.cod_cliente}</td>
-                        <td name={cheque.id} id={`client${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.cliente}</td>
-                        <td name={cheque.id} id={`grupo${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.grupo}</td>
-                        <td name={cheque.id} id={`numCheque${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.número_cheque}</td>
-                        <td name={cheque.id} id={`valor${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.valor}</td>
-                        <td name={cheque.id} id={`destino${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.destino}</td>
-                        <td name={cheque.id} id={`data_venc${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{transformDate(cheque.data_venc)}</td>
-                        <td name={cheque.id} id={`compensado${cheque.id}` } className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.compensado ? "Sim" : 'Não'}</td>
-                        <td name={cheque.id} id={`vencido${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.vencido ? "Sim" : "Não"}</td>
-                        <td name={cheque.id} id={`linha${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.linha}</td>
-                        <td name={cheque.id} id={`obs${cheque.id}`} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)}/>}</td>
-                        <td name={cheque.id} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit}/></td>
-                        <td name={cheque.id} className={`${(cheque.vencido && !cheque.compensado) && style.vencTrue} ${cheque.compensado && style.chequeOK} ${cheque.linha && style.semFundo}`}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)}/></td>
+                        <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
+                        <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
+                        <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
+                        <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
+                        <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
+                        <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
+                        <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
+                        <td name={cheque.id} id={`compensado${cheque.id}` } className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
+                        <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
+                        <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
+                        <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)}/>}</td>
+                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit}/></td>
+                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)}/></td>
                     
                     </tr>
                     
