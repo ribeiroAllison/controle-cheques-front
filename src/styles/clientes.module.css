@@ -283,3 +283,15 @@ body.no-scroll {
 .withDestino{
     background-color: var(--yellowTd);
 }
+
+.paymentStatus{
+    margin-top: -19px;
+}
+
+.date{
+    gap: 4px;
+}
+
+.linha{
+    gap: 6px;
+}

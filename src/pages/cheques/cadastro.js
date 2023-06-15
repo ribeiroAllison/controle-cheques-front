@@ -1,8 +1,9 @@
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
+import ClientSearchBox from "@/components/ClientSearchBox"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { linhas, clearInputs, isVencido, isCompensado } from "@/utils/utils"
+import { linhas, clearInputs, isVencido, isCompensado, isVencidoVar, isCompensadoVar } from "@/utils/utils"
 
 
 
@@ -68,35 +69,6 @@ export default function CadastroCheques() {
     }, []);
 
 
-    const [searchResult, setSearchResult] = useState([{}]);
-
-    const findClient = () => {
-
-
-        if(clientList){
-            const foundClientByName = clientList.filter(client => client.cliente.toLowerCase().includes(formValues.cliente.toLowerCase()));
-            setSearchResult(foundClientByName);
-            searchResult.length === 0 || !document.getElementById('cliente').value ? document.getElementById('searchBox').style.display = 'none' : document.getElementById('searchBox').style.display = 'block'
-            
-        }
-
-    }
-
-    const handleClick = (e) =>{
-        const clientCode = document.getElementById('cliente_cod')
-        clientCode.value = e.target.value;
-        setFormValues({...formValues, cliente_cod: clientCode.value})
-        document.getElementById('searchBox').style.display = 'none';
-        document.getElementById('cliente').value = e.target.innerHTML;
-
-    }
-
-    useEffect(() => {
-        findClient()
-    },[formValues.cliente])
-
-    
-
     const [vendedorList, setVendedorList] = useState()
     
     async function getAllVendedores() {
@@ -142,6 +114,8 @@ export default function CadastroCheques() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        let checksList = [];
         
         for(let i = 0; i < qtdCheques; i++){
             fetch(`${baseURL}/cheques`, {
@@ -151,35 +125,31 @@ export default function CadastroCheques() {
             },
             body:JSON.stringify({
                 num: formValues[`num${i}`],
-                valor:formValues.valor,
+                valor:formValues[`valor${i}`],
                 data_rec: formValues.data_rec,
                 tipo: formValues.tipo,
                 cliente_cod: formValues.cliente_cod,
                 pedido: formValues.pedido ?  formValues.pedido : null,
-                linha: formValues.linha ? formValues.linha : null,
+                linha: formValues[`linha${i}`] ? formValues[`linha${i}`] : null,
                 destino_id: formValues.destino_id ? formValues.destino_id : null,
                 terceiro: formValues.terceiro,
                 obs: formValues.obs ? formValues.obs : null,
                 vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
-                compensado: isCompensado(formValues, 15),
-                vencido: isVencido(formValues, 4),
-                data_venc: formValues.data_venc,
-                data_compen: formValues.data_compen ? formValues.data_compen : null,
+                compensado: isCompensadoVar(formValues, 15, i),
+                vencido: isVencidoVar(formValues, 4, i),
+                data_venc: formValues[`data_venc${i}`] ? formValues[`data_venc${i}`] : null,
+                data_compen: formValues[`data_compen${i}`] ? formValues[`data_compen${i}`] : null,
                 data_destino: formValues.data_destino ? formValues.data_destino : null
             
             })
         })
+
+        checksList.push(formValues[`num${i}`]);
         }
         
-        // .then(response => {
-        //     if(response.ok){
-        alert(`Cheque ${formValues.num} cadastrado com sucesso!`)
+        alert(`Cheque ${checksList.map((num) => num)} cadastrado(s) com sucesso!`)
                 
-        //     }
-        // }
-
-        // )
-        clearInputs('input')
+        clearInputs('input');
     }
 
     const [qtdCheques, setQtdCheques] = useState(1);
@@ -211,7 +181,7 @@ export default function CadastroCheques() {
         for (let i = 0; i < qtd; i++) {
             inputs.push(
             <input
-                type="text"
+                type="number"
                 name={`valor${i}`}
                 onChange={handleInputChange}
                 id={`valor${i}`}
@@ -304,63 +274,57 @@ export default function CadastroCheques() {
                 </select>
             </div>
             
-            <form className={style.formCtrCenter}>
+            <form className={`${style.formCtrCenter} `}>
                 
                 <div className={style.inputCtrMultiple} >
                     <h4>Número:</h4>
-                    {/* <input type="text" name="num" onChange={handleInputChange} id="num" required placeholder="Número do Cheque" className="input"/> */}
                     {defineQtdCheques(qtdCheques)}    
                 </div>
 
                 <div className={style.inputCtrMultiple} >
                     <h4>Valor:</h4>
-                    {/* <input type="number" name="valor" onChange={handleInputChange} id="valor" required placeholder="Valor do Cheque" className="input"/> */}
                     {defineQtdValores(qtdCheques)}
                 </div>
 
-                <div className={style.inputCtrMultiple} >
+                <div className={`${style.inputCtrMultiple} ${style.date}`} >
                     <h4>Data de Vencimento:</h4>
-                    {/* <input type="date" name="data_venc" onChange={handleInputChange} id="data_rec" required className="input"/> */}
                     {defineQtdVencimentos(qtdCheques)}
                 </div>
 
-                <fieldset className={style.formCtr}>
+                <fieldset className={`${style.formCtr} ${style.paymentStatus}`}>
                     <legend>Status de Pagamento</legend>
-                    <div className={style.inputCtrMultiple} >
+                    <div className={`${style.inputCtrMultiple} ${style.date}`} >
                         <h4>Compensação:</h4>
-                        {/* <input 
-                            type="date" 
-                            name="data_compen" 
-                            onChange={handleInputChange} 
-                            id="data_compen" 
-                            className="input"
-                        /> */}
                         {defineQtdComp(qtdCheques)}
                     </div>
 
-                    <div className={style.inputCtrMultiple} >
+                    <div className={`${style.inputCtrMultiple} ${style.linha}`} >
                         <h4>Linha:</h4>
-                        {/* <select className={`${style.select} input`} 
-                            name="linha" 
-                            id="linha" 
-                            onChange={handleInputChange}>
-                            <option></option>
-                            {
-                                linhas.map(linha => <option value={linha} key={linha}>{linha}</option>)
-                            }
-                        </select> */}
-                        { defineQtdLinha(qtdCheques)}
+                        {defineQtdLinha(qtdCheques)}
                     </div>
                 </fieldset>
 
                 <div className={style.inputCtr} >
                     <h4>Data de Recebimento:</h4>
-                    <input type="date" name="data_rec" onChange={handleInputChange} id="data_rec" required className="input"/>
+                    <input 
+                        type="date" 
+                        name="data_rec" 
+                        onChange={handleInputChange} 
+                        id="data_rec" 
+                        required 
+                        className="input"
+                    />
                 </div>
 
                 <div className={style.inputCtr} >
                     <h4>Tipo:</h4>
-                    <input type="text" name="tipo" onChange={handleInputChange} defaultValue="Cheque" className="input"/>
+                    <input 
+                        type="text" 
+                        name="tipo" 
+                        onChange={handleInputChange} 
+                        defaultValue="Cheque" c
+                        lassName="input"
+                    />
                 </div>
 
                 
@@ -369,32 +333,47 @@ export default function CadastroCheques() {
 
             <h3 className={style.name}>Dados da Venda</h3>
             <form className={style.formCtr} id={style.clienteForm}>
-                
-                <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
-                    <h4>Cliente:</h4>
-                    <input type="text" name="cliente" onChange={handleInputChange} id="cliente" placeholder="Pesquise o Cliente" className="input"/>
-                    <div className={style.searchBox} id="searchBox">
-                        <select size={4} id={`${style.clienteSelect} input`} onChange={handleInputChange}>
-                            {
-                                searchResult.map(client => <option onClick={handleClick} key={client.cod} value={client.cod}>{client.cliente}</option>)
-                            }
-                        </select>
-                    </div>
-                </div>
+
+            <ClientSearchBox 
+                clientList={clientList} 
+                formValues={formValues} 
+                handleInputChange={handleInputChange}
+                setFormValues={setFormValues}
+            />
+
                 
                 <div className={style.inputCtr} >
                     <h4>Código do Cliente:</h4>
-                    <input type="text" name="cliente_cod" id="cliente_cod" onChange={handleInputChange} disabled className="input"/>
+                    <input 
+                        type="text" 
+                        name="cliente_cod" 
+                        id="cliente_cod" 
+                        onChange={handleInputChange} 
+                        disabled 
+                        className="input"
+                    />
                 </div>
 
                 <div className={style.inputCtr} >
                     <h4>Número do Pedido:</h4>
-                    <input type="number" name="pedido" id="pedido" onChange={handleInputChange} placeholder="Número do Pedido" className="input"/>
+                    <input 
+                        type="number" 
+                        name="pedido" 
+                        id="pedido" 
+                        onChange={handleInputChange} 
+                        placeholder="Número do Pedido" 
+                        className="input"
+                    />
                 </div>
 
                 <div className={style.inputCtr} >
                     <h4>Vendedor</h4>
-                    <select name="vendedor_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
+                    <select 
+                        name="vendedor_id" 
+                        onChange={handleInputChange} 
+                        placeholder="Selecione Vendedor" 
+                        className={`${style.select} input`}
+                    >
                         <option key="0"></option>
                         {
                             vendedorList && vendedorList.map(seller => <option key={seller.id} value={seller.id}>{seller.nome}</option>)
@@ -408,7 +387,12 @@ export default function CadastroCheques() {
             <form className={style.formCtr}>
             <div className={style.inputCtr} >
                 <h4>Destino</h4>
-                <select name="destino_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
+                <select 
+                    name="destino_id" 
+                    onChange={handleInputChange} 
+                    placeholder="Selecione Vendedor" 
+                    className={`${style.select} input`}
+                >
                     <option key="0"></option>
                     {
                         destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
@@ -418,12 +402,20 @@ export default function CadastroCheques() {
 
             <div className={style.inputCtr}>
                 <h4>Data Entrega:</h4>
-                <input name="data_destino" onChange={handleInputChange} type="date"/>
+                <input 
+                    name="data_destino" 
+                    onChange={handleInputChange} 
+                    type="date"
+                />
             </div>
 
             <div className={style.inputCtr} >
                 <h4>Terceiro:</h4>
-                <select className={`${style.select} input`} name="terceiro" id="terceiro" onChange={handleInputChange}>
+                <select 
+                    className={`${style.select} input`} 
+                    name="terceiro" id="terceiro" 
+                    onChange={handleInputChange}
+                >
                     <option value={false}>Não</option>
                     <option value={true}>Sim</option>
                     
@@ -432,15 +424,29 @@ export default function CadastroCheques() {
 
             <div className={`${style.inputCtr} ${style.obs}`} >
                 <h4>Observação:</h4>
-                <textarea name="obs" onChange={handleInputChange} className="input"/>
+                <textarea 
+                    name="obs" 
+                    onChange={handleInputChange} 
+                    className="input"
+                />
             </div>
             
             
             </form>
             
             <form className={style.formCtr}>
-                <button type="submit" className={style.button} id="adicionaCliente" onClick={handleSubmit}>Salvar</button>
-                <button className={style.button} onClick={handleClear}>Limpar</button>
+                <button 
+                    type="submit" 
+                    className={style.button} 
+                    id="adicionaCliente" 
+                    onClick={handleSubmit}
+                >Salvar
+                </button>
+                <button 
+                    className={style.button} 
+                    onClick={handleClear}
+                >Limpar
+                </button>
             </form>
 
             
