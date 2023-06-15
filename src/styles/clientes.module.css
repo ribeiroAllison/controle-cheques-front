@@ -1,5 +1,5 @@
 .formCtr, .formCtrCenter{
-    margin: 20px;
+    margin-left: 20px;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
@@ -18,11 +18,23 @@
     font-size: 25px;
 }
 
-.inputCtr input, .select{
+.inputCtr input, .select, .inputCtrMultiple input{
     border-radius: 5px;
     border-style: none;
     border: 1px solid var(--black30);
     height: 20px;
+
+}
+
+.inputCtrBox{
+    display: flex;
+    gap: 10px;
+}
+
+.inputCtrMultiple{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 
@@ -75,7 +87,7 @@
 }
 
 .searchBox option:hover{
-    background-color: var(--optionGrenn);
+    background-color: var(--optionGreen);
     cursor: pointer;
 }
 
@@ -111,6 +123,10 @@
     background-color: var(--lightGray);
 }
 
+.fieldset{
+    margin: 10px 0;
+}
+
 #mainLegend{
     font-size: 25px;
 }
@@ -136,14 +152,26 @@
 }
 
 .editFieldset{
-    width: 70%;
-    height: 200px;
+    width: 900px;
+    height: 250px;
     margin: auto;
-    display: none;
     background-color: var(--lightGray);
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 10px;
+
 }
 
-#obsBackground{
+.editFieldset img{
+    width: 15px;
+    z-index: 300;
+    /* position: relative;
+    left: 890px;
+    top:-10px; */
+}
+
+
+#obsBackground, .editBackground{
     z-index: 200;
     position: fixed;
     top: 0;
@@ -175,20 +203,23 @@
 
 .popupHeader{
     display: flex;
-    height: 25%;
+    height: 22%;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-.popupHeader h4{
+.popupHeader h4, .popupHeader h2{
     width: 95%;
+    color: var(--buttonGreen);
+    
 }
 
 .popupHeader img{
     width: 15px;
+    
 }
 
-.popupHeader img:hover{
+.popupHeader img:hover, .editFieldset img:hover{
     opacity: 50%;
     cursor: pointer;
 }

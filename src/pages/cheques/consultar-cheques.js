@@ -18,7 +18,9 @@ export default function ConsultarCheques() {
             compensado:null,
             destino_id:null,
             vencido:null,
-            data_compen: null
+            data_compen: null,
+            pedido: null,
+            grupo: null
             
         }
 
@@ -72,6 +74,7 @@ export default function ConsultarCheques() {
     useEffect(() => {
         getAllClients()
         getAllDestinos()
+        getGrupos()
     },[])
 
     const [searchResult, setSearchResult] = useState([{}]);
@@ -80,7 +83,9 @@ export default function ConsultarCheques() {
         if(clientList){
             const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
             setSearchResult(foundClientByName);
-            searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value ? document.getElementById(id).style.display = 'none' : document.getElementById(id).style.display = 'block'
+            searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value ? 
+            document.getElementById(id).style.display = 'none' 
+            : document.getElementById(id).style.display = 'block'
             
         }
 
@@ -128,7 +133,26 @@ export default function ConsultarCheques() {
             console.log(error);
 
         }
-    }   
+    }
+
+    // Get all grupos and their IDs so grupos options of select input can be populated
+    const [grupos, setGrupos] = useState();
+
+    async function getGrupos(){
+        try{
+            const response = await fetch(`${baseURL}/grupo`);
+    
+            if(response.ok){
+                let jsonResponse = await response.json();
+                setGrupos(jsonResponse);
+            }
+    
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+
 
     //State to search checks by filter
     const [chequesList, setChequeslist] = useState();
@@ -146,7 +170,11 @@ export default function ConsultarCheques() {
                 data_fim: formValues.data_fim ? formValues.data_fim : '',
                 compensado: formValues.compensado ? formValues.compensado : '',
                 destino_id: formValues.destino_id ? formValues.destino_id : '',
-                vencido: formValues.vencido ? formValues.vencido : ""
+                vencido: formValues.vencido ? formValues.vencido : '',
+                pedido: formValues.pedido ? formValues.pedido : '',
+                grupo: formValues.grupo ? formValues.grupo : '',
+                pedido: formValues.pedido ? formValues.pedido : '',
+                número_cheque: formValues.número_cheque ? formValues.número_cheque : ''
         })
 
         const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
@@ -206,7 +234,7 @@ export default function ConsultarCheques() {
         e.preventDefault();
         clearInputs('editInput');
 
-        const editWindow = document.getElementById('editWindow');
+        const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
 
         deleteEditClass();
@@ -220,7 +248,7 @@ export default function ConsultarCheques() {
     }
 
     const transformCurrency = (value) => {
-        return value.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
+        return value?.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
     }
 
     const refreshSearch = async () =>{
@@ -294,8 +322,8 @@ export default function ConsultarCheques() {
     }
 
     const handleEdit = (e) => {
-        const editWindow = document.getElementById('editWindow');
-        editWindow.style.display = "block";
+        const editWindow = document.getElementById('editWindowBackground');
+        editWindow.style.display = "flex";
 
         const id = e.target.name;
         setChequeId(id);
@@ -539,15 +567,33 @@ export default function ConsultarCheques() {
                 <form className={style.formCtr} id={style.clienteForm}>
                     <div className={style.filterCtr}>
                         
-                        <div className={style.inputCtr} >
-                            <h4>Destino</h4>
-                            <select name="destino_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
-                                <option key="0"></option>
-                                {
-                                    destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
-                                }
-                            </select>
+                        <div className={style.inputCtrBox}>
+                            <div className={style.inputCtr} >
+                                <h4>Destino</h4>
+                                <select name="destino_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
+                                    <option key="0"></option>
+                                    {
+                                        destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                    }
+                                </select>
+                            </div>
+
+                            <div className={style.inputCtr} >
+                                <h4>Grupo</h4>
+                                <select name="grupo" onChange={handleInputChange} className={`${style.select} input`}>
+                                    <option key="0"></option>
+                                    {
+                                        grupos && grupos.map(grupo => <option key={grupo.id} value={grupo.nome}>{grupo.nome}</option>)
+                                    }
+                                </select>
+                                
+                            </div>
+                            
                         </div>
+                        
+                        
+
+                        
 
                         <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
                             <h4>Cliente:</h4>
@@ -564,42 +610,61 @@ export default function ConsultarCheques() {
 
                     </div>
                     
-                    <fieldset className={style.formCtr}>
-                        <legend>Vencimento</legend>
-                        <div className={style.inputCtr} >
-                            <h4>Data Inicial:</h4>
-                            <input type="date" name="data_init" onChange={handleInputChange} id="data_init" className="input"/>
+                    <div className={style.inputCtr}>
+                        <div className={style.inputCtrBox}>
+                                <div className={style.inputCtr}>
+                                    <h4>No. Pedido</h4>
+                                    <input type="text" name="pedido" onChange={handleInputChange} id="pedido" className="input"/>
+                                </div>
+
+                                <div className={style.inputCtr}>
+                                    <h4>No. Cheque</h4>
+                                    <input type="text" name="número_cheque" onChange={handleInputChange} id="num"  className="input"/>
+                                </div>
                         </div>
 
-                        <div className={style.inputCtr} >
-                            <h4>Data Fim:</h4>
-                            <input type="date" name="data_fim" onChange={handleInputChange} id="data_fim" className="input"/>
-                        </div>
-                    </fieldset>
+                        <div className={style.inputCtrBox}>
+                            <fieldset className={`${style.formCtr} ${style.fieldset}`}>
+                                <legend>Vencimento</legend>
+                                <div className={style.inputCtr} >
+                                    <h4>Data Inicial:</h4>
+                                    <input type="date" name="data_init" onChange={handleInputChange} id="data_init" className="input"/>
+                                </div>
 
-                    <fieldset className={style.formCtr}>
-                        <legend>Status</legend>
-                        <div className={style.inputCtr} >
-                            <h4>Compensado:</h4>
-                            <select className={`${style.select} input`} name="compensado" id="compensado" onChange={handleInputChange} >
-                                <option value={null}></option>
-                                <option value={false}>Não</option>
-                                <option value={true}>Sim</option>
-                                
-                            </select>
-                        </div>
+                                <div className={style.inputCtr} >
+                                    <h4>Data Fim:</h4>
+                                    <input type="date" name="data_fim" onChange={handleInputChange} id="data_fim" className="input"/>
+                                </div>
+                            </fieldset>
 
-                        <div className={style.inputCtr} >
-                            <h4>Vencido:</h4>
-                            <select className={`${style.select} input`} name="vencido" id="vencido" onChange={handleInputChange}>
-                                <option value={null}></option>
-                                <option value={false}>Não</option>
-                                <option value={true}>Sim</option>
-                                
-                            </select>
-                        </div>
+                            <fieldset className={`${style.formCtr} ${style.fieldset}`}>
+                                <legend>Status</legend>
+                                <div className={style.inputCtr} >
+                                    <h4>Compensado:</h4>
+                                    <select className={`${style.select} input`} name="compensado" id="compensado" onChange={handleInputChange} >
+                                        <option value={null}></option>
+                                        <option value={false}>Não</option>
+                                        <option value={true}>Sim</option>
+                                        
+                                    </select>
+                                </div>
 
-                        </fieldset>
+                                <div className={style.inputCtr} >
+                                    <h4>Vencido:</h4>
+                                    <select className={`${style.select} input`} name="vencido" id="vencido" onChange={handleInputChange}>
+                                        <option value={null}></option>
+                                        <option value={false}>Não</option>
+                                        <option value={true}>Sim</option>
+                                        
+                                    </select>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                        
+                    </div>
+
+                    
                     <div className={style.buttonCtr}>
                         <button type="submit" className={style.button} id="buscaCheque" onClick={handleSubmit}>Buscar</button>
                         <button className={style.button} onClick={handleClear}>Limpar</button>
@@ -610,85 +675,91 @@ export default function ConsultarCheques() {
 
             {/* EDIT SCREEN */}
             <ChequesHeader />
-            <fieldset className={style.editFieldset} id="editWindow">
-                <legend>Edição de Cheque</legend>
-                <form className={style.formCtr} id={style.editForm}>
-
-                    <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
-
-                        <h4>No. Cheque</h4>
-                        <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque"/>
-
-                        <h4>Cliente:</h4>
-                        <input type="text" name="cliente" onChange={handleEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput"/>
-                        <div className={style.searchBox} id="searchBoxEdit">
-                            <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
-                                {
-                                searchResult.map(client => <option onClick={handleEditClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
-                                }
-                            </select>
-                        </div>
-
-                        <h4>Valor</h4>
-                        <input type="number" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"/>
-
+            <div id="editWindowBackground" className={style.editBackground}>
+                <section className={style.editFieldset} id="editWindow">
+                    <div className={style.popupHeader}>
+                        <h2>Edição de Cheque</h2>
+                        <img src="/images/x-icon.svg" onClick={handleCloseEdit}/>
                     </div>
                     
-                    <div className={style.inputCtr}>
-                        
+                    <form className={style.formCtr} id={style.editForm}>
 
-                        <h4>Vencimento</h4>
-                        <input type="date" onChange={handleEditInputChange} name="data_venc" className="editInput" id="editDataVenc"/>
+                        <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
 
-                        <h4>Destino</h4>
-                        <select name="destino_id" onChange={handleEditInputChange} placeholder="Selecione Vendedor" className={`${style.select} editInput`} id="editDestino">
-                            <option key="0"></option>
-                            {
-                                destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
-                            }
-                        </select>
+                            <h4>No. Cheque</h4>
+                            <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque"/>
 
-                        <h4>Data Entrega:</h4>
-                        <input type="date" name="data_destino" onChange={handleEditInputChange} className="input"/>
-                        
-
-                    </div>
-                    
-                        <div className={style.statusCtr}>
-                            <fieldset className={style.formCtr}>
-                            <legend>Status</legend>
-                            <div className={style.inputCtr} >
-                                <h4>Compensação:</h4>
-                                <input type="date" name="data_compen" onChange={handleEditInputChange} id="data_compen" className="input"/>
-                            </div>
-
-                            <div className={style.inputCtr} >
-                                <h4>Linha:</h4>
-                                <select className={`${style.select} input`} name="linha" id="editLinha" onChange={handleEditInputChange}>
-                                    <option></option>
+                            <h4>Cliente:</h4>
+                            <input type="text" name="cliente" onChange={handleEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput"/>
+                            <div className={style.searchBox} id="searchBoxEdit">
+                                <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
                                     {
-                                        linhas.map(linha => <option value={linha} key={linha}>{linha}</option>)
+                                    searchResult.map(client => <option onClick={handleEditClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
                                     }
                                 </select>
                             </div>
 
-                    </fieldset>
+                            <h4>Valor</h4>
+                            <input type="number" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"/>
 
-                        <div className={style.inputCtr} id={style.editObs}>
-                            <h4>Observação:</h4>
-                            <textarea id="editObsTextarea" value={textareaValue} onChange={handleTextareaChange}></textarea>
                         </div>
-                    </div>
                         
+                        <div className={style.inputCtr}>
+                            
+
+                            <h4>Vencimento</h4>
+                            <input type="date" onChange={handleEditInputChange} name="data_venc" className="editInput" id="editDataVenc"/>
+
+                            <h4>Destino</h4>
+                            <select name="destino_id" onChange={handleEditInputChange} placeholder="Selecione Vendedor" className={`${style.select} editInput`} id="editDestino">
+                                <option key="0"></option>
+                                {
+                                    destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                }
+                            </select>
+
+                            <h4>Data Entrega:</h4>
+                            <input type="date" name="data_destino" onChange={handleEditInputChange} className="input"/>
+                            
+
+                        </div>
+                        
+                            <div className={style.statusCtr}>
+                                <fieldset className={style.formCtr}>
+                                <legend>Status</legend>
+                                <div className={style.inputCtr} >
+                                    <h4>Compensação:</h4>
+                                    <input type="date" name="data_compen" onChange={handleEditInputChange} id="data_compen" className="input"/>
+                                </div>
+
+                                <div className={style.inputCtr} >
+                                    <h4>Linha:</h4>
+                                    <select className={`${style.select} input`} name="linha" id="editLinha" onChange={handleEditInputChange}>
+                                        <option></option>
+                                        {
+                                            linhas.map(linha => <option value={linha} key={linha}>{linha}</option>)
+                                        }
+                                    </select>
+                                </div>
+
+                        </fieldset>
+
+                            <div className={style.inputCtr} id={style.editObs}>
+                                <h4>Observação:</h4>
+                                <textarea id="editObsTextarea" value={textareaValue} onChange={handleTextareaChange}></textarea>
+                            </div>
+                        </div>
+                            
 
 
-                    <div className={style.buttonCtr}>
-                            <button type="submit" className={style.button} id="editaCheque" onClick={handleEditSubmit}>Salvar</button>
-                            <button type="submit" className={style.button} id="fechar" onClick={handleCloseEdit}>Fechar</button>
-                    </div>
-                    
-                </form>
-            </fieldset>
+                        <div className={style.buttonCtr}>
+                                <button type="submit" className={style.button} id="editaCheque" onClick={handleEditSubmit}>Salvar</button>
+                        </div>
+                        
+                    </form>
+                </section>
+            </div>
+            
 
 
 
@@ -700,6 +771,7 @@ export default function ConsultarCheques() {
                         <th>Cliente</th>
                         <th>Grupo</th>
                         <th>No. Cheque</th>
+                        <th>Pedido</th>
                         <th>Valor</th>
                         <th>Destino</th>
                         <th>Data Venc.</th>
@@ -718,6 +790,7 @@ export default function ConsultarCheques() {
                         <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
                         <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
                         <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
+                        <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
                         <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
                         <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
                         <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
