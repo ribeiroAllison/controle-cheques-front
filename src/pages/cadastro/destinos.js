@@ -1,4 +1,4 @@
-import DestinosHeader from "@/components/DestinosHeader"
+import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
@@ -183,7 +183,7 @@ export default function Destinos() {
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
-            <DestinosHeader />
+            <HeaderLine name="Destinos" />
 
             <table className="table" id={style.smallTable}>
                 <thead>

@@ -1,4 +1,4 @@
-import ClientesHeader from "@/components/ClientesHeader"
+import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
@@ -379,7 +379,7 @@ export default function Clientes() {
 
             </form>
 
-            <ClientesHeader />
+            <HeaderLine name="Clientes" />
             <table className="table">
                 <thead>
                 <tr>

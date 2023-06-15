@@ -68,6 +68,16 @@ export default function CadastroCheques() {
         
     }, []);
 
+    const handleClick = (e) =>{
+        const clientCode = document.getElementById('cliente_cod')
+        clientCode.value = e.target.value;
+        setFormValues({...formValues, cliente_cod: clientCode.value})
+        document.getElementById('searchBox').style.display = 'none';
+        document.getElementById('cliente').value = e.target.innerHTML;
+
+    }
+
+
 
     const [vendedorList, setVendedorList] = useState()
     
@@ -86,6 +96,7 @@ export default function CadastroCheques() {
 
         }
     }
+    
 
     const [destinoList, setDestinoList] = useState();
 
@@ -109,6 +120,7 @@ export default function CadastroCheques() {
         getAllVendedores()
         getAllDestinos()
     }, []);
+
 
     
 
@@ -338,7 +350,7 @@ export default function CadastroCheques() {
                 clientList={clientList} 
                 formValues={formValues} 
                 handleInputChange={handleInputChange}
-                setFormValues={setFormValues}
+                handleClick={handleClick}
             />
 
                 

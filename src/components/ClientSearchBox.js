@@ -21,14 +21,6 @@ export default function ClientSearchBox (props) {
         findClient()
     },[props.formValues.cliente])
 
-    const handleClick = (e) =>{
-        const clientCode = document.getElementById('cliente_cod')
-        clientCode.value = e.target.value;
-        props.setFormValues({...props.formValues, cliente_cod: clientCode.value})
-        document.getElementById('searchBox').style.display = 'none';
-        document.getElementById('cliente').value = e.target.innerHTML;
-
-    }
 
     return(
         <>
@@ -38,7 +30,7 @@ export default function ClientSearchBox (props) {
                 <div className={style.searchBox} id="searchBox">
                     <select size={4} id={`${style.clienteSelect} input`} onChange={props.handleInputChange}>
                         {
-                            searchResult.map(client => <option onClick={handleClick} key={client.cod} value={client.cod}>{client.cliente}</option>)
+                            searchResult.map(client => <option onClick={props.handleClick} key={client.cod} value={client.cod}>{client.cliente}</option>)
                         }
                     </select>
                 </div>

@@ -1,4 +1,4 @@
-import GruposHeader from "@/components/GruposHeader"
+import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
@@ -189,7 +189,7 @@ export default function Grupos() {
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
-            <GruposHeader />
+            <HeaderLine name="Grupos" />
 
             <table className="table" id={style.smallTable}>
                 <thead>

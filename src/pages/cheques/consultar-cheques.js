@@ -3,7 +3,7 @@ import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 import { clearInputs, linhas, isVencido, isCompensado } from "@/utils/utils"
-import ChequesHeader from "@/components/ChequesHeader"
+import HeaderLine from "@/components/HeaderLine"
 
 
 export default function ConsultarCheques() {
@@ -445,8 +445,9 @@ export default function ConsultarCheques() {
         .then(deleteEditClass())
 
 
+
         
-        const editWindow = document.getElementById('editWindow');
+        const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
 
         const editRow = document.getElementById(`row${chequeId}`);
@@ -674,7 +675,7 @@ export default function ConsultarCheques() {
             </fieldset>
 
             {/* EDIT SCREEN */}
-            <ChequesHeader />
+            <HeaderLine name="Cheques" />
             <div id="editWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
                     <div className={style.popupHeader}>
