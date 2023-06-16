@@ -188,7 +188,7 @@ export default function Destinos() {
 
             <HeaderLine name="Destinos" />
             <SearchFilter 
-                name="Destinos" 
+                name="Destino" 
                 list={destinos} 
                 filteredList={filteredList} 
                 setFilteredList={setFilteredList} 

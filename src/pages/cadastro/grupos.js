@@ -194,7 +194,7 @@ export default function Grupos() {
 
             <HeaderLine name="Grupos" />
             <SearchFilter 
-                name="Grupos" 
+                name="Grupo" 
                 list={grupos} 
                 filteredList={filteredList} 
                 setFilteredList={setFilteredList} 

@@ -190,7 +190,7 @@ export default function Vendedores() {
 
             <HeaderLine name="Vendedores"/>
             <SearchFilter 
-                name="Vendedores" 
+                name="Vendedor" 
                 list={vendedores} 
                 filteredList={filteredList} 
                 setFilteredList={setFilteredList} 
