@@ -3,7 +3,7 @@ import style from "@/styles/clientes.module.css"
 import ClientSearchBox from "@/components/ClientSearchBox"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { linhas, clearInputs, isVencido, isCompensado, isVencidoVar, isCompensadoVar } from "@/utils/utils"
+import { linhas, clearInputs, isVencidoVar, isCompensadoVar } from "@/utils/utils"
 
 
 

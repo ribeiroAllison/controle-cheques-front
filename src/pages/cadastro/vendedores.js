@@ -1,5 +1,6 @@
 import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
+import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
@@ -23,6 +24,7 @@ export default function Vendedores() {
     }
 
     const [vendedores, setVendedores] = useState();
+    const [filteredList, setFilteredList] = useState();
 
     async function getAllVendedores(){
         try{
@@ -31,6 +33,7 @@ export default function Vendedores() {
             if(response.ok){
                 let jsonResponse = await response.json();
                 setVendedores(jsonResponse);
+                setFilteredList(jsonResponse);
             }
 
         } catch(error){
@@ -185,7 +188,14 @@ export default function Vendedores() {
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
-            <HeaderLine name="Vendedores" />
+            <HeaderLine name="Vendedores"/>
+            <SearchFilter 
+                name="Vendedores" 
+                list={vendedores} 
+                filteredList={filteredList} 
+                setFilteredList={setFilteredList} 
+                param="nome"
+            />
 
             <table className="table" id={style.smallTable}>
                 <thead>
@@ -196,7 +206,7 @@ export default function Vendedores() {
                     </tr>
                 </thead>
                 <tbody>
-                {vendedores && vendedores.map((destino) =>(
+                {filteredList && filteredList.map((destino) =>(
                     <tr key={destino.nome} data-cod={destino.id}>
                         <td id={destino.id}>{destino.nome}</td>
                         <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg"/></td>

@@ -1,8 +1,10 @@
 import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
+import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
+
 
 export default function Clientes() {
 
@@ -259,7 +261,8 @@ export default function Clientes() {
 
     //TABLE FUNCTIONS
 
-    const [clientList, setClientList] = useState('');
+    const [clientList, setClientList] = useState([]);
+    const [filteredList, setFilteredList] = useState();
 
     async function getAllClients(){
         try{
@@ -268,6 +271,7 @@ export default function Clientes() {
             if(response.ok){
                 let jsonResponse = await response.json();
                 setClientList(jsonResponse);
+                setFilteredList(jsonResponse);
             }
 
         } catch(error){
@@ -318,6 +322,9 @@ export default function Clientes() {
             console.log(error);
         }
     }
+
+    
+
 
     useEffect(() => {
         getAllClients();
@@ -374,12 +381,21 @@ export default function Clientes() {
                     </select>
                 </div>
                 <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit}>Editar</button>
-                <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
+                <button className={style.button} id="adicionaCliente" onClick={handleSubmit} type="submit">Adicionar</button>
                 <button className={style.button} id="limpar" onClick={handleClear}>Limpar</button>
 
             </form>
 
             <HeaderLine name="Clientes" />
+            <SearchFilter 
+                name="Cliente" 
+                list={clientList} 
+                filteredList={filteredList} 
+                setFilteredList={setFilteredList} 
+                param="cliente"
+            />
+            
+
             <table className="table">
                 <thead>
                 <tr>
@@ -393,7 +409,7 @@ export default function Clientes() {
                 </tr>
                 </thead>
                 <tbody>
-                {clientList && clientList.map((client) => (
+                {filteredList && filteredList.map((client) => (
                     <tr key={client.cod} data-cod={client.cod}>
                         <td >{client.cod}</td>
                         <td id={`client${client.cod}`}>{client.cliente}</td>

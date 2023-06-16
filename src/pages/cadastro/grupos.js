@@ -1,5 +1,6 @@
 import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
+import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
@@ -22,7 +23,8 @@ export default function Grupos() {
 
     }
 
-    const [grupos, setGrupos] = useState();
+    const [grupos, setGrupos] = useState([]);
+    const [filteredList, setFilteredList] = useState();
 
     async function getAllGrupos(){
         try{
@@ -31,6 +33,7 @@ export default function Grupos() {
             if(response.ok){
                 let jsonResponse = await response.json();
                 setGrupos(jsonResponse);
+                setFilteredList(jsonResponse);
             }
 
         } catch(error){
@@ -190,6 +193,13 @@ export default function Grupos() {
             </form>
 
             <HeaderLine name="Grupos" />
+            <SearchFilter 
+                name="Grupos" 
+                list={grupos} 
+                filteredList={filteredList} 
+                setFilteredList={setFilteredList} 
+                param="nome"
+            />
 
             <table className="table" id={style.smallTable}>
                 <thead>
@@ -200,7 +210,7 @@ export default function Grupos() {
                     </tr>
                 </thead>
                 <tbody>
-                {grupos && grupos.map((destino) =>(
+                {filteredList && filteredList.map((destino) =>(
                     <tr key={destino.nome} data-cod={destino.id}>
                         <td id={destino.id}>{destino.nome}</td>
                         <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg"/></td>

@@ -1,5 +1,6 @@
 import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
+import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
@@ -22,7 +23,8 @@ export default function Destinos() {
 
     }
 
-    const [destinos, setDestinos] = useState();
+    const [destinos, setDestinos] = useState([]);
+    const [filteredList, setFilteredList] = useState();
 
     async function getAllDestinos(){
         try{
@@ -31,6 +33,7 @@ export default function Destinos() {
             if(response.ok){
                 let jsonResponse = await response.json();
                 setDestinos(jsonResponse);
+                setFilteredList(jsonResponse);
             }
 
         } catch(error){
@@ -184,7 +187,13 @@ export default function Destinos() {
             </form>
 
             <HeaderLine name="Destinos" />
-
+            <SearchFilter 
+                name="Destinos" 
+                list={destinos} 
+                filteredList={filteredList} 
+                setFilteredList={setFilteredList} 
+                param="nome"
+            />
             <table className="table" id={style.smallTable}>
                 <thead>
                     <tr>
@@ -194,7 +203,7 @@ export default function Destinos() {
                     </tr>
                 </thead>
                 <tbody>
-                {destinos && destinos.map((destino) =>(
+                {filteredList && filteredList.map((destino) =>(
                     <tr key={destino.nome} data-cod={destino.id}>
                         <td id={destino.id}>{destino.nome}</td>
                         <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg"/></td>
