@@ -1,7 +1,6 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import Link from 'next/link'
 import Header from '@/components/Header';
+import ChequeControl from '@/components/ChequeControl';
 
 
 
@@ -21,5 +20,26 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+
+      <ChequeControl 
+        headerLine="Estornados"
+        display="none"
+        endPoint="cheques/linha"
+        submitOnMount="true"
+      />
+
+      <ChequeControl 
+        headerLine="Sem Destino"
+        display="none"
+        endPoint="cheques/sem-destino"
+        submitOnMount="true"
+      />
+
+  <ChequeControl 
+        headerLine="Próximos Vencimentos"
+        display="none"
+        endPoint="cheques/a-vencer"
+        submitOnMount="true"
+      />
     </>
   )}
