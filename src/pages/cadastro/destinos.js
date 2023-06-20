@@ -9,14 +9,14 @@ import { useState, useEffect } from "react"
 
 export default function Destinos() {
 
-    const [formValues, setFormValues] = useState({nome: ""});
+    const [formValues, setFormValues] = useState({ nome: "" });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
     };
 
-    const clearInputs = () =>{
+    const clearInputs = () => {
 
         const nomeInput = document.getElementById('nome');
         nomeInput.value = "";
@@ -26,29 +26,27 @@ export default function Destinos() {
     const [destinos, setDestinos] = useState([]);
     const [filteredList, setFilteredList] = useState();
 
-    async function getAllDestinos(){
-        try{
+    async function getAllDestinos() {
+        try {
             const response = await fetch(`${baseURL}/destinos`);
-
-            if(response.ok){
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setDestinos(jsonResponse);
                 setFilteredList(jsonResponse);
             }
-
-        } catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
 
-    
-    useEffect(() =>{
+
+    useEffect(() => {
         getAllDestinos()
-    },[]);
+    }, []);
 
     // POST
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         formValues.nome && fetch(`${baseURL}/destinos`, {
@@ -56,22 +54,18 @@ export default function Destinos() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
-                
-                nome:formValues.nome,
-                
+            body: JSON.stringify({
+                nome: formValues.nome,
             })
         })
-        .then(response => {
-            if(response.ok){
-                
-                getAllDestinos();
+            .then(response => {
+                if (response.ok) {
+
+                    getAllDestinos();
+                }
             }
-        }
-
-        )
-        .then(clearInputs())
-
+            )
+            .then(clearInputs)
     }
 
     // DELETE 
@@ -80,7 +74,7 @@ export default function Destinos() {
 
         const confirmation = confirm('Você realmente deseja apagar esse destino?')
 
-        if(confirmation){
+        if (confirmation) {
             const id = e.target.closest('tr').getAttribute('data-cod');
             fetch(`${baseURL}/destinos`, {
                 method: 'DELETE',
@@ -88,16 +82,15 @@ export default function Destinos() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: id})
+                    id: id
+                })
             })
-            .then(response => {
-                if(response.ok){
-                    getAllDestinos();
-                }
-            })
-    
+                .then(response => {
+                    if (response.ok) {
+                        getAllDestinos();
+                    }
+                })
         }
-        
     }
 
     // UPDATE
@@ -107,7 +100,7 @@ export default function Destinos() {
         const id = e.target.closest('tr').getAttribute('data-cod');
         setEditId(id);
         const nome = document.getElementById(id).innerHTML;
-        
+
 
         const nomeInput = document.getElementById('nome');
 
@@ -118,11 +111,9 @@ export default function Destinos() {
 
         const editButton = document.getElementById('editButton');
         editButton.style.display = "block";
-
-
     }
 
-    const handleClear = (e) =>{
+    const handleClear = (e) => {
         e.preventDefault();
 
         clearInputs();
@@ -133,7 +124,7 @@ export default function Destinos() {
         editButton.style.display = "none";
     }
 
-    async function submitEdit (e) {
+    async function submitEdit(e) {
         e.preventDefault();
 
         const nome = document.getElementById('nome').value;
@@ -145,41 +136,39 @@ export default function Destinos() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 id: id,
                 nome: nome
             })
         })
-        .then(response => {
-            if(response.ok){
-                console.log(response)
-                getAllDestinos();
+            .then(response => {
+                if (response.ok) {
+                    console.log(response)
+                    getAllDestinos();
+                }
             }
-        }
 
-        )
-        .then(clearInputs())
-        .then(() =>{
-            const addButton = document.getElementById('adicionaCliente');
-            addButton.style.display = 'block';
+            )
+            .then(clearInputs)
+            .then(() => {
+                const addButton = document.getElementById('adicionaCliente');
+                addButton.style.display = 'block';
 
-            const editButton = document.getElementById('editButton');
-            editButton.style.display = "none";
-        })
+                const editButton = document.getElementById('editButton');
+                editButton.style.display = "none";
+            })
     }
 
 
-
-
-    return(
+    return (
         <>
             <Header />
             <h3 className={style.name}>Cadastro de Destinos</h3>
             <form className={style.formCtr}>
-                
+
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Destinos de Cheques"/>
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Destinos de Cheques" />
                 </div>
                 <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
                 <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
@@ -187,11 +176,11 @@ export default function Destinos() {
             </form>
 
             <HeaderLine name="Destinos" />
-            <SearchFilter 
-                name="Destino" 
-                list={destinos} 
-                filteredList={filteredList} 
-                setFilteredList={setFilteredList} 
+            <SearchFilter
+                name="Destino"
+                list={destinos}
+                filteredList={filteredList}
+                setFilteredList={setFilteredList}
                 param="nome"
             />
             <table className="table" id={style.smallTable}>
@@ -203,18 +192,15 @@ export default function Destinos() {
                     </tr>
                 </thead>
                 <tbody>
-                {filteredList && filteredList.map((destino) =>(
-                    <tr key={destino.nome} data-cod={destino.id}>
-                        <td id={destino.id}>{destino.nome}</td>
-                        <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg"/></td>
-                        <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg"/></td>
-                    </tr>
-                ))}
+                    {filteredList?.map((destino) => (
+                        <tr key={destino.nome} data-cod={destino.id}>
+                            <td id={destino.id}>{destino.nome}</td>
+                            <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>
+                            <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-            
         </>
     )
-
-
 }

@@ -1,79 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;400;700&display=swap");
 
-
-:root{
-
-    --navColor: #004225;
-    --black30: #303030;
-    --black: black;
-    --black30Faint: #30303069;
-    --buttonGreen: #00A86B;
-    --buttonGreenHover: #00a86abb;
-    --optionGreen: #02ce83;
-    --lightGray: #D9DDDC;
-    --white: white;
-    --yellowTd: #FADA5E;
-    --redTd: #FF6347;
-    --blueTd: #89CFF0;
-
+:root {
+  --navColor: #004225;
+  --black30: #303030;
+  --black: black;
+  --black30Faint: #30303069;
+  --buttonGreen: #00a86b;
+  --buttonGreenHover: #00a86abb;
+  --optionGreen: #02ce83;
+  --lightGray: #d9dddc;
+  --labelGray: #626060;
+  --white: white;
+  --yellowTd: #fada5e;
+  --redTd: #ff6347;
+  --blueTd: #89cff0;
 }
 
-*{
-    font-family: 'Roboto';
-    color: var(--black30);
-    margin: 0;
-
+* {
+  font-family: "Roboto";
+  color: var(--black30);
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.table{
-    margin-top: 30px;
-    border-collapse: collapse;
-    width: 90%;
-    margin: 20px;
-    
+.table {
+  border-collapse: collapse;
+  width: 90%;
+  margin: 20px;
 }
 
-
-
-.table th{
-    border: 1px solid black;
-    font-size: 14px;
-    
+.table th {
+  border: 1px solid black;
+  font-size: 14px;
 }
 
-.table td{
-    text-align: center;
-    border: 1px solid var(--black30);
-    padding: 5px;
-    font-size: 14px;
-
+.table td {
+  text-align: center;
+  border: 1px solid var(--black30);
+  padding: 5px;
+  font-size: 14px;
 }
 
-.table img{
-    height: 22px;
+.table img {
+  height: 22px;
 }
 
-.table img:hover{
-    cursor: pointer;
-    opacity: 50%;
-
+.table img:hover {
+  cursor: pointer;
+  opacity: 50%;
 }
 
-.Bom{
-    background-color: greenyellow;
+.Bom {
+  background-color: greenyellow;
 }
 
-.Médio{
-    background-color: yellow;
+.Médio {
+  background-color: yellow;
 }
 
-.Ruim{
-    background-color: crimson;
-    color:aliceblue
+.Ruim {
+  background-color: crimson;
+  color: aliceblue;
 }
 
-#clienteBox{
-    z-index: 400;
-
+#clienteBox {
+  z-index: 400;
 }
-

@@ -1,35 +1,29 @@
-
-
 .navBar{
     display: flex;
-    gap: 50px;
-    align-items: center;
-    background-color: var(--navColor);
+    gap: 3.5rem;
     align-items: center;
     width: 100%;
-    padding-left: 50px;
+    padding-left: 3rem;
     justify-content: flex-start;
-    
 }
 
 .imgCtr{
-    background-color: var(--navColor);
     width: 15%;
     display: flex;
     justify-content: center;
-    height: 50px;
+    align-items: center;
+    height: 3.5rem;
 }
 
 .header img{
     width: 150px;
     height: 48px;
-    
 }
 
 .header{
     display: flex;
-    
-
+    padding: 1rem 0;
+    background-color: var(--navColor);
 }
 
 .menu{
@@ -38,15 +32,11 @@
     flex-direction: column;
     height: 50px;
     width:80px;
-
-
 }
 
 .menu h2{
-    
     margin-top: 12.5px;
     color: #A8E4A0;
-    
 }
 
 .menu a{
@@ -62,8 +52,6 @@
     text-align: center;
     border-radius: 10%;
     z-index: 1000;
-    
-    
 }
 
 .option h3{
@@ -83,11 +71,8 @@
     .navbar{
         align-items: flex-start;
     }
-    
 }
 
 .menu a:hover{
     color: antiquewhite;
-    
-    
 }
