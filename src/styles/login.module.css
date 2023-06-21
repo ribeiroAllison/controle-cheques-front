@@ -1,0 +1,17 @@
+.formLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.formField {
+    display: flex;
+    flex-direction: column;
+}
+
+.formField label {
+    color: var(--labelGray);
+    padding-bottom: 0.2rem;
+    font-size: 1rem;
+}

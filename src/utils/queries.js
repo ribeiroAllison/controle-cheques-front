@@ -1,15 +1,15 @@
 
 
-export async function getAllClients(setState){
-    try{
+export async function getAllClients(setState) {
+    try {
         const response = await fetch(`${baseURL}/clientes`);
 
-        if(response.ok){
+        if (response.ok) {
             let jsonResponse = await response.json();
             setState(jsonResponse);
         }
 
-    } catch(error){
+    } catch (error) {
         console.log(error);
     }
 }

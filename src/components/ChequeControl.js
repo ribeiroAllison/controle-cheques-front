@@ -441,7 +441,13 @@ export default function ChequeControl(props) {
         .then(response => {
             if(response.ok){
                 alert(`Cheque ${editFormValues.número_cheque} editado com sucesso!`)
-                refreshSearch();
+                if(props.endPoint === 'cheques'){
+                    refreshSearch();
+                } else{
+                    handleSubmit()
+                }
+                
+                
             } else{
                 alert(`Erro ao editar, tente novamente`)
             }

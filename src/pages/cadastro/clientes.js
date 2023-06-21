@@ -12,10 +12,9 @@ export default function Clientes() {
         {
             codigo: "",
             nome: "",
-            doc:"",
-            status:""
+            doc: "",
+            status: ""
         }
-
     );
 
     const handleInputChange = (e) => {
@@ -25,8 +24,7 @@ export default function Clientes() {
 
     //SUBMIT FUNCTIONS
 
-    const clearInputs = () =>{
-        
+    const clearInputs = () => {
 
         const codInput = document.getElementById('codigo');
         const nomeInput = document.getElementById('nome');
@@ -43,27 +41,23 @@ export default function Clientes() {
         setFormValues({
             codigo: "",
             nome: "",
-            doc:"",
-            status:""
-            
+            doc: "",
+            status: ""
         });
-
-        
-}
+    }
 
 
     const [clientSerialId, setClientSerialId] = useState();
 
-    const getAllSerialId = async () =>{
-        try{
+    const getAllSerialId = async () => {
+        try {
             const response = await fetch(`${baseURL}/clientes_id`);
 
-            if(response.ok){
+            if (response.ok) {
                 const jsonResponse = await response.json();
                 setClientSerialId(jsonResponse);
             }
-
-        } catch(error){ 
+        } catch (error) {
             console.log(error);
         }
     }
@@ -72,30 +66,30 @@ export default function Clientes() {
 
     let serialList = [];
     const findLastId = () => {
-    if (clientSerialId && Array.isArray(clientSerialId) && clientSerialId.length > 0) {
-        for (let obj of clientSerialId) {
-        if (obj.id && !isNaN(Number(obj.id))) {
-            serialList.push(Number(obj.id));
+        if (clientSerialId && Array.isArray(clientSerialId) && clientSerialId.length > 0) {
+            for (let obj of clientSerialId) {
+                if (obj.id && !isNaN(Number(obj.id))) {
+                    serialList.push(Number(obj.id));
+                }
+            }
+            if (serialList.length > 0) {
+                setLastClientId(Math.max(...serialList));
+            }
         }
-        }
-        if (serialList.length > 0) {
-        setLastClientId(Math.max(...serialList));
-        }
-    }
     };
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
         const grupoName = document.getElementById('grupo').value;
 
         const grupoId = getKeyByValue(grupo, grupoName);
 
-        const treatDoc = (client) =>{
-            return client.replace(/[^\d]+/g,'');
-        } 
+        const treatDoc = (client) => {
+            return client.replace(/[^\d]+/g, '');
+        }
 
-        for (let client of clientList){
-            if(treatDoc(client.doc) === treatDoc(formValues.doc)){
+        for (let client of clientList) {
+            if (treatDoc(client.doc) === treatDoc(formValues.doc)) {
                 alert(`Cliente com esse CPF/CNPJ já cadastrado com nome de ${client.cliente}`)
                 clearInputs();
                 return;
@@ -103,46 +97,44 @@ export default function Clientes() {
 
         }
 
-                fetch(`${baseURL}/clientes`, {
+        fetch(`${baseURL}/clientes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cod: formValues.codigo || `IT${lastClientId}`,
+                nome: formValues.nome,
+                doc: formValues.doc,
+                grupo_id: grupoId ? grupoId : null,
+                status_pagador: formValues.status
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert(`Cliente ${formValues.nome} cadastrado com sucesso!`)
+
+                }
+            })
+            .then(
+                fetch(`${baseURL}/clientes_id`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body:JSON.stringify({
-                        cod: formValues.codigo || `IT${lastClientId}`,
-                        nome:formValues.nome,
-                        doc: formValues.doc,
-                        grupo_id: grupoId ? grupoId : null,
-                        status_pagador: formValues.status
+                    body: JSON.stringify({
+                        id: lastClientId + 1
                     })
                 })
-                .then(response => {
-                    if(response.ok){
-                        alert(`Cliente ${formValues.nome} cadastrado com sucesso!`)
-                        
-                    }
-                })
-                .then(
-                    fetch(`${baseURL}/clientes_id`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body:JSON.stringify({
-                            id: lastClientId + 1
-                        })
-                    })
-                )
-                .then(clearInputs())
-                .then(getAllClients)
-                .then(findLastId)
-                .then(getAllSerialId)
-            
-            
+            )
+            .then(clearInputs)
+            .then(getAllClients)
+            .then(findLastId)
+            .then(getAllSerialId)
     }
 
     //EDIT FUNCTIONS
-    
+
 
     const handleEdit = (e) => {
         const cod = e.target.name;
@@ -174,7 +166,7 @@ export default function Clientes() {
 
     }
 
-    const handleClear = (e) =>{
+    const handleClear = (e) => {
         e.preventDefault();
 
         clearInputs();
@@ -187,34 +179,30 @@ export default function Clientes() {
         const codInput = document.getElementById('codigo');
         codInput.removeAttribute('disabled');
 
-        setFormValues(
-            {codigo: "",
+        setFormValues({
+            codigo: "",
             nome: "",
-            doc:"",
-            status:""}
-
-
-
-
-        )
+            doc: "",
+            status: ""
+        })
     }
 
     function getKeyByValue(object, value) {
         let correctObj;
-        for(let obj of object){
+        for (let obj of object) {
 
-            if(obj['nome'] === value){
+            if (obj['nome'] === value) {
                 correctObj = obj;
-            } 
-            
+            }
+
         }
         const result = correctObj ? correctObj.id : null;
         return result;
 
-        
+
     }
 
-    async function submitEdit (e) {
+    async function submitEdit(e) {
         e.preventDefault();
         const grupoName = document.getElementById('grupo').value;
 
@@ -230,7 +218,7 @@ export default function Clientes() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 cod: cod,
                 nome: nome,
                 doc: doc,
@@ -238,25 +226,25 @@ export default function Clientes() {
                 status_pagador: status
             })
         })
-        .then(response => {
-            if(response.ok){
-                console.log(response)
-                getAllClients();
+            .then(response => {
+                if (response.ok) {
+                    console.log(response)
+                    getAllClients();
+                }
             }
-        }
 
-        )
-        .then(clearInputs())
-        .then(() =>{
-            const addButton = document.getElementById('adicionaCliente');
-            addButton.style.display = 'block';
+            )
+            .then(clearInputs)
+            .then(() => {
+                const addButton = document.getElementById('adicionaCliente');
+                addButton.style.display = 'block';
 
-            const editButton = document.getElementById('editButton');
-            editButton.style.display = "none";
+                const editButton = document.getElementById('editButton');
+                editButton.style.display = "none";
 
-            const codInput = document.getElementById('codigo');
-            codInput.removeAttribute('disabled');
-        })
+                const codInput = document.getElementById('codigo');
+                codInput.removeAttribute('disabled');
+            })
     }
 
     //TABLE FUNCTIONS
@@ -264,17 +252,17 @@ export default function Clientes() {
     const [clientList, setClientList] = useState([]);
     const [filteredList, setFilteredList] = useState();
 
-    async function getAllClients(){
-        try{
+    async function getAllClients() {
+        try {
             const response = await fetch(`${baseURL}/clientes`);
 
-            if(response.ok){
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setClientList(jsonResponse);
                 setFilteredList(jsonResponse);
             }
 
-        } catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -287,7 +275,7 @@ export default function Clientes() {
 
         const confirmation = confirm('Você realmente quer apagar este cliente?')
 
-        if(confirmation){
+        if (confirmation) {
             const cod = e.target.closest('tr').getAttribute('data-cod');
             fetch(`${baseURL}/clientes`, {
                 method: 'DELETE',
@@ -295,13 +283,14 @@ export default function Clientes() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    cod: cod})
+                    cod: cod
+                })
             })
-            .then(response => {
-                if(response.ok){
-                    getAllClients();
-                }
-            })  
+                .then(response => {
+                    if (response.ok) {
+                        getAllClients();
+                    }
+                })
         }
     }
 
@@ -309,62 +298,61 @@ export default function Clientes() {
 
     const [grupo, setGrupo] = useState();
 
-    async function getGrupos(){
-        try{
+    async function getGrupos() {
+        try {
             const response = await fetch(`${baseURL}/grupo`);
-    
-            if(response.ok){
+
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setGrupo(jsonResponse);
             }
-    
-        } catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
 
-    
+
 
 
     useEffect(() => {
         getAllClients();
         getAllSerialId();
         getGrupos()
-    },[])
+    }, [])
 
-    useEffect(() =>{
+    useEffect(() => {
         findLastId();
-    },[clientSerialId])
+    }, [clientSerialId])
 
-    return(
+    return (
         <>
             <Header />
-            
+
             <h3 className={style.name}>Cadastro de Clientes</h3>
             <form className={style.formCtr}>
-                
+
                 <div className={style.inputCtr} >
                     <h4>Código:</h4>
-                    <input type="text" name="codigo" onChange={handleInputChange} id="codigo" required placeholder="Código do Cliente"/>
+                    <input type="text" name="codigo" onChange={handleInputChange} id="codigo" required placeholder="Código do Cliente" />
                 </div>
 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente"/>
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente" />
                 </div>
 
                 <div className={style.inputCtr} >
                     <h4>CPF/CNPJ:</h4>
-                    <input type="text" name="doc" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ"/>
+                    <input type="text" name="doc" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ" />
                 </div>
 
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Grupo:</h4>
-                    
+
                     <select id="grupo" className={style.select}>
                         <option></option>
                         {
-                            grupo && grupo.map((emp) => {
+                            grupo?.map((emp) => {
                                 return <option key={emp.id} data={emp.id}>{emp.nome}</option>
                             })
                         }
@@ -387,40 +375,40 @@ export default function Clientes() {
             </form>
 
             <HeaderLine name="Clientes" />
-            <SearchFilter 
-                name="Cliente" 
-                list={clientList} 
-                filteredList={filteredList} 
-                setFilteredList={setFilteredList} 
+            <SearchFilter
+                name="Cliente"
+                list={clientList}
+                filteredList={filteredList}
+                setFilteredList={setFilteredList}
                 param="cliente"
             />
-            
+
 
             <table className="table">
                 <thead>
-                <tr>
-                    <th>Código do Cliente</th>
-                    <th>Nome</th>
-                    <th>CPF / CNPJ</th>
-                    <th>Grupo</th>
-                    <th>Status</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
-                </tr>
+                    <tr>
+                        <th>Código do Cliente</th>
+                        <th>Nome</th>
+                        <th>CPF / CNPJ</th>
+                        <th>Grupo</th>
+                        <th>Status</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {filteredList && filteredList.map((client) => (
-                    <tr key={client.cod} data-cod={client.cod}>
-                        <td >{client.cod}</td>
-                        <td id={`client${client.cod}`}>{client.cliente}</td>
-                        <td id={`doc${client.cod}`}>{client.doc}</td>
-                        <td id={`grupo${client.cod}`}>{client.grupo}</td>
-                        <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
-                        <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod}/></td>
-                        <td> <img src="/images/trash-bin.svg" onClick={handleDelete}/></td>
-                    
-                    </tr>
-                ))}
+                    {
+                        filteredList?.map((client) => (
+                            <tr key={client.cod} data-cod={client.cod}>
+                                <td >{client.cod}</td>
+                                <td id={`client${client.cod}`}>{client.cliente}</td>
+                                <td id={`doc${client.cod}`}>{client.doc}</td>
+                                <td id={`grupo${client.cod}`}>{client.grupo}</td>
+                                <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
+                                <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod} /></td>
+                                <td> <img src="/images/trash-bin.svg" onClick={handleDelete} /></td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
 

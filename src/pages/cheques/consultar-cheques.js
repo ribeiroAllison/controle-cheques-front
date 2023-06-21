@@ -4,6 +4,7 @@ import ChequeControl from "@/components/ChequeControl"
 
 export default function ConsultarCheques() {
 
+
     return(
         <>
             <Header />
@@ -13,6 +14,7 @@ export default function ConsultarCheques() {
                 display="block"
                 endPoint="cheques"
             />
+
         </>
     )
 }

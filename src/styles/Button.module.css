@@ -1,0 +1,18 @@
+.button {
+    padding: 1.5rem 2rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--buttonGreen);
+    border-radius: 10px;
+    color: var(--white);
+    border: 0;
+    cursor: pointer;
+    width: 25rem;
+
+    transition: all 0.1s;
+}
+
+.button:hover {
+    background-color: var(--buttonGreenHover);
+}

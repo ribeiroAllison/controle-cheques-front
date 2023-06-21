@@ -9,14 +9,14 @@ import { useState, useEffect } from "react"
 
 export default function Grupos() {
 
-    const [formValues, setFormValues] = useState({nome: ""});
+    const [formValues, setFormValues] = useState({ nome: "" });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
     };
 
-    const clearInputs = () =>{
+    const clearInputs = () => {
 
         const nomeInput = document.getElementById('nome');
         nomeInput.value = "";
@@ -26,29 +26,29 @@ export default function Grupos() {
     const [grupos, setGrupos] = useState([]);
     const [filteredList, setFilteredList] = useState();
 
-    async function getAllGrupos(){
-        try{
+    async function getAllGrupos() {
+        try {
             const response = await fetch(`${baseURL}/grupos`);
 
-            if(response.ok){
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setGrupos(jsonResponse);
                 setFilteredList(jsonResponse);
             }
 
-        } catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
 
-    
-    useEffect(() =>{
+
+    useEffect(() => {
         getAllGrupos()
-    },[]);
+    }, []);
 
     // POST
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         formValues.nome && fetch(`${baseURL}/grupos`, {
@@ -56,21 +56,21 @@ export default function Grupos() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
-                
-                nome:formValues.nome,
-                
+            body: JSON.stringify({
+
+                nome: formValues.nome,
+
             })
         })
-        .then(response => {
-            if(response.ok){
-                alert(`Destino ${formValues.nome} cadastrado com sucesso!`)
-                getAllGrupos();
+            .then(response => {
+                if (response.ok) {
+                    alert(`Destino ${formValues.nome} cadastrado com sucesso!`)
+                    getAllGrupos();
+                }
             }
-        }
 
-        )
-        .then(clearInputs())
+            )
+            .then(clearInputs())
 
     }
 
@@ -79,9 +79,9 @@ export default function Grupos() {
     const handleDelete = (e) => {
         const confirmation = confirm('Você realmente deseja apagar esse grupo?');
 
-        if(confirmation){
+        if (confirmation) {
             const id = e.target.closest('tr').getAttribute('data-cod');
-        
+
             fetch(`${baseURL}/grupos`, {
                 method: 'DELETE',
                 headers: {
@@ -91,20 +91,20 @@ export default function Grupos() {
                     id: id
                 })
             })
-            .then(response => {
-                if (response.ok) {
-                    getAllGrupos();
-                } else {
-                    response.text().then(errorMessage => {
-                        alert(errorMessage);
-                    });
-                }
-            })
-            .catch(error => {
-                alert('Error: ' + error.message);
-            });
-            }
-        
+                .then(response => {
+                    if (response.ok) {
+                        getAllGrupos();
+                    } else {
+                        response.text().then(errorMessage => {
+                            alert(errorMessage);
+                        });
+                    }
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
+        }
+
     }
     // UPDATE
 
@@ -113,7 +113,7 @@ export default function Grupos() {
         const id = e.target.closest('tr').getAttribute('data-cod');
         setEditId(id);
         const nome = document.getElementById(id).innerHTML;
-        
+
 
         const nomeInput = document.getElementById('nome');
 
@@ -128,7 +128,7 @@ export default function Grupos() {
 
     }
 
-    const handleClear = (e) =>{
+    const handleClear = (e) => {
         e.preventDefault();
 
         clearInputs();
@@ -139,7 +139,7 @@ export default function Grupos() {
         editButton.style.display = "none";
     }
 
-    async function submitEdit (e) {
+    async function submitEdit(e) {
         e.preventDefault();
 
         const nome = document.getElementById('nome').value;
@@ -151,41 +151,41 @@ export default function Grupos() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 id: id,
                 nome: nome
             })
         })
-        .then(response => {
-            if(response.ok){
-                console.log(response)
-                getAllGrupos();
+            .then(response => {
+                if (response.ok) {
+                    console.log(response)
+                    getAllGrupos();
+                }
             }
-        }
 
-        )
-        .then(clearInputs())
-        .then(() =>{
-            const addButton = document.getElementById('adicionaCliente');
-            addButton.style.display = 'block';
+            )
+            .then(clearInputs())
+            .then(() => {
+                const addButton = document.getElementById('adicionaCliente');
+                addButton.style.display = 'block';
 
-            const editButton = document.getElementById('editButton');
-            editButton.style.display = "none";
-        })
+                const editButton = document.getElementById('editButton');
+                editButton.style.display = "none";
+            })
     }
 
 
 
 
-    return(
+    return (
         <>
             <Header />
             <h3 className={style.name}>Cadastro de Grupos</h3>
             <form className={style.formCtr}>
-                
+
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas"/>
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas" />
                 </div>
                 <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
                 <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
@@ -193,11 +193,11 @@ export default function Grupos() {
             </form>
 
             <HeaderLine name="Grupos" />
-            <SearchFilter 
-                name="Grupo" 
-                list={grupos} 
-                filteredList={filteredList} 
-                setFilteredList={setFilteredList} 
+            <SearchFilter
+                name="Grupo"
+                list={grupos}
+                filteredList={filteredList}
+                setFilteredList={setFilteredList}
                 param="nome"
             />
 
@@ -210,16 +210,16 @@ export default function Grupos() {
                     </tr>
                 </thead>
                 <tbody>
-                {filteredList && filteredList.map((destino) =>(
-                    <tr key={destino.nome} data-cod={destino.id}>
-                        <td id={destino.id}>{destino.nome}</td>
-                        <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg"/></td>
-                        <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg"/></td>
-                    </tr>
-                ))}
+                    {filteredList && filteredList.map((destino) => (
+                        <tr key={destino.nome} data-cod={destino.id}>
+                            <td id={destino.id}>{destino.nome}</td>
+                            <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>
+                            <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-            
+
         </>
     )
 

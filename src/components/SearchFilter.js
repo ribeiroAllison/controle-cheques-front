@@ -13,7 +13,7 @@ export default function SearchFilter (props) {
         if(!props.filteredList){
             props.setFilteredList(props.list)
         } else{
-            const filtered = props.list &&  props.list.filter(item => item[props.param].toLowerCase().includes(searchParams?.toLowerCase()));
+            const filtered = props?.list.filter(item => item[props.param].toLowerCase().includes(searchParams?.toLowerCase()));
             props.setFilteredList(filtered);
         }
         
