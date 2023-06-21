@@ -4,11 +4,10 @@ import ChequeControl from "@/components/ChequeControl"
 
 export default function ConsultarCheques() {
 
-    return(
+    return (
         <>
             <Header />
-
-            <ChequeControl 
+            <ChequeControl
                 headerLine="Cheques"
                 display="block"
                 endPoint="cheques"
