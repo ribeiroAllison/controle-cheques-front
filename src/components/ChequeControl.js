@@ -6,6 +6,7 @@ import HeaderLine from "@/components/HeaderLine"
 
 
 export default function ChequeControl(props) {
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : ""
 
     //Search by filter inputs
     const [formValues, setFormValues] = useState(
@@ -20,9 +21,7 @@ export default function ChequeControl(props) {
             data_compen: null,
             pedido: null,
             grupo: null
-
         }
-
     );
 
     const handleInputChange = (e) => {
@@ -58,7 +57,11 @@ export default function ChequeControl(props) {
 
     async function getAllClients() {
         try {
-            const response = await fetch(`${baseURL}/clientes/nomecod`);
+            const response = await fetch(`${baseURL}/clientes/nomecod`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -85,9 +88,7 @@ export default function ChequeControl(props) {
             searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value ?
                 document.getElementById(id).style.display = 'none'
                 : document.getElementById(id).style.display = 'block'
-
         }
-
     }
 
     //Effects to change the options as user types client name on search or edit box
@@ -104,16 +105,12 @@ export default function ChequeControl(props) {
         setFormValues({ ...formValues, cliente_cod: e.target.value })
         document.getElementById('searchBox').style.display = 'none';
         document.getElementById('cliente').value = e.target.innerHTML;
-
-
     }
 
     const handleEditClick = (e) => {
         setEditFormValues({ ...editFormValues, cliente_cod: e.target.value })
         document.getElementById('searchBoxEdit').style.display = 'none';
         document.getElementById('editCliente').value = e.target.innerHTML;
-
-
     }
 
     //Get all destinos and their IDs so destino options of select input can be populated
@@ -121,7 +118,11 @@ export default function ChequeControl(props) {
 
     async function getAllDestinos() {
         try {
-            const response = await fetch(`${baseURL}/destinos`)
+            const response = await fetch(`${baseURL}/destinos`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -139,7 +140,11 @@ export default function ChequeControl(props) {
 
     async function getGrupos() {
         try {
-            const response = await fetch(`${baseURL}/grupo`);
+            const response = await fetch(`${baseURL}/grupo`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -161,7 +166,7 @@ export default function ChequeControl(props) {
 
     //Submit check search and get results from db
     const handleSubmit = async (e) => {
-        e && e.preventDefault();
+        e?.preventDefault();
 
         const searchParams = new URLSearchParams({
             cliente_cod: formValues.cliente_cod ? formValues.cliente_cod : '',
@@ -172,14 +177,14 @@ export default function ChequeControl(props) {
             vencido: formValues.vencido ? formValues.vencido : '',
             pedido: formValues.pedido ? formValues.pedido : '',
             grupo: formValues.grupo ? formValues.grupo : '',
-            pedido: formValues.pedido ? formValues.pedido : '',
             número_cheque: formValues.número_cheque ? formValues.número_cheque : ''
         })
 
         const response = await fetch(`${baseURL}/${props.endPoint}?${searchParams.toString()}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
 
@@ -243,8 +248,6 @@ export default function ChequeControl(props) {
         editWindow.style.display = "none";
 
         deleteEditClass();
-
-
     }
 
     const transformDate = (data) => {
@@ -269,7 +272,8 @@ export default function ChequeControl(props) {
         const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
 
@@ -291,7 +295,8 @@ export default function ChequeControl(props) {
                 const response = await fetch(`${baseURL}/cheques`, {
                     method: "DELETE",
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         id: id
@@ -401,7 +406,7 @@ export default function ChequeControl(props) {
     useEffect(() => {
         if (chequeId !== undefined) {
             setSelectedObs(
-                chequesList && chequesList.find(cheque => cheque.id === Number(chequeId))?.obs || ""
+                chequesList?.find(cheque => cheque.id === Number(chequeId))?.obs || ""
             );
         }
     }, [chequeId, chequesList]);
@@ -422,7 +427,8 @@ export default function ChequeControl(props) {
         chequeId && fetch(`${baseURL}/cheques`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 id: chequeId,
@@ -447,7 +453,7 @@ export default function ChequeControl(props) {
                 }
             })
             .then(clearInputs('editInput'))
-            .then(deleteEditClass())
+            .then(deleteEditClass)
 
 
 
@@ -468,12 +474,8 @@ export default function ChequeControl(props) {
 
     const closeObs = () => {
         const module = document.getElementsByClassName('obsScreen')[0];
-
         toggleOverflow();
-
         module.style.display = "none";
-
-
     }
 
     const [obsDetails, setObsDetails] = useState({
@@ -491,11 +493,9 @@ export default function ChequeControl(props) {
                 obs: cheque.obs,
                 num: cheque.número_cheque
             })
-
         toggleOverflow();
         const module = document.getElementsByClassName('obsScreen')[0];
         module.style.display = "flex";
-
     }
 
     const handleEditObs = async (e) => {
@@ -505,7 +505,8 @@ export default function ChequeControl(props) {
             const response = await fetch(`${baseURL}/cheques/obs`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
@@ -532,7 +533,8 @@ export default function ChequeControl(props) {
             const response = await fetch(`${baseURL}/cheques/obs`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
@@ -551,7 +553,6 @@ export default function ChequeControl(props) {
     }
 
     const assignClassStyle = (cheque) => {
-
         if (cheque.vencido && !cheque.compensado && !cheque.linha && !cheque.destino) {
             return style.vencTrue;
         } else if (cheque.compensado) {
@@ -561,15 +562,12 @@ export default function ChequeControl(props) {
         } else if (!cheque.compensado && cheque.destino) {
             return style.withDestino;
         }
-
     }
 
 
 
     return (
         <>
-
-
             {/* FILTER SCREEN */}
             <fieldset className={style.filterField} style={{ display: `${props.display}` }}>
                 <legend id={style.mainLegend}>Opções de Filtros</legend>
@@ -580,9 +578,9 @@ export default function ChequeControl(props) {
                             <div className={style.inputCtr} >
                                 <h4>Destino</h4>
                                 <select name="destino_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
-                                    <option key="0"></option>
+                                    <option></option>
                                     {
-                                        destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                        destinoList?.map(destino => <option key={`destino-${destino.id}`} value={destino.id}>{destino.nome}</option>)
                                     }
                                 </select>
                             </div>
@@ -590,18 +588,15 @@ export default function ChequeControl(props) {
                             <div className={style.inputCtr} >
                                 <h4>Grupo</h4>
                                 <select name="grupo" onChange={handleInputChange} className={`${style.select} input`}>
-                                    <option key="0"></option>
+                                    <option></option>
                                     {
-                                        grupos && grupos.map(grupo => <option key={grupo.id} value={grupo.nome}>{grupo.nome}</option>)
+                                        grupos?.map(grupo => <option key={`grupo-${grupo.id}`} value={grupo.nome}>{grupo.nome}</option>)
                                     }
                                 </select>
 
                             </div>
 
                         </div>
-
-
-
 
 
                         <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
@@ -610,13 +605,11 @@ export default function ChequeControl(props) {
                             <div className={style.searchBox} id="searchBox">
                                 <select size={4} id={`${style.clienteSelect} input`} onChange={handleInputChange}>
                                     {
-                                        searchResult.map(client => <option onClick={handleClick} key={client.cod} value={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleClick} key={`cliente-${client.cod}`} value={client.cod}>{client.nome}</option>)
                                     }
                                 </select>
                             </div>
-
                         </div>
-
                     </div>
 
                     <div className={style.inputCtr}>
@@ -654,7 +647,6 @@ export default function ChequeControl(props) {
                                         <option value={null}></option>
                                         <option value={false}>Não</option>
                                         <option value={true}>Sim</option>
-
                                     </select>
                                 </div>
 
@@ -664,21 +656,16 @@ export default function ChequeControl(props) {
                                         <option value={null}></option>
                                         <option value={false}>Não</option>
                                         <option value={true}>Sim</option>
-
                                     </select>
                                 </div>
-
                             </fieldset>
                         </div>
-
                     </div>
-
 
                     <div className={style.buttonCtr}>
                         <button type="submit" className={style.button} id="buscaCheque" onClick={handleSubmit}>Buscar</button>
                         <button className={style.button} onClick={handleClear}>Limpar</button>
                     </div>
-
                 </form>
             </fieldset>
 
@@ -703,7 +690,7 @@ export default function ChequeControl(props) {
                             <div className={style.searchBox} id="searchBoxEdit">
                                 <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
                                     {
-                                        searchResult.map(client => <option onClick={handleEditClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleEditClick} key={`cod-cli-${client.cod}`} value={client.cod} codCli={client.cod}>{client.nome}</option>)
                                     }
                                 </select>
                             </div>
@@ -717,9 +704,9 @@ export default function ChequeControl(props) {
 
                             <h4>Destino</h4>
                             <select name="destino_id" onChange={handleEditInputChange} placeholder="Selecione Vendedor" className={`${style.select} editInput`} id="editDestino">
-                                <option key="0"></option>
+                                <option></option>
                                 {
-                                    destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                    destinoList?.map(destino => <option key={`destino-${destino.id}`} value={destino.id}>{destino.nome}</option>)
                                 }
                             </select>
                             <h4>Data Entrega:</h4>
@@ -739,7 +726,7 @@ export default function ChequeControl(props) {
                                     <select className={`${style.select} input`} name="linha" id="editLinha" onChange={handleEditInputChange}>
                                         <option></option>
                                         {
-                                            linhas.map(linha => <option value={linha} key={linha}>{linha}</option>)
+                                            linhas.map(linha => <option value={linha} key={`linha-${linha}`}>{linha}</option>)
                                         }
                                     </select>
                                 </div>
@@ -761,9 +748,6 @@ export default function ChequeControl(props) {
                     </form>
                 </section>
             </div>
-
-
-
 
 
             <table className="table">
@@ -821,8 +805,6 @@ export default function ChequeControl(props) {
                         <button type="submit" className={style.button} id="editObs" onClick={handleEditObs}>Salvar</button>
                         <button type="submit" className={style.button} id="deleteObs" onClick={handleClearObs}>Deletar</button>
                     </div>
-
-
                 </div>
             </div>
         </>
