@@ -29,21 +29,20 @@ export default function ChequeControlEstornados(props) {
         const { name, value } = e.target;
         setEditFormEstorno({ ...editFormEstorno, [name]: value });
     };
-    
+
 
     //Get name and id of all clients in db, so it can be searched by typing the a name
     const [estornoClientList, setEstornClienteList] = useState('');
 
-    async function getAllClients(){
-        try{
+    async function getAllClients() {
+        try {
             const response = await fetch(`${baseURL}/clientes/nomecod`);
 
-            if(response.ok){
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setEstornClienteList(jsonResponse);
             }
-
-        } catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -52,50 +51,45 @@ export default function ChequeControlEstornados(props) {
         getAllClients()
         getAllDestinos()
         getGrupos()
-    },[])
+    }, [])
 
     const [searchResult, setSearchResult] = useState([{}]);
 
     const findClient = (formValues, id, targetField) => {
-        if(estornoClientList){
+        if (estornoClientList) {
             const foundClientByName = estornoClientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
             setSearchResult(foundClientByName);
-            searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value ? 
-            document.getElementById(id).style.display = 'none' 
-            : document.getElementById(id).style.display = 'block'
-            
-        }
+            document.getElementById(id).style.display = searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value
+                ? 'none'
+                : 'block'
 
+        }
     }
 
     //Effects to change the options as user types client name on search or edit box
-
-
     useEffect(() => {
         findClient(editFormEstorno, "searchBoxEdit", 'clienteEdit')
-    },[editFormEstorno.cliente])
+    }, [editFormEstorno.cliente])
 
-    const handleEstornoEditEstornoClick = (e) =>{
-        setEditFormEstorno({...editFormEstorno, id: e.target.value})
+    const handleEstornoEditEstornoClick = (e) => {
+        setEditFormEstorno({ ...editFormEstorno, id: e.target.value })
         document.getElementById('searchBoxEdit').style.display = 'none';
         document.getElementById('editCliente').value = e.target.innerHTML;
-
- 
     }
 
     //Get all destinos and their IDs so destino options of select input can be populated
     const [destinoList, setDestinoList] = useState();
 
-    async function getAllDestinos(){
-        try{
+    async function getAllDestinos() {
+        try {
             const response = await fetch(`${baseURL}/destinos`)
 
-            if(response.ok){
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setDestinoList(jsonResponse);
             }
 
-        }catch(error){
+        } catch (error) {
             console.log(error);
 
         }
@@ -104,16 +98,14 @@ export default function ChequeControlEstornados(props) {
     // Get all grupos and their IDs so grupos options of select input can be populated
     const [grupos, setGrupos] = useState();
 
-    async function getGrupos(){
-        try{
+    async function getGrupos() {
+        try {
             const response = await fetch(`${baseURL}/grupo`);
-    
-            if(response.ok){
+            if (response.ok) {
                 let jsonResponse = await response.json();
                 setGrupos(jsonResponse);
             }
-    
-        } catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -123,34 +115,28 @@ export default function ChequeControlEstornados(props) {
     //State to search checks by filter
     const [estornoList, setEstornoList] = useState();
 
-
-
     //Submit check search and get results from db
     const handleSubmit = async (e) => {
-        e && e.preventDefault();
+        e?.preventDefault();
 
-        
         const response = await fetch(`${baseURL}/${props.endPoint}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
         })
-        
-        if(response.ok){
+
+        if (response.ok) {
             let jsonResponse = await response.json();
             setEstornoList(jsonResponse);
             clearInputs('input');
-                
-        }  else {
+        } else {
             console.error('Erro ao obter os cheques da API.');
         }
-
-     
     }
 
     useEffect(() => {
-        if(props.submitOnMount){
+        if (props.submitOnMount) {
             handleSubmit();
         }
     }, []);
@@ -165,11 +151,9 @@ export default function ChequeControlEstornados(props) {
         editWindow.style.display = "none";
 
         deleteEditClass();
-        
-        
     }
 
-    const transformDate = (data) =>{
+    const transformDate = (data) => {
         const date = new Date(data);
         return new Intl.DateTimeFormat('pt-BR').format(date);
     }
@@ -178,14 +162,12 @@ export default function ChequeControlEstornados(props) {
         return value?.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
     }
 
-    
 
-    const handleDelete = async (id) =>{
+    const handleDelete = async (id) => {
         const confirmation = confirm('Você realmente deseja apagar esse cheque?')
-
-        if(confirmation){
-            try{
-                const response = await fetch(`${baseURL}/cheques`,{
+        if (confirmation) {
+            try {
+                const response = await fetch(`${baseURL}/cheques`, {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json'
@@ -195,16 +177,13 @@ export default function ChequeControlEstornados(props) {
                     })
                 }
                 );
-    
-                if(response.ok){
+                if (response.ok) {
                     alert('Cheque removido com sucesso!')
                 }
-            } catch(error){
+            } catch (error) {
                 alert('Erro:' + error.message)
             }
-
         }
-        
     }
 
 
@@ -213,11 +192,11 @@ export default function ChequeControlEstornados(props) {
         return `${parts[2]}-${parts[1]}-${parts[0]}`
     }
 
-    const [estornoId, setEstornoId] = useState(); 
+    const [estornoId, setEstornoId] = useState();
 
     const deleteEditClass = () => {
         const allTds = document.querySelectorAll('td, img');
-        for(let td of allTds) {
+        for (let td of allTds) {
             td.classList.remove(`${style.editTrue}`);
         }
     }
@@ -232,12 +211,12 @@ export default function ChequeControlEstornados(props) {
         deleteEditClass();
 
         const selectRow = document.getElementsByName(e.target.name);
-        for(let cell of selectRow) {
+        for (let cell of selectRow) {
             cell.classList.add(`${style.editTrue}`);
         }
 
         const codCli = document.getElementById(`codCli${id}`).innerHTML;
-    
+
         const cliente = document.getElementById(`client${id}`).innerHTML;
         const numCheque = document.getElementById(`numCheque${id}`).innerHTML;
 
@@ -255,7 +234,7 @@ export default function ChequeControlEstornados(props) {
         const data_vencInput = document.getElementById('editDataVenc');
         const linhaInput = document.getElementById('editLinha');
         const dataCompInput = document.getElementById('data_compen')
-        
+
         const destinoInput = document.getElementById('editDestino');
         const destinoName = document.getElementById(`destino${id}`).innerHTML;
         const options = destinoInput.options;
@@ -272,15 +251,15 @@ export default function ChequeControlEstornados(props) {
         valorInput.value = valor;
         data_vencInput.value = data_venc;
         linhaInput.value = linha;
-        
+
         const dataCompDate = estornoList.find(cheque => cheque.id === Number(id)).data_compen;
         const dataCompString = dataCompDate && transformDate(dataCompDate);
-        const dataComp = dataCompString ? rearrangeDate(dataCompString): null;
+        const dataComp = dataCompString ? rearrangeDate(dataCompString) : null;
         dataCompInput.value = dataComp;
 
         setEditFormEstorno({
-            ...editFormEstorno, 
-            id:id,
+            ...editFormEstorno,
+            id: id,
             cliente_cod: codCli,
             número_cheque: numCheque,
             valor: valor,
@@ -288,7 +267,6 @@ export default function ChequeControlEstornados(props) {
             linha: linha,
             data_compen: dataComp,
             destino_id: destinoInput.value,
-            
         })
     }
 
@@ -296,11 +274,11 @@ export default function ChequeControlEstornados(props) {
     const [textareaValue, setTextareaValue] = useState("");
 
     useEffect(() => {
-    if (estornoId !== undefined) {
-        setSelectedObs(
-        estornoList && estornoList.find(cheque => cheque.id === Number(estornoId))?.obs || ""
-        );
-    }
+        if (estornoId !== undefined) {
+            setSelectedObs(
+                estornoList?.find(cheque => cheque.id === Number(estornoId))?.obs || ""
+            );
+        }
     }, [estornoId, estornoList]);
 
     useEffect(() => {
@@ -309,14 +287,14 @@ export default function ChequeControlEstornados(props) {
 
     const handleTextareaChange = (e) => {
         setTextareaValue(e.target.value);
-};
+    };
 
 
     const handleEstornoEditSubmit = async (e) => {
         e.preventDefault();
         const obs = document.getElementById('editObsTextarea').value;
 
-        estornoId && fetch(`${baseURL}/cheques`,{
+        estornoId && fetch(`${baseURL}/cheques`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -331,52 +309,47 @@ export default function ChequeControlEstornados(props) {
                 vencido: isVencido(editFormEstorno, 4),
                 linha: editFormEstorno.linha,
                 destino: editFormEstorno.destino_id,
-                obs : obs,
-                data_compen : editFormEstorno.data_compen
+                obs: obs,
+                data_compen: editFormEstorno.data_compen
             })
         })
-        .then(response => {
-            if(response.ok){
-                alert(`Cheque ${editFormEstorno.número_cheque} editado com sucesso!`)
-                if(props.endPoint === 'cheques'){
-                    refreshSearch();
-                } else{
-                    handleSubmit();
+            .then(response => {
+                if (response.ok) {
+                    alert(`Cheque ${editFormEstorno.número_cheque} editado com sucesso!`)
+                    if (props.endPoint === 'cheques') {
+                        refreshSearch();
+                    } else {
+                        handleSubmit();
+                    }
+
+
+                } else {
+                    alert(`Erro ao editar, tente novamente`)
                 }
-                
-                
-            } else{
-                alert(`Erro ao editar, tente novamente`)
-            }
-        })
-        .then(clearInputs('editInput'))
-        .then(deleteEditClass())
+            })
+            .then(clearInputs('editInput'))
+            .then(deleteEditClass)
 
 
 
-        
+
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
 
         const editRow = document.getElementById(`row${estornoId}`);
-        if(editRow){
+        if (editRow) {
             editRow.style.backgroundColor = "white"
         }
-        
     }
 
     const toggleOverflow = () => {
         document.body.style.overflow = document.body.style.overflow === 'hidden' ? 'auto' : 'hidden';
     };
 
-    const closeObs = () =>{
+    const closeObs = () => {
         const module = document.getElementsByClassName('obsScreen')[0];
-
         toggleOverflow();
-
         module.style.display = "none";
-
-        
     }
 
     const [obsDetails, setObsDetails] = useState({
@@ -388,12 +361,12 @@ export default function ChequeControlEstornados(props) {
 
     const handleOpenObs = (cheque) => {
         cheque &&
-        setObsDetails({
-            id: cheque.id,
-            cliente: cheque.cliente,
-            obs: cheque.obs,
-            num: cheque.número_cheque
-        })
+            setObsDetails({
+                id: cheque.id,
+                cliente: cheque.cliente,
+                obs: cheque.obs,
+                num: cheque.número_cheque
+            })
 
         toggleOverflow();
         const module = document.getElementsByClassName('obsScreen')[0];
@@ -401,10 +374,10 @@ export default function ChequeControlEstornados(props) {
 
     }
 
-    const handleEstornoEditObs = async (e) =>{
+    const handleEstornoEditObs = async (e) => {
         e.preventDefault();
 
-        try{
+        try {
             const response = await fetch(`${baseURL}/cheques/obs`, {
                 method: 'PUT',
                 headers: {
@@ -416,122 +389,110 @@ export default function ChequeControlEstornados(props) {
                 })
             })
 
-            if(response.ok){
+            if (response.ok) {
                 alert('Observação atualizada com sucesso!')
                 closeObs();
                 refreshSearch();
-                
             }
-
-        }catch(error){
+        } catch (error) {
             alert('Erro' + error.message);
         }
     }
 
-    const handleClearObs = async (e) =>{
+    const handleClearObs = async (e) => {
         e.preventDefault();
-
-        try{
+        try {
             const response = await fetch(`${baseURL}/cheques/obs`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type' : 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
                     obs: null
                 })
             })
-
-            if(response.ok){
+            if (response.ok) {
                 alert('Observação deletada com sucesso!');
                 closeObs();
-
             }
-        } catch(error) {
+        } catch (error) {
             alert('Erro' + error.message);
         }
     }
-    
-    const assignClassStyle = (cheque) =>{
-    
+
+    const assignClassStyle = (cheque) => {
         if (cheque.vencido && !cheque.compensado && !cheque.linha && !cheque.destino) {
             return style.vencTrue;
         } else if (cheque.compensado) {
             return style.chequeOK;
         } else if (cheque.linha) {
             return style.semFundo;
-        } else if(!cheque.compensado && cheque.destino){
+        } else if (!cheque.compensado && cheque.destino) {
             return style.withDestino;
         }
-            
     }
 
-    
 
-    return(
+    return (
         <>
-
-
-            
-
             {/* EDIT SCREEN */}
             <HeaderLine name={props.headerLine} />
             <div id="editWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
                     <div className={style.popupHeader}>
                         <h2>Edição de Cheque</h2>
-                        <img src="/images/x-icon.svg" onClick={handleCloseEdit}/>
+                        <img src="/images/x-icon.svg" onClick={handleCloseEdit} />
                     </div>
-                    
+
                     <form className={style.formCtr} id={style.editForm}>
 
                         <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
 
                             <h4>No. Cheque</h4>
-                            <input type="text" onChange={handleEstornoEditInputChange} name="número_cheque" className="editInput" id="editNumCheque"/>
+                            <input type="text" onChange={handleEstornoEditInputChange} name="número_cheque" className="editInput" id="editNumCheque" />
 
                             <h4>Cliente:</h4>
-                            <input type="text" name="cliente" onChange={handleEstornoEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput"/>
+                            <input type="text" name="cliente" onChange={handleEstornoEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput" />
                             <div className={style.searchBox} id="searchBoxEdit">
                                 <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEstornoEditInputChange}>
                                     {
-                                    searchResult.map(client => <option onClick={handleEstornoEditEstornoClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleEstornoEditEstornoClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
                                     }
                                 </select>
                             </div>
 
                             <h4>Valor</h4>
-                            <input type="number" onChange={handleEstornoEditInputChange} name="valor" className="editInput" id="editValor"/>
+                            <input type="number" onChange={handleEstornoEditInputChange} name="valor" className="editInput" id="editValor" />
 
                         </div>
-                        
+
                         <div className={style.inputCtr}>
-                            
+
 
                             <h4>Vencimento</h4>
-                            <input type="date" onChange={handleEstornoEditInputChange} name="data_venc" className="editInput" id="editDataVenc"/>
+                            <input type="date" onChange={handleEstornoEditInputChange} name="data_venc" className="editInput" id="editDataVenc" />
 
                             <h4>Destino</h4>
                             <select name="destino_id" onChange={handleEstornoEditInputChange} placeholder="Selecione Vendedor" className={`${style.select} editInput`} id="editDestino">
                                 <option key="0"></option>
                                 {
-                                    destinoList && destinoList.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                    destinoList?.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
                                 }
                             </select>
 
                             <h4>Data Entrega:</h4>
-                            <input type="date" name="data_destino" onChange={handleEstornoEditInputChange} className="input"/>
-                            
+                            <input type="date" name="data_destino" onChange={handleEstornoEditInputChange} className="input" />
+
 
                         </div>
-                        
-                            <div className={style.statusCtr}>
-                                <fieldset className={style.formCtr}>
+
+                        <div className={style.statusCtr}>
+                            <fieldset className={style.formCtr}>
                                 <legend>Status</legend>
                                 <div className={style.inputCtr} >
                                     <h4>Compensação:</h4>
-                                    <input type="date" name="data_compen" onChange={handleEstornoEditInputChange} id="data_compen" className="input"/>
+                                    <input type="date" name="data_compen" onChange={handleEstornoEditInputChange} id="data_compen" className="input" />
                                 </div>
 
                                 <div className={style.inputCtr} >
@@ -544,28 +505,24 @@ export default function ChequeControlEstornados(props) {
                                     </select>
                                 </div>
 
-                        </fieldset>
+                            </fieldset>
 
                             <div className={style.inputCtr} id={style.editObs}>
                                 <h4>Observação:</h4>
                                 <textarea id="editObsTextarea" value={textareaValue} onChange={handleTextareaChange}></textarea>
                             </div>
                         </div>
-                            
+
 
 
                         <div className={style.buttonCtr}>
-                                <button type="submit" className={style.button} id="editaCheque" onClick={handleEstornoEditSubmit}>Salvar</button>
+                            <button type="submit" className={style.button} id="editaCheque" onClick={handleEstornoEditSubmit}>Salvar</button>
                         </div>
-                        
+
                     </form>
                 </section>
             </div>
-            
 
-
-
-            
             <table className="table">
                 <thead>
                     <tr>
@@ -586,44 +543,41 @@ export default function ChequeControlEstornados(props) {
                     </tr>
                 </thead>
                 <tbody>
-                {estornoList && estornoList.map((cheque) => (
-                    <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
-                        <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
-                        <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
-                        <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
-                        <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
-                        <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
-                        <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
-                        <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
-                        <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
-                        <td name={cheque.id} id={`compensado${cheque.id}` } className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
-                        <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
-                        <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
-                        <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)}/>}</td>
-                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEstornoEdit}/></td>
-                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)}/></td>
-                    
-                    </tr>
-                    
-                ))}
+                    {
+                    estornoList?.map((cheque) => (
+                        <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
+                            <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
+                            <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
+                            <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
+                            <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
+                            <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
+                            <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
+                            <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
+                            <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
+                            <td name={cheque.id} id={`compensado${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
+                            <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
+                            <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
+                            <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)} />}</td>
+                            <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEstornoEdit} /></td>
+                            <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)} /></td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             <div id={style.obsBackground} className="obsScreen">
                 <div id={style.obsCtr}>
                     <div className={style.popupHeader}>
                         <h4>{`Observação do Cheque ${obsDetails.num} do cliente ${obsDetails.cliente}`}</h4>
-                        <img src="/images/x-icon.svg" onClick={closeObs}/>
+                        <img src="/images/x-icon.svg" onClick={closeObs} />
                     </div>
                     <div className={style.obsContent}>
-                        <textarea value={obsDetails.obs} onChange={(e) => setObsDetails({...obsDetails, obs: e.target.value})}></textarea>
+                        <textarea value={obsDetails.obs} onChange={(e) => setObsDetails({ ...obsDetails, obs: e.target.value })}></textarea>
                     </div>
 
                     <div className={style.obsButtonCtr}>
                         <button type="submit" className={style.button} id="editObs" onClick={handleEstornoEditObs}>Salvar</button>
                         <button type="submit" className={style.button} id="deleteObs" onClick={handleClearObs}>Deletar</button>
                     </div>
-                    
-                    
                 </div>
             </div>
         </>

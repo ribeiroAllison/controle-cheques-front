@@ -6,6 +6,7 @@ import HeaderLine from "@/components/HeaderLine"
 
 
 export default function ChequeControl(props) {
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
 
     //Search by filter inputs
     const [formValues, setFormValues] = useState(
@@ -57,7 +58,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/clientes/nomecod`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    authorization: `Bearer ${token}`,
                 },
             });
 
@@ -83,9 +84,9 @@ export default function ChequeControl(props) {
         if (clientList) {
             const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
             setSearchResult(foundClientByName);
-            searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value ?
-                document.getElementById(id).style.display = 'none'
-                : document.getElementById(id).style.display = 'block'
+            document.getElementById(id).style.display = searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value
+                ? 'none'
+                : 'block'
         }
     }
 
@@ -118,7 +119,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/destinos`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    authorization: `Bearer ${token}`,
                 },
             })
 
@@ -140,7 +141,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/grupo`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    authorization: `Bearer ${token}`,
                 },
             });
 
@@ -180,7 +181,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'authorization': `Bearer ${token}`
             },
         })
 
@@ -268,7 +269,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'authorization': `Bearer ${token}`
             },
         })
 
@@ -291,7 +292,7 @@ export default function ChequeControl(props) {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         id: id
@@ -420,7 +421,7 @@ export default function ChequeControl(props) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 id: chequeId,
@@ -498,7 +499,7 @@ export default function ChequeControl(props) {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
@@ -526,7 +527,7 @@ export default function ChequeControl(props) {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
