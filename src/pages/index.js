@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Header from '@/components/Header';
 import ChequeControl from '@/components/ChequeControl';
+import ChequeControlEstornados from '@/components/ChequeControlEstornados';
 
 
 export default function Home() {
@@ -22,20 +23,31 @@ export default function Home() {
         display="none"
         endPoint="cheques/sem-destino"
         submitOnMount="true"
+        type="destino"
       />
 
-      <ChequeControl 
+      {/* <ChequeControl 
         headerLine="Estornados"
         display="none"
         endPoint="cheques/linha"
         submitOnMount="true"
-      />
-      
+        type="estorno"
+      /> */}
+
+    <ChequeControlEstornados 
+    headerLine="Estornados"
+    display="none"
+    endPoint="cheques/linha"
+    submitOnMount="true"
+    type="estorno"
+    />
+    
       <ChequeControl 
         headerLine="Próximos Vencimentos"
         display="none"
         endPoint="cheques/a-vencer"
         submitOnMount="true"
+        type="next"
       />
     </>
   )
