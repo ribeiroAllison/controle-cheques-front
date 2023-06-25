@@ -29,6 +29,7 @@ export default function HeaderLogin() {
                     </div>
                     <div className={style.menuOption}>
                         <div className={style.menuOption}>
+                        <h2>Fale Conosco</h2>
                             <UserCircle
                                 size={48}
                                 color="#A8E4A0"

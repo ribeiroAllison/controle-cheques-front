@@ -15,7 +15,8 @@ import HeaderLogin from '@/components/HeaderLogin';
 export default function Cadastro() {
   const router = useRouter();
 
-  const notify = () => toast.success("Cadastrado com sucesso!");
+  const notifySuccess = () => toast.success("Cadastrado com sucesso!");
+  const notifyFailure = () => toast.error("Erro ao cadastrar usuário!");
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -38,38 +39,50 @@ export default function Cadastro() {
     setContraSenha(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    let checkCadastro = false;
 
+    if (senha !== contraSenha) {
+      alert('Senhas devem ser iguais!');
+      return;
+    }
 
-    if (senha === contraSenha) {
-      const user = {
-        nome: nome,
-        email: email,
-        senha: senha
+    const user = {
+      nome: nome,
+      email: email,
+      senha: senha
+    };
+
+    try {
+      let data = await User.registerUser(user);
+      console.log(data);
+      if (data) {
+        checkCadastro = true;
       }
-      User.registerUser(user);
-      notify();
+    } catch (error) {
+      console.error('Erro ao cadastrar usuário:', error);
+    }
 
+    if (checkCadastro) {
+      notifySuccess();
       setNome('');
       setEmail('');
       setSenha('');
       setContraSenha('');
-      
-      setTimeout(() => { router.push('/home/login') }, 4200);
 
+      setTimeout(() => { router.push('/home/login') }, 2200);
     } else {
-      alert('Senhas devem ser iguais!');
-      throw new Error('Falha ao cadastrar usuário.')
+      notifyFailure();
     }
-  }
+  };
 
 
   return (
     <>
       <ToastContainer
         position="top-left"
-        autoClose={4000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -80,6 +93,7 @@ export default function Cadastro() {
         theme="light"
       />
       
+
       <HeaderLogin />
       <LoginCard title="Crie sua conta">
         <form className={styles.formCadastro} onSubmit={handleSubmit}>

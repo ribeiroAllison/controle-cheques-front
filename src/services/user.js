@@ -8,7 +8,8 @@ export default class User {
             const userExists = users.some((u) => u.email === user.email);
 
             if (userExists) {
-                throw new Error('Email já está em uso.');
+                alert('Email já está em uso.');
+                return;
             }
 
             const responseRegister = await fetch(`${baseURL}/usuarios/register`, {
@@ -27,11 +28,11 @@ export default class User {
                 const jsonResponse = await responseRegister.json();
                 return jsonResponse;
             } else {
-                throw new Error('Falha ao registrar usuário.');
+                alert('Falha ao registrar usuário.');
+                return;
             }
         } catch (error) {
             console.error(error);
-            throw error;
         }
     }
 
@@ -52,7 +53,8 @@ export default class User {
                 const jsonResponse = await responseLogin.json();
                 return jsonResponse;
             } else {
-                throw new Error('Falha ao logar usuário.');
+                alert('Falha ao logar usuário.');
+                return;
             }
         } catch (error) {
             console.error(error);

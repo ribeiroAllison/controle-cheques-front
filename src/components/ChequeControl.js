@@ -156,8 +156,6 @@ export default function ChequeControl(props) {
         }
     }
 
-
-
     //State to search checks by filter
     const [chequesList, setChequeslist] = useState();
 

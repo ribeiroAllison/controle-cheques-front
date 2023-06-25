@@ -6,21 +6,16 @@ export default function ClientSearchBox(props) {
     const [searchResult, setSearchResult] = useState([{}]);
 
     const findClient = () => {
-
-
         if (props.clientList) {
             const foundClientByName = props.clientList.filter(client =>
                 client.cliente.toLowerCase()
                     .includes(props.formValues.cliente?.toLowerCase()));
-
             setSearchResult(foundClientByName);
 
-            searchResult.length === 0 || !document.getElementById('cliente').value ?
-                document.getElementById('searchBox').style.display = 'none'
-                : document.getElementById('searchBox').style.display = 'block'
-
+            document.getElementById('searchBox').style.display = searchResult.length === 0 || !document.getElementById('cliente').value
+                ? 'none'
+                : 'block'
         }
-
     }
 
     useEffect(() => {
