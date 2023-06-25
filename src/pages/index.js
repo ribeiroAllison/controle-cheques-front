@@ -19,36 +19,11 @@ export default function Home() {
       <Header />
 
       <ChequeControl 
-        headerLine="Sem Destino"
-        display="none"
-        endPoint="cheques/sem-destino"
-        submitOnMount="true"
-        type="destino"
-      />
-
-      {/* <ChequeControl 
         headerLine="Estornados"
         display="none"
-        endPoint="cheques/linha"
-        submitOnMount="true"
-        type="estorno"
-      /> */}
-
-    <ChequeControlEstornados 
-    headerLine="Estornados"
-    display="none"
-    endPoint="cheques/linha"
-    submitOnMount="true"
-    type="estorno"
-    />
-    
-      <ChequeControl 
-        headerLine="Próximos Vencimentos"
-        display="none"
-        endPoint="cheques/a-vencer"
-        submitOnMount="true"
-        type="next"
+        submitOnMount={true}
       />
+
     </>
   )
 }
