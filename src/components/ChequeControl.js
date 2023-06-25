@@ -6,7 +6,6 @@ import HeaderLine from "@/components/HeaderLine"
 
 
 export default function ChequeControl(props) {
-    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : ""
 
     //Search by filter inputs
     const [formValues, setFormValues] = useState(
@@ -50,7 +49,6 @@ export default function ChequeControl(props) {
         const { name, value } = e.target;
         setEditFormValues({ ...editFormValues, [name]: value });
     };
-
 
     //Get name and id of all clients in db, so it can be searched by typing the a name
     const [clientList, setClientList] = useState('');
@@ -204,7 +202,6 @@ export default function ChequeControl(props) {
             destino_id: formValues.destino_id,
             vencido: formValues.vencido
         }
-
         )
 
         setFormValues({
@@ -344,7 +341,6 @@ export default function ChequeControl(props) {
         }
 
         const codCli = document.getElementById(`codCli${id}`).innerHTML;
-
         const cliente = document.getElementById(`client${id}`).innerHTML;
         const numCheque = document.getElementById(`numCheque${id}`).innerHTML;
 
@@ -362,7 +358,6 @@ export default function ChequeControl(props) {
         const data_vencInput = document.getElementById('editDataVenc');
         const linhaInput = document.getElementById('editLinha');
         const dataCompInput = document.getElementById('data_compen')
-
         const destinoInput = document.getElementById('editDestino');
         const destinoName = document.getElementById(`destino${id}`).innerHTML;
         const options = destinoInput.options;
@@ -394,7 +389,6 @@ export default function ChequeControl(props) {
             linha: linha,
             data_compen: dataComp,
             destino_id: destinoInput.value,
-
         })
     }
 
