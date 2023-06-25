@@ -5,9 +5,6 @@ import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 import { linhas, clearInputs, isVencidoVar, isCompensadoVar } from "@/utils/utils"
 
-
-
-
 export default function CadastroCheques() {
 
     const [formValues, setFormValues] = useState(
@@ -334,8 +331,8 @@ export default function CadastroCheques() {
                         type="text" 
                         name="tipo" 
                         onChange={handleInputChange} 
-                        defaultValue="Cheque" c
-                        lassName="input"
+                        defaultValue="Cheque" 
+                        className="input"
                     />
                 </div>
 
