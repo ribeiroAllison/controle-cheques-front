@@ -17,22 +17,7 @@ export default function Dashboard() {
             <ChequeControl
                 headerLine="Estornados"
                 display="none"
-                endPoint="cheques/linha"
-                submitOnMount="true"
-            />
-
-            <ChequeControl
-                headerLine="Sem Destino"
-                display="none"
-                endPoint="cheques/sem-destino"
-                submitOnMount="true"
-            />
-
-            <ChequeControl
-                headerLine="Próximos Vencimentos"
-                display="none"
-                endPoint="cheques/a-vencer"
-                submitOnMount="true"
+                submitOnMount={true}
             />
         </>
     )
