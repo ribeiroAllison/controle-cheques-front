@@ -29,16 +29,11 @@ export default function HeaderLogin() {
                     </div>
                     <div className={style.menuOption}>
                         <div className={style.menuOption}>
-                        <h2>Fale Conosco</h2>
                             <UserCircle
                                 size={48}
                                 color="#A8E4A0"
                                 weight="regular"
                             />
-                        </div>
-                        <div className={style.option}>
-                            <h3><Link href="">Login</Link></h3>
-                            <h3><Link href="">Cadastro</Link></h3>
                         </div>
                     </div>
                 </nav>

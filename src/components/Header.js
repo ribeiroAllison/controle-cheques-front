@@ -14,6 +14,14 @@ export default function Header() {
 
                 <nav className={style.navBar}>
                     <div className={style.menuOptions}>
+                    <div className={style.menuOption}>
+                            <h2>Home</h2>
+                            <div className={style.option}>
+                                <h3><Link href="/home/dashboard">Dashboard</Link></h3>
+                                <h3><Link href="">Meu Perfil</Link></h3>
+                            </div>
+                        </div>
+
                         <div className={style.menuOption}>
                             <h2>Cadastro</h2>
                             <div className={style.option}>
@@ -47,10 +55,6 @@ export default function Header() {
                             color="#A8E4A0"
                             weight="regular"
                         />
-                        <div className={style.option}>
-                            <h3><Link href="">Minha Conta</Link></h3>
-                            <h3><Link href="">Sair</Link></h3>
-                        </div>
                     </div>
 
                 </nav>
