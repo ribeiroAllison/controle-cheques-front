@@ -37,7 +37,7 @@ export default function Login() {
     }
 
     User.loginUser(user).then((data) => {
-      localStorage.setItem('token', data.response.token);
+      localStorage.setItem('token', data?.response.token);
     })
 
     notify();

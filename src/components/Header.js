@@ -9,7 +9,7 @@ export default function Header() {
             <header className={style.header}>
 
                 <div className={style.imgCtr}>
-                    <Link href="/"><img className={style.img} src="/images/LISKO-TECH.png" /></Link>
+                    <Link href="/home/dashboard"><img className={style.img} src="/images/LISKO-TECH.png" /></Link>
                 </div>
 
                 <nav className={style.navBar}>

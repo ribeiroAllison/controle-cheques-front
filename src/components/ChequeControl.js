@@ -492,10 +492,10 @@ export default function ChequeControl(props) {
     useEffect(() => {
         if (chequeId !== undefined) {
             setSelectedObs(
-                chequesList?.find(cheque => cheque.id === Number(chequeId))?.obs || ""
+                allCheques?.find(cheque => cheque.id === Number(chequeId))?.obs || ""
             );
         }
-    }, [chequeId, chequesList]);
+    }, [chequeId, allCheques]);
 
     useEffect(() => {
         setTextareaValue(selectedObs);
@@ -603,7 +603,12 @@ export default function ChequeControl(props) {
             if (response.ok) {
                 alert('Observação atualizada com sucesso!')
                 closeObs();
-                refreshSearch();
+                if(!props.submitOnMount){
+                    refreshSearch();
+                } else{
+                    refreshTables();
+                }
+                
             }
         } catch (error) {
             alert('Erro' + error.message);
@@ -629,7 +634,12 @@ export default function ChequeControl(props) {
             if (response.ok) {
                 alert('Observação deletada com sucesso!');
                 closeObs();
-                refreshSearch();
+                if(props.submitOnMount){
+                    refreshTables();
+                } else{
+                    refreshSearch();
+                }
+                
             }
         } catch (error) {
             alert('Erro' + error.message);
