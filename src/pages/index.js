@@ -1,7 +1,6 @@
-import Button from '@/components/Button';
-import HeaderLogin from '@/components/HeaderLogin';
-import Link from 'next/link';
-import styles from '../styles/IndexLayout.module.css';
+import Head from 'next/head'
+import Header from '@/components/Header';
+import ChequeControl from '@/components/ChequeControl';
 
 export default function Home() {
   return (
