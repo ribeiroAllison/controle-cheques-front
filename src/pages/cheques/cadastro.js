@@ -7,6 +7,8 @@ import { linhas, clearInputs, isVencidoVar, isCompensadoVar } from "@/utils/util
 
 export default function CadastroCheques() {
 
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
+
     const [formValues, setFormValues] = useState(
         {
             num: "",
@@ -48,7 +50,11 @@ export default function CadastroCheques() {
 
     async function getAllClients() {
         try {
-            const response = await fetch(`${baseURL}/clientes`);
+            const response = await fetch(`${baseURL}/clientes`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -78,11 +84,14 @@ export default function CadastroCheques() {
 
     async function getAllVendedores() {
         try {
-            const response = await fetch(`${baseURL}/vendedores`)
+            const response = await fetch(`${baseURL}/vendedores`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             if (response.ok) {
                 let jsonResponse = await response.json();
                 setVendedorList(jsonResponse);
-                console.log(jsonResponse)
             }
         } catch (error) {
             console.log(error);
@@ -94,7 +103,11 @@ export default function CadastroCheques() {
 
     async function getAllDestinos() {
         try {
-            const response = await fetch(`${baseURL}/destinos`)
+            const response = await fetch(`${baseURL}/destinos`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -121,7 +134,8 @@ export default function CadastroCheques() {
             fetch(`${baseURL}/cheques`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     num: formValues[`num${i}`],

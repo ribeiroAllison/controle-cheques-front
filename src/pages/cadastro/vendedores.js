@@ -9,6 +9,8 @@ import { useState, useEffect } from "react"
 
 export default function Vendedores() {
 
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
+
     const [formValues, setFormValues] = useState({ nome: "" });
 
     const handleInputChange = (e) => {
@@ -28,7 +30,11 @@ export default function Vendedores() {
 
     async function getAllVendedores() {
         try {
-            const response = await fetch(`${baseURL}/vendedores`);
+            const response = await fetch(`${baseURL}/vendedores`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -54,7 +60,8 @@ export default function Vendedores() {
         formValues.nome && fetch(`${baseURL}/vendedores`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
 
@@ -86,7 +93,8 @@ export default function Vendedores() {
             fetch(`${baseURL}/vendedores`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: id
@@ -146,7 +154,8 @@ export default function Vendedores() {
         nome && fetch(`${baseURL}/vendedores`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 id: id,

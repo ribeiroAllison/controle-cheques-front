@@ -9,6 +9,8 @@ import { useState, useEffect } from "react"
 
 export default function Destinos() {
 
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
+
     const [formValues, setFormValues] = useState({ nome: "" });
 
     const handleInputChange = (e) => {
@@ -28,7 +30,11 @@ export default function Destinos() {
 
     async function getAllDestinos() {
         try {
-            const response = await fetch(`${baseURL}/destinos`);
+            const response = await fetch(`${baseURL}/destinos`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             if (response.ok) {
                 let jsonResponse = await response.json();
                 setDestinos(jsonResponse);
@@ -52,7 +58,8 @@ export default function Destinos() {
         formValues.nome && fetch(`${baseURL}/destinos`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 nome: formValues.nome,
@@ -79,7 +86,8 @@ export default function Destinos() {
             fetch(`${baseURL}/destinos`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: id
@@ -134,7 +142,8 @@ export default function Destinos() {
         nome && fetch(`${baseURL}/destinos`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 id: id,

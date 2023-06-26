@@ -9,6 +9,9 @@ import { useState, useEffect } from "react"
 
 export default function Grupos() {
 
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
+
+
     const [formValues, setFormValues] = useState({ nome: "" });
 
     const handleInputChange = (e) => {
@@ -28,7 +31,11 @@ export default function Grupos() {
 
     async function getAllGrupos() {
         try {
-            const response = await fetch(`${baseURL}/grupos`);
+            const response = await fetch(`${baseURL}/grupos`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             if (response.ok) {
                 let jsonResponse = await response.json();
@@ -54,7 +61,8 @@ export default function Grupos() {
         formValues.nome && fetch(`${baseURL}/grupos`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
 
@@ -85,7 +93,8 @@ export default function Grupos() {
             fetch(`${baseURL}/grupos`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: id
@@ -149,7 +158,8 @@ export default function Grupos() {
         nome && fetch(`${baseURL}/grupos`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 id: id,

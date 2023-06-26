@@ -54,7 +54,6 @@ export default class User {
                 return jsonResponse;
             } else {
                 alert('Falha ao logar usuário.');
-                return;
             }
         } catch (error) {
             console.error(error);

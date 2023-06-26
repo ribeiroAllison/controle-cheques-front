@@ -8,6 +8,8 @@ import { useState, useEffect } from "react"
 
 export default function Clientes() {
 
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : ""
+
     const [formValues, setFormValues] = useState(
         {
             codigo: "",
@@ -51,7 +53,11 @@ export default function Clientes() {
 
     const getAllSerialId = async () => {
         try {
-            const response = await fetch(`${baseURL}/clientes_id`);
+            const response = await fetch(`${baseURL}/clientes_id`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             if (response.ok) {
                 const jsonResponse = await response.json();
@@ -100,7 +106,8 @@ export default function Clientes() {
         fetch(`${baseURL}/clientes`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 cod: formValues.codigo || `IT${lastClientId}`,
@@ -120,7 +127,8 @@ export default function Clientes() {
                 fetch(`${baseURL}/clientes_id`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         id: lastClientId + 1
@@ -216,7 +224,8 @@ export default function Clientes() {
         cod && fetch(`${baseURL}/clientes`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 cod: cod,
@@ -254,20 +263,20 @@ export default function Clientes() {
 
     async function getAllClients() {
         try {
-            const response = await fetch(`${baseURL}/clientes`);
-
+            const response = await fetch(`${baseURL}/clientes`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             if (response.ok) {
                 let jsonResponse = await response.json();
                 setClientList(jsonResponse);
                 setFilteredList(jsonResponse);
             }
-
         } catch (error) {
             console.log(error);
         }
     }
-
-
 
 
     //DELETE FUNCTION
@@ -280,8 +289,9 @@ export default function Clientes() {
             fetch(`${baseURL}/clientes`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
-                },
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                    },
                 body: JSON.stringify({
                     cod: cod
                 })
@@ -300,7 +310,11 @@ export default function Clientes() {
 
     async function getGrupos() {
         try {
-            const response = await fetch(`${baseURL}/grupo`);
+            const response = await fetch(`${baseURL}/grupo`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             if (response.ok) {
                 let jsonResponse = await response.json();

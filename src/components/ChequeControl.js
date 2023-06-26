@@ -60,7 +60,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/clientes/nomecod`, {
                 headers: {
-                    'authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -80,7 +80,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/cheques/all`, {
                 headers: {
-                    'authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -142,7 +142,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/destinos`, {
                 headers: {
-                    'authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             })
 
@@ -162,7 +162,7 @@ export default function ChequeControl(props) {
         try {
             const response = await fetch(`${baseURL}/grupo`, {
                 headers: {
-                    'authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -203,7 +203,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
         })
 
@@ -249,7 +249,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
         })
 
@@ -259,8 +259,6 @@ export default function ChequeControl(props) {
         } else {
             console.error('Erro ao obter os cheques da API.');
         }
-
-
     }
 
     const [semDestino, setSemDestino] = useState();
@@ -272,7 +270,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
         })
 
@@ -282,8 +280,6 @@ export default function ChequeControl(props) {
         } else {
             console.error('Erro ao obter os cheques da API.');
         }
-
-
     }
 
     const [aVencer, setAVencer] = useState();
@@ -295,7 +291,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
         })
 
@@ -305,8 +301,6 @@ export default function ChequeControl(props) {
         } else {
             console.error('Erro ao obter os cheques da API.');
         }
-
-
     }
 
     const refreshTables = () => {
@@ -366,7 +360,7 @@ export default function ChequeControl(props) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
         })
         if (response.ok) {
@@ -386,7 +380,7 @@ export default function ChequeControl(props) {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',
-                        'authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         id: id
@@ -514,7 +508,7 @@ export default function ChequeControl(props) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 id: chequeId,
@@ -593,7 +587,7 @@ export default function ChequeControl(props) {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
@@ -623,7 +617,7 @@ export default function ChequeControl(props) {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: obsDetails.id,
