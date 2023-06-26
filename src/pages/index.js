@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Header from '@/components/Header';
 import ChequeControl from '@/components/ChequeControl';
-import ChequeControlEstornados from '@/components/ChequeControlEstornados';
+
 
 
 export default function Home() {
