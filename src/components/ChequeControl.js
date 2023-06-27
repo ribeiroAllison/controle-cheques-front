@@ -463,7 +463,7 @@ export default function ChequeControl(props) {
         data_vencInput.value = data_venc;
         linhaInput.value = linha;
 
-        const dataCompDate = allCheques.find(cheque => cheque.id === Number(id)).data_compen;
+        const dataCompDate = allCheques.find(cheque => cheque.id === Number(id))?.data_compen;
         const dataCompString = dataCompDate && transformDate(dataCompDate);
         const dataComp = dataCompString ? rearrangeDate(dataCompString) : null;
         dataCompInput.value = dataComp;

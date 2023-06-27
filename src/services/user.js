@@ -51,6 +51,7 @@ export default class User {
 
             if (responseLogin.ok) {
                 const jsonResponse = await responseLogin.json();
+                document.cookie = `token=${jsonResponse.response.token}; path=/; expires=1d`;
                 return jsonResponse;
             } else {
                 alert('Falha ao logar usuário.');
