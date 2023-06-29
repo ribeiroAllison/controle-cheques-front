@@ -72,7 +72,7 @@ export default function Grupos() {
         })
             .then(response => {
                 if (response.ok) {
-                    alert(`Destino ${formValues.nome} cadastrado com sucesso!`)
+                    alert(`Grupo ${formValues.nome} cadastrado com sucesso!`)
                     getAllGrupos();
                 }
             }

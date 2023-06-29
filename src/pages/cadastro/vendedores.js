@@ -71,7 +71,7 @@ export default function Vendedores() {
         })
             .then(response => {
                 if (response.ok) {
-                    alert(`Destino ${formValues.nome} cadastrado com sucesso!`)
+                    alert(`Vendedor(a) ${formValues.nome} cadastrado com sucesso!`)
                     getAllVendedores();
                 }
             }

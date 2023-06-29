@@ -43,7 +43,8 @@ export default function ChequeControl(props) {
             vencido: null,
             destino_id: null,
             data_compen: null,
-            data_destino: null
+            data_destino: null,
+            pedido: null
         }
     );
 
@@ -427,16 +428,13 @@ export default function ChequeControl(props) {
         }
 
         const codCli = document.getElementById(`codCli${id}`).innerHTML;
-
         const cliente = document.getElementById(`client${id}`).innerHTML;
         const numCheque = document.getElementById(`numCheque${id}`).innerHTML;
-
+        const pedido = document.getElementById(`pedido${id}`).innerHTML;
         const valorString = document.getElementById(`valor${id}`).innerHTML;
         const valor = Number(valorString.replace('R$', '').replace('.', '').replace(',', '.'))
-
         const dataVencString = document.getElementById(`data_venc${id}`).innerHTML;
         const data_venc = rearrangeDate(dataVencString);
-
         const linha = document.getElementById(`linha${id}`).innerHTML;
 
         const clienteInput = document.getElementById('editCliente');
@@ -445,6 +443,7 @@ export default function ChequeControl(props) {
         const data_vencInput = document.getElementById('editDataVenc');
         const linhaInput = document.getElementById('editLinha');
         const dataCompInput = document.getElementById('data_compen')
+        const pedidoInput = document.getElementById('editPedido')
 
         const destinoInput = document.getElementById('editDestino');
         const destinoName = document.getElementById(`destino${id}`).innerHTML;
@@ -462,6 +461,8 @@ export default function ChequeControl(props) {
         valorInput.value = valor;
         data_vencInput.value = data_venc;
         linhaInput.value = linha;
+        pedidoInput.value = pedido;
+        
 
         const dataCompDate = allCheques.find(cheque => cheque.id === Number(id))?.data_compen;
         const dataCompString = dataCompDate && transformDate(dataCompDate);
@@ -477,6 +478,7 @@ export default function ChequeControl(props) {
             linha: linha,
             data_compen: dataComp,
             destino_id: destinoInput.value,
+            pedido: pedido
         })
     }
 
@@ -521,7 +523,8 @@ export default function ChequeControl(props) {
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
                 obs: obs,
-                data_compen: editFormValues.data_compen
+                data_compen: editFormValues.data_compen,
+                pedido: editFormValues.pedido
             })
         })
             .then(response => {
@@ -790,6 +793,9 @@ export default function ChequeControl(props) {
                             </div>
                             <h4>Valor</h4>
                             <input type="number" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor" />
+
+                            <h4>Pedido</h4>
+                            <input type="number" onChange={handleEditInputChange} name="pedido" className="editInput" id="editPedido" />
                         </div>
 
                         <div className={style.inputCtr}>
