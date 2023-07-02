@@ -121,6 +121,7 @@
 .filterField{
     margin: 20px;
     background-color: var(--lightGray);
+    z-index: 1;
 }
 
 .fieldset{
@@ -299,4 +300,8 @@ body.no-scroll {
 .searchBoxCtr{
     height: 50px;
     margin-left: 20px;
+}
+
+#editWindowBackground{
+    z-index: 600;
 }

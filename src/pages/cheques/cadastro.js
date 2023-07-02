@@ -252,11 +252,12 @@ export default function CadastroCheques() {
                     onChange={handleInputChange}>
                     <option></option>
                     {
-                        linhas.map(linha => <option
-                            value={linha}
-                            key={linha}>
-                            {linha}
-                        </option>)
+                        linhas.map(linha => 
+                            <option
+                                value={linha}
+                                key={linha}>
+                                {linha}
+                            </option>)
                     }
                 </select>
             );
@@ -305,19 +306,6 @@ export default function CadastroCheques() {
                     {defineQtdVencimentos(qtdCheques)}
                 </div>
 
-                <fieldset className={`${style.formCtr} ${style.paymentStatus}`}>
-                    <legend>Status de Pagamento</legend>
-                    <div className={`${style.inputCtrMultiple} ${style.date}`} >
-                        <h4>Compensação:</h4>
-                        {defineQtdComp(qtdCheques)}
-                    </div>
-
-                    <div className={`${style.inputCtrMultiple} ${style.linha}`} >
-                        <h4>Linha:</h4>
-                        {defineQtdLinha(qtdCheques)}
-                    </div>
-                </fieldset>
-
                 <div className={style.inputCtr} >
                     <h4>Data de Recebimento:</h4>
                     <input
@@ -340,6 +328,21 @@ export default function CadastroCheques() {
                         className="input"
                     />
                 </div>
+
+                <fieldset className={`${style.formCtr} ${style.paymentStatus}`}>
+                    <legend>Status de Pagamento</legend>
+                    <div className={`${style.inputCtrMultiple} ${style.date}`} >
+                        <h4>Compensação:</h4>
+                        {defineQtdComp(qtdCheques)}
+                    </div>
+
+                    <div className={`${style.inputCtrMultiple} ${style.linha}`} >
+                        <h4>Linha:</h4>
+                        {defineQtdLinha(qtdCheques)}
+                    </div>
+                </fieldset>
+
+                
 
 
 
