@@ -669,7 +669,7 @@ export default function ChequeControl(props) {
                                 <select name="destino_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
                                     <option key="0"></option>
                                     {
-                                        destinoList?.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                        destinoList?.map(destino => <option key={`destino-${destino.id}`} value={destino.id}>{destino.nome}</option>)
                                     }
                                 </select>
                             </div>
@@ -679,7 +679,7 @@ export default function ChequeControl(props) {
                                 <select name="grupo" onChange={handleInputChange} className={`${style.select} input`}>
                                     <option key="0"></option>
                                     {
-                                        grupos?.map(grupo => <option key={grupo.id} value={grupo.nome}>{grupo.nome}</option>)
+                                        grupos?.map(grupo => <option key={`grupo-${grupo.id}`} value={grupo.nome}>{grupo.nome}</option>)
                                     }
                                 </select>
 
@@ -694,7 +694,7 @@ export default function ChequeControl(props) {
                             <div className={style.searchBox} id="searchBox">
                                 <select size={4} id={`${style.clienteSelect} input`} onChange={handleInputChange}>
                                     {
-                                        searchResult.map(client => <option onClick={handleClick} key={client.cod} value={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleClick} key={`codClient-${client.cod}`} value={client.cod}>{client.nome}</option>)
                                     }
                                 </select>
                             </div>
@@ -806,7 +806,7 @@ export default function ChequeControl(props) {
                             <select name="destino_id" onChange={handleEditInputChange} placeholder="Selecione Vendedor" className={`${style.select} editInput`} id="editDestino">
                                 <option key="0"></option>
                                 {
-                                    destinoList?.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                                    destinoList?.map(destino => <option key={`destinoList-${destino.id}`} value={destino.id}>{destino.nome}</option>)
                                 }
                             </select>
 
@@ -876,7 +876,7 @@ export default function ChequeControl(props) {
                     <tbody>
                         {
                             chequesList?.map((cheque) => (
-                                <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
+                                <tr key={`cheque-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
                                     <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
                                     <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
                                     <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
@@ -924,7 +924,7 @@ export default function ChequeControl(props) {
                         <tbody>
                             {
                                 estornos?.map((cheque) => (
-                                    <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
+                                    <tr key={`chequeEstornado-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
                                         <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
                                         <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
                                         <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
@@ -971,7 +971,7 @@ export default function ChequeControl(props) {
                         <tbody>
                             {
                                 semDestino?.map((cheque) => (
-                                    <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
+                                    <tr key={`chequeSemDestino-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
                                         <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
                                         <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
                                         <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
@@ -1019,7 +1019,7 @@ export default function ChequeControl(props) {
                         <tbody>
                             {
                                 aVencer?.map((cheque) => (
-                                    <tr key={cheque.id} id={`row${cheque.id}`} className="chequeRow">
+                                    <tr key={`chequeAVencer-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
                                         <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
                                         <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
                                         <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>

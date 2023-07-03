@@ -54,7 +54,7 @@ export default class User {
                 document.cookie = `token=${jsonResponse.response.token}; path=/; expires=1d`;
                 return jsonResponse;
             } else {
-                alert('Falha ao logar usuário.');
+                return;
             }
         } catch (error) {
             console.error(error);

@@ -1,8 +1,17 @@
 import style from '../styles/Header.module.css'
 import Link from 'next/link'
-import { UserCircle } from '@phosphor-icons/react'
+import { SignOut, UserCircle } from '@phosphor-icons/react'
+import { useRouter } from 'next/router';
 
 export default function Header() {
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        document.cookie = 'token=; path=/;'
+
+        setTimeout(() => { router.push('/home/login') }, 1100);
+    }
 
     return (
         <>
@@ -14,7 +23,7 @@ export default function Header() {
 
                 <nav className={style.navBar}>
                     <div className={style.menuOptions}>
-                    <div className={style.menuOption}>
+                        <div className={style.menuOption}>
                             <h2>Home</h2>
                             <div className={style.option}>
                                 <h3><Link href="/home/dashboard">Dashboard</Link></h3>
@@ -48,13 +57,21 @@ export default function Header() {
                             </div>
                         </div>
                     </div>
-                    <div className={style.menuOption}>
+                    <div className={style.menuOptionLogin}>
                         <UserCircle
                             className={style.icon}
                             size={48}
                             color="#A8E4A0"
                             weight="regular"
                         />
+                        <Link href="/home/login" onClick={handleLogout}>
+                            <SignOut
+                                className={style.icon}
+                                size={48}
+                                color="#A8E4A0"
+                                weight="regular"
+                            />
+                        </Link>
                     </div>
 
                 </nav>

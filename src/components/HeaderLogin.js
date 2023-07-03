@@ -27,15 +27,6 @@ export default function HeaderLogin() {
                             </div>
                         </div>
                     </div>
-                    <div className={style.menuOption}>
-                        <div className={style.menuOption}>
-                            <UserCircle
-                                size={48}
-                                color="#A8E4A0"
-                                weight="regular"
-                            />
-                        </div>
-                    </div>
                 </nav>
             </header>
         </>

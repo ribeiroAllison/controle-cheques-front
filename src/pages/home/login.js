@@ -14,7 +14,8 @@ import User from '@/services/user';
 
 export default function Login() {
   const router = useRouter();
-  const notify = () => toast.success("Usuário logado com sucesso!");
+  const notifySuccess = () => toast.success("Usuário logado com sucesso!");
+  const notifyFailure = () => toast.error("E-mail ou senha incorretos. Tente novamente!");
 
 
   const [email, setEmail] = useState('');
@@ -37,14 +38,19 @@ export default function Login() {
     }
 
     User.loginUser(user).then((data) => {
-      localStorage.setItem('token', data?.response.token);
-    })
+      if (data?.response?.token) {
+        localStorage.setItem('token', data.response.token);
+        notifySuccess();
 
-    notify();
-    setEmail('');
-    setSenha('');
-    
-    setTimeout(() => { router.push('/home/dashboard') }, 1100);
+        setEmail('');
+        setSenha('');
+        
+        setTimeout(() => { router.push('/home/dashboard') }, 1100);
+      } else {
+        notifyFailure();
+        setSenha('');
+      }
+    })
   }
 
   return (
