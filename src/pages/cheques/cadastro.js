@@ -259,7 +259,6 @@ export default function CadastroCheques() {
                     name={`data_compen${i}`}
                     onChange={handleInputChange}
                     id={`data_compen${i}`}
-                    required
                     className="input"
                 />
             );
@@ -294,200 +293,203 @@ export default function CadastroCheques() {
 
     return (
         <>
-            <Header />
+            <form onSubmit={handleSubmit}>
+                <Header />
 
-            <h3 className={style.name}>Dados do Cheque</h3>
-            <div className={style.formCtr}>
-                <h4>Quantidade de Cheques</h4>
-                <select onChange={changeCheckQuantity}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                <h3 className={style.name}>Dados do Cheque</h3>
+                <div className={style.formCtr}>
+                    <h4>Quantidade de Cheques</h4>
+                    <select onChange={changeCheckQuantity}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
 
-                </select>
-                <h4>Data de Recebimento:</h4>
-                    <input
-                        type="date"
-                        name="data_rec"
-                        onChange={handleInputChange}
-                        id="data_rec"
-                        required
-                        className="input"
-                    />
+                    </select>
+                    <h4>Data de Recebimento:</h4>
+                        <input
+                            type="date"
+                            name="data_rec"
+                            onChange={handleInputChange}
+                            id="data_rec"
+                            required
+                            className="input"
+                            defaultValue={new Date().toISOString().split("T")[0]}
+                        />
 
-                    <h4>Tipo:</h4>
-                    <input
-                        type="text"
-                        name="tipo"
-                        onChange={handleInputChange}
-                        defaultValue="Cheque"
-                        
-                    />
-                
-            </div>
-
-            
-
-            <form className={`${style.formCtrCenter} ${style.formVarQtd}`}>
-
-                <div className={style.inputCtrMultiple} >
-                    <h4>Número:</h4>
-                    {defineQtdCheques(qtdCheques)}
-                    <button className={`${style.button} ${style.smallerButton}`} onClick={replicateNumCheque}>Replicar Número</button>
+                        <h4>Tipo:</h4>
+                        <input
+                            type="text"
+                            name="tipo"
+                            onChange={handleInputChange}
+                            defaultValue="Cheque"
+                            
+                        />
                     
                 </div>
 
-                <div className={style.inputCtrMultiple} >
-                    <h4>Valor:</h4>
-                    {defineQtdValores(qtdCheques)}
-                    <button className={`${style.button} ${style.smallerButton}`} onClick={replicateValor}>Replicar Valor</button>
-                </div>
-
-                <div className={`${style.inputCtrMultiple} ${style.date} ${style.vencimento}`} >
-                    <h4>Data de Vencimento:</h4>
-                    {defineQtdVencimentos(qtdCheques)}
-                </div>
-
-                <fieldset className={`${style.formCtr} ${style.paymentStatus}`}>
-                    <legend>Status de Pagamento</legend>
-                    <div className={`${style.inputCtrMultiple} ${style.date}`} >
-                        <h4>Compensação:</h4>
-                        {defineQtdComp(qtdCheques)}
-                    </div>
-
-                    <div className={`${style.inputCtrMultiple} ${style.linha}`} >
-                        <h4>Linha:</h4>
-                        {defineQtdLinha(qtdCheques)}
-                    </div>
-                </fieldset>
-
-                
                 
 
+                <section className={`${style.formCtrCenter} ${style.formVarQtd}`}>
+
+                    <div className={style.inputCtrMultiple} >
+                        <h4>Número:</h4>
+                        {defineQtdCheques(qtdCheques)}
+                        <button className={`${style.button} ${style.smallerButton}`} onClick={replicateNumCheque}>Replicar Número</button>
+                        
+                    </div>
+
+                    <div className={style.inputCtrMultiple} >
+                        <h4>Valor:</h4>
+                        {defineQtdValores(qtdCheques)}
+                        <button className={`${style.button} ${style.smallerButton}`} onClick={replicateValor}>Replicar Valor</button>
+                    </div>
+
+                    <div className={`${style.inputCtrMultiple} ${style.date} ${style.vencimento}`} >
+                        <h4>Data de Vencimento:</h4>
+                        {defineQtdVencimentos(qtdCheques)}
+                    </div>
+
+                    <fieldset className={`${style.formCtr} ${style.paymentStatus}`}>
+                        <legend>Status de Pagamento</legend>
+                        <div className={`${style.inputCtrMultiple} ${style.date}`} >
+                            <h4>Compensação:</h4>
+                            {defineQtdComp(qtdCheques)}
+                        </div>
+
+                        <div className={`${style.inputCtrMultiple} ${style.linha}`} >
+                            <h4>Linha:</h4>
+                            {defineQtdLinha(qtdCheques)}
+                        </div>
+                    </fieldset>
+
+                    
+                    
 
 
-            </form>
 
-            <h3 className={style.name}>Dados da Venda</h3>
-            <form className={style.formCtr} id={style.clienteForm}>
+                </section>
 
-                <ClientSearchBox
-                    clientList={clientList}
-                    formValues={formValues}
-                    handleInputChange={handleInputChange}
-                    handleClick={handleClick}
-                />
+                <h3 className={style.name}>Dados da Venda</h3>
+                <section className={style.formCtr} id={style.clienteForm}>
 
-
-                <div className={style.inputCtr} >
-                    <h4>Código do Cliente:</h4>
-                    <input
-                        type="text"
-                        name="cliente_cod"
-                        id="cliente_cod"
-                        onChange={handleInputChange}
-                        disabled
-                        className="input"
+                    <ClientSearchBox
+                        clientList={clientList}
+                        formValues={formValues}
+                        handleInputChange={handleInputChange}
+                        handleClick={handleClick}
                     />
-                </div>
-
-                <div className={style.inputCtr} >
-                    <h4>Número do Pedido:</h4>
-                    <input
-                        type="number"
-                        name="pedido"
-                        id="pedido"
-                        onChange={handleInputChange}
-                        placeholder="Número do Pedido"
-                        className="input"
-                    />
-                </div>
-
-                <div className={style.inputCtr} >
-                    <h4>Vendedor</h4>
-                    <select
-                        name="vendedor_id"
-                        onChange={handleInputChange}
-                        placeholder="Selecione Vendedor"
-                        className={`${style.select} input`}
-                    >
-                        <option key="0"></option>
-                        {
-                            vendedorList?.map(seller => <option key={seller.id} value={seller.id}>{seller.nome}</option>)
-                        }
-                    </select>
-                </div>
-            </form>
-
-            <h3 className={style.name}>Informações Adicionais</h3>
-            <form className={style.formCtr}>
-                <div className={style.inputCtr} >
-                    <h4>Destino</h4>
-                    <select
-                        name="destino_id"
-                        onChange={handleInputChange}
-                        placeholder="Selecione Vendedor"
-                        className={`${style.select} input`}
-                    >
-                        <option key="0"></option>
-                        {
-                            destinoList?.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
-                        }
-                    </select>
-                </div>
-
-                <div className={style.inputCtr}>
-                    <h4>Data Entrega:</h4>
-                    <input
-                        name="data_destino"
-                        onChange={handleInputChange}
-                        type="date"
-                    />
-                </div>
-
-                <div className={style.inputCtr} >
-                    <h4>Terceiro:</h4>
-                    <select
-                        className={`${style.select} input`}
-                        name="terceiro" id="terceiro"
-                        onChange={handleInputChange}
-                    >
-                        <option value={false}>Não</option>
-                        <option value={true}>Sim</option>
-                    </select>
-                </div>
-
-                <div className={`${style.inputCtr} ${style.obs}`} >
-                    <h4>Observação:</h4>
-                    <textarea
-                        name="obs"
-                        onChange={handleInputChange}
-                        className="input"
-                    />
-                </div>
 
 
-            </form>
-            <form className={style.formCtr}>
-                <button
-                    type="submit"
-                    className={style.button}
-                    id="adicionaCliente"
-                    onClick={handleSubmit}
-                >Salvar
-                </button>
-                <button
-                    className={style.button}
-                    onClick={handleClear}
-                >Limpar
-                </button>
+                    <div className={style.inputCtr} >
+                        <h4>Código do Cliente:</h4>
+                        <input
+                            type="text"
+                            name="cliente_cod"
+                            id="cliente_cod"
+                            onChange={handleInputChange}
+                            disabled
+                            className="input"
+                        />
+                    </div>
+
+                    <div className={style.inputCtr} >
+                        <h4>Número do Pedido:</h4>
+                        <input
+                            type="number"
+                            name="pedido"
+                            id="pedido"
+                            onChange={handleInputChange}
+                            placeholder="Número do Pedido"
+                            className="input"
+                        />
+                    </div>
+
+                    <div className={style.inputCtr} >
+                        <h4>Vendedor</h4>
+                        <select
+                            name="vendedor_id"
+                            onChange={handleInputChange}
+                            placeholder="Selecione Vendedor"
+                            className={`${style.select} input`}
+                        >
+                            <option key="0"></option>
+                            {
+                                vendedorList?.map(seller => <option key={seller.id} value={seller.id}>{seller.nome}</option>)
+                            }
+                        </select>
+                    </div>
+                </section>
+
+                <h3 className={style.name}>Informações Adicionais</h3>
+                <section className={style.formCtr}>
+                    <div className={style.inputCtr} >
+                        <h4>Destino</h4>
+                        <select
+                            name="destino_id"
+                            onChange={handleInputChange}
+                            placeholder="Selecione Vendedor"
+                            className={`${style.select} input`}
+                        >
+                            <option key="0"></option>
+                            {
+                                destinoList?.map(destino => <option key={destino.id} value={destino.id}>{destino.nome}</option>)
+                            }
+                        </select>
+                    </div>
+
+                    <div className={style.inputCtr}>
+                        <h4>Data Entrega:</h4>
+                        <input
+                            name="data_destino"
+                            onChange={handleInputChange}
+                            type="date"
+                        />
+                    </div>
+
+                    <div className={style.inputCtr} >
+                        <h4>Terceiro:</h4>
+                        <select
+                            className={`${style.select} input`}
+                            name="terceiro" id="terceiro"
+                            onChange={handleInputChange}
+                        >
+                            <option value={false}>Não</option>
+                            <option value={true}>Sim</option>
+                        </select>
+                    </div>
+
+                    <div className={`${style.inputCtr} ${style.obs}`} >
+                        <h4>Observação:</h4>
+                        <textarea
+                            name="obs"
+                            onChange={handleInputChange}
+                            className="input"
+                        />
+                    </div>
+
+
+                </section>
+                <section className={style.formCtr}>
+                    <button
+                        type="submit"
+                        className={style.button}
+                        id="adicionaCliente"
+                    >Salvar
+                    </button>
+                    <button
+                        className={style.button}
+                        onClick={handleClear}
+                    >Limpar
+                    </button>
+                </section>
+
             </form>
         </>
     )
