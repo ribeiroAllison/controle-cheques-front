@@ -177,18 +177,33 @@ export default function CadastroCheques() {
         for (let i = 0; i < qtd; i++) {
             inputs.push(
                 <input
-                    type="text"
+                    type="number"
                     name={`num${i}`}
                     onChange={handleInputChange}
                     id={`num${i}`}
                     required
                     placeholder={`Número do cheque ${i + 1}`}
-                    className="input"
+                    className="input numCheque"
                 />
             );
         }
         return inputs;
     };
+
+    const replicateData = (className, increment) => {
+        const dataList = document.getElementsByClassName(className);
+        const valueToReply = dataList[0].value;
+
+        for(let i = 1 ; i < dataList.length ; i++){
+            dataList[i].value = Number(valueToReply) + (increment ? i : 0);
+        }
+    }
+
+    const replicateNumCheque = (e) =>{
+        e.preventDefault()
+        replicateData('numCheque', true);
+    }
+
 
     const defineQtdValores = (qtd) => {
         const inputs = [];
@@ -201,11 +216,16 @@ export default function CadastroCheques() {
                     id={`valor${i}`}
                     required
                     placeholder={`Valor ${i + 1}`}
-                    className="input"
+                    className="input valorCheque"
                 />
             );
         }
         return inputs;
+    }
+
+    const replicateValor = (e) =>{
+        e.preventDefault()
+        replicateData('valorCheque', false);
     }
 
     const defineQtdVencimentos = (qtd) => {
@@ -252,11 +272,12 @@ export default function CadastroCheques() {
                     onChange={handleInputChange}>
                     <option></option>
                     {
-                        linhas.map(linha => <option
-                            value={linha}
-                            key={linha}>
-                            {linha}
-                        </option>)
+                        linhas.map(linha => 
+                            <option
+                                value={linha}
+                                key={linha}>
+                                {linha}
+                            </option>)
                     }
                 </select>
             );
@@ -286,21 +307,45 @@ export default function CadastroCheques() {
                     <option value="10">10</option>
 
                 </select>
+                <h4>Data de Recebimento:</h4>
+                    <input
+                        type="date"
+                        name="data_rec"
+                        onChange={handleInputChange}
+                        id="data_rec"
+                        required
+                        className="input"
+                    />
+
+                    <h4>Tipo:</h4>
+                    <input
+                        type="text"
+                        name="tipo"
+                        onChange={handleInputChange}
+                        defaultValue="Cheque"
+                        
+                    />
+                
             </div>
 
-            <form className={`${style.formCtrCenter} `}>
+            
+
+            <form className={`${style.formCtrCenter} ${style.formVarQtd}`}>
 
                 <div className={style.inputCtrMultiple} >
                     <h4>Número:</h4>
                     {defineQtdCheques(qtdCheques)}
+                    <button className={`${style.button} ${style.smallerButton}`} onClick={replicateNumCheque}>Replicar Número</button>
+                    
                 </div>
 
                 <div className={style.inputCtrMultiple} >
                     <h4>Valor:</h4>
                     {defineQtdValores(qtdCheques)}
+                    <button className={`${style.button} ${style.smallerButton}`} onClick={replicateValor}>Replicar Valor</button>
                 </div>
 
-                <div className={`${style.inputCtrMultiple} ${style.date}`} >
+                <div className={`${style.inputCtrMultiple} ${style.date} ${style.vencimento}`} >
                     <h4>Data de Vencimento:</h4>
                     {defineQtdVencimentos(qtdCheques)}
                 </div>
@@ -318,28 +363,8 @@ export default function CadastroCheques() {
                     </div>
                 </fieldset>
 
-                <div className={style.inputCtr} >
-                    <h4>Data de Recebimento:</h4>
-                    <input
-                        type="date"
-                        name="data_rec"
-                        onChange={handleInputChange}
-                        id="data_rec"
-                        required
-                        className="input"
-                    />
-                </div>
-
-                <div className={style.inputCtr} >
-                    <h4>Tipo:</h4>
-                    <input
-                        type="text"
-                        name="tipo"
-                        onChange={handleInputChange}
-                        defaultValue="Cheque"
-                        className="input"
-                    />
-                </div>
+                
+                
 
 
 

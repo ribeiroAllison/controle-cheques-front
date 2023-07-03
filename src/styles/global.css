@@ -76,3 +76,7 @@ Button a {
 a:hover{
   color: var(--labelGray);
 }
+
+#clienteBox{
+  z-index: 1;
+}

@@ -66,6 +66,10 @@
     display: none;
 }
 
+.smallerButton{
+    height: 100%;
+}
+
 #smallTable{
     width: 50%;
 }
@@ -121,6 +125,7 @@
 .filterField{
     margin: 20px;
     background-color: var(--lightGray);
+    z-index: 1;
 }
 
 .fieldset{
@@ -290,13 +295,26 @@ body.no-scroll {
 
 .date{
     gap: 4px;
+    
+}
+
+.vencimento, .paymentStatus{
+    margin-top: -20px;
 }
 
 .linha{
-    gap: 6px;
+    gap: 5px;
 }
 
 .searchBoxCtr{
     height: 50px;
     margin-left: 20px;
+}
+
+#editWindowBackground{
+    z-index: 600;
+}
+
+.formVarQtd{
+    margin-top: 30px;
 }
