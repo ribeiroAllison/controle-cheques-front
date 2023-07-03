@@ -427,9 +427,6 @@ export default function ChequeControl(props) {
             cell.classList.add(`${style.editTrue}`);
         }
 
-        const searchBox = document.getElementById('clienteBox');
-        searchBox.style.zIndex = '1';
-
         const codCli = document.getElementById(`codCli${id}`).innerHTML;
         const cliente = document.getElementById(`client${id}`).innerHTML;
         const numCheque = document.getElementById(`numCheque${id}`).innerHTML;
