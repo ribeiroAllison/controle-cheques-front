@@ -190,18 +190,23 @@ export default function CadastroCheques() {
         return inputs;
     };
 
-    const replicateData = (className, increment) => {
+    const replicateData = async (className, increment, name) => {
         const dataList = document.getElementsByClassName(className);
         const valueToReply = dataList[0].value;
-
-        for(let i = 1 ; i < dataList.length ; i++){
-            dataList[i].value = Number(valueToReply) + (increment ? i : 0);
+        const updatedFormValues = {...formValues}; // Create a new object to store the updated form values
+      
+        for (let i = 1; i < dataList.length; i++) {
+          dataList[i].value = Number(valueToReply) + (increment ? i : 0);
+          updatedFormValues[name + i] = dataList[i].value; // Update the new object instead of spreading the existing formValues
         }
-    }
+      
+        setFormValues(updatedFormValues); // Update the formValues with the new object containing all the values
+      };
+      
 
     const replicateNumCheque = (e) =>{
         e.preventDefault()
-        replicateData('numCheque', true);
+        replicateData('numCheque', true,'num');
     }
 
 
@@ -225,7 +230,7 @@ export default function CadastroCheques() {
 
     const replicateValor = (e) =>{
         e.preventDefault()
-        replicateData('valorCheque', false);
+        replicateData('valorCheque', false, 'valor');
     }
 
     const defineQtdVencimentos = (qtd) => {
