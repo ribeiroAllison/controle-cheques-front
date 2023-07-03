@@ -27,7 +27,7 @@ export default function Header() {
                             <h2>Home</h2>
                             <div className={style.option}>
                                 <h3><Link href="/home/dashboard">Dashboard</Link></h3>
-                                <h3><Link href="">Meu Perfil</Link></h3>
+                                <h3><Link href="/home/perfil">Meu Perfil</Link></h3>
                             </div>
                         </div>
 

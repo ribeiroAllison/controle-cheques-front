@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-
 export function middleware(request) {
     const token = request.cookies.get('token')?.value // pega o token na request
 
@@ -11,9 +10,20 @@ export function middleware(request) {
         })
     }
 
-    return NextResponse.next();
+    const cookieMaxAge = 60 * 60 * 24;
+
+    return NextResponse.next({
+        cookies: [
+            {
+                name: 'token',
+                value: token,
+                path: '/',
+                maxAge: { cookieMaxAge },
+            },
+        ],
+    });
 }
 
 export const config = {
-    matcher: ['/cadastro/:path*', '/cheques/:path*', '/home/dashboard'],
+    matcher: ['/cadastro/:path*', '/cheques/:path*', '/home/dashboard', '/home/perfil'],
 }

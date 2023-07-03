@@ -108,9 +108,9 @@ export default function ChequeControl(props) {
         if (clientList) {
             const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
             setSearchResult(foundClientByName);
-            searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value ?
-                document.getElementById(id).style.display = 'none'
-                : document.getElementById(id).style.display = 'block'
+            document.getElementById(id).style.display = searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value
+                ? 'none'
+                : 'block'
         }
     }
 
@@ -199,7 +199,7 @@ export default function ChequeControl(props) {
             grupo: formValues.grupo ? formValues.grupo : '',
             número_cheque: formValues.número_cheque ? formValues.número_cheque : ''
         })
-        
+
         const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
             method: 'GET',
             headers: {
@@ -462,7 +462,7 @@ export default function ChequeControl(props) {
         data_vencInput.value = data_venc;
         linhaInput.value = linha;
         pedidoInput.value = pedido;
-        
+
 
         const dataCompDate = allCheques.find(cheque => cheque.id === Number(id))?.data_compen;
         const dataCompString = dataCompDate && transformDate(dataCompDate);
@@ -600,12 +600,12 @@ export default function ChequeControl(props) {
             if (response.ok) {
                 alert('Observação atualizada com sucesso!')
                 closeObs();
-                if(!props.submitOnMount){
+                if (!props.submitOnMount) {
                     refreshSearch();
-                } else{
+                } else {
                     refreshTables();
                 }
-                
+
             }
         } catch (error) {
             alert('Erro' + error.message);
@@ -631,12 +631,12 @@ export default function ChequeControl(props) {
             if (response.ok) {
                 alert('Observação deletada com sucesso!');
                 closeObs();
-                if(props.submitOnMount){
+                if (props.submitOnMount) {
                     refreshTables();
-                } else{
+                } else {
                     refreshSearch();
                 }
-                
+
             }
         } catch (error) {
             alert('Erro' + error.message);

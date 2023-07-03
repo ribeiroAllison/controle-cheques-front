@@ -1,6 +1,7 @@
 import { baseURL } from "@/utils/url";
 
 export default class User {
+
     static registerUser = async (user) => {
         try {
             const responseUsers = await fetch(`${baseURL}/usuarios`);
@@ -52,6 +53,30 @@ export default class User {
             if (responseLogin.ok) {
                 const jsonResponse = await responseLogin.json();
                 document.cookie = `token=${jsonResponse.response.token}; path=/; expires=1d`;
+                return jsonResponse;
+            } else {
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    static editUser = async (user) => {
+        try {
+            const responseEdit = await fetch(`${baseURL}/usuarios/${user.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: user.nome,
+                    senha: user.senha
+                })
+            });
+
+            if (responseEdit.ok) {
+                const jsonResponse = await responseEdit.json();
                 return jsonResponse;
             } else {
                 return;

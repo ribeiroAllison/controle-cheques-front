@@ -1,0 +1,28 @@
+.editWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.editTitle {
+    padding-top: 5rem;
+}
+
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.editForm label {
+    color: var(--labelGray);
+    font-size: 1rem;
+    padding-bottom: 0.2rem;
+}
+
+.editFormField {
+    display: flex;
+    flex-direction: column;
+}
