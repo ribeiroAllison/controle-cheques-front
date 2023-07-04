@@ -384,6 +384,7 @@ export default function CadastroCheques() {
                         formValues={formValues}
                         handleInputChange={handleInputChange}
                         handleClick={handleClick}
+                        required={true}
                     />
 
 

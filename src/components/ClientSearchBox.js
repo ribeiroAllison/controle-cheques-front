@@ -33,6 +33,7 @@ export default function ClientSearchBox(props) {
                     id="cliente"
                     placeholder="Pesquise o Cliente"
                     className="input"
+                    required={props.required}
                 />
                 <div className={style.searchBox} id="searchBox">
                     <select
