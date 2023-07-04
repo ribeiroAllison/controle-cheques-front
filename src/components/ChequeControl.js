@@ -501,6 +501,10 @@ export default function ChequeControl(props) {
         setTextareaValue(e.target.value);
     };
 
+    const transformValue = (value) =>{
+        return value.toString().replace(',', '.');
+    }
+
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
@@ -516,7 +520,7 @@ export default function ChequeControl(props) {
                 id: chequeId,
                 cliente: editFormValues.cliente_cod,
                 numCheque: editFormValues.número_cheque,
-                valor: editFormValues.valor,
+                valor: transformValue(editFormValues.valor),
                 data_venc: editFormValues.data_venc,
                 compensado: isCompensado(editFormValues, 15),
                 vencido: isVencido(editFormValues, 4),
@@ -792,7 +796,7 @@ export default function ChequeControl(props) {
                                 </select>
                             </div>
                             <h4>Valor</h4>
-                            <input type="number" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor" />
+                            <input type="text" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor" />
 
                             <h4>Pedido</h4>
                             <input type="number" onChange={handleEditInputChange} name="pedido" className="editInput" id="editPedido" />

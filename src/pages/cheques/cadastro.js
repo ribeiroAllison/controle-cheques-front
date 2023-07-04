@@ -139,7 +139,7 @@ export default function CadastroCheques() {
                 },
                 body: JSON.stringify({
                     num: formValues[`num${i}`],
-                    valor: formValues[`valor${i}`],
+                    valor: formValues[`valor${i}`].replace(',', '.'),
                     data_rec: formValues.data_rec,
                     tipo: formValues.tipo,
                     cliente_cod: formValues.cliente_cod,
@@ -196,7 +196,7 @@ export default function CadastroCheques() {
         const updatedFormValues = {...formValues}; // Create a new object to store the updated form values
       
         for (let i = 1; i < dataList.length; i++) {
-          dataList[i].value = Number(valueToReply) + (increment ? i : 0);
+          dataList[i].value = Number(valueToReply) + (increment ? i : 0) || valueToReply;
           updatedFormValues[name + i] = dataList[i].value; // Update the new object instead of spreading the existing formValues
         }
       
