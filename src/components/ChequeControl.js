@@ -433,8 +433,11 @@ export default function ChequeControl(props) {
         const pedido = document.getElementById(`pedido${id}`).innerHTML;
         const valorString = document.getElementById(`valor${id}`).innerHTML;
         const valor = Number(valorString.replace('R$', '').replace('.', '').replace(',', '.'))
-        const dataVencString = document.getElementById(`data_venc${id}`).innerHTML;
-        const data_venc = rearrangeDate(dataVencString);
+
+        const data_vencDate = allCheques.find(cheque => cheque.id === Number(id))?.data_venc;
+        const data_vencString = data_vencDate && transformDate(data_vencDate);
+        const data_venc = data_vencString ? rearrangeDate(data_vencString) : null;
+        
         const linha = document.getElementById(`linha${id}`).innerHTML;
 
         const clienteInput = document.getElementById('editCliente');
@@ -467,6 +470,9 @@ export default function ChequeControl(props) {
         const dataCompDate = allCheques.find(cheque => cheque.id === Number(id))?.data_compen;
         const dataCompString = dataCompDate && transformDate(dataCompDate);
         const dataComp = dataCompString ? rearrangeDate(dataCompString) : null;
+
+        
+
         dataCompInput.value = dataComp;
 
         setEditFormValues({

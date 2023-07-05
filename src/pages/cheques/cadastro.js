@@ -159,12 +159,15 @@ export default function CadastroCheques() {
             })
 
             checksList.push(formValues[`num${i}`]);
+
+
         }
 
         alert(`Cheque ${checksList.map((num) => num)} cadastrado(s) com sucesso!`)
 
         clearInputs('input');
     }
+
 
     const [qtdCheques, setQtdCheques] = useState(1);
 
