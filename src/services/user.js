@@ -1,5 +1,5 @@
 import { baseURL } from "@/utils/url";
-
+import { setCookie } from "@/utils/cookie";
 export default class User {
 
     static registerUser = async (user) => {
@@ -52,7 +52,8 @@ export default class User {
 
             if (responseLogin.ok) {
                 const jsonResponse = await responseLogin.json();
-                document.cookie = `token=${jsonResponse.response.token}; path=/; expires=1d`;
+
+                setCookie('token', jsonResponse.response.token);
                 return jsonResponse;
             } else {
                 return;
@@ -77,6 +78,8 @@ export default class User {
 
             if (responseEdit.ok) {
                 const jsonResponse = await responseEdit.json();
+                setCookie('token', jsonResponse.token);
+
                 return jsonResponse;
             } else {
                 return;

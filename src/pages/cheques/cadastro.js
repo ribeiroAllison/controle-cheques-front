@@ -4,10 +4,11 @@ import ClientSearchBox from "@/components/ClientSearchBox"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 import { linhas, clearInputs, isVencidoVar, isCompensadoVar } from "@/utils/utils"
+import { getCookie } from "@/utils/cookie"
 
 export default function CadastroCheques() {
 
-    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
+    const token = getCookie('token');
 
     const [formValues, setFormValues] = useState(
         {

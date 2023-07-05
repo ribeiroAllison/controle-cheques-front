@@ -3,10 +3,10 @@ import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 import { clearInputs, linhas, isVencido, isCompensado } from "@/utils/utils"
 import HeaderLine from "@/components/HeaderLine"
-
+import { getCookie } from "@/utils/cookie";
 
 export default function ChequeControl(props) {
-    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
+    const token = getCookie('token');
 
     //Search by filter inputs
     const [formValues, setFormValues] = useState(
@@ -797,7 +797,7 @@ export default function ChequeControl(props) {
                             <div className={style.searchBox} id="searchBoxEdit">
                                 <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
                                     {
-                                        searchResult.map(client => <option onClick={handleEditClick} key={client.cod} value={client.cod} codCli={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleEditClick} key={`codCliente-${client.cod}`} value={client.cod} codCli={client.cod}>{client.nome}</option>)
                                     }
                                 </select>
                             </div>

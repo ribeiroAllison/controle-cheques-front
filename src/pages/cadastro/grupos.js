@@ -4,13 +4,13 @@ import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
+import { getCookie } from "@/utils/cookie"
 
 
 
 export default function Grupos() {
 
-    const token = typeof localStorage !== "undefined" ? localStorage.getItem('token') : "";
-
+    const token = getCookie('token');
 
     const [formValues, setFormValues] = useState({ nome: "" });
 
