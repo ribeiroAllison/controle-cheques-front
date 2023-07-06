@@ -762,7 +762,7 @@ export default function ChequeControl(props) {
             </fieldset>
 
             {/* EDIT SCREEN */}
-            <HeaderLine name={props.headerLine} />
+            
             <div id="editWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
                     <div className={style.popupHeader}>
