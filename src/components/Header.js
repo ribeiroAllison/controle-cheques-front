@@ -7,10 +7,15 @@ export default function Header() {
     const router = useRouter();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        document.cookie = 'token=; path=/;'
+        const confirmation = confirm('Você realmente deseja sair?')
 
-        setTimeout(() => { router.push('/home/login') }, 1100);
+        if (confirmation) {
+            localStorage.removeItem('token');
+            document.cookie = 'token=; path=/;'
+            setTimeout(() => { router.push('/home/login') }, 1100);
+        } else {
+            return;
+        }
     }
 
     return (

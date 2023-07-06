@@ -39,7 +39,6 @@ export default function Login() {
 
     User.loginUser(user).then((data) => {
       if (data?.response?.token) {
-        localStorage.setItem('token', data.response.token);
         notifySuccess();
 
         setEmail('');
