@@ -3,7 +3,10 @@ import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
 import { clearInputs, linhas, isVencido, isCompensado } from "@/utils/utils"
 import HeaderLine from "@/components/HeaderLine"
-import { getCookie } from "@/utils/cookie";
+import ChequeTable from "./ChequeTable"
+import { getCookie } from "@/utils/cookie"
+
+
 
 export default function ChequeControl(props) {
     const token = getCookie('token');
@@ -343,9 +346,7 @@ export default function ChequeControl(props) {
         return new Intl.DateTimeFormat('pt-BR').format(date);
     }
 
-    const transformCurrency = (value) => {
-        return value?.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
-    }
+
 
     const refreshSearch = async () => {
         const searchParams = new URLSearchParams({
@@ -394,7 +395,7 @@ export default function ChequeControl(props) {
             } catch (error) {
                 alert('Erro:' + error.message)
             }
-            refreshSearch()
+            props.submitOnMount ? refreshTables : refreshSearch();
         }
     }
 
@@ -413,32 +414,32 @@ export default function ChequeControl(props) {
         }
     }
 
-    const handleEdit = (e) => {
+    const handleEdit = (cheque) => {
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "flex";
 
-        const id = e.target.name;
+        const id = cheque.id;
         setChequeId(id);
 
         deleteEditClass();
 
-        const selectRow = document.getElementsByName(e.target.name);
+        const selectRow = document.getElementsByName(id);
         for (let cell of selectRow) {
             cell.classList.add(`${style.editTrue}`);
         }
 
-        const codCli = document.getElementById(`codCli${id}`).innerHTML;
-        const cliente = document.getElementById(`client${id}`).innerHTML;
-        const numCheque = document.getElementById(`numCheque${id}`).innerHTML;
-        const pedido = document.getElementById(`pedido${id}`).innerHTML;
-        const valorString = document.getElementById(`valor${id}`).innerHTML;
-        const valor = Number(valorString.replace('R$', '').replace('.', '').replace(',', '.'))
+        const codCli = cheque.cod_cliente;
+        const cliente = cheque.cliente;
+        const numCheque = cheque.número_cheque;
+        const pedido = cheque.pedido;
+        const valor = cheque.valor.replace('$', 'R$').replace(',', 'x').replace('.', ',').replace('x', '.')
+        const obs = cheque.obs;
 
-        const data_vencDate = allCheques.find(cheque => cheque.id === Number(id))?.data_venc;
+        const data_vencDate = cheque.data_venc
         const data_vencString = data_vencDate && transformDate(data_vencDate);
         const data_venc = data_vencString ? rearrangeDate(data_vencString) : null;
         
-        const linha = document.getElementById(`linha${id}`).innerHTML;
+        const linha = cheque.linha;
 
         const clienteInput = document.getElementById('editCliente');
         const numChequeInput = document.getElementById('editNumCheque');
@@ -447,6 +448,7 @@ export default function ChequeControl(props) {
         const linhaInput = document.getElementById('editLinha');
         const dataCompInput = document.getElementById('data_compen')
         const pedidoInput = document.getElementById('editPedido')
+        const obsInput = document.getElementById('editObsTextarea');
 
         const destinoInput = document.getElementById('editDestino');
         const destinoName = document.getElementById(`destino${id}`).innerHTML;
@@ -465,6 +467,7 @@ export default function ChequeControl(props) {
         data_vencInput.value = data_venc;
         linhaInput.value = linha;
         pedidoInput.value = pedido;
+        obsInput.value = obs;
 
 
         const dataCompDate = allCheques.find(cheque => cheque.id === Number(id))?.data_compen;
@@ -484,37 +487,19 @@ export default function ChequeControl(props) {
             linha: linha,
             data_compen: dataComp,
             destino_id: destinoInput.value,
-            pedido: pedido
+            pedido: pedido,
+            obs: obs
         })
     }
 
-    const [selectedObs, setSelectedObs] = useState("");
-    const [textareaValue, setTextareaValue] = useState("");
-
-    useEffect(() => {
-        if (chequeId !== undefined) {
-            setSelectedObs(
-                allCheques?.find(cheque => cheque.id === Number(chequeId))?.obs || ""
-            );
-        }
-    }, [chequeId, allCheques]);
-
-    useEffect(() => {
-        setTextareaValue(selectedObs);
-    }, [selectedObs]);
-
-    const handleTextareaChange = (e) => {
-        setTextareaValue(e.target.value);
-    };
-
     const transformValue = (value) =>{
-        return value.toString().replace(',', '.');
+        return value.toString().replace(',', 'x').replace('.', ',').replace('x', '.').replace('R$', '$');
     }
 
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        const obs = document.getElementById('editObsTextarea').value;
+        
 
         chequeId && fetch(`${baseURL}/cheques`, {
             method: 'PUT',
@@ -532,7 +517,7 @@ export default function ChequeControl(props) {
                 vencido: isVencido(editFormValues, 4),
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
-                obs: obs,
+                obs: editFormValues.obs,
                 data_compen: editFormValues.data_compen,
                 pedido: editFormValues.pedido
             })
@@ -845,7 +830,7 @@ export default function ChequeControl(props) {
 
                             <div className={style.inputCtr} id={style.editObs}>
                                 <h4>Observação:</h4>
-                                <textarea id="editObsTextarea" value={textareaValue} onChange={handleTextareaChange}></textarea>
+                                <textarea id="editObsTextarea" onChange={handleEditInputChange} name="obs"></textarea>
                             </div>
                         </div>
 
@@ -864,190 +849,41 @@ export default function ChequeControl(props) {
 
             {
                 !props.submitOnMount &&
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Cod. Cliente</th>
-                            <th>Cliente</th>
-                            <th>Grupo</th>
-                            <th>No. Cheque</th>
-                            <th>Pedido</th>
-                            <th>Valor</th>
-                            <th>Destino</th>
-                            <th>Data Venc.</th>
-                            <th>Comp.</th>
-                            <th>Venc.</th>
-                            <th>Linha</th>
-                            <th>Obs</th>
-                            <th>Editar</th>
-                            <th>Excluir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            chequesList?.map((cheque) => (
-                                <tr key={`cheque-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
-                                    <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
-                                    <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
-                                    <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
-                                    <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
-                                    <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
-                                    <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
-                                    <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
-                                    <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
-                                    <td name={cheque.id} id={`compensado${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
-                                    <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
-                                    <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
-                                    <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)} />}</td>
-                                    <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit} /></td>
-                                    <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)} /></td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
+                <ChequeTable 
+                    list={chequesList}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                    handleOpenObs={handleOpenObs}
+                />
             }
 
             {
                 props.submitOnMount &&
 
                 <>
-
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Cod. Cliente</th>
-                                <th>Cliente</th>
-                                <th>Grupo</th>
-                                <th>No. Cheque</th>
-                                <th>Pedido</th>
-                                <th>Valor</th>
-                                <th>Destino</th>
-                                <th>Data Venc.</th>
-                                <th>Comp.</th>
-                                <th>Venc.</th>
-                                <th>Linha</th>
-                                <th>Obs</th>
-                                <th>Editar</th>
-                                <th>Excluir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                estornos?.map((cheque) => (
-                                    <tr key={`chequeEstornado-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
-                                        <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
-                                        <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
-                                        <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
-                                        <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
-                                        <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
-                                        <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
-                                        <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
-                                        <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
-                                        <td name={cheque.id} id={`compensado${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
-                                        <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
-                                        <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
-                                        <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)} />}</td>
-                                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit} /></td>
-                                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)} /></td>
-                                    </tr>
-
-                                ))}
-
-
-
-                        </tbody>
-                    </table>
+                    <HeaderLine name="Estornos"/>
+                    <ChequeTable 
+                        list={estornos}
+                        handleEdit={handleEdit}
+                        handleDelete={handleDelete}
+                        handleOpenObs={handleOpenObs}
+                    />
 
                     <HeaderLine name="Sem Destino" />
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Cod. Cliente</th>
-                                <th>Cliente</th>
-                                <th>Grupo</th>
-                                <th>No. Cheque</th>
-                                <th>Pedido</th>
-                                <th>Valor</th>
-                                <th>Destino</th>
-                                <th>Data Venc.</th>
-                                <th>Comp.</th>
-                                <th>Venc.</th>
-                                <th>Linha</th>
-                                <th>Obs</th>
-                                <th>Editar</th>
-                                <th>Excluir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                semDestino?.map((cheque) => (
-                                    <tr key={`chequeSemDestino-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
-                                        <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
-                                        <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
-                                        <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
-                                        <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
-                                        <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
-                                        <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
-                                        <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
-                                        <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
-                                        <td name={cheque.id} id={`compensado${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
-                                        <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
-                                        <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
-                                        <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)} />}</td>
-                                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit} /></td>
-                                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)} /></td>
-
-                                    </tr>
-
-                                ))}
-
-
-
-                        </tbody>
-                    </table>
+                    <ChequeTable 
+                        list={semDestino}
+                        handleEdit={handleEdit}
+                        handleDelete={handleDelete}
+                        handleOpenObs={handleOpenObs}
+                    />
 
                     <HeaderLine name="A Vencer" />
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Cod. Cliente</th>
-                                <th>Cliente</th>
-                                <th>Grupo</th>
-                                <th>No. Cheque</th>
-                                <th>Pedido</th>
-                                <th>Valor</th>
-                                <th>Destino</th>
-                                <th>Data Venc.</th>
-                                <th>Comp.</th>
-                                <th>Venc.</th>
-                                <th>Linha</th>
-                                <th>Obs</th>
-                                <th>Editar</th>
-                                <th>Excluir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                aVencer?.map((cheque) => (
-                                    <tr key={`chequeAVencer-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
-                                        <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cod_cliente}</td>
-                                        <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
-                                        <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>
-                                        <td name={cheque.id} id={`numCheque${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.número_cheque}</td>
-                                        <td name={cheque.id} id={`pedido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.pedido}</td>
-                                        <td name={cheque.id} id={`valor${cheque.id}`} className={assignClassStyle(cheque)}>{transformCurrency(cheque.valor)}</td>
-                                        <td name={cheque.id} id={`destino${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.destino}</td>
-                                        <td name={cheque.id} id={`data_venc${cheque.id}`} className={assignClassStyle(cheque)}>{transformDate(cheque.data_venc)}</td>
-                                        <td name={cheque.id} id={`compensado${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
-                                        <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
-                                        <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
-                                        <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => handleOpenObs(cheque)} />}</td>
-                                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" name={cheque.id} value={cheque.id} onClick={handleEdit} /></td>
-                                        <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => handleDelete(cheque.id)} /></td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
+                    <ChequeTable 
+                        list={aVencer}
+                        handleEdit={handleEdit}
+                        handleDelete={handleDelete}
+                        handleOpenObs={handleOpenObs}
+                    />
                 </>
 
             }
