@@ -1,5 +1,6 @@
-export const clearInputs = (inputId) => {
+import style from '../styles/clientes.module.css'
 
+export const clearInputs = (inputId) => {
     const inputs = document.getElementsByClassName(inputId);
     for (let input of inputs) {
         input.value = ""
@@ -71,8 +72,6 @@ export const isCompensado = (formValues, excessDays) => {
         result = false;
     }
 
-    console.log(destino)
-
     return result;
 }
 
@@ -97,8 +96,26 @@ export const isCompensadoVar = (formValues, excessDays, i) => {
         result = false;
     }
 
-    console.log(destino)
-
     return result;
 }
 
+export const transformDate = (data) => {
+    const date = new Date(data);
+    return new Intl.DateTimeFormat('pt-BR').format(date);
+}
+
+export const rearrangeDate = (date) => {
+    const parts = date.split('/');
+    return `${parts[2]}-${parts[1]}-${parts[0]}`
+}
+
+export const deleteEditClass = () => {
+    const allTds = document.querySelectorAll('td, img');
+    for (let td of allTds) {
+        td.classList.remove(`${style.editTrue}`);
+    }
+}
+
+export const transformValue = (value) => {
+    return value.toString().replace(',', 'x').replace('.', ',').replace('x', '.').replace('R$', '$');
+}

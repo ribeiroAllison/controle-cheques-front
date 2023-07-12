@@ -168,7 +168,6 @@ export default function Grupos() {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log(response)
                     getAllGrupos();
                 }
             }

@@ -3,8 +3,9 @@ import style from "@/styles/clientes.module.css"
 import ClientSearchBox from "@/components/ClientSearchBox"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { linhas, clearInputs, isVencidoVar, isCompensadoVar } from "@/utils/utils"
+import { linhas, clearInputs } from "@/utils/utils"
 import { getCookie } from "@/utils/cookie"
+import { Cheques } from "@/api/ChequeService"
 
 export default function CadastroCheques() {
 
@@ -30,152 +31,27 @@ export default function CadastroCheques() {
             data_compen: "",
             data_destino: ""
         }
-
     );
+    const [clientList, setClientList] = useState();
+    const [vendedorList, setVendedorList] = useState();
+    const [destinoList, setDestinoList] = useState();
+    const [qtdCheques, setQtdCheques] = useState(1);
 
+
+    // ---------------------------------- CHECKS FUNCTIONS ------------------------------------------------
+
+    // INPUT HANDLING FOR NEW CHECKS
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
     };
 
-    //SUBMIT FUNCTIONS
-
-    const handleClear = (e) => {
-        e?.preventDefault();
-
-        clearInputs('input')
-
-    };
-
-    const [clientList, setClientList] = useState();
-
-    async function getAllClients() {
-        try {
-            const response = await fetch(`${baseURL}/clientes`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setClientList(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getAllClients();
-
-    }, []);
-
-    const handleClick = (e) => {
-        const clientCode = document.getElementById('cliente_cod')
-        clientCode.value = e.target.value;
-        setFormValues({ ...formValues, cliente_cod: clientCode.value })
-        document.getElementById('searchBox').style.display = 'none';
-        document.getElementById('cliente').value = e.target.innerHTML;
-    }
-
-
-    const [vendedorList, setVendedorList] = useState()
-
-    async function getAllVendedores() {
-        try {
-            const response = await fetch(`${baseURL}/vendedores`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setVendedorList(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    const [destinoList, setDestinoList] = useState();
-
-    async function getAllDestinos() {
-        try {
-            const response = await fetch(`${baseURL}/destinos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setDestinoList(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    useEffect(() => {
-        getAllVendedores()
-        getAllDestinos()
-    }, []);
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        let checksList = [];
-
-        for (let i = 0; i < qtdCheques; i++) {
-            fetch(`${baseURL}/cheques`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    num: formValues[`num${i}`],
-                    valor: formValues[`valor${i}`].replace(',', '.'),
-                    data_rec: formValues.data_rec,
-                    tipo: formValues.tipo,
-                    cliente_cod: formValues.cliente_cod,
-                    pedido: formValues.pedido ? formValues.pedido : null,
-                    linha: formValues[`linha${i}`] ? formValues[`linha${i}`] : null,
-                    destino_id: formValues.destino_id ? formValues.destino_id : null,
-                    terceiro: formValues.terceiro,
-                    obs: formValues.obs ? formValues.obs : null,
-                    vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
-                    compensado: isCompensadoVar(formValues, 15, i),
-                    vencido: isVencidoVar(formValues, 4, i),
-                    data_venc: formValues[`data_venc${i}`] ? formValues[`data_venc${i}`] : null,
-                    data_compen: formValues[`data_compen${i}`] ? formValues[`data_compen${i}`] : null,
-                    data_destino: formValues.data_destino ? formValues.data_destino : null
-
-                })
-            })
-
-            checksList.push(formValues[`num${i}`]);
-
-
-        }
-
-        alert(`Cheque ${checksList.map((num) => num)} cadastrado(s) com sucesso!`)
-
-        clearInputs('input');
-    }
-
-
-    const [qtdCheques, setQtdCheques] = useState(1);
-
+    // HANDLES CHECK QTY STATE
     const changeCheckQuantity = (e) => {
         setQtdCheques(e.target.value);
     }
 
+    // HANDLE CHECK INPUTS FIELD ADDITION
     const defineQtdCheques = (qtd) => {
         const inputs = [];
         for (let i = 0; i < qtd; i++) {
@@ -194,26 +70,114 @@ export default function CadastroCheques() {
         return inputs;
     };
 
+    // HANDLES CHECK(S) SUBMISSION - POST TO DB
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await Cheques.addNewCheck(formValues, qtdCheques);
+        clearInputs('input');
+    }
+
+    // ---------------------------------- OTHER TABLES FUNCTIONS ------------------------------------------------
+
+    // QUERY ALL CLIENTS
+    async function getAllClients() {
+        try {
+            const response = await fetch(`${baseURL}/clientes`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setClientList(jsonResponse);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // QUERY ALL SALESMEN
+    async function getAllVendedores() {
+        try {
+            const response = await fetch(`${baseURL}/vendedores`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setVendedorList(jsonResponse);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // QUERY ALL DESTINATIONS
+    async function getAllDestinos() {
+        try {
+            const response = await fetch(`${baseURL}/destinos`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setDestinoList(jsonResponse);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // RETRIEVES INFORMATION AT FIRST
+    useEffect(() => {
+        getAllClients();
+        getAllVendedores()
+        getAllDestinos()
+    }, []);
+
+    // ---------------------------------- AUX FUNCTIONS ------------------------------------------------
+
+    // AUX HANDLE CLICK FUNCTION TO FIND REGISTERED CLIENTS
+    const handleClick = (e) => {
+        const clientCode = document.getElementById('cliente_cod')
+        clientCode.value = e.target.value;
+        setFormValues({ ...formValues, cliente_cod: clientCode.value })
+        document.getElementById('searchBox').style.display = 'none';
+        document.getElementById('cliente').value = e.target.innerHTML;
+    }
+
+    // AUX FUNCTION TO CLEAR INPUTS
+    const handleClear = (e) => {
+        e?.preventDefault();
+        clearInputs('input')
+    };
+
+    // AUX
     const replicateData = async (className, increment, name) => {
         const dataList = document.getElementsByClassName(className);
         const valueToReply = dataList[0].value;
-        const updatedFormValues = {...formValues}; // Create a new object to store the updated form values
-      
-        for (let i = 1; i < dataList.length; i++) {
-          dataList[i].value = Number(valueToReply) + (increment ? i : 0) || valueToReply;
-          updatedFormValues[name + i] = dataList[i].value; // Update the new object instead of spreading the existing formValues
-        }
-      
-        setFormValues(updatedFormValues); // Update the formValues with the new object containing all the values
-      };
-      
+        const updatedFormValues = { ...formValues }; // Create a new object to store the updated form values
 
-    const replicateNumCheque = (e) =>{
+        for (let i = 1; i < dataList.length; i++) {
+            dataList[i].value = Number(valueToReply) + (increment ? i : 0) || valueToReply;
+            updatedFormValues[name + i] = dataList[i].value; // Update the new object instead of spreading the existing formValues
+        }
+
+        setFormValues(updatedFormValues); // Update the formValues with the new object containing all the values
+    };
+
+    // AUX
+    const replicateNumCheque = (e) => {
         e.preventDefault()
-        replicateData('numCheque', true,'num');
+        replicateData('numCheque', true, 'num');
     }
 
-
+    // AUX
     const defineQtdValores = (qtd) => {
         const inputs = [];
         for (let i = 0; i < qtd; i++) {
@@ -232,11 +196,13 @@ export default function CadastroCheques() {
         return inputs;
     }
 
-    const replicateValor = (e) =>{
+    // AUX
+    const replicateValor = (e) => {
         e.preventDefault()
         replicateData('valorCheque', false, 'valor');
     }
 
+    // AUX
     const defineQtdVencimentos = (qtd) => {
         const inputs = [];
         for (let i = 0; i < qtd; i++) {
@@ -254,6 +220,7 @@ export default function CadastroCheques() {
         return inputs;
     }
 
+    // AUX
     const defineQtdComp = (qtd) => {
         const inputs = [];
         for (let i = 0; i < qtd; i++) {
@@ -270,6 +237,7 @@ export default function CadastroCheques() {
         return inputs;
     }
 
+    // AUX
     const defineQtdLinha = (qtd) => {
         const inputs = [];
         for (let i = 0; i < qtd; i++) {
@@ -280,7 +248,7 @@ export default function CadastroCheques() {
                     onChange={handleInputChange}>
                     <option></option>
                     {
-                        linhas.map(linha => 
+                        linhas.map(linha =>
                             <option
                                 value={linha}
                                 key={linha}>
@@ -293,8 +261,7 @@ export default function CadastroCheques() {
         return inputs;
     }
 
-
-
+    // ---------------------------------- RENDER ELEMENTS --------------------------------------------
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -317,36 +284,32 @@ export default function CadastroCheques() {
 
                     </select>
                     <h4>Data de Recebimento:</h4>
-                        <input
-                            type="date"
-                            name="data_rec"
-                            onChange={handleInputChange}
-                            id="data_rec"
-                            required
-                            className="input"
-                            defaultValue={new Date().toISOString().split("T")[0]}
-                        />
+                    <input
+                        type="date"
+                        name="data_rec"
+                        onChange={handleInputChange}
+                        id="data_rec"
+                        required
+                        className="input"
+                        defaultValue={new Date().toISOString().split("T")[0]}
+                    />
 
-                        <h4>Tipo:</h4>
-                        <input
-                            type="text"
-                            name="tipo"
-                            onChange={handleInputChange}
-                            defaultValue="Cheque"
-                            
-                        />
-                    
+                    <h4>Tipo:</h4>
+                    <input
+                        type="text"
+                        name="tipo"
+                        onChange={handleInputChange}
+                        defaultValue="Cheque"
+                    />
                 </div>
 
-                
+
 
                 <section className={`${style.formCtrCenter} ${style.formVarQtd}`}>
-
                     <div className={style.inputCtrMultiple} >
                         <h4>Número:</h4>
                         {defineQtdCheques(qtdCheques)}
                         <button className={`${style.button} ${style.smallerButton}`} onClick={replicateNumCheque}>Replicar Número</button>
-                        
                     </div>
 
                     <div className={style.inputCtrMultiple} >
@@ -372,12 +335,6 @@ export default function CadastroCheques() {
                             {defineQtdLinha(qtdCheques)}
                         </div>
                     </fieldset>
-
-                    
-                    
-
-
-
                 </section>
 
                 <h3 className={style.name}>Dados da Venda</h3>
@@ -390,7 +347,6 @@ export default function CadastroCheques() {
                         handleClick={handleClick}
                         required={true}
                     />
-
 
                     <div className={style.inputCtr} >
                         <h4>Código do Cliente:</h4>
@@ -478,9 +434,8 @@ export default function CadastroCheques() {
                             className="input"
                         />
                     </div>
-
-
                 </section>
+
                 <section className={style.formCtr}>
                     <button
                         type="submit"
@@ -494,9 +449,7 @@ export default function CadastroCheques() {
                     >Limpar
                     </button>
                 </section>
-
             </form>
         </>
     )
-
 }

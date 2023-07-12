@@ -238,7 +238,6 @@ export default function Clientes() {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log(response)
                     getAllClients();
                 }
             }
@@ -325,9 +324,6 @@ export default function Clientes() {
             console.log(error);
         }
     }
-
-
-
 
     useEffect(() => {
         getAllClients();
