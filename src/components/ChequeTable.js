@@ -26,20 +26,20 @@ export default function ChequeTable(props) {
         <table className="table">
             <thead>
                 <tr>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Cod. Cliente</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Cliente</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Grupo</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>No. Cheque</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Pedido</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Valor</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Destino</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Data Venc.</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Comp.</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Venc.</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Linha</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Obs</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Editar</th>
-                    <th style={{ position: 'sticky',  top: 0, backgroundColor: 'lightgray'}}>Excluir</th>
+                    <th>Cod. Cliente</th>
+                    <th>Cliente</th>
+                    <th>Grupo</th>
+                    <th>No. Cheque</th>
+                    <th>Pedido</th>
+                    <th>Valor</th>
+                    <th>Destino</th>
+                    <th>Data Venc.</th>
+                    <th>Comp.</th>
+                    <th>Venc.</th>
+                    <th>Linha</th>
+                    <th>Obs</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
                 </tr>
             </thead>
             <tbody>

@@ -48,13 +48,11 @@ export default function Grupos() {
         }
     }
 
-
     useEffect(() => {
         getAllGrupos()
     }, []);
 
     // POST
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -65,9 +63,7 @@ export default function Grupos() {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-
                 nome: formValues.nome,
-
             })
         })
             .then(response => {
@@ -76,10 +72,8 @@ export default function Grupos() {
                     getAllGrupos();
                 }
             }
-
             )
-            .then(clearInputs())
-
+            .then(clearInputs)
     }
 
     // DELETE 
@@ -122,10 +116,7 @@ export default function Grupos() {
         const id = e.target.closest('tr').getAttribute('data-cod');
         setEditId(id);
         const nome = document.getElementById(id).innerHTML;
-
-
         const nomeInput = document.getElementById('nome');
-
         nomeInput.value = nome;
 
         const addButton = document.getElementById('adicionaCliente');
@@ -133,8 +124,6 @@ export default function Grupos() {
 
         const editButton = document.getElementById('editButton');
         editButton.style.display = "block";
-
-
     }
 
     const handleClear = (e) => {
@@ -154,7 +143,6 @@ export default function Grupos() {
         const nome = document.getElementById('nome').value;
         const id = editId;
 
-
         nome && fetch(`${baseURL}/grupos`, {
             method: 'PUT',
             headers: {
@@ -171,9 +159,8 @@ export default function Grupos() {
                     getAllGrupos();
                 }
             }
-
             )
-            .then(clearInputs())
+            .then(clearInputs)
             .then(() => {
                 const addButton = document.getElementById('adicionaCliente');
                 addButton.style.display = 'block';
@@ -182,8 +169,6 @@ export default function Grupos() {
                 editButton.style.display = "none";
             })
     }
-
-
 
 
     return (
@@ -219,7 +204,7 @@ export default function Grupos() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredList && filteredList.map((destino) => (
+                    {filteredList?.map((destino) => (
                         <tr key={destino.nome} data-cod={destino.id}>
                             <td id={destino.id}>{destino.nome}</td>
                             <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>

@@ -109,13 +109,18 @@ export const rearrangeDate = (date) => {
     return `${parts[2]}-${parts[1]}-${parts[0]}`
 }
 
-export const deleteEditClass = () => {
-    const allTds = document.querySelectorAll('td, img');
-    for (let td of allTds) {
-        td.classList.remove(`${style.editTrue}`);
-    }
-}
-
 export const transformValue = (value) => {
     return value.toString().replace(',', 'x').replace('.', ',').replace('x', '.').replace('R$', '$');
+}
+
+export function getKeyByValue(object, value) {
+    let correctObj;
+    for (let obj of object) {
+
+        if (obj['nome'] === value) {
+            correctObj = obj;
+        }
+    }
+    const result = correctObj ? correctObj.id : null;
+    return result;
 }

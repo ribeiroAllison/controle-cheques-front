@@ -1,7 +1,7 @@
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { clearInputs, linhas, isVencido, isCompensado, transformDate, rearrangeDate, deleteEditClass, transformValue } from "@/utils/utils"
+import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils"
 import HeaderLine from "@/components/HeaderLine"
 import ChequeTable from "./ChequeTable"
 import { getCookie } from "@/utils/cookie"
@@ -192,15 +192,17 @@ export default function ChequeControl(props) {
             refreshSearch();
             refreshTables();
             clearInputs('editInput');
-            deleteEditClass();
         }
 
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
         const editRow = document.getElementById(`row${chequeId}`);
+
         if (editRow) {
-            editRow.style.backgroundColor = "white"
+            editRow.style.backgroundColor = "white";
         }
+
+        deleteEditClass();
     }
 
     // CHECK SEARCH SUBMIT HANDLE
@@ -387,6 +389,15 @@ export default function ChequeControl(props) {
 
 
     //------------------------------ AUXILIARY FUNCTIONS -----------------------------------------------------------
+
+
+    // ALTERS STYLE FROM ROW ELEMENTS
+    const deleteEditClass = () => {
+        const allTds = document.querySelectorAll('td, img');
+        for (let td of allTds) {
+            td.classList.remove(`${style.editTrue}`);
+        }
+    }
 
     // SEARCH REFRESHING HANDLE
     const refreshSearch = async () => {
