@@ -24,7 +24,8 @@ export default function Clientes() {
             codigo: "",
             nome: "",
             doc: "",
-            status: ""
+            status: "",
+            grupo: ""
         }
     );
     const [clientSerialId, setClientSerialId] = useState();
@@ -148,6 +149,7 @@ export default function Clientes() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
+        console.log('Novo item => ', formValues)
     };
 
     // GET GROUPS FUNCTION
@@ -170,29 +172,29 @@ export default function Clientes() {
     // HANDLING EDITING FIELDS
     const handleEdit = (e) => {
         const cod = e.target.name;
-        const nome = document.getElementById(`client${cod}`).innerHTML;
-        const doc = document.getElementById(`doc${cod}`).innerHTML;
-        const grup = document.getElementById(`grupo${cod}`).innerHTML;
-        const status = document.getElementById(`status${cod}`).innerHTML;
+        const client = clientList.find((client) => client.cod === cod);
 
-        const codInput = document.getElementById('codigo');
-        const nomeInput = document.getElementById('nome');
-        const docInput = document.getElementById('doc');
-        const grupoInput = document.getElementById('grupo');
-        const statusInput = document.getElementById('status');
+        if (client) {
+            const { cliente, doc, status, grupo } = client;
 
-        codInput.value = cod;
-        nomeInput.value = nome;
-        docInput.value = doc;
-        grupoInput.value = grup;
-        statusInput.value = status;
+            setFormValues({
+                ...formValues,
+                codigo: cod,
+                nome: cliente,
+                doc: doc,
+                status: status,
+                grupo: grupo
+            });
 
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'none';
+            const addButton = document.getElementById('adicionaCliente');
+            addButton.style.display = 'none';
 
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "block";
-        codInput.setAttribute('disabled', "disabled")
+            const editButton = document.getElementById('editButton');
+            editButton.style.display = "block";
+
+            const codInput = document.getElementById('codigo');
+            codInput.setAttribute('disabled', 'disabled');
+        }
     }
 
     // CHANGES INPUT SECTION TO EDIT SECTION
@@ -212,29 +214,22 @@ export default function Clientes() {
             codigo: "",
             nome: "",
             doc: "",
-            status: ""
+            status: "",
+            grupo: "",
         })
     }
 
     // CLEAR CLIENTS FORM INPUTS
     const clearInputs = () => {
-        const codInput = document.getElementById('codigo');
-        const nomeInput = document.getElementById('nome');
-        const docInput = document.getElementById('doc');
         const grupoInput = document.getElementById('grupo');
-        const statusInput = document.getElementById('status');
-
-        codInput.value = "";
-        nomeInput.value = "";
-        docInput.value = "";
         grupoInput.value = "";
-        statusInput.value = "";
 
         setFormValues({
             codigo: "",
             nome: "",
             doc: "",
-            status: ""
+            status: "",
+            grupo: ""
         });
     }
 
@@ -253,7 +248,6 @@ export default function Clientes() {
                 console.log(error);
             }
         };
-
         fetchData();
     }, []);
 
@@ -269,30 +263,32 @@ export default function Clientes() {
             <form className={style.formCtr} onSubmit={handleSubmit}>
                 <div className={style.inputCtr} >
                     <h4>Código:</h4>
-                    <input type="text" name="codigo" onChange={handleInputChange} id="codigo" placeholder="Código do Cliente" />
+                    <input type="text" name="codigo" onChange={handleInputChange} value={formValues.codigo} id="codigo" placeholder="Código do Cliente" />
                 </div>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente" />
+                    <input type="text" name="nome" onChange={handleInputChange} value={formValues.nome} id="nome" required placeholder="Nome do Cliente" />
                 </div>
                 <div className={style.inputCtr} >
                     <h4>CPF/CNPJ:</h4>
-                    <input type="text" name="doc" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ" />
+                    <input type="text" name="doc" onChange={handleInputChange} value={formValues.doc} id="doc" required placeholder="Digite CPF ou CNPJ" />
                 </div>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Grupo:</h4>
-                    <select id="grupo" className={style.select}>
+                    <select id="grupo" name="grupo" className={style.select} value={formValues.grupo} onChange={handleInputChange}>
                         <option></option>
-                        {
-                            grupo?.map((emp) => {
-                                return <option key={emp.id} data={emp.id}>{emp.nome}</option>
-                            })
-                        }
+                        {grupo?.map((emp) => {
+                            return (
+                                <option key={emp.id} value={emp.nome} selected={emp.nome === formValues.grupo}>
+                                    {emp.nome}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
                 <div className={style.inputCtr} >
                     <h4>Status:</h4>
-                    <select className={style.select} id="status" name="status" onChange={handleInputChange}>
+                    <select className={style.select} id="status" name="status" value={formValues.status} onChange={handleInputChange}>
                         <option></option>
                         <option>Bom</option>
                         <option>Médio</option>
