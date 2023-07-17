@@ -12,7 +12,7 @@ export class Cheques {
             const response = await connection.get('/cheques/all');
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -39,7 +39,7 @@ export class Cheques {
             });
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -49,7 +49,7 @@ export class Cheques {
             const response = await connection.get('/cheques/linha');
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -59,7 +59,7 @@ export class Cheques {
             const response = await connection.get('/cheques/sem-destino');
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -69,7 +69,7 @@ export class Cheques {
             const response = await connection.get('/cheques/a-vencer');
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -77,9 +77,10 @@ export class Cheques {
     static async addNewCheck(formValues, qtdCheques) {
         try {
             let checksList = [];
+            let responses = [];
 
             for (let i = 0; i < qtdCheques; i++) {
-                await connection.post('/cheques', {
+                const response = await connection.post('/cheques', {
                     num: formValues[`num${i}`],
                     valor: formValues[`valor${i}`].replace(',', '.'),
                     data_rec: formValues.data_rec,
@@ -102,20 +103,19 @@ export class Cheques {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-
+                responses.push(response);
                 checksList.push(formValues[`num${i}`]);
             }
-
-            alert(`Cheque ${checksList.map((num) => num)} cadastrado(s) com sucesso!`);
+            return responses;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
     // EDIT CHECK DATA
     static async editCheck(editFormValues, chequeId) {
         try {
-            await connection.put('/cheques', {
+            const response = await connection.put('/cheques', {
                 id: chequeId,
                 cliente: editFormValues.cliente_cod,
                 numCheque: editFormValues.número_cheque,
@@ -136,8 +136,9 @@ export class Cheques {
             });
 
             alert(`Cheque ${editFormValues.número_cheque} editado com sucesso!`);
+            return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 }

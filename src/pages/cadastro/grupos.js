@@ -1,117 +1,60 @@
-import HeaderLine from "@/components/HeaderLine"
-import Header from "@/components/Header"
-import SearchFilter from "@/components/SearchFilter"
-import style from "@/styles/clientes.module.css"
-import { baseURL } from "@/utils/url"
-import { useState, useEffect } from "react"
-import { getCookie } from "@/utils/cookie"
-
-
+import HeaderLine from "@/components/HeaderLine";
+import Header from "@/components/Header";
+import SearchFilter from "@/components/SearchFilter";
+import style from "@/styles/clientes.module.css";
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";;
+import 'react-toastify/dist/ReactToastify.css';
+import { Grupo } from "@/api/GrupoService";
 
 export default function Grupos() {
-
-    const token = getCookie('token');
-
+    const notifySuccess = (msg) => toast.success(msg);
+    const notifyFailure = (msg) => toast.error(msg);
+    
+    // STATES
     const [formValues, setFormValues] = useState({ nome: "" });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
-    };
-
-    const clearInputs = () => {
-
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = "";
-
-    }
-
+    const [editId, setEditId] = useState();
     const [grupos, setGrupos] = useState([]);
     const [filteredList, setFilteredList] = useState();
 
+    // QUERIES ALL GROUPS
     async function getAllGrupos() {
-        try {
-            const response = await fetch(`${baseURL}/grupos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setGrupos(jsonResponse);
-                setFilteredList(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
+        const { data } = await Grupo.getAllGrupos();
+        if (data) {
+            setGrupos(data);
+            setFilteredList(data);
         }
     }
 
-    useEffect(() => {
-        getAllGrupos()
-    }, []);
-
-    // POST
-    const handleSubmit = (e) => {
+    // POSTS A NEW GROUP
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        formValues.nome && fetch(`${baseURL}/grupos`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                nome: formValues.nome,
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert(`Grupo ${formValues.nome} cadastrado com sucesso!`)
-                    getAllGrupos();
-                }
-            }
-            )
-            .then(clearInputs)
+        const response = await Grupo.createGroup(formValues);
+        if (response && response.status === 201) {
+            clearInputs();
+            notifySuccess(response.data);
+            getAllGrupos();
+        } else {
+            notifyFailure(response.data);
+        }
     }
 
-    // DELETE 
-
-    const handleDelete = (e) => {
+    // DELETE A GROUP
+    const handleDelete = async (e) => {
         const confirmation = confirm('Você realmente deseja apagar esse grupo?');
-
         if (confirmation) {
             const id = e.target.closest('tr').getAttribute('data-cod');
-
-            fetch(`${baseURL}/grupos`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id: id
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        getAllGrupos();
-                    } else {
-                        response.text().then(errorMessage => {
-                            alert(errorMessage);
-                        });
-                    }
-                })
-                .catch(error => {
-                    alert('Error: ' + error.message);
-                });
+            const response = await Grupo.deleteGroup(id);
+            if (response && response.status === 201) {
+                notifySuccess(response.data);
+                getAllGrupos();
+            } else {
+                notifyFailure(response.data)
+            }
         }
-
     }
-    // UPDATE
 
-    const [editId, setEditId] = useState();
+    // FIELDS EDIT HANDLING
     const handleEdit = (e) => {
         const id = e.target.closest('tr').getAttribute('data-cod');
         setEditId(id);
@@ -126,6 +69,27 @@ export default function Grupos() {
         editButton.style.display = "block";
     }
 
+    // EDITS A GROUP IN DB
+    async function submitEdit(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nome').value;
+        const id = editId;
+        const response = await Grupo.editGroup(id, nome);
+        if (response && response.status === 200) {
+            notifySuccess(response.data);
+            getAllGrupos();
+            clearInputs();
+        } else {
+            notifyFailure(response.data);
+        }
+        const addButton = document.getElementById('adicionaCliente');
+        addButton.style.display = 'block';
+        const editButton = document.getElementById('editButton');
+        editButton.style.display = "none";
+    }
+
+    // -------------------------------- AUX FUNCTIONS -------------------------------
+
     const handleClear = (e) => {
         e.preventDefault();
 
@@ -137,46 +101,26 @@ export default function Grupos() {
         editButton.style.display = "none";
     }
 
-    async function submitEdit(e) {
-        e.preventDefault();
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+    };
 
-        const nome = document.getElementById('nome').value;
-        const id = editId;
-
-        nome && fetch(`${baseURL}/grupos`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                id: id,
-                nome: nome
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-                    getAllGrupos();
-                }
-            }
-            )
-            .then(clearInputs)
-            .then(() => {
-                const addButton = document.getElementById('adicionaCliente');
-                addButton.style.display = 'block';
-
-                const editButton = document.getElementById('editButton');
-                editButton.style.display = "none";
-            })
+    const clearInputs = () => {
+        const nomeInput = document.getElementById('nome');
+        nomeInput.value = "";
     }
 
+    useEffect(() => {
+        getAllGrupos()
+    }, []);
 
     return (
         <>
+            <ToastContainer autoClose={2000} />
             <Header />
             <h3 className={style.name}>Cadastro de Grupos</h3>
             <form className={style.formCtr}>
-
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas" />
@@ -194,7 +138,6 @@ export default function Grupos() {
                 setFilteredList={setFilteredList}
                 param="nome"
             />
-
             <table className="table" id={style.smallTable}>
                 <thead>
                     <tr>
@@ -213,9 +156,6 @@ export default function Grupos() {
                     ))}
                 </tbody>
             </table>
-
         </>
     )
-
-
 }

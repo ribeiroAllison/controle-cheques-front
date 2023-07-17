@@ -1,15 +1,22 @@
-import Header from "@/components/Header"
-import style from "@/styles/clientes.module.css"
-import ClientSearchBox from "@/components/ClientSearchBox"
-import { baseURL } from "@/utils/url"
-import { useState, useEffect } from "react"
-import { linhas, clearInputs } from "@/utils/utils"
-import { getCookie } from "@/utils/cookie"
-import { Cheques } from "@/api/ChequeService"
+import Header from "@/components/Header";
+import style from "@/styles/clientes.module.css";
+import ClientSearchBox from "@/components/ClientSearchBox";
+import { baseURL } from "@/utils/url";
+import { useState, useEffect } from "react";
+import { linhas, clearInputs } from "@/utils/utils";
+import { getCookie } from "@/utils/cookie";
+import { Cheques } from "@/api/ChequeService";
+import { ToastContainer, toast } from "react-toastify";;
+import 'react-toastify/dist/ReactToastify.css'; import { Cliente } from "@/api/ClienteService";
+import { Destino } from "@/api/DestinoService";
+;
 
 export default function CadastroCheques() {
 
     const token = getCookie('token');
+
+    const notifySuccess = (msg) => toast.success(msg);
+    const notifyFailure = (msg) => toast.error(msg);
 
     const [formValues, setFormValues] = useState(
         {
@@ -73,7 +80,14 @@ export default function CadastroCheques() {
     // HANDLES CHECK(S) SUBMISSION - POST TO DB
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await Cheques.addNewCheck(formValues, qtdCheques);
+        const response = await Cheques.addNewCheck(formValues, qtdCheques);
+        response.map((res) => {
+            if(res.status === 201){
+                notifySuccess(res.data);
+            } else {
+                notifyFailure(res.data);
+            }
+        })
         clearInputs('input');
     }
 
@@ -81,20 +95,9 @@ export default function CadastroCheques() {
 
     // QUERY ALL CLIENTS
     async function getAllClients() {
-        try {
-            const response = await fetch(`${baseURL}/clientes`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setClientList(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
+        const { data } = await Cliente.getAllClients();
+        if (data) {
+            setClientList(data);
         }
     }
 
@@ -117,19 +120,9 @@ export default function CadastroCheques() {
 
     // QUERY ALL DESTINATIONS
     async function getAllDestinos() {
-        try {
-            const response = await fetch(`${baseURL}/destinos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setDestinoList(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
+        const { data } = await Destino.getAllDestinos();
+        if (data) {
+            setDestinoList(data);
         }
     }
 
@@ -171,13 +164,13 @@ export default function CadastroCheques() {
         setFormValues(updatedFormValues); // Update the formValues with the new object containing all the values
     };
 
-    // AUX
+    // AUX REPLICATE CHECK NUMBERS FOR INPUT
     const replicateNumCheque = (e) => {
         e.preventDefault()
         replicateData('numCheque', true, 'num');
     }
 
-    // AUX
+    // AUX DEFINTION OF CHECK VALUES ACCORDING TO QTY
     const defineQtdValores = (qtd) => {
         const inputs = [];
         for (let i = 0; i < qtd; i++) {
@@ -196,7 +189,7 @@ export default function CadastroCheques() {
         return inputs;
     }
 
-    // AUX
+    // AUX VALUES REPLICATE
     const replicateValor = (e) => {
         e.preventDefault()
         replicateData('valorCheque', false, 'valor');
@@ -264,6 +257,7 @@ export default function CadastroCheques() {
     // ---------------------------------- RENDER ELEMENTS --------------------------------------------
     return (
         <>
+            <ToastContainer autoClose={2000} />
             <form onSubmit={handleSubmit}>
                 <Header />
 

@@ -15,8 +15,8 @@ export default function Clientes() {
 
     const token = getCookie('token');
 
-    const notifySuccess = () => toast.success("Cliente deletado com sucesso!");
-    const notifyFailure = () => toast.error("Cliente tem cheques pendentes, e não pode ser deletado!");
+    const notifySuccess = (msg) => toast.success(msg);
+    const notifyFailure = (msg) => toast.error(msg);
 
     // STATES
     const [formValues, setFormValues] = useState(
@@ -38,7 +38,7 @@ export default function Clientes() {
     // --------------------------------- CLIENTS FUNCTIONS ------------------------------------
 
     //GET ALL CLIENTS FROM DB
-    async function getAllClients() {
+    const getAllClients = async () => {
         const { data } = await Cliente.getAllClients();
         if (data) {
             setClientList(data);
@@ -47,7 +47,7 @@ export default function Clientes() {
     }
 
     // ADDS A NEW CLIENT
-    const handleSubmit = async (e) => {
+    const createNewClient = async (e) => {
         e.preventDefault();
         const grupoName = document.getElementById('grupo').value;
         const grupoId = getKeyByValue(grupo, grupoName);
@@ -63,18 +63,20 @@ export default function Clientes() {
             }
         }
 
-        await Cliente.createClient(formValues, lastClientId, grupoId).then(() => {
+        const response = await Cliente.createClient(formValues, lastClientId, grupoId);
+        if (response && response.status === 201) {
             clearInputs();
             getAllClients();
             findLastId();
             getAllSerialId();
-        }).catch((error) => {
-            console.log(error)
-        })
+            notifySuccess(response.data);
+        } else {
+            notifyFailure(response.data)
+        }
     }
 
     // EDITS CLIENT IN DB
-    async function submitEdit(e) {
+    const submitEdit = async (e) => {
         e.preventDefault();
         const grupoName = document.getElementById('grupo').value;
 
@@ -86,9 +88,12 @@ export default function Clientes() {
             status: document.getElementById('status').value,
         }
 
-        await Cliente.editClient(user).then(() => {
+        const response = await Cliente.editClient(user);
+        if (response && response.status === 200) {
             getAllClients();
-            clearInputs()
+            clearInputs();
+            notifySuccess(response.data);
+
             const addButton = document.getElementById('adicionaCliente');
             addButton.style.display = 'block';
 
@@ -97,26 +102,26 @@ export default function Clientes() {
 
             const codInput = document.getElementById('codigo');
             codInput.removeAttribute('disabled');
-        })
+        } else {
+            notifyFailure(response.data);
+        }
     }
 
-    //DELETE CLIENT FUNCTION
+    // DELETE CLIENT FUNCTION
     const handleDelete = async (e) => {
         const cod = e.target.closest('tr').getAttribute('data-cod');
-        try {
-            const confirmation = confirm('Você realmente quer apagar este cliente?');
-            if (confirmation) {
-                await Cliente.deleteClient(cod).then(() => {
-                    notifySuccess();
-                    getAllClients();
-                }).catch(() => {
-                    notifyFailure()
-                });
+        const confirmation = confirm('Você realmente quer apagar este cliente?');
+        if (confirmation) {
+            const response = await Cliente.deleteClient(cod);
+            if (response && response.status === 201) {
+                getAllClients();
+                notifySuccess(response.data);
+            } else {
+                notifyFailure(response.data);
             }
-        } catch (error) {
-            console.log(error);
         }
     };
+
 
     // QUERY FROM DB TO RETRIEVE CLIENTS SERIAL_ID
     const getAllSerialId = async () => {
@@ -149,7 +154,6 @@ export default function Clientes() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
-        console.log('Novo item => ', formValues)
     };
 
     // GET GROUPS FUNCTION
@@ -260,7 +264,7 @@ export default function Clientes() {
             <ToastContainer autoClose={2000} />
             <Header />
             <h3 className={style.name}>Cadastro de Clientes</h3>
-            <form className={style.formCtr} onSubmit={handleSubmit}>
+            <form className={style.formCtr} onSubmit={createNewClient}>
                 <div className={style.inputCtr} >
                     <h4>Código:</h4>
                     <input type="text" name="codigo" onChange={handleInputChange} value={formValues.codigo} id="codigo" placeholder="Código do Cliente" />

@@ -16,7 +16,7 @@ export class Cliente {
             });
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -30,7 +30,7 @@ export class Cliente {
             });
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
@@ -47,14 +47,14 @@ export class Cliente {
                     }
                 });
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
     // CREATE A CLIENT
     static async createClient(client, lastClientId, grupoId) {
         try {
-            await connection.post('/clientes', {
+            const response = await connection.post('/clientes', {
                 cod: client.codigo || `IT${lastClientId}`,
                 nome: client.nome,
                 doc: client.doc,
@@ -66,17 +66,16 @@ export class Cliente {
                     'Authorization': `Bearer ${token}`
                 }
             })
-
-            alert(`Cliente ${client.nome} criado com sucesso!`)
+            return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
     // EDIT A CLIENT
     static async editClient(client) {
         try {
-            const response = await connection.put(`/clientes`, {
+            const response = await connection.put('/clientes', {
                 cod: client.cod,
                 nome: client.nome,
                 doc: client.doc,
@@ -88,23 +87,25 @@ export class Cliente {
                     'Authorization': `Bearer ${token}`
                 }
             })
-
-            console.log(response)
-            alert(`Cliente ${client.cod} editado com sucesso!`);
             return response;
         } catch (error) {
-            console.log(error);
+            return error.response;
         }
     }
 
     // DELETE A CLIENT
     static async deleteClient(cod) {
-        await connection.delete('/clientes', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            data: { cod: cod }
-        });
+        try {
+            const response = await connection.delete('/clientes', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { cod: cod }
+            });
+            return response;
+        } catch (error) {
+            return error.response;
+        }
     }
 }

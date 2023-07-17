@@ -187,30 +187,25 @@ export default function ChequeControl(props) {
     // CHECK EDIT SUBMIT HANDLING
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        const response = await Cheques.editCheck(editFormValues, chequeId);
-        if (response) {
+        await Cheques.editCheck(editFormValues, chequeId).then(() => {
             refreshSearch();
             refreshTables();
             clearInputs('editInput');
-        }
-
-        const editWindow = document.getElementById('editWindowBackground');
-        editWindow.style.display = "none";
-        const editRow = document.getElementById(`row${chequeId}`);
-
-        if (editRow) {
-            editRow.style.backgroundColor = "white";
-        }
-
-        deleteEditClass();
+        }).then(() => {
+            const editWindow = document.getElementById('editWindowBackground');
+            editWindow.style.display = "none";
+            const editRow = document.getElementById(`row${chequeId}`);
+            if (editRow) {
+                editRow.style.backgroundColor = "white";
+            }
+            deleteEditClass();
+        })
     }
 
     // CHECK SEARCH SUBMIT HANDLE
     const handleSearchSubmit = async (e) => {
         e?.preventDefault();
-
         const { data } = await Cheques.getSearchedCheques(formValues);
-
         if (data) {
             setChequeslist(data);
             clearInputs('input');
