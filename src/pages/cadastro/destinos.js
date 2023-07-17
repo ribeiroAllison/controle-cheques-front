@@ -1,118 +1,68 @@
-import HeaderLine from "@/components/HeaderLine"
-import Header from "@/components/Header"
-import SearchFilter from "@/components/SearchFilter"
-import style from "@/styles/clientes.module.css"
-import { baseURL } from "@/utils/url"
+import HeaderLine from "@/components/HeaderLine";
+import Header from "@/components/Header";
+import SearchFilter from "@/components/SearchFilter";
+import style from "@/styles/clientes.module.css";
 import { useState, useEffect } from "react"
-import { getCookie } from "@/utils/cookie"
-
-
+import { Destino } from "@/api/DestinoService";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Destinos() {
 
-    const token = getCookie('token');
+    const notifySuccess = (msg) => toast.success(msg);
+    const notifyFailure = (msg) => toast.error(msg);
 
+    //STATES
     const [formValues, setFormValues] = useState({ nome: "" });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
-    };
-
-    const clearInputs = () => {
-
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = "";
-
-    }
-
     const [destinos, setDestinos] = useState([]);
     const [filteredList, setFilteredList] = useState();
+    const [editId, setEditId] = useState();
 
+
+    // ----------------------------------- DESTINATION FUNCTIONS---------------------------------------
+
+    // QUERY ALL DESTINATIONS IN DB
     async function getAllDestinos() {
-        try {
-            const response = await fetch(`${baseURL}/destinos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setDestinos(jsonResponse);
-                setFilteredList(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
+        const { data } = await Destino.getAllDestinos();
+        if (data) {
+            setDestinos(data)
         }
     }
 
-
-    useEffect(() => {
-        getAllDestinos()
-    }, []);
-
-    // POST
-
-    const handleSubmit = (e) => {
+    // CREATE A NEW DESTINATION
+    const createDestination = async (e) => {
         e.preventDefault();
-
-        formValues.nome && fetch(`${baseURL}/destinos`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                nome: formValues.nome,
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-
-                    getAllDestinos();
-                }
-            }
-            )
-            .then(clearInputs)
+        const response = await Destino.createNewDestino(formValues);
+        if (response && response.status === 201) {
+            getAllDestinos();
+            notifySuccess(response.data);
+        } else {
+            notifyFailure(response.data);
+        }
     }
 
-    // DELETE 
-
-    const handleDelete = (e) => {
-
+    // DELETE A DESTINATION 
+    const handleDelete = async (e) => {
         const confirmation = confirm('Você realmente deseja apagar esse destino?')
+        const id = e.target.closest('tr').getAttribute('data-cod');
 
         if (confirmation) {
-            const id = e.target.closest('tr').getAttribute('data-cod');
-            fetch(`${baseURL}/destinos`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id: id
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        getAllDestinos();
-                    }
-                })
+            const response = await Destino.deleteDestino(id);
+            if (response && response.status === 201) {
+                getAllDestinos();
+                notifySuccess(response.data);
+            } else {
+                notifyFailure(response.data);
+            }
         }
     }
 
-    // UPDATE
-
-    const [editId, setEditId] = useState();
+    // HANDLE INPUT EDIT DESTINATION
     const handleEdit = (e) => {
         const id = e.target.closest('tr').getAttribute('data-cod');
         setEditId(id);
         const nome = document.getElementById(id).innerHTML;
-
-
         const nomeInput = document.getElementById('nome');
-
         nomeInput.value = nome;
 
         const addButton = document.getElementById('adicionaCliente');
@@ -122,66 +72,83 @@ export default function Destinos() {
         editButton.style.display = "block";
     }
 
-    const handleClear = (e) => {
+    // SUBMIT DESTINATIONS EDIT TO DB
+    const handleSubmitEdit = async (e) => {
         e.preventDefault();
-
-        clearInputs();
+        const nome = document.getElementById('nome').value;
+        const id = editId;
+        const response = await Destino.editDestino(id, nome);
+        if (response && response.status === 200) {
+            getAllDestinos();
+            clearInputs();
+            notifySuccess(response.data);
+        } else {
+            notifyFailure(response.data);
+        }
         const addButton = document.getElementById('adicionaCliente');
         addButton.style.display = 'block';
-
         const editButton = document.getElementById('editButton');
         editButton.style.display = "none";
     }
 
-    async function submitEdit(e) {
+
+    // ----------------------------------- AUXILIARY FUNCTIONS ---------------------------------------
+
+    // CLEAR INPUTS HANDLING
+    const handleClear = (e) => {
         e.preventDefault();
-
-        const nome = document.getElementById('nome').value;
-        const id = editId;
-
-
-        nome && fetch(`${baseURL}/destinos`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                id: id,
-                nome: nome
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-                    console.log(response)
-                    getAllDestinos();
-                }
-            }
-
-            )
-            .then(clearInputs)
-            .then(() => {
-                const addButton = document.getElementById('adicionaCliente');
-                addButton.style.display = 'block';
-
-                const editButton = document.getElementById('editButton');
-                editButton.style.display = "none";
-            })
+        clearInputs();
+        const addButton = document.getElementById('adicionaCliente');
+        addButton.style.display = 'block';
+        const editButton = document.getElementById('editButton');
+        editButton.style.display = "none";
     }
 
+    // INPUT HANDLING
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+    };
+
+    // CLEARS INPUT VALUE IN FORM
+    const clearInputs = () => {
+        const nomeInput = document.getElementById('nome');
+        nomeInput.value = "";
+    }
+
+    useEffect(() => {
+        getAllDestinos();
+    }, []);
 
     return (
         <>
+            <ToastContainer autoClose={2000} />
             <Header />
             <h3 className={style.name}>Cadastro de Destinos</h3>
             <form className={style.formCtr}>
-
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Destinos de Cheques" />
+                    <input
+                        type="text"
+                        name="nome"
+                        onChange={handleInputChange}
+                        id="nome"
+                        required
+                        placeholder="Nome de Destinos de Cheques"
+                    />
                 </div>
-                <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
-                <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
+                <button
+                    className={`${style.button} ${style.editButton}`}
+                    id="editButton"
+                    onClick={handleSubmitEdit}
+                >Editar
+                </button>
+                <button
+                    className={style.button}
+                    id="adicionaCliente"
+                    onClick={createDestination}
+                >Adicionar
+                </button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
@@ -202,7 +169,7 @@ export default function Destinos() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredList?.map((destino) => (
+                    {destinos?.map((destino) => (
                         <tr key={destino.nome} data-cod={destino.id}>
                             <td id={destino.id}>{destino.nome}</td>
                             <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>

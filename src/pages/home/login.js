@@ -43,7 +43,7 @@ export default function Login() {
 
         setEmail('');
         setSenha('');
-        
+
         setTimeout(() => { router.push('/home/dashboard') }, 1100);
       } else {
         notifyFailure();
@@ -54,19 +54,7 @@ export default function Login() {
 
   return (
     <>
-      <ToastContainer
-        position="top-left"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
+      <ToastContainer autoClose={2000} />
       <HeaderLogin />
       <LoginCard title="Entre em sua conta">
         <form className={styles.formLogin} onSubmit={handleSubmit}>

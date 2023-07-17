@@ -16,7 +16,6 @@ export default function SearchFilter (props) {
             const filtered = props?.list.filter(item => item[props.param].toLowerCase().includes(searchParams?.toLowerCase()));
             props.setFilteredList(filtered);
         }
-        
     }
 
     useEffect(() =>{

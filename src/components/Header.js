@@ -63,12 +63,15 @@ export default function Header() {
                         </div>
                     </div>
                     <div className={style.menuOptionLogin}>
-                        <UserCircle
-                            className={style.icon}
-                            size={48}
-                            color="#A8E4A0"
-                            weight="regular"
-                        />
+
+                        <Link href="/home/perfil">
+                            <UserCircle
+                                className={style.icon}
+                                size={48}
+                                color="#A8E4A0"
+                                weight="regular"
+                            />
+                        </Link>
                         <Link href="/home/login" onClick={handleLogout}>
                             <SignOut
                                 className={style.icon}

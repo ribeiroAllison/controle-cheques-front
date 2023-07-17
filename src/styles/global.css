@@ -25,6 +25,10 @@
   text-decoration: none;
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
 .table {
   border-collapse: collapse;
   width: 90%;
@@ -34,6 +38,9 @@
 .table th {
   border: 1px solid black;
   font-size: 14px;
+  position: sticky;
+  top: 0;
+  background-color: var(--lightGray);
 }
 
 .table td {
@@ -75,8 +82,4 @@ Button a {
 
 a:hover{
   color: var(--labelGray);
-}
-
-#clienteBox{
-  z-index: 1;
 }

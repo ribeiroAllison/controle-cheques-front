@@ -80,20 +80,7 @@ export default function Cadastro() {
 
   return (
     <>
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      
-
+      <ToastContainer autoClose={2000} />
       <HeaderLogin />
       <LoginCard title="Crie sua conta">
         <form className={styles.formCadastro} onSubmit={handleSubmit}>

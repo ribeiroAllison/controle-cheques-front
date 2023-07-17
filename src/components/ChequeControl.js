@@ -1,17 +1,17 @@
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { clearInputs, linhas, isVencido, isCompensado } from "@/utils/utils"
+import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils"
 import HeaderLine from "@/components/HeaderLine"
 import ChequeTable from "./ChequeTable"
 import { getCookie } from "@/utils/cookie"
-
+import { Cheques } from "@/api/ChequeService"
 
 
 export default function ChequeControl(props) {
     const token = getCookie('token');
 
-    //Search by filter inputs
+    // STATES DEFINITION
     const [formValues, setFormValues] = useState(
         {
             cliente: "",
@@ -24,16 +24,7 @@ export default function ChequeControl(props) {
             data_compen: null,
             pedido: null,
             grupo: null
-        }
-
-    );
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
-    };
-
-    //Edit row Inputs
+        });
     const [editFormValues, setEditFormValues] = useState(
         {
             id: null,
@@ -48,331 +39,51 @@ export default function ChequeControl(props) {
             data_compen: null,
             data_destino: null,
             pedido: null
-        }
-    );
+        });
+    const [clientList, setClientList] = useState('');
+    const [allCheques, setAllCheques] = useState('');
+    const [searchResult, setSearchResult] = useState([{}]);
+    const [destinoList, setDestinoList] = useState();
+    const [chequesList, setChequeslist] = useState();
+    const [frozenParams, setFrozenParams] = useState();
+    const [grupos, setGrupos] = useState();
+    const [estornos, setEstornos] = useState();
+    const [semDestino, setSemDestino] = useState();
+    const [aVencer, setAVencer] = useState();
+    const [chequeId, setChequeId] = useState();
+    const [obsDetails, setObsDetails] = useState({
+        cliente: "",
+        obs: "",
+        num: ""
+    });
 
+
+    //------------------------------ HANDLING INPUTS -----------------------------------------------------------
+
+
+    // HANDLE INPUTS FOR NEW CHECKS
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+    };
+
+    // HANDLE INPUTS FOR EDITING EXISTING CHECKS
     const handleEditInputChange = (e) => {
         const { name, value } = e.target;
         setEditFormValues({ ...editFormValues, [name]: value });
     };
 
 
-    //Get name and id of all clients in db, so it can be searched by typing the a name
-    const [clientList, setClientList] = useState('');
+    //------------------------------ CHEQUES FUNCTIONS -----------------------------------------------------------
 
-    async function getAllClients() {
-        try {
-            const response = await fetch(`${baseURL}/clientes/nomecod`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
 
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setClientList(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const [allCheques, setAllCheques] = useState('');
-
+    // RETRIEVE ALL CHECKS
     async function getAllCheques() {
-        try {
-            const response = await fetch(`${baseURL}/cheques/all`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setAllCheques(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
+        const { data } = await Cheques.getAllCheques();
+        setAllCheques(data);
     }
 
-    useEffect(() => {
-        getAllClients()
-        getAllDestinos()
-        getGrupos()
-        getAllCheques()
-    }, [])
-
-    const [searchResult, setSearchResult] = useState([{}]);
-
-    const findClient = (formValues, id, targetField) => {
-        if (clientList) {
-            const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
-            setSearchResult(foundClientByName);
-            document.getElementById(id).style.display = searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value
-                ? 'none'
-                : 'block'
-        }
-    }
-
-    //Effects to change the options as user types client name on search or edit box
-    useEffect(() => {
-        findClient(formValues, "searchBox", 'cliente')
-    }, [formValues.cliente])
-
-    useEffect(() => {
-        findClient(editFormValues, "searchBoxEdit", 'clienteEdit')
-    }, [editFormValues.cliente])
-
-
-    const handleClick = (e) => {
-        setFormValues({ ...formValues, cliente_cod: e.target.value })
-        document.getElementById('searchBox').style.display = 'none';
-        document.getElementById('cliente').value = e.target.innerHTML;
-    }
-
-    const handleEditClick = (e) => {
-        setEditFormValues({ ...editFormValues, cliente_cod: e.target.value })
-        document.getElementById('searchBoxEdit').style.display = 'none';
-        document.getElementById('editCliente').value = e.target.innerHTML;
-    }
-
-    //Get all destinos and their IDs so destino options of select input can be populated
-    const [destinoList, setDestinoList] = useState();
-
-    async function getAllDestinos() {
-        try {
-            const response = await fetch(`${baseURL}/destinos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setDestinoList(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    // Get all grupos and their IDs so grupos options of select input can be populated
-    const [grupos, setGrupos] = useState();
-
-    async function getGrupos() {
-        try {
-            const response = await fetch(`${baseURL}/grupo`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setGrupos(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-
-    //State to search checks by filter
-    const [chequesList, setChequeslist] = useState();
-
-    //State to store the search params, so it can be reloaded after user makes an edit
-    const [frozenParams, setFrozenParams] = useState();
-
-    //Submit check search and get results from db
-    const handleSubmit = async (e) => {
-        e?.preventDefault();
-
-        const searchParams = new URLSearchParams({
-            cliente_cod: formValues.cliente_cod ? formValues.cliente_cod : '',
-            data_init: formValues.data_init ? formValues.data_init : '',
-            data_fim: formValues.data_fim ? formValues.data_fim : '',
-            compensado: formValues.compensado ? formValues.compensado : '',
-            destino_id: formValues.destino_id ? formValues.destino_id : '',
-            vencido: formValues.vencido ? formValues.vencido : '',
-            pedido: formValues.pedido ? formValues.pedido : '',
-            grupo: formValues.grupo ? formValues.grupo : '',
-            número_cheque: formValues.número_cheque ? formValues.número_cheque : ''
-        })
-
-        const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-
-        if (response.ok) {
-            let jsonResponse = await response.json();
-            setChequeslist(jsonResponse);
-            clearInputs('input');
-
-        } else {
-            console.error('Erro ao obter os cheques da API.');
-        }
-
-        setFrozenParams({
-            cliente: "",
-            cliente_cod: formValues.cliente_cod,
-            data_init: formValues.data_init,
-            data_fim: formValues.data_fim,
-            compensado: formValues.compensado,
-            destino_id: formValues.destino_id,
-            vencido: formValues.vencido
-        }
-
-        )
-
-        setFormValues({
-            cliente: "",
-            cliente_cod: null,
-            data_init: null,
-            data_fim: null,
-            compensado: null,
-            destino_id: null,
-            vencido: null
-        })
-    }
-
-    const [estornos, setEstornos] = useState()
-
-    const getEstornos = async (e) => {
-        e?.preventDefault();
-
-
-        const response = await fetch(`${baseURL}/cheques/linha`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-
-        if (response.ok) {
-            let jsonResponse = await response.json();
-            setEstornos(jsonResponse);
-        } else {
-            console.error('Erro ao obter os cheques da API.');
-        }
-    }
-
-    const [semDestino, setSemDestino] = useState();
-    const getSemDestino = async (e) => {
-        e?.preventDefault();
-
-
-        const response = await fetch(`${baseURL}/cheques/sem-destino`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-
-        if (response.ok) {
-            let jsonResponse = await response.json();
-            setSemDestino(jsonResponse);
-        } else {
-            console.error('Erro ao obter os cheques da API.');
-        }
-    }
-
-    const [aVencer, setAVencer] = useState();
-    const getAVencer = async (e) => {
-        e?.preventDefault();
-
-
-        const response = await fetch(`${baseURL}/cheques/a-vencer`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-
-        if (response.ok) {
-            let jsonResponse = await response.json();
-            setAVencer(jsonResponse);
-        } else {
-            console.error('Erro ao obter os cheques da API.');
-        }
-    }
-
-    const refreshTables = () => {
-        getEstornos()
-        getSemDestino()
-        getAVencer()
-    }
-
-    useEffect(() => {
-        refreshTables()
-    }, []);
-
-    const handleClear = (e) => {
-        e.preventDefault();
-        clearInputs('input');
-        setFormValues({
-            cliente: "",
-            cliente_cod: null,
-            data_init: null,
-            data_fim: null,
-            compensado: null,
-            destino_id: null,
-            vencido: null
-        })
-    }
-
-    const handleCloseEdit = (e) => {
-        e.preventDefault();
-        clearInputs('editInput');
-
-        const editWindow = document.getElementById('editWindowBackground');
-        editWindow.style.display = "none";
-
-        deleteEditClass();
-    }
-
-    const transformDate = (data) => {
-        const date = new Date(data);
-        return new Intl.DateTimeFormat('pt-BR').format(date);
-    }
-
-
-
-    const refreshSearch = async () => {
-        const searchParams = new URLSearchParams({
-            cliente_cod: frozenParams.cliente_cod ? frozenParams.cliente_cod : '',
-            data_init: frozenParams.data_init ? frozenParams.data_init : '',
-            data_fim: frozenParams.data_fim ? frozenParams.data_fim : '',
-            compensado: frozenParams.compensado ? frozenParams.compensado : '',
-            destino_id: frozenParams.destino_id ? frozenParams.destino_id : '',
-            vencido: frozenParams.vencido ? frozenParams.vencido : ''
-        })
-
-        const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-        if (response.ok) {
-            let jsonResponse = await response.json();
-            setChequeslist(jsonResponse);
-        } else {
-            console.error('Erro ao obter os cheques da API.');
-        }
-    }
-
+    // CHECK DELETE HANDLING
     const handleDelete = async (id) => {
         const confirmation = confirm('Você realmente deseja apagar esse cheque?')
 
@@ -395,25 +106,11 @@ export default function ChequeControl(props) {
             } catch (error) {
                 alert('Erro:' + error.message)
             }
-            props.submitOnMount ? refreshTables : refreshSearch();
+            props.submitOnMount ? refreshTables() : refreshSearch();
         }
     }
 
-
-    const rearrangeDate = (date) => {
-        const parts = date.split('/');
-        return `${parts[2]}-${parts[1]}-${parts[0]}`
-    }
-
-    const [chequeId, setChequeId] = useState();
-
-    const deleteEditClass = () => {
-        const allTds = document.querySelectorAll('td, img');
-        for (let td of allTds) {
-            td.classList.remove(`${style.editTrue}`);
-        }
-    }
-
+    // CHECK EDIT HANDLING
     const handleEdit = (cheque) => {
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "flex";
@@ -434,11 +131,9 @@ export default function ChequeControl(props) {
         const pedido = cheque.pedido;
         const valor = cheque.valor.replace('$', 'R$').replace(',', 'x').replace('.', ',').replace('x', '.')
         const obs = cheque.obs;
-
         const data_vencDate = cheque.data_venc
         const data_vencString = data_vencDate && transformDate(data_vencDate);
         const data_venc = data_vencString ? rearrangeDate(data_vencString) : null;
-        
         const linha = cheque.linha;
 
         const clienteInput = document.getElementById('editCliente');
@@ -473,9 +168,6 @@ export default function ChequeControl(props) {
         const dataCompDate = allCheques.find(cheque => cheque.id === Number(id))?.data_compen;
         const dataCompString = dataCompDate && transformDate(dataCompDate);
         const dataComp = dataCompString ? rearrangeDate(dataCompString) : null;
-
-        
-
         dataCompInput.value = dataComp;
 
         setEditFormValues({
@@ -492,78 +184,265 @@ export default function ChequeControl(props) {
         })
     }
 
-    const transformValue = (value) =>{
-        return value.toString().replace(',', 'x').replace('.', ',').replace('x', '.').replace('R$', '$');
+    // CHECK EDIT SUBMIT HANDLING
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        await Cheques.editCheck(editFormValues, chequeId).then(() => {
+            refreshSearch();
+            refreshTables();
+            clearInputs('editInput');
+        }).then(() => {
+            const editWindow = document.getElementById('editWindowBackground');
+            editWindow.style.display = "none";
+            const editRow = document.getElementById(`row${chequeId}`);
+            if (editRow) {
+                editRow.style.backgroundColor = "white";
+            }
+            deleteEditClass();
+        })
+    }
+
+    // CHECK SEARCH SUBMIT HANDLE
+    const handleSearchSubmit = async (e) => {
+        e?.preventDefault();
+        const { data } = await Cheques.getSearchedCheques(formValues);
+        if (data) {
+            setChequeslist(data);
+            clearInputs('input');
+        }
+
+        setFrozenParams({
+            cliente: "",
+            cliente_cod: formValues.cliente_cod,
+            data_init: formValues.data_init,
+            data_fim: formValues.data_fim,
+            compensado: formValues.compensado,
+            destino_id: formValues.destino_id,
+            vencido: formValues.vencido
+        })
+
+        setFormValues({
+            cliente: "",
+            cliente_cod: null,
+            data_init: null,
+            data_fim: null,
+            compensado: null,
+            destino_id: null,
+            vencido: null
+        })
+    }
+
+    // GET CHECKS ESTORNADOS
+    const getEstornos = async () => {
+        const { data } = await Cheques.getEstornos();
+        setEstornos(data);
+    }
+
+    // GET CHECKS SEM DESTINO
+    const getSemDestino = async () => {
+        const { data } = await Cheques.getSemDestino();
+        setSemDestino(data);
+    }
+
+    // GET CHECKS A VENCER
+    const getAVencer = async () => {
+        const { data } = await Cheques.getVencimentoProximo();
+        setAVencer(data);
     }
 
 
-    const handleEditSubmit = async (e) => {
-        e.preventDefault();
-        
+    //------------------------------ CLIENTS FUNCTIONS -----------------------------------------------------------
 
-        chequeId && fetch(`${baseURL}/cheques`, {
-            method: 'PUT',
+    // CLIENT FUNCTIONS
+    async function getAllClients() {
+        try {
+            const response = await fetch(`${baseURL}/clientes/nomecod`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setClientList(jsonResponse);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // SEARCH CLIENTS IN DB AS THE DATA IS TYPED IN THE FIELD
+    const findClient = (formValues, id, targetField) => {
+        if (clientList) {
+            const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
+            setSearchResult(foundClientByName);
+            document.getElementById(id).style.display = searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value
+                ? 'none'
+                : 'block'
+        }
+    }
+
+    // HANDLE CLICK ON CLIENTS SEARCH FIELD
+    const handleClick = (e) => {
+        setFormValues({ ...formValues, cliente_cod: e.target.value })
+        document.getElementById('searchBox').style.display = 'none';
+        document.getElementById('cliente').value = e.target.innerHTML;
+    }
+
+    // HANDLE CLICK ON CLIENTS
+    const handleEditClick = (e) => {
+        setEditFormValues({ ...editFormValues, cliente_cod: e.target.value })
+        document.getElementById('searchBoxEdit').style.display = 'none';
+        document.getElementById('editCliente').value = e.target.innerHTML;
+    }
+
+
+    //------------------------------ USE EFFECTS  ----------------------------------------------------------------
+
+    // INITIAL RENDER AND MOUNT
+    useEffect(() => {
+        getAllClients();
+        getAllDestinos();
+        getGrupos();
+        getAllCheques();
+        refreshTables();
+    }, [])
+
+    // RE-RENDER BASED ON CLIENT FIELD CHANGE
+    useEffect(() => {
+        findClient(formValues, "searchBox", 'cliente')
+    }, [formValues.cliente])
+
+    useEffect(() => {
+        findClient(editFormValues, "searchBoxEdit", 'clienteEdit')
+    }, [editFormValues.cliente])
+
+    //------------------------------ OTHER TABLES FUNCTIONS  ----------------------------------------------------------------
+
+    // DESTINO FUNCTIONS
+    async function getAllDestinos() {
+        try {
+            const response = await fetch(`${baseURL}/destinos`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setDestinoList(jsonResponse);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // GROUP FUNCTIONS
+    async function getGrupos() {
+        try {
+            const response = await fetch(`${baseURL}/grupo`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setGrupos(jsonResponse);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // EDIT SCREEN CLEAR HANDLE
+    const handleClear = (e) => {
+        e.preventDefault();
+        clearInputs('input');
+        setFormValues({
+            cliente: "",
+            cliente_cod: null,
+            data_init: null,
+            data_fim: null,
+            compensado: null,
+            destino_id: null,
+            vencido: null
+        })
+    }
+
+    // EDIT SCREEN CLOSING HANDLE
+    const handleCloseEdit = (e) => {
+        e.preventDefault();
+        clearInputs('editInput');
+
+        const editWindow = document.getElementById('editWindowBackground');
+        editWindow.style.display = "none";
+
+        deleteEditClass();
+    }
+
+
+    //------------------------------ AUXILIARY FUNCTIONS -----------------------------------------------------------
+
+
+    // ALTERS STYLE FROM ROW ELEMENTS
+    const deleteEditClass = () => {
+        const allTds = document.querySelectorAll('td, img');
+        for (let td of allTds) {
+            td.classList.remove(`${style.editTrue}`);
+        }
+    }
+
+    // SEARCH REFRESHING HANDLE
+    const refreshSearch = async () => {
+        const searchParams = new URLSearchParams({
+            cliente_cod: frozenParams.cliente_cod ? frozenParams.cliente_cod : '',
+            data_init: frozenParams.data_init ? frozenParams.data_init : '',
+            data_fim: frozenParams.data_fim ? frozenParams.data_fim : '',
+            compensado: frozenParams.compensado ? frozenParams.compensado : '',
+            destino_id: frozenParams.destino_id ? frozenParams.destino_id : '',
+            vencido: frozenParams.vencido ? frozenParams.vencido : ''
+        })
+
+        const response = await fetch(`${baseURL}/cheques?${searchParams.toString()}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                id: chequeId,
-                cliente: editFormValues.cliente_cod,
-                numCheque: editFormValues.número_cheque,
-                valor: transformValue(editFormValues.valor),
-                data_venc: editFormValues.data_venc,
-                compensado: isCompensado(editFormValues, 15),
-                vencido: isVencido(editFormValues, 4),
-                linha: editFormValues.linha,
-                destino: editFormValues.destino_id,
-                obs: editFormValues.obs,
-                data_compen: editFormValues.data_compen,
-                pedido: editFormValues.pedido
-            })
         })
-            .then(response => {
-                if (response.ok) {
-                    alert(`Cheque ${editFormValues.número_cheque} editado com sucesso!`)
-                    if (props.endPoint === 'cheques') {
-                        refreshSearch();
-                    } else {
-                        refreshTables()
-                    }
-                } else {
-                    alert(`Erro ao editar, tente novamente`)
-                }
-            })
-            .then(clearInputs('editInput'))
-            .then(deleteEditClass)
-
-
-
-
-        const editWindow = document.getElementById('editWindowBackground');
-        editWindow.style.display = "none";
-        const editRow = document.getElementById(`row${chequeId}`);
-        if (editRow) {
-            editRow.style.backgroundColor = "white"
+        if (response.ok) {
+            let jsonResponse = await response.json();
+            setChequeslist(jsonResponse);
+        } else {
+            console.error('Erro ao obter os cheques da API.');
         }
     }
 
+    // AUX OVERFLOW FUNCTION
     const toggleOverflow = () => {
         document.body.style.overflow = document.body.style.overflow === 'hidden' ? 'auto' : 'hidden';
     };
 
+    // GROUP FUNCTION GATHER DATA TO REFRESH TABLE FOR DASHBOARD
+    const refreshTables = () => {
+        getEstornos();
+        getSemDestino();
+        getAVencer();
+    }
+
+
+    //------------------------------ OBSERVATION FIELD FUNCTIONS ----------------------------------------------------
+
+    // OBSERVATION SCREEN CLOSING
     const closeObs = () => {
         const module = document.getElementsByClassName('obsScreen')[0];
         toggleOverflow();
         module.style.display = "none";
     }
-    const [obsDetails, setObsDetails] = useState({
-        cliente: "",
-        obs: "",
-        num: ""
-    });
 
-
+    // OBSERVATION SHOWING SCREEN HANDLING
     const handleOpenObs = (cheque) => {
         cheque &&
             setObsDetails({
@@ -577,6 +456,7 @@ export default function ChequeControl(props) {
         module.style.display = "flex";
     }
 
+    // OBSERVATION EDIT FIELD HANDLING
     const handleEditObs = async (e) => {
         e.preventDefault();
 
@@ -607,6 +487,7 @@ export default function ChequeControl(props) {
         }
     }
 
+    // OBSERVATION DELETE FIELD HANDLING
     const handleClearObs = async (e) => {
         e.preventDefault();
 
@@ -631,25 +512,13 @@ export default function ChequeControl(props) {
                 } else {
                     refreshSearch();
                 }
-
             }
         } catch (error) {
             alert('Erro' + error.message);
         }
     }
 
-    const assignClassStyle = (cheque) => {
-        if (cheque.vencido && !cheque.compensado && !cheque.linha && !cheque.destino) {
-            return style.vencTrue;
-        } else if (cheque.compensado) {
-            return style.chequeOK;
-        } else if (cheque.linha) {
-            return style.semFundo;
-        } else if (!cheque.compensado && cheque.destino) {
-            return style.withDestino;
-        }
-    }
-
+    //------------------------------ PAGE RENDERING ------------------------------------------------------------------
     return (
         <>
             {/* FILTER SCREEN */}
@@ -677,9 +546,7 @@ export default function ChequeControl(props) {
                                         grupos?.map(grupo => <option key={`grupo-${grupo.id}`} value={grupo.nome}>{grupo.nome}</option>)
                                     }
                                 </select>
-
                             </div>
-
                         </div>
 
 
@@ -733,7 +600,6 @@ export default function ChequeControl(props) {
                                         <option value={null}></option>
                                         <option value={false}>Não</option>
                                         <option value={true}>Sim</option>
-
                                     </select>
                                 </div>
 
@@ -746,15 +612,13 @@ export default function ChequeControl(props) {
 
                                     </select>
                                 </div>
-
                             </fieldset>
                         </div>
-
                     </div>
 
 
                     <div className={style.buttonCtr}>
-                        <button type="submit" className={style.button} id="buscaCheque" onClick={handleSubmit}>Buscar</button>
+                        <button type="submit" className={style.button} id="buscaCheque" onClick={handleSearchSubmit}>Buscar</button>
                         <button className={style.button} onClick={handleClear}>Limpar</button>
                     </div>
 
@@ -762,7 +626,7 @@ export default function ChequeControl(props) {
             </fieldset>
 
             {/* EDIT SCREEN */}
-            
+
             <div id="editWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
                     <div className={style.popupHeader}>
@@ -834,8 +698,6 @@ export default function ChequeControl(props) {
                             </div>
                         </div>
 
-
-
                         <div className={style.buttonCtr}>
                             <button type="submit" className={style.button} id="editaCheque" onClick={handleEditSubmit}>Salvar</button>
                         </div>
@@ -843,13 +705,9 @@ export default function ChequeControl(props) {
                 </section>
             </div>
 
-
-
-
-
             {
                 !props.submitOnMount &&
-                <ChequeTable 
+                <ChequeTable
                     list={chequesList}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
@@ -859,10 +717,9 @@ export default function ChequeControl(props) {
 
             {
                 props.submitOnMount &&
-
                 <>
-                    <HeaderLine name="Estornos"/>
-                    <ChequeTable 
+                    <HeaderLine name="Estornos" />
+                    <ChequeTable
                         list={estornos}
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
@@ -870,7 +727,7 @@ export default function ChequeControl(props) {
                     />
 
                     <HeaderLine name="Sem Destino" />
-                    <ChequeTable 
+                    <ChequeTable
                         list={semDestino}
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
@@ -878,16 +735,14 @@ export default function ChequeControl(props) {
                     />
 
                     <HeaderLine name="A Vencer" />
-                    <ChequeTable 
+                    <ChequeTable
                         list={aVencer}
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
                         handleOpenObs={handleOpenObs}
                     />
                 </>
-
             }
-
 
             <div id={style.obsBackground} className="obsScreen">
                 <div id={style.obsCtr}>
