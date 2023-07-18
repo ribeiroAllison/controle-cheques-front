@@ -188,8 +188,7 @@ export default function ChequeControl(props) {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         await Cheques.editCheck(editFormValues, chequeId).then(() => {
-            refreshSearch();
-            refreshTables();
+            props.submitOnMount ? refreshTables() : refreshSearch();
             clearInputs('editInput');
         }).then(() => {
             const editWindow = document.getElementById('editWindowBackground');
