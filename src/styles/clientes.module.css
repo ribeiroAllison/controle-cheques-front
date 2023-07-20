@@ -1,319 +1,315 @@
-.formCtr, .formCtrCenter{
-    margin-left: 20px;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+.formCtr,
+.formCtrCenter {
+  margin-left: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.formCtr{
-    align-items: flex-start;
+.formCtr {
+  align-items: flex-start;
 }
 
-.formCtrCenter{
-    align-items: center;
+.formCtrCenter {
+  align-items: center;
 }
 
-.name{
-    margin: 20px;
-    font-size: 25px;
+.name {
+  margin: 20px;
+  font-size: 25px;
 }
 
-.inputCtr input, .select, .inputCtrMultiple input{
-    border-radius: 5px;
-    border-style: none;
-    border: 1px solid var(--black30);
-    height: 20px;
-
+.inputCtr input,
+.select,
+.inputCtrMultiple input {
+  border-radius: 5px;
+  border-style: none;
+  border: 1px solid var(--black30);
+  height: 20px;
 }
 
-.inputCtrBox{
-    display: flex;
-    gap: 10px;
+.inputCtrBox {
+  display: flex;
+  gap: 10px;
 }
 
-.inputCtrMultiple{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+.inputCtrMultiple {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-
-.nameCtr input{
-    width: 300px;
+.nameCtr input {
+  width: 300px;
 }
 
-.button{
-    height:50px;
-    background-color: var(--buttonGreen);
-    color: var(--white);
-    border-radius: 5px;
+.button {
+  height: 50px;
+  background-color: var(--buttonGreen);
+  color: var(--white);
+  border-radius: 5px;
 }
 
-.button:hover{
-    cursor: pointer;
-    background-color: var(--buttonGreenHover);
+.button:hover {
+  cursor: pointer;
+  background-color: var(--buttonGreenHover);
 }
 
-.buttonCtr{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 130px;
-    width: 150px;
+.buttonCtr {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 130px;
+  width: 150px;
 }
 
-.editButton{
-    display: none;
+.editButton {
+  display: none;
 }
 
-.smallerButton{
-    height: 100%;
+.smallerButton {
+  height: 100%;
 }
 
-#smallTable{
-    width: 50%;
+#smallTable {
+  width: 50%;
 }
 
-.searchBox{
-    display: none;
-    margin-bottom: -300px;
-    
-    
+.searchBox {
+  display: none;
+  position: absolute;
+  overflow-y: auto;
 }
 
-.searchBox option{
-    width: 283px;
-    position: relative;
-    z-index: 150;
-    background-color: var(--white);
-    
-    
+.searchBox option {
+  width: 283px;
+  position: relative;
+  z-index: 150;
+  background-color: var(--white);
 }
 
-.searchBox option:hover{
-    background-color: var(--optionGreen);
-    cursor: pointer;
+.searchBox option:hover {
+  background-color: var(--optionGreen);
+  cursor: pointer;
 }
 
-.searchBox select{
-    background-color: var(--white);
-    z-index: 100;
+.searchBox select {
+  background-color: var(--white);
+  z-index: 100;
 }
 
-#clienteSelect{
-    z-index: 100;
+#clienteSelect {
+  position: absolute;
+  width: 100%;
 }
 
-#clienteSelect option{
-    color: var(--black30);
+#clienteSelect option {
+  color: var(--black30);
 }
 
-.obs textarea{
-    width: 190px;
-    height: 100px;
+.obs textarea {
+  width: 190px;
+  height: 100px;
 }
 
-.filterCtr{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 20px;
-    
+.filterCtr {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-.filterField{
-    margin: 20px;
-    background-color: var(--lightGray);
-    z-index: 1;
+.filterField {
+  margin: 20px;
+  background-color: var(--lightGray);
+  z-index: 1;
 }
 
-.fieldset{
-    margin: 10px 0;
+.fieldset {
+  margin: 10px 0;
 }
 
-#mainLegend{
-    font-size: 25px;
+#mainLegend {
+  font-size: 25px;
 }
 
-#editForm{
-    justify-content: center;
+#editForm {
+  justify-content: center;
 }
 
-#editForm h4{
-    font-size: 13px;
+#editForm h4 {
+  font-size: 13px;
 }
 
-#editForm input{
-    width: 100px;
+#editForm input {
+  width: 100px;
 }
 
-#editForm .nameCtr input{
-    width: 200px;
+#editForm .nameCtr input {
+  width: 200px;
 }
 
-#editForm option{
-    width: 184px;
+#editForm option {
+  width: 184px;
 }
 
-.editFieldset{
-    width: 900px;
-    height: 250px;
-    margin: auto;
-    background-color: var(--lightGray);
-    border-radius: 10px;
-    border: 1px solid black;
-    padding: 10px;
-
+.editFieldset {
+  width: 900px;
+  height: 250px;
+  margin: auto;
+  background-color: var(--lightGray);
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
 }
 
-.editFieldset img{
-    width: 15px;
-    z-index: 300;
-    /* position: relative;
+.editFieldset img {
+  width: 15px;
+  z-index: 300;
+  /* position: relative;
     left: 890px;
     top:-10px; */
 }
 
-
-#obsBackground, .editBackground{
-    z-index: 200;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--black30Faint);
-    display: none;
-    align-items: center;
-    justify-content: center;
+#obsBackground,
+.editBackground {
+  z-index: 200;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--black30Faint);
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
 
-#obsCtr{
-    background-color: var(--lightGray);
-    width: 400px;
-    height: 200px;
-    border-radius: 10px;
-    border: 1px solid var(--black);
-    padding: 5px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+#obsCtr {
+  background-color: var(--lightGray);
+  width: 400px;
+  height: 200px;
+  border-radius: 10px;
+  border: 1px solid var(--black);
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-#obsCtr textarea{
-    width: 97%;
-    height: 90%;
-    
+#obsCtr textarea {
+  width: 97%;
+  height: 90%;
 }
 
-.popupHeader{
-    display: flex;
-    height: 22%;
-    justify-content: space-between;
-    align-items: flex-start;
+.popupHeader {
+  display: flex;
+  height: 22%;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.popupHeader h4, .popupHeader h2{
-    width: 95%;
-    color: var(--buttonGreen);
-    
+.popupHeader h4,
+.popupHeader h2 {
+  width: 95%;
+  color: var(--buttonGreen);
 }
 
-.popupHeader img{
-    width: 15px;
-    
+.popupHeader img {
+  width: 15px;
 }
 
-.popupHeader img:hover, .editFieldset img:hover{
-    opacity: 50%;
-    cursor: pointer;
+.popupHeader img:hover,
+.editFieldset img:hover {
+  opacity: 50%;
+  cursor: pointer;
 }
 
-.obsContent{
-    height: 65%;
+.obsContent {
+  height: 65%;
 }
 
-#obsCtr button{
-    width: 15%;
-    height: 35px;
+#obsCtr button {
+  width: 15%;
+  height: 35px;
 }
 
-.obsButtonCtr{
-    display: flex;
-    gap: 10px;
+.obsButtonCtr {
+  display: flex;
+  gap: 10px;
 }
 
 body.no-scroll {
-    overflow: hidden;
+  overflow: hidden;
 }
 
-.statusCtr{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.statusCtr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.statusCtr .formCtr{
-    margin: 0;
+.statusCtr .formCtr {
+  margin: 0;
 }
 
-#editObs textarea{
-    width: 230px;
-    height: 70px;
+#editObs textarea {
+  width: 230px;
+  height: 70px;
 }
 
-.vencTrue{
-    background-color: var(--blueTd) ;
-    color: var(--black);
+.vencTrue {
+  background-color: var(--blueTd);
+  color: var(--black);
 }
 
-.semFundo{
-    background-color: var(--redTd) ;
-    color: var(--black);
+.semFundo {
+  background-color: var(--redTd);
+  color: var(--black);
 }
 
-.chequeOK{
-    background-color: var(--optionGreen) ;
-    color: var(--black);
+.chequeOK {
+  background-color: var(--optionGreen);
+  color: var(--black);
 }
 
-.editTrue{
-    background-color: var(--lightGray);
+.editTrue {
+  background-color: var(--lightGray);
 }
 
-.chequeOK.editTrue{
-    background-color: var(--lightGray);
+.chequeOK.editTrue {
+  background-color: var(--lightGray);
 }
 
-.withDestino{
-    background-color: var(--yellowTd);
+.withDestino {
+  background-color: var(--yellowTd);
 }
 
-.paymentStatus{
-    margin-top: -19px;
+.paymentStatus {
+  margin-top: -19px;
 }
 
-.date{
-    gap: 4px;
-    
+.date {
+  gap: 4px;
 }
 
-.vencimento, .paymentStatus{
-    margin-top: -20px;
+.vencimento,
+.paymentStatus {
+  margin-top: -20px;
 }
 
-.linha{
-    gap: 5px;
+.linha {
+  gap: 5px;
 }
 
-.searchBoxCtr{
-    height: 50px;
-    margin-left: 20px;
+.searchBoxCtr {
+  height: 50px;
+  margin-left: 20px;
 }
 
-#editWindowBackground{
-    z-index: 600;
+#editWindowBackground {
+  z-index: 600;
 }
 
-.formVarQtd{
-    margin-top: 30px;
+.formVarQtd {
+  margin-top: 30px;
 }

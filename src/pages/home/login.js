@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import LoginCard from '@/components/LoginCard';
 import styles from '../../styles/login.module.css';
 import Link from 'next/link';
 import HeaderLogin from '@/components/HeaderLogin';
-import User from '@/services/user';
+import User from '@/api/UserService';
 
 
 export default function Login() {

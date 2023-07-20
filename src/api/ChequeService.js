@@ -134,8 +134,57 @@ export class Cheques {
                     'Authorization': `Bearer ${token}`
                 }
             });
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
 
-            alert(`Cheque ${editFormValues.número_cheque} editado com sucesso!`);
+    // DELETE A CHECK IN DB
+    static async deleteCheck(chequeId) {
+        try {
+            const response = await connection.delete('/cheques', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { id: chequeId }
+            })
+
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
+
+    static async clearObs(id) {
+        try {
+            const response = await connection.put('/cheques/obs', {
+                id: id,
+                obs: null
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
+
+    static async editObs(id, obs) {
+        try {
+            const response = await connection.put('/cheques/obs', {
+                id: id,
+                obs: obs
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response;
         } catch (error) {
             return error.response;
