@@ -22,6 +22,10 @@ export default function ChequeTable(props) {
         return new Intl.DateTimeFormat('pt-BR').format(date);
     }
 
+    function convertToNumber(value) {
+        return Number(value.replace(/[^0-9.-]+/g, ""));
+    }
+
     return (
         <table className="table">
             <thead>
@@ -63,13 +67,23 @@ export default function ChequeTable(props) {
                         </tr>
                     ))}
 
-                { /*<tr style={{ backgroundColor: 'lightgrey' }}>
+                <tr style={{ backgroundColor: 'lightgrey' }}>
                     <td colSpan={3} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>TOTAL CHEQUES</td>
                     <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{props.list?.length}</td>
                     <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>-</td>
-                    <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>VALOR TOTAL</td>
+                    <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+                        {props.list
+                            ? props.list.reduce((acc, item) => {
+                                acc += convertToNumber(item.valor);
+                                return acc;
+                            }, 0).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            })
+                            : 0}
+                    </td>
                     <td colSpan={8} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>RESUMO</td>
-                    </tr> */}
+                </tr>
             </tbody>
         </table>
     )

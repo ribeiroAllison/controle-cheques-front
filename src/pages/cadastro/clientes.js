@@ -70,6 +70,7 @@ export default function Clientes() {
             clearInputs('input');
             getAllClients();
             findLastId();
+            await Cliente.createSerialId(lastClientId);
             getAllSerialId();
             notifySuccess(response.data);
         } else {
@@ -81,10 +82,6 @@ export default function Clientes() {
 
         const addButton = document.getElementById( 'addButton')
         addButton.style.display = "block"
-
-        
-
-        
     }
 
     // EDITS CLIENT IN DB
@@ -344,8 +341,6 @@ export default function Clientes() {
                 formValues={formValues}
                 grupo={grupo}
                 clearInputs={clearInputs}
-
-                
             />
         </>
     )
