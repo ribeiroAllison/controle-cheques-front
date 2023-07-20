@@ -4,136 +4,85 @@ import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
 import { baseURL } from "@/utils/url"
 import { useState, useEffect } from "react"
-import { getCookie } from "@/utils/cookie"
-
+import { Vendedor } from "@/api/VendedorService"
+import { ToastContainer, toast } from "react-toastify";;
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Vendedores() {
+    const notifySuccess = (msg) => toast.success(msg);
+    const notifyFailure = (msg) => toast.error(msg);
 
-    const token = getCookie('token');
-
+    // STATE
     const [formValues, setFormValues] = useState({ nome: "" });
+    const [vendedores, setVendedores] = useState();
+    const [filteredList, setFilteredList] = useState();
+    const [editId, setEditId] = useState();
 
+    // HANDLE INPUT CHANGE
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
     };
 
+    // AUX CLEAR INPUT FUNCTION
     const clearInputs = () => {
-
         const nomeInput = document.getElementById('nome');
         nomeInput.value = "";
-
     }
 
-    const [vendedores, setVendedores] = useState();
-    const [filteredList, setFilteredList] = useState();
-
+    //QUERIES ALL SALESMEN IN DB
     async function getAllVendedores() {
-        try {
-            const response = await fetch(`${baseURL}/vendedores`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setVendedores(jsonResponse);
-                setFilteredList(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
+        const { data } = await Vendedor.getAllVendedores();
+        if (data) {
+            setVendedores(data);
+            setFilteredList(data);
         }
     }
 
-
-    useEffect(() => {
-        getAllVendedores()
-    }, []);
-
     // POST
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        formValues.nome && fetch(`${baseURL}/vendedores`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-
-                nome: formValues.nome,
-
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert(`Vendedor(a) ${formValues.nome} cadastrado com sucesso!`)
-                    getAllVendedores();
-                }
-            }
-
-            )
-            .then(clearInputs())
-
+        const response = await Vendedor.createVendedor(formValues);
+        if (response && response.status === 200) {
+            notifySuccess(response.data);
+            getAllVendedores();
+            clearInputs();
+        } else {
+            notifyFailure(response.data);
+        }
     }
 
     // DELETE 
-
-    const handleDelete = (e) => {
-
+    const handleDelete = async (e) => {
         const confirmation = confirm('Você realmente quer apagar este vendedor?');
-
         if (confirmation) {
             const id = e.target.closest('tr').getAttribute('data-cod');
-
-            fetch(`${baseURL}/vendedores`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id: id
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        getAllVendedores();
-                    }
-                })
-
+            const response = await Vendedor.deleteVendedor(id);
+            if (response && response.status === 201) {
+                getAllVendedores();
+                notifySuccess(response.data);
+            } else {
+                notifyFailure(response.data)
+            }
         }
     }
 
-
-
-    // UPDATE
-
-    const [editId, setEditId] = useState();
+    // UPDATE SALESMEN IN DB
     const handleEdit = (e) => {
         const id = e.target.closest('tr').getAttribute('data-cod');
         setEditId(id);
         const nome = document.getElementById(id).innerHTML;
 
-
         const nomeInput = document.getElementById('nome');
-
         nomeInput.value = nome;
-
         const addButton = document.getElementById('adicionaCliente');
         addButton.style.display = 'none';
-
         const editButton = document.getElementById('editButton');
         editButton.style.display = "block";
-
-
     }
 
+    // CLEAR INPUT FIELDS
     const handleClear = (e) => {
         e.preventDefault();
 
@@ -145,51 +94,38 @@ export default function Vendedores() {
         editButton.style.display = "none";
     }
 
+    // EDIT SALESMEN IN DB
     async function submitEdit(e) {
         e.preventDefault();
-
         const nome = document.getElementById('nome').value;
         const id = editId;
 
+        const response = await Vendedor.editVendedor(id, nome);
+        console.log(response);
+        if (response && response.status === 200) {
+            getAllVendedores();
+            clearInputs();
+            notifySuccess(response.data);
+            const addButton = document.getElementById('adicionaCliente');
+            addButton.style.display = 'block';
 
-        nome && fetch(`${baseURL}/vendedores`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                id: id,
-                nome: nome
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-                    console.log(response)
-                    getAllVendedores();
-                }
-            }
-
-            )
-            .then(clearInputs())
-            .then(() => {
-                const addButton = document.getElementById('adicionaCliente');
-                addButton.style.display = 'block';
-
-                const editButton = document.getElementById('editButton');
-                editButton.style.display = "none";
-            })
+            const editButton = document.getElementById('editButton');
+            editButton.style.display = "none";
+        } else {
+            notifyFailure(response.data);
+        }
     }
 
-
-
+    useEffect(() => {
+        getAllVendedores()
+    }, []);
 
     return (
         <>
+            <ToastContainer autoClose={2000} />
             <Header />
             <h3 className={style.name}>Cadastro de Vendedores</h3>
             <form className={style.formCtr}>
-
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Vendedor" />
@@ -217,18 +153,17 @@ export default function Vendedores() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredList && filteredList.map((destino) => (
-                        <tr key={destino.nome} data-cod={destino.id}>
-                            <td id={destino.id}>{destino.nome}</td>
-                            <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>
-                            <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
-                        </tr>
-                    ))}
+                    {
+                        filteredList?.map((destino) => (
+                            <tr key={destino.nome} data-cod={destino.id}>
+                                <td id={destino.id}>{destino.nome}</td>
+                                <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>
+                                <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
-
         </>
     )
-
-
 }
