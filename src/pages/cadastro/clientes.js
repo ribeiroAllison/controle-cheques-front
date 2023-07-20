@@ -81,10 +81,6 @@ export default function Clientes() {
 
         const addButton = document.getElementById( 'addButton')
         addButton.style.display = "block"
-
-        
-
-        
     }
 
     // EDITS CLIENT IN DB
