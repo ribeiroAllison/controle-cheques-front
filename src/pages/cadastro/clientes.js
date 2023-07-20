@@ -86,20 +86,22 @@ export default function Clientes() {
     // EDITS CLIENT IN DB
     const submitEdit = async (e) => {
         e.preventDefault();
-        const grupoName = document.getElementById('grupo').value;
+        
+        const {codigo, doc, nome, status} = formValues
+        const grupoName = formValues.grupo;
 
         const user = {
             grupoId: getKeyByValue(grupo, grupoName),
-            cod: document.getElementById('codigo').value,
-            doc: document.getElementById('doc').value,
-            nome: document.getElementById('nome').value,
-            status: document.getElementById('status').value,
+            cod: codigo,
+            doc: doc,
+            nome: nome,
+            status: status,
         }
 
         const response = await Cliente.editClient(user);
         if (response && response.status === 200) {
             getAllClients();
-            clearInputs();
+            // clearInputs('input');
             notifySuccess(response.data);
 
             const addButton = document.getElementById('adicionaCliente');
@@ -113,6 +115,10 @@ export default function Clientes() {
         } else {
             notifyFailure(response.data);
         }
+
+        const editWindow = document.getElementById('editWindowBackground');
+        editWindow.style.display = "none";
+    
     }
 
     // DELETE CLIENT FUNCTION

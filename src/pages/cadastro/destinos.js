@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { Destino } from "@/api/DestinoService";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ModalName from "@/components/ModalName";
 
 export default function Destinos() {
 
@@ -59,17 +60,21 @@ export default function Destinos() {
 
     // HANDLE INPUT EDIT DESTINATION
     const handleEdit = (e) => {
-        const id = e.target.closest('tr').getAttribute('data-cod');
-        setEditId(id);
-        const nome = document.getElementById(id).innerHTML;
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = nome;
+        const id = e.target.name;
+        const destino = destinos.find((destino) => destino.id === id);
 
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'none';
+        if (destino) {
+            const { nome } = destino;
 
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "block";
+            setFormValues({
+                ...formValues,
+                nome: nome
+            });
+
+            const editWindow = document.getElementById('editWindowBackground');
+            editWindow.style.display = "flex";
+
+        }
     }
 
     // SUBMIT DESTINATIONS EDIT TO DB
@@ -110,11 +115,8 @@ export default function Destinos() {
         setFormValues({ ...formValues, [name]: value });
     };
 
-    // CLEARS INPUT VALUE IN FORM
-    const clearInputs = () => {
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = "";
-    }
+
+ 
 
     useEffect(() => {
         getAllDestinos();
@@ -178,6 +180,12 @@ export default function Destinos() {
                     ))}
                 </tbody>
             </table>
+            <ModalName 
+                name="Destinos"
+                submitEdit={handleSubmitEdit}
+                handleInputChange={handleInputChange}
+                formValues={formValues}
+            />
         </>
     )
 }
