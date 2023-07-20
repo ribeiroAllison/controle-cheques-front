@@ -9,6 +9,8 @@ import { getKeyByValue } from "@/utils/utils";
 import { Cliente } from "@/api/ClienteService";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ModalCadastro from "@/components/ModalCadastro";
+import clearInputs from "@/utils/clearInputs";
 
 
 export default function Clientes() {
@@ -65,7 +67,7 @@ export default function Clientes() {
 
         const response = await Cliente.createClient(formValues, lastClientId, grupoId);
         if (response && response.status === 201) {
-            clearInputs();
+            clearInputs('input');
             getAllClients();
             findLastId();
             getAllSerialId();
@@ -73,6 +75,16 @@ export default function Clientes() {
         } else {
             notifyFailure(response.data)
         }
+
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "none"
+
+        const addButton = document.getElementById( 'addButton')
+        addButton.style.display = "block"
+
+        
+
+        
     }
 
     // EDITS CLIENT IN DB
@@ -190,29 +202,16 @@ export default function Clientes() {
                 grupo: grupo
             });
 
-            const addButton = document.getElementById('adicionaCliente');
-            addButton.style.display = 'none';
+            const editWindow = document.getElementById('editWindowBackground');
+            editWindow.style.display = "flex";
 
-            const editButton = document.getElementById('editButton');
-            editButton.style.display = "block";
-
-            const codInput = document.getElementById('codigo');
-            codInput.setAttribute('disabled', 'disabled');
         }
     }
 
     // CHANGES INPUT SECTION TO EDIT SECTION
     const handleClear = (e) => {
         e.preventDefault();
-        clearInputs();
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
-
-        const codInput = document.getElementById('codigo');
-        codInput.removeAttribute('disabled');
+        clearInputs('input');
 
         setFormValues({
             codigo: "",
@@ -223,20 +222,15 @@ export default function Clientes() {
         })
     }
 
-    // CLEAR CLIENTS FORM INPUTS
-    const clearInputs = () => {
-        const grupoInput = document.getElementById('grupo');
-        grupoInput.value = "";
+    
+    //SHOW AND HIDE ADD FORM
+    const showAddForm = () => {
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "flex"
 
-        setFormValues({
-            codigo: "",
-            nome: "",
-            doc: "",
-            status: "",
-            grupo: ""
-        });
+        const addButton = document.getElementById( 'addButton')
+        addButton.style.display = "none"
     }
-
 
     // --------------------------------- USE EFFECTS ------------------------------------
 
@@ -263,46 +257,50 @@ export default function Clientes() {
         <>
             <ToastContainer autoClose={2000} />
             <Header />
-            <h3 className={style.name}>Cadastro de Clientes</h3>
-            <form className={style.formCtr} onSubmit={createNewClient}>
-                <div className={style.inputCtr} >
-                    <h4>Código:</h4>
-                    <input type="text" name="codigo" onChange={handleInputChange} value={formValues.codigo} id="codigo" placeholder="Código do Cliente" />
-                </div>
-                <div className={`${style.nameCtr} ${style.inputCtr}`} >
-                    <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} value={formValues.nome} id="nome" required placeholder="Nome do Cliente" />
-                </div>
-                <div className={style.inputCtr} >
-                    <h4>CPF/CNPJ:</h4>
-                    <input type="text" name="doc" onChange={handleInputChange} value={formValues.doc} id="doc" required placeholder="Digite CPF ou CNPJ" />
-                </div>
-                <div className={`${style.nameCtr} ${style.inputCtr}`} >
-                    <h4>Grupo:</h4>
-                    <select id="grupo" name="grupo" className={style.select} value={formValues.grupo} onChange={handleInputChange}>
-                        <option></option>
-                        {grupo?.map((emp) => {
-                            return (
-                                <option key={emp.id} value={emp.nome} selected={emp.nome === formValues.grupo}>
-                                    {emp.nome}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </div>
-                <div className={style.inputCtr} >
-                    <h4>Status:</h4>
-                    <select className={style.select} id="status" name="status" value={formValues.status} onChange={handleInputChange}>
-                        <option></option>
-                        <option>Bom</option>
-                        <option>Médio</option>
-                        <option>Ruim</option>
-                    </select>
-                </div>
-                <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit}>Editar</button>
-                <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
-                <button className={style.button} id="limpar" onClick={handleClear}>Limpar</button>
-            </form>
+            <section>
+                <h3 className={style.name}>Cadastro de Clientes</h3>
+
+                <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Cliente</button>
+                
+                <form className={style.formCtr} onSubmit={createNewClient} id="addForm">
+                    <div className={style.inputCtr} >
+                        <h4>Código:</h4>
+                        <input type="text" name="codigo" className="input" onChange={handleInputChange}  id="codigo" placeholder="Código do Cliente" />
+                    </div>
+                    <div className={`${style.nameCtr} ${style.inputCtr}`} >
+                        <h4>Nome:</h4>
+                        <input type="text" name="nome" className="input" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente" />
+                    </div>
+                    <div className={style.inputCtr} >
+                        <h4>CPF/CNPJ:</h4>
+                        <input type="text" name="doc"  className="input" onChange={handleInputChange}  id="doc" required placeholder="Digite CPF ou CNPJ" />
+                    </div>
+                    <div className={`${style.nameCtr} ${style.inputCtr}`} >
+                        <h4>Grupo:</h4>
+                        <select id="grupo" name="grupo" className={`${style.select} input`}  onChange={handleInputChange}>
+                            <option></option>
+                            {grupo?.map((emp) => {
+                                return (
+                                    <option key={emp.id} value={emp.nome}>
+                                        {emp.nome}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <div className={style.inputCtr} >
+                        <h4>Status:</h4>
+                        <select className={`${style.select} input`} id="status" name="status" value={formValues.status} onChange={handleInputChange}>
+                            <option></option>
+                            <option>Bom</option>
+                            <option>Médio</option>
+                            <option>Ruim</option>
+                        </select>
+                    </div>
+                    <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
+                    <button className={style.button} id="limpar" onClick={handleClear}>Limpar</button>
+                </form>
+            </section>
             <HeaderLine name="Clientes" />
             <SearchFilter
                 name="Cliente"
@@ -338,6 +336,17 @@ export default function Clientes() {
                         ))}
                 </tbody>
             </table>
+
+            <ModalCadastro 
+                name="Clientes"
+                submitEdit={submitEdit}
+                handleInputChange={handleInputChange}
+                formValues={formValues}
+                grupo={grupo}
+                clearInputs={clearInputs}
+
+                
+            />
         </>
     )
 }

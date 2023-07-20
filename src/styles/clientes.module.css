@@ -313,3 +313,7 @@ body.no-scroll {
 .formVarQtd {
   margin-top: 30px;
 }
+
+#addForm{
+  display: none;
+}

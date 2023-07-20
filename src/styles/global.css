@@ -73,7 +73,7 @@ body {
 }
 
 #clienteBox {
-  z-index: 400;
+  z-index: 200;
 }
 
 Button a {
@@ -82,4 +82,12 @@ Button a {
 
 a:hover{
   color: var(--labelGray);
+}
+
+.addMarginLeft{
+  margin-left: 20px;
+}
+
+#addForm{
+  display: none;
 }

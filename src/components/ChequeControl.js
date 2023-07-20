@@ -218,7 +218,10 @@ export default function ChequeControl(props) {
             data_fim: formValues.data_fim,
             compensado: formValues.compensado,
             destino_id: formValues.destino_id,
-            vencido: formValues.vencido
+            vencido: formValues.vencido,
+            pedido: formValues.pedido,
+            número_cheque: formValues.número_cheque,
+            grupo: formValues.grupo
         })
 
         setFormValues({
@@ -228,7 +231,10 @@ export default function ChequeControl(props) {
             data_fim: null,
             compensado: null,
             destino_id: null,
-            vencido: null
+            vencido: null,
+            pedido: null,
+            número_cheque: null,
+            grupo: null
         })
     }
 
@@ -555,7 +561,7 @@ export default function ChequeControl(props) {
                 </form>
             </fieldset>
 
-            {/* EDIT SCREEN */}
+            {/* EDIT SCREEN MODAL*/}
 
             <div id="editWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
@@ -674,6 +680,7 @@ export default function ChequeControl(props) {
                 </>
             }
 
+            {/* OBS SCREEN MODAL */}
             <div id={style.obsBackground} className="obsScreen">
                 <div id={style.obsCtr}>
                     <div className={style.popupHeader}>
