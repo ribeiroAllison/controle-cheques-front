@@ -6,10 +6,19 @@ import HeaderLine from "@/components/HeaderLine"
 import ChequeTable from "./ChequeTable"
 import { getCookie } from "@/utils/cookie"
 import { Cheques } from "@/api/ChequeService"
+import { Cliente } from "@/api/ClienteService"
+import { Destino } from "@/api/DestinoService"
+import { Grupo } from "@/api/GrupoService"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function ChequeControl(props) {
     const token = getCookie('token');
+
+    const notifySuccess = (msg) => toast.success(msg);
+    const notifyFailure = (msg) => toast.error(msg);
+
 
     // STATES DEFINITION
     const [formValues, setFormValues] = useState(
@@ -40,8 +49,8 @@ export default function ChequeControl(props) {
             data_destino: null,
             pedido: null
         });
-    const [clientList, setClientList] = useState('');
-    const [allCheques, setAllCheques] = useState('');
+    const [clientList, setClientList] = useState(null);
+    const [allCheques, setAllCheques] = useState(null);
     const [searchResult, setSearchResult] = useState([{}]);
     const [destinoList, setDestinoList] = useState();
     const [chequesList, setChequeslist] = useState();
@@ -86,27 +95,14 @@ export default function ChequeControl(props) {
     // CHECK DELETE HANDLING
     const handleDelete = async (id) => {
         const confirmation = confirm('Você realmente deseja apagar esse cheque?')
-
         if (confirmation) {
-            try {
-                const response = await fetch(`${baseURL}/cheques`, {
-                    method: "DELETE",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        id: id
-                    })
-                }
-                );
-                if (response.ok) {
-                    alert('Cheque removido com sucesso!')
-                }
-            } catch (error) {
-                alert('Erro:' + error.message)
+            const response = await Cheques.deleteCheck(id);
+            if (response && response.status === 201) {
+                notifySuccess(response.data);
+                props.submitOnMount ? refreshTables() : refreshSearch();
+            } else {
+                notifyFailure(response.data);
             }
-            props.submitOnMount ? refreshTables() : refreshSearch();
         }
     }
 
@@ -187,10 +183,12 @@ export default function ChequeControl(props) {
     // CHECK EDIT SUBMIT HANDLING
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        await Cheques.editCheck(editFormValues, chequeId).then(() => {
+
+        const response = await Cheques.editCheck(editFormValues, chequeId)
+        if (response && response.status === 200) {
             props.submitOnMount ? refreshTables() : refreshSearch();
             clearInputs('editInput');
-        }).then(() => {
+
             const editWindow = document.getElementById('editWindowBackground');
             editWindow.style.display = "none";
             const editRow = document.getElementById(`row${chequeId}`);
@@ -198,7 +196,10 @@ export default function ChequeControl(props) {
                 editRow.style.backgroundColor = "white";
             }
             deleteEditClass();
-        })
+            notifySuccess(response.data);
+        } else {
+            notifyFailure(response.data);
+        }
     }
 
     // CHECK SEARCH SUBMIT HANDLE
@@ -254,27 +255,16 @@ export default function ChequeControl(props) {
 
     // CLIENT FUNCTIONS
     async function getAllClients() {
-        try {
-            const response = await fetch(`${baseURL}/clientes/nomecod`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setClientList(jsonResponse);
-            }
-
-        } catch (error) {
-            console.log(error);
+        const { data } = await Cliente.getAllClients();
+        if (data) {
+            setClientList(data);
         }
     }
 
     // SEARCH CLIENTS IN DB AS THE DATA IS TYPED IN THE FIELD
     const findClient = (formValues, id, targetField) => {
         if (clientList) {
-            const foundClientByName = clientList.filter(client => client.nome.toLowerCase().includes(formValues.cliente.toLowerCase()));
+            const foundClientByName = clientList.filter(client => client.cliente.toLowerCase().includes(formValues.cliente.toLowerCase()));
             setSearchResult(foundClientByName);
             document.getElementById(id).style.display = searchResult.length === 0 || document.getElementById(targetField) && !document.getElementById(targetField).value
                 ? 'none'
@@ -321,37 +311,17 @@ export default function ChequeControl(props) {
 
     // DESTINO FUNCTIONS
     async function getAllDestinos() {
-        try {
-            const response = await fetch(`${baseURL}/destinos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setDestinoList(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
+        const { data } = await Destino.getAllDestinos();
+        if (data) {
+            setDestinoList(data);
         }
     }
 
     // GROUP FUNCTIONS
     async function getGrupos() {
-        try {
-            const response = await fetch(`${baseURL}/grupo`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                let jsonResponse = await response.json();
-                setGrupos(jsonResponse);
-            }
-        } catch (error) {
-            console.log(error);
+        const { data } = await Grupo.getAllGrupos();
+        if (data) {
+            setGrupos(data);
         }
     }
 
@@ -458,68 +428,33 @@ export default function ChequeControl(props) {
     // OBSERVATION EDIT FIELD HANDLING
     const handleEditObs = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await fetch(`${baseURL}/cheques/obs`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id: obsDetails.id,
-                    obs: obsDetails.obs
-                })
-            })
-            if (response.ok) {
-                alert('Observação atualizada com sucesso!')
-                closeObs();
-                if (!props.submitOnMount) {
-                    refreshSearch();
-                } else {
-                    refreshTables();
-                }
-
-            }
-        } catch (error) {
-            alert('Erro' + error.message);
+        const response = await Cheques.editObs(obsDetails.id, obsDetails.obs);
+        if(response && response.status === 200){
+            closeObs();
+            props.submitOnMount ? refreshTables() : refreshSearch();
+            notifySuccess(response.data);
+        } else {
+            notifyFailure(response.data);
         }
     }
 
     // OBSERVATION DELETE FIELD HANDLING
     const handleClearObs = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await fetch(`${baseURL}/cheques/obs`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id: obsDetails.id,
-                    obs: null
-                })
-            })
-
-            if (response.ok) {
-                alert('Observação deletada com sucesso!');
-                closeObs();
-                if (props.submitOnMount) {
-                    refreshTables();
-                } else {
-                    refreshSearch();
-                }
-            }
-        } catch (error) {
-            alert('Erro' + error.message);
+        const response = await Cheques.clearObs(obsDetails.id);
+        if (response && response.status === 200) {
+            closeObs();
+            props.submitOnMount ? refreshTables() : refreshSearch();
+            notifySuccess(response.data)
+        } else {
+            notifyFailure(response.data)
         }
     }
 
     //------------------------------ PAGE RENDERING ------------------------------------------------------------------
     return (
         <>
+            <ToastContainer autoClose={2000} />
             {/* FILTER SCREEN */}
             <fieldset className={style.filterField} style={{ display: `${props.display}` }}>
                 <legend id={style.mainLegend}>Opções de Filtros</legend>
@@ -555,13 +490,11 @@ export default function ChequeControl(props) {
                             <div className={style.searchBox} id="searchBox">
                                 <select size={4} id={`${style.clienteSelect} input`} onChange={handleInputChange}>
                                     {
-                                        searchResult.map(client => <option onClick={handleClick} key={`codClient-${client.cod}`} value={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleClick} key={`codClient-${client.cod}`} value={client.cod}>{client.cliente}</option>)
                                     }
                                 </select>
                             </div>
-
                         </div>
-
                     </div>
 
                     <div className={style.inputCtr}>
@@ -615,12 +548,10 @@ export default function ChequeControl(props) {
                         </div>
                     </div>
 
-
                     <div className={style.buttonCtr}>
                         <button type="submit" className={style.button} id="buscaCheque" onClick={handleSearchSubmit}>Buscar</button>
                         <button className={style.button} onClick={handleClear}>Limpar</button>
                     </div>
-
                 </form>
             </fieldset>
 
@@ -645,7 +576,7 @@ export default function ChequeControl(props) {
                             <div className={style.searchBox} id="searchBoxEdit">
                                 <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
                                     {
-                                        searchResult.map(client => <option onClick={handleEditClick} key={`codCliente-${client.cod}`} value={client.cod} codCli={client.cod}>{client.nome}</option>)
+                                        searchResult.map(client => <option onClick={handleEditClick} key={`codCliente-${client.cod}`} value={client.cod} codCli={client.cod}>{client.cliente}</option>)
                                     }
                                 </select>
                             </div>

@@ -8,7 +8,7 @@ import Input from '@/components/Input'
 import LoginCard from '@/components/LoginCard'
 import styles from '../../styles/cadastro.module.css';
 import Link from 'next/link';
-import User from '@/services/user';
+import User from '@/api/UserService';
 import HeaderLogin from '@/components/HeaderLogin';
 
 

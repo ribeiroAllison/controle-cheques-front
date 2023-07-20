@@ -1,7 +1,7 @@
 
 import Button from '@/components/Button';
 import Input from '@/components/Input';
-import User from '@/services/user';
+import User from '@/api/UserService';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import styles from '../../styles/perfil.module.css'

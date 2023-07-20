@@ -1,7 +1,9 @@
 import { baseURL } from "@/utils/url";
 import { setCookie } from "@/utils/cookie";
+
 export default class User {
 
+    // USER CREATION
     static registerUser = async (user) => {
         try {
             const responseUsers = await fetch(`${baseURL}/usuarios`);
@@ -37,6 +39,7 @@ export default class User {
         }
     }
 
+    // USER LOGIN
     static loginUser = async (user) => {
         try {
             const responseLogin = await fetch(`${baseURL}/usuarios/login`, {
@@ -49,7 +52,6 @@ export default class User {
                     senha: user.senha
                 })
             });
-
             if (responseLogin.ok) {
                 const jsonResponse = await responseLogin.json();
 
@@ -63,6 +65,7 @@ export default class User {
         }
     }
 
+    // USER EDITION
     static editUser = async (user) => {
         try {
             const responseEdit = await fetch(`${baseURL}/usuarios/${user.id}`, {
