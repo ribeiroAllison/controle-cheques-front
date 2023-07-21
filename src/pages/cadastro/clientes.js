@@ -30,8 +30,7 @@ export default function Clientes() {
             grupo: ""
         }
     );
-    const [clientSerialId, setClientSerialId] = useState();
-    const [lastClientId, setLastClientId] = useState();
+
     const [clientList, setClientList] = useState([]);
     const [filteredList, setFilteredList] = useState();
     const [grupo, setGrupo] = useState();
@@ -65,13 +64,10 @@ export default function Clientes() {
             }
         }
 
-        const response = await Cliente.createClient(formValues, lastClientId, grupoId);
+        const response = await Cliente.createClient(formValues,  grupoId);
         if (response && response.status === 201) {
             clearInputs('input');
             getAllClients();
-            findLastId();
-            await Cliente.createSerialId(lastClientId);
-            getAllSerialId();
             notifySuccess(response.data);
         } else {
             notifyFailure(response.data)
@@ -149,19 +145,7 @@ export default function Clientes() {
     // FIND LAST ID FROM CLIENT TABLE DB
     let serialList = [];
 
-    const findLastId = () => {
-        if (clientSerialId && Array.isArray(clientSerialId) && clientSerialId.length > 0) {
-            for (let obj of clientSerialId) {
-                if (obj.id && !isNaN(Number(obj.id))) {
-                    serialList.push(Number(obj.id));
-                }
-            }
-            if (serialList.length > 0) {
-                setLastClientId(Math.max(...serialList));
-            }
-        }
-    };
-
+   
 
     // --------------------------------- AUXILIARY FUNCTIONS ------------------------------------
 
@@ -252,9 +236,7 @@ export default function Clientes() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        findLastId();
-    }, [clientSerialId])
+
 
     return (
         <>

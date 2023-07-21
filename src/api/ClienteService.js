@@ -34,28 +34,29 @@ export class Cliente {
         }
     }
 
-    // CREATE A NEW SERIAL ID
-    static async createSerialId(lastClientId) {
-        try {
-            await connection.post('/clientes_id', {
-                id: lastClientId + 1
-            },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-        } catch (error) {
-            return error.response;
+
+
+    // CREATE RAMDOM ID
+    
+    static async createRandomId(){
+        const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        let idArray = [];
+        for(let i = 0 ; i < 5; i++){
+            idArray.push(alphabet[Math.floor(Math.random() * alphabet.length)])
         }
+
+        for(let i = 0 ; i < 5; i++){
+            idArray.push(Math.floor(Math.random() * 10))
+        }
+        return idArray.join('');
     }
 
     // CREATE A CLIENT
-    static async createClient(client, lastClientId, grupoId) {
+    static async createClient(client, grupoId) {
+        const randomId = await this.createRandomId();
         try {
             const response = await connection.post('/clientes', {
-                cod: client.codigo || `IT${lastClientId}`,
+                cod: client.codigo || randomId,
                 nome: client.nome,
                 doc: client.doc,
                 grupo_id: grupoId ? grupoId : null,
