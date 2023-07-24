@@ -1,4 +1,5 @@
 import style from '@/styles/clientes.module.css'
+import { convertToNumber, transformCurrency, transformDate } from '@/utils/utils';
 
 export default function ChequeTable(props) {
     const assignClassStyle = (cheque) => {
@@ -11,19 +12,6 @@ export default function ChequeTable(props) {
         } else if (!cheque.compensado && cheque.destino) {
             return style.withDestino;
         }
-    }
-
-    const transformCurrency = (value) => {
-        return value?.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
-    }
-
-    const transformDate = (data) => {
-        const date = new Date(data);
-        return new Intl.DateTimeFormat('pt-BR').format(date);
-    }
-
-    function convertToNumber(value) {
-        return Number(value.replace(/[^0-9.-]+/g, ""));
     }
 
     return (

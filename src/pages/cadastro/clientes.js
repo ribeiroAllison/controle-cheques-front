@@ -142,11 +142,6 @@ export default function Clientes() {
         }
     }
 
-    // FIND LAST ID FROM CLIENT TABLE DB
-    let serialList = [];
-
-   
-
     // --------------------------------- AUXILIARY FUNCTIONS ------------------------------------
 
     // HANDLE INPUT CHANGE IN CLIENT FORM
@@ -179,7 +174,6 @@ export default function Clientes() {
 
         if (client) {
             const { cliente, doc, status, grupo } = client;
-
             setFormValues({
                 ...formValues,
                 codigo: cod,
@@ -188,10 +182,8 @@ export default function Clientes() {
                 status: status,
                 grupo: grupo
             });
-
             const editWindow = document.getElementById('editWindowBackground');
             editWindow.style.display = "flex";
-
         }
     }
 
@@ -230,7 +222,7 @@ export default function Clientes() {
                     getGrupos()
                 ]);
             } catch (error) {
-                console.log(error);
+                return error.response;
             }
         };
         fetchData();

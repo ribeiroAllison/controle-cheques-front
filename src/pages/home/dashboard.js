@@ -2,6 +2,8 @@ import ChequeControl from '@/components/ChequeControl'
 import Header from '@/components/Header'
 import Head from 'next/head'
 import React from 'react'
+import styles from '../../styles/dashboardPage.module.css'
+import { DoughnutGraph } from './components/DoughnutGraph'
 
 export default function Dashboard() {
     return (
@@ -12,6 +14,10 @@ export default function Dashboard() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <Header />
+
+            <div className={styles.dashboardsWrapper}> 
+                <DoughnutGraph />
+            </div>
 
             <ChequeControl
                 headerLine="Estornados"
