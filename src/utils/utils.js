@@ -132,3 +132,12 @@ export const transformCurrency = (value) => {
 export const  convertToNumber = (value) => {
     return Number(value.replace(/[^0-9.-]+/g, ""));
 }
+
+    //SHOW ADD DATA FORM
+export function showAddForm () {
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "flex"
+
+        const addButton = document.getElementById( 'addButton')
+        addButton.style.display = "none"
+    }

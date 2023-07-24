@@ -4,8 +4,11 @@ import SearchFilter from "@/components/SearchFilter";
 import style from "@/styles/clientes.module.css";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";;
+import clearInputs from "@/utils/clearInputs";
+import { showAddForm } from "@/utils/utils";
 import 'react-toastify/dist/ReactToastify.css';
 import { Grupo } from "@/api/GrupoService";
+import ModalName from "@/components/ModalName";
 
 export default function Grupos() {
     const notifySuccess = (msg) => toast.success(msg);
@@ -31,12 +34,18 @@ export default function Grupos() {
         e.preventDefault();
         const response = await Grupo.createGroup(formValues);
         if (response && response.status === 201) {
-            clearInputs();
+            clearInputs('input');
             notifySuccess(response.data);
             getAllGrupos();
         } else {
             notifyFailure(response.data);
         }
+
+        const addButton = document.getElementById('addButton')
+        addButton.style.display = "block";
+
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "none";
     }
 
     // DELETE A GROUP
@@ -56,36 +65,40 @@ export default function Grupos() {
 
     // FIELDS EDIT HANDLING
     const handleEdit = (e) => {
-        const id = e.target.closest('tr').getAttribute('data-cod');
-        setEditId(id);
-        const nome = document.getElementById(id).innerHTML;
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = nome;
+        const id = e.target.name;
+        setEditId(id)
+        const grupo = grupos.find((grupo) => grupo.id === Number(id));
 
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'none';
+        if (grupo) {
+            const nome = grupo.nome;
 
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "block";
+            setFormValues({
+                ...formValues,
+                nome: nome
+            });
+
+            const editWindow = document.getElementById('editWindowBackground');
+            editWindow.style.display = "flex";
+
+        }
     }
 
     // EDITS A GROUP IN DB
     async function submitEdit(e) {
         e.preventDefault();
-        const nome = document.getElementById('nome').value;
+        const nome = formValues.nome;
         const id = editId;
         const response = await Grupo.editGroup(id, nome);
         if (response && response.status === 200) {
             notifySuccess(response.data);
             getAllGrupos();
-            clearInputs();
+            clearInputs('input');
         } else {
             notifyFailure(response.data);
         }
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
+
+        const editWindow = document.getElementById('editWindowBackground');
+        editWindow.style.display = "none";
     }
 
     // -------------------------------- AUX FUNCTIONS -------------------------------
@@ -93,12 +106,7 @@ export default function Grupos() {
     const handleClear = (e) => {
         e.preventDefault();
 
-        clearInputs();
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
+        clearInputs('input');
     }
 
     const handleInputChange = (e) => {
@@ -106,10 +114,6 @@ export default function Grupos() {
         setFormValues({ ...formValues, [name]: value });
     };
 
-    const clearInputs = () => {
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = "";
-    }
 
     useEffect(() => {
         getAllGrupos()
@@ -120,7 +124,10 @@ export default function Grupos() {
             <ToastContainer autoClose={2000} />
             <Header />
             <h3 className={style.name}>Cadastro de Grupos</h3>
-            <form className={style.formCtr}>
+
+            <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Grupo</button>
+
+            <form className={style.formCtr} id="addForm">
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas" />
@@ -150,12 +157,18 @@ export default function Grupos() {
                     {filteredList?.map((destino) => (
                         <tr key={destino.nome} data-cod={destino.id}>
                             <td id={destino.id}>{destino.nome}</td>
-                            <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>
+                            <td  onClick={handleEdit}><img src="/images/edit.svg" name={destino.id} /></td>
                             <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            <ModalName 
+                name="Grupos"
+                submitEdit={submitEdit}
+                handleInputChange={handleInputChange}
+                formValues={formValues}
+            />
         </>
     )
 }
