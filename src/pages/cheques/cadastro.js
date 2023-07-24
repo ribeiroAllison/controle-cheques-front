@@ -71,6 +71,7 @@ export default function CadastroCheques() {
                     required
                     placeholder={`Número do cheque ${i + 1}`}
                     className="input numCheque"
+                    autoComplete="off"
                 />
             );
         }
@@ -183,6 +184,7 @@ export default function CadastroCheques() {
                     required
                     placeholder={`Valor ${i + 1}`}
                     className="input valorCheque"
+                    autoComplete="off"
                 />
             );
         }
@@ -207,6 +209,7 @@ export default function CadastroCheques() {
                     id={`data_venc${i}`}
                     required
                     className="input"
+                    autoComplete="off"
                 />
             );
         }
@@ -224,6 +227,7 @@ export default function CadastroCheques() {
                     onChange={handleInputChange}
                     id={`data_compen${i}`}
                     className="input"
+
                 />
             );
         }
@@ -294,6 +298,7 @@ export default function CadastroCheques() {
                         name="tipo"
                         onChange={handleInputChange}
                         defaultValue="Cheque"
+                        autoComplete="off"
                     />
                 </div>
 
@@ -363,6 +368,7 @@ export default function CadastroCheques() {
                             onChange={handleInputChange}
                             placeholder="Número do Pedido"
                             className="input"
+                            autoComplete="off"
                         />
                     </div>
 
@@ -426,6 +432,7 @@ export default function CadastroCheques() {
                             name="obs"
                             onChange={handleInputChange}
                             className="input"
+                            autoComplete="off"
                         />
                     </div>
                 </section>
