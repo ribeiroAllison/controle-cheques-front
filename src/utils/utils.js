@@ -124,3 +124,12 @@ export function getKeyByValue(object, value) {
     const result = correctObj ? correctObj.id : null;
     return result;
 }
+
+    //SHOW ADD DATA FORM
+export function showAddForm () {
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "flex"
+
+        const addButton = document.getElementById( 'addButton')
+        addButton.style.display = "none"
+    }

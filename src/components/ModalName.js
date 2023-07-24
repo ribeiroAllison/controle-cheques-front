@@ -14,8 +14,8 @@ export default function ModalName (props){
 
     return(
         <>
-            <div id="editWindowBackground" className={style.editBackground}>
-                <section className={style.editFieldset} id="editWindow">
+            <div id="editWindowBackground" className={`${style.editBackground} `}>
+                <section className={`${style.editFieldset} ${style.nameOnlyBackground}`} id="editWindow">
                     <div className={style.popupHeader}>
                         <h2>Edição de {props.name}</h2>
                         <img src="/images/x-icon.svg" onClick={handleCloseEdit} />
@@ -25,7 +25,7 @@ export default function ModalName (props){
 
                         <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
                             <h4>Nome:</h4>
-                            <input type="text" name="nome" onChange={props.handleInputChange} id="editCliente" className="editInput" value={props.formValues.nome}/>                       
+                            <input type="text" name="nome" onChange={props.handleInputChange} id="editTarget" className="editInput" value={props.formValues.nome} autoComplete="off"/>                       
                         </div>
 
                         

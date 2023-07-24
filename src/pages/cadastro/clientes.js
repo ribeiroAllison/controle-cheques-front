@@ -6,6 +6,7 @@ import { baseURL } from "@/utils/url";
 import { useState, useEffect } from "react";
 import { getCookie } from "@/utils/cookie";
 import { getKeyByValue } from "@/utils/utils";
+import { showAddForm } from "@/utils/utils";
 import { Cliente } from "@/api/ClienteService";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -142,9 +143,7 @@ export default function Clientes() {
         }
     }
 
-    // FIND LAST ID FROM CLIENT TABLE DB
-    let serialList = [];
-
+    
    
 
     // --------------------------------- AUXILIARY FUNCTIONS ------------------------------------
@@ -210,14 +209,7 @@ export default function Clientes() {
     }
 
     
-    //SHOW AND HIDE ADD FORM
-    const showAddForm = () => {
-        const addForm = document.getElementById('addForm')
-        addForm.style.display = "flex"
 
-        const addButton = document.getElementById( 'addButton')
-        addButton.style.display = "none"
-    }
 
     // --------------------------------- USE EFFECTS ------------------------------------
 
