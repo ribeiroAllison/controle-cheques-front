@@ -42,6 +42,12 @@ export default function Destinos() {
         } else {
             notifyFailure(response.data);
         }
+
+        const addButton = document.getElementById('addButton')
+        addButton.style.display = "block";
+
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "none";
     }
 
     // DELETE A DESTINATION 
@@ -85,6 +91,7 @@ export default function Destinos() {
         e.preventDefault();
         const nome = formValues.nome;
         const id = editId;
+        
         const response = await Destino.editDestino(id, nome);
         if (response && response.status === 200) {
             getAllDestinos();
@@ -93,13 +100,11 @@ export default function Destinos() {
         } else {
             notifyFailure(response.data);
         }
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
 
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
+
+        
     }
 
 
@@ -109,10 +114,6 @@ export default function Destinos() {
     const handleClear = (e) => {
         e.preventDefault();
         clearInputs('input');
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
     }
 
     // INPUT HANDLING
@@ -120,17 +121,7 @@ export default function Destinos() {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
     };
-
-    // EDIT SCREEN CLOSING HANDLE
-    const handleCloseEdit = (e) => {
-        e.preventDefault();
-        
-
-        const editWindow = document.getElementById('editWindowBackground');
-        editWindow.style.display = "none";
-
-    }
-
+    
 
  
 

@@ -40,6 +40,12 @@ export default function Grupos() {
         } else {
             notifyFailure(response.data);
         }
+
+        const addButton = document.getElementById('addButton')
+        addButton.style.display = "block";
+
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "none";
     }
 
     // DELETE A GROUP
@@ -90,10 +96,6 @@ export default function Grupos() {
         } else {
             notifyFailure(response.data);
         }
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
 
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";

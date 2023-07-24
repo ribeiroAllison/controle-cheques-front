@@ -2,7 +2,9 @@ import HeaderLine from "@/components/HeaderLine"
 import Header from "@/components/Header"
 import SearchFilter from "@/components/SearchFilter"
 import style from "@/styles/clientes.module.css"
-import { baseURL } from "@/utils/url"
+import { showAddForm } from "@/utils/utils"
+import clearInputs from "@/utils/clearInputs"
+import ModalName from "@/components/ModalName"
 import { useState, useEffect } from "react"
 import { Vendedor } from "@/api/VendedorService"
 import { ToastContainer, toast } from "react-toastify";;
@@ -25,11 +27,6 @@ export default function Vendedores() {
         setFormValues({ ...formValues, [name]: value });
     };
 
-    // AUX CLEAR INPUT FUNCTION
-    const clearInputs = () => {
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = "";
-    }
 
     //QUERIES ALL SALESMEN IN DB
     async function getAllVendedores() {
@@ -47,10 +44,16 @@ export default function Vendedores() {
         if (response && response.status === 200) {
             notifySuccess(response.data);
             getAllVendedores();
-            clearInputs();
+            clearInputs('input');
         } else {
             notifyFailure(response.data);
         }
+
+        const addButton = document.getElementById('addButton')
+        addButton.style.display = "block";
+
+        const addForm = document.getElementById('addForm')
+        addForm.style.display = "none";
     }
 
     // DELETE 
@@ -70,50 +73,50 @@ export default function Vendedores() {
 
     // UPDATE SALESMEN IN DB
     const handleEdit = (e) => {
-        const id = e.target.closest('tr').getAttribute('data-cod');
+        const id = e.target.name;
         setEditId(id);
-        const nome = document.getElementById(id).innerHTML;
+        const vendedor = vendedores.find((vendedor) => vendedor.id === Number(id));
 
-        const nomeInput = document.getElementById('nome');
-        nomeInput.value = nome;
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'none';
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "block";
+        if (vendedor) {
+            const nome = vendedor.nome;
+
+            setFormValues({
+                ...formValues,
+                nome: nome
+            });
+
+            const editWindow = document.getElementById('editWindowBackground');
+            editWindow.style.display = "flex";
+
+        }
     }
+    
 
     // CLEAR INPUT FIELDS
     const handleClear = (e) => {
         e.preventDefault();
 
-        clearInputs();
-        const addButton = document.getElementById('adicionaCliente');
-        addButton.style.display = 'block';
-
-        const editButton = document.getElementById('editButton');
-        editButton.style.display = "none";
+        clearInputs('input');
     }
 
     // EDIT SALESMEN IN DB
     async function submitEdit(e) {
         e.preventDefault();
-        const nome = document.getElementById('nome').value;
+        const nome = formValues.nome;
         const id = editId;
 
         const response = await Vendedor.editVendedor(id, nome);
-        console.log(response);
         if (response && response.status === 200) {
             getAllVendedores();
-            clearInputs();
+            clearInputs('input');
             notifySuccess(response.data);
-            const addButton = document.getElementById('adicionaCliente');
-            addButton.style.display = 'block';
 
-            const editButton = document.getElementById('editButton');
-            editButton.style.display = "none";
         } else {
             notifyFailure(response.data);
         }
+
+        const editWindow = document.getElementById('editWindowBackground');
+        editWindow.style.display = "none";
     }
 
     useEffect(() => {
@@ -125,7 +128,10 @@ export default function Vendedores() {
             <ToastContainer autoClose={2000} />
             <Header />
             <h3 className={style.name}>Cadastro de Vendedores</h3>
-            <form className={style.formCtr}>
+
+            <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Vendedor</button>
+
+            <form className={style.formCtr} id="addForm">
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Vendedor" />
@@ -154,16 +160,22 @@ export default function Vendedores() {
                 </thead>
                 <tbody>
                     {
-                        filteredList?.map((destino) => (
-                            <tr key={destino.nome} data-cod={destino.id}>
-                                <td id={destino.id}>{destino.nome}</td>
-                                <td name={destino.id} onClick={handleEdit}><img src="/images/edit.svg" /></td>
-                                <td name={destino.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
+                        filteredList?.map((vendedor) => (
+                            <tr key={vendedor.nome} data-cod={vendedor.id}>
+                                <td id={vendedor.id}>{vendedor.nome}</td>
+                                <td onClick={handleEdit}><img src="/images/edit.svg" name={vendedor.id}/></td>
+                                <td name={vendedor.nome} onClick={handleDelete}><img src="/images/trash-bin.svg" /></td>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
+            <ModalName 
+                name="Vendedores"
+                submitEdit={submitEdit}
+                handleInputChange={handleInputChange}
+                formValues={formValues}
+            />
         </>
     )
 }

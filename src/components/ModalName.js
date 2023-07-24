@@ -5,11 +5,8 @@ export default function ModalName (props){
     // EDIT SCREEN CLOSING HANDLE
     const handleCloseEdit = (e) => {
         e.preventDefault();
-        
-
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
-
     }
 
     return(
