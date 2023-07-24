@@ -64,7 +64,7 @@ export default function CadastroCheques() {
         for (let i = 0; i < qtd; i++) {
             inputs.push(
                 <input
-                    type="number"
+                    type="text"
                     name={`num${i}`}
                     onChange={handleInputChange}
                     id={`num${i}`}

@@ -35,6 +35,7 @@ export default function Clientes() {
     const [clientList, setClientList] = useState([]);
     const [filteredList, setFilteredList] = useState();
     const [grupo, setGrupo] = useState();
+    const [vendedorList, setVendedorList] = useState();
 
 
     // --------------------------------- CLIENTS FUNCTIONS ------------------------------------
