@@ -1,8 +1,5 @@
-import { getCookie } from '@/utils/cookie';
 import { connection } from '../utils/connection';
 import { isCompensado, isCompensadoVar, isVencido, isVencidoVar, transformValue } from '@/utils/utils';
-
-const token = getCookie('token');
 
 export class Cheques {
 
@@ -31,12 +28,7 @@ export class Cheques {
                 número_cheque: formValues.número_cheque ? formValues.número_cheque : ''
             })
 
-            const response = await connection.get(`/cheques?${searchParams.toString()}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await connection.get(`/cheques?${searchParams.toString()}`);
             return response;
         } catch (error) {
             return error.response;
@@ -97,11 +89,6 @@ export class Cheques {
                     data_venc: formValues[`data_venc${i}`] ? formValues[`data_venc${i}`] : null,
                     data_compen: formValues[`data_compen${i}`] ? formValues[`data_compen${i}`] : null,
                     data_destino: formValues.data_destino ? formValues.data_destino : null
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
                 });
                 responses.push(response);
                 checksList.push(formValues[`num${i}`]);
@@ -128,11 +115,6 @@ export class Cheques {
                 obs: editFormValues.obs,
                 data_compen: editFormValues.data_compen,
                 pedido: editFormValues.pedido
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
             });
             return response;
         } catch (error) {
@@ -144,10 +126,6 @@ export class Cheques {
     static async deleteCheck(chequeId) {
         try {
             const response = await connection.delete('/cheques', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
                 data: { id: chequeId }
             })
 
@@ -162,11 +140,6 @@ export class Cheques {
             const response = await connection.put('/cheques/obs', {
                 id: id,
                 obs: null
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
             })
             return response;
         } catch (error) {
@@ -179,11 +152,6 @@ export class Cheques {
             const response = await connection.put('/cheques/obs', {
                 id: id,
                 obs: obs
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
             });
             return response;
         } catch (error) {

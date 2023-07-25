@@ -2,16 +2,15 @@ import style from '../styles/Header.module.css'
 import Link from 'next/link'
 import { SignOut, UserCircle } from '@phosphor-icons/react'
 import { useRouter } from 'next/router';
+import { removeCookie } from '@/utils/cookie';
 
 export default function Header() {
     const router = useRouter();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         const confirmation = confirm('Você realmente deseja sair?')
-
         if (confirmation) {
-            localStorage.removeItem('token');
-            document.cookie = 'token=; path=/;'
+            removeCookie('token');
             setTimeout(() => { router.push('/home/login') }, 1100);
         } else {
             return;

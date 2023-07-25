@@ -1,7 +1,4 @@
 import { connection } from "@/utils/connection";
-import { getCookie } from "@/utils/cookie";
-
-const token = getCookie('token');
 
 export class Destino {
 
@@ -11,7 +8,6 @@ export class Destino {
       const response = await connection.get('/destinos', {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         }
       })
       return response;
@@ -28,7 +24,6 @@ export class Destino {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         }
       })
       return response;
@@ -43,7 +38,6 @@ export class Destino {
       const response = await connection.delete('/destinos', {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         data: { id: destinationId }
       });
@@ -63,7 +57,6 @@ export class Destino {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         }
       })
       return response;

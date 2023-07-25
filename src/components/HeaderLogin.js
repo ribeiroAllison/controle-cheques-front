@@ -1,4 +1,3 @@
-import { UserCircle } from '@phosphor-icons/react'
 import style from '../styles/Header.module.css'
 import Link from 'next/link'
 

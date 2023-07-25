@@ -1,5 +1,3 @@
-import style from '../styles/clientes.module.css'
-
 export const clearInputs = (inputId) => {
     const inputs = document.getElementsByClassName(inputId);
     for (let input of inputs) {
@@ -123,6 +121,14 @@ export function getKeyByValue(object, value) {
     }
     const result = correctObj ? correctObj.id : null;
     return result;
+}
+
+export const transformCurrency = (value) => {
+    return value?.replace("$", "R$").replace(",", "x").replace(".", ",").replace("x", ".");
+}
+
+export const convertToNumber = (value) => {
+    return Number(value.replace(/[^0-9.-]+/g, ""));
 }
 
     //SHOW ADD DATA FORM

@@ -56,7 +56,6 @@ export default function Cadastro() {
 
     try {
       let data = await User.registerUser(user);
-      console.log(data);
       if (data) {
         checkCadastro = true;
       }

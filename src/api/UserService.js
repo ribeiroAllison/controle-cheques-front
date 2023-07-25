@@ -1,5 +1,6 @@
 import { baseURL } from "@/utils/url";
 import { setCookie } from "@/utils/cookie";
+import { connection } from "@/utils/connection";
 
 export default class User {
 
@@ -42,51 +43,29 @@ export default class User {
     // USER LOGIN
     static loginUser = async (user) => {
         try {
-            const responseLogin = await fetch(`${baseURL}/usuarios/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: user.email,
-                    senha: user.senha
-                })
+            const response = await connection.post(`/usuarios/login`, {
+                email: user.email,
+                senha: user.senha
             });
-            if (responseLogin.ok) {
-                const jsonResponse = await responseLogin.json();
-
-                setCookie('token', jsonResponse.response.token);
-                return jsonResponse;
+            if (response && response.status === 200) {
+                setCookie('token', response.data.token.token);
+                return response;
             } else {
                 return;
             }
         } catch (error) {
-            console.error(error);
+            return error.response;
         }
     }
 
     // USER EDITION
     static editUser = async (user) => {
         try {
-            const responseEdit = await fetch(`${baseURL}/usuarios/${user.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    nome: user.nome,
-                    senha: user.senha
-                })
+            const responseEdit = await connection.put(`/usuarios/${user.id}`, {
+                nome: user.nome,
+                senha: user.senha
             });
-
-            if (responseEdit.ok) {
-                const jsonResponse = await responseEdit.json();
-                setCookie('token', jsonResponse.token);
-
-                return jsonResponse;
-            } else {
-                return;
-            }
+            return responseEdit;
         } catch (error) {
             console.error(error);
         }

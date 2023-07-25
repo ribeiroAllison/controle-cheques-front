@@ -1,9 +1,60 @@
 import ChequeControl from '@/components/ChequeControl'
 import Header from '@/components/Header'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import styles from '../../styles/dashboardPage.module.css'
+import { DoughnutChart } from './components/DoughnutChart'
+import { BarChartOne } from './components/BarChartOne'
+import HeaderLine from '@/components/HeaderLine'
+import { Cheques } from '@/api/ChequeService'
 
 export default function Dashboard() {
+    const [cheques, setCheques] = useState([]);
+    const [estornados, setEstornados] = useState([]);
+
+    const ratioInadimplencia = () => {
+        const totalCheques = cheques.length;
+        const totalEstornados = estornados.length;
+
+        if (totalCheques === 0) {
+            return "0%";
+        }
+
+        const inadimplencia = (totalEstornados / totalCheques) * 100;
+        return `${inadimplencia.toFixed(2)}%`;
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const today = new Date();
+                const aMonthAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+
+                const [chequesData, estornadosData] = await Promise.all([
+                    Cheques.getAllCheques(),
+                    Cheques.getEstornos()
+                ]);
+
+                const chequesArray = Array.isArray(chequesData.data) ? chequesData.data : [];
+                const estornadosArray = Array.isArray(estornadosData.data) ? estornadosData.data : [];
+                
+                if (chequesArray && estornadosArray) {
+                    const filteredCheques = chequesArray.filter((cheque) => {
+                        const compenDate = new Date(cheque.data_compen);
+                        return compenDate > aMonthAgo && compenDate <= today;
+                    });
+
+                    setCheques(filteredCheques);
+                    setEstornados(estornadosArray);
+                }
+            } catch (error) {
+                console.log(error);
+                return error.response;
+            }
+        }
+        fetchData();
+    }, [])
+
     return (
         <>
             <Head>
@@ -12,6 +63,20 @@ export default function Dashboard() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <Header />
+
+            <HeaderLine name="Dashboards" />
+            <div className={styles.dashboardsWrapper}>
+                <div className={styles.graphs}>
+                    <BarChartOne />
+                </div>
+                <div className={styles.graphs}>
+                    <DoughnutChart />
+                </div>
+                <div className={styles.graphs}>
+                    <h2 className={styles.graphsTitle}>Inadimplência 30 dias</h2>
+                    <h3>{ratioInadimplencia()}</h3>
+                </div>
+            </div>
 
             <ChequeControl
                 headerLine="Estornados"

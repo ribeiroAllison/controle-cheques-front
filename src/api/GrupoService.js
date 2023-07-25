@@ -1,18 +1,11 @@
 import { connection } from "@/utils/connection";
-import { getCookie } from "@/utils/cookie";
-
-const token = getCookie('token');
 
 export class Grupo {
 
   // QUERY ALL GROUPS IN DB
   static async getAllGrupos() {
     try {
-      const response = await connection.get('/grupos', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await connection.get('/grupos');
       return response;
     } catch (error) {
       return error.response;
@@ -23,13 +16,7 @@ export class Grupo {
   static async createGroup(formValues) {
     try {
       const response = await connection.post('/grupos',
-        { nome: formValues.nome },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        { nome: formValues.nome });
       return response;
     } catch (error) {
       return error.response;
@@ -40,10 +27,6 @@ export class Grupo {
   static async deleteGroup(groupId) {
     try {
       const response = await connection.delete('/grupos', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
         data: { id: groupId }
       });
       return response;
@@ -58,11 +41,6 @@ export class Grupo {
       const response = await connection.put('/grupos', {
         id: groupId,
         nome: groupName
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
       });
       return response;
     } catch (error) {

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(request) {
-    const token = request.cookies.get('token')?.value // pega o token na request
+    const token = request.cookies.get('token')?.value
 
     if (!token) {
         const redirectUrl = new URL('/home/login', request.nextUrl.origin);
@@ -9,9 +9,8 @@ export function middleware(request) {
             'Set-Cookie': `redirectTo=${request.url}; Path=/; HttpOnly; max-age=20`,
         })
     }
-
     const cookieMaxAge = 60 * 60 * 24;
-
+    
     return NextResponse.next({
         cookies: [
             {
@@ -19,6 +18,7 @@ export function middleware(request) {
                 value: token,
                 path: '/',
                 maxAge: { cookieMaxAge },
+                httpOnly: true,
             },
         ],
     });
