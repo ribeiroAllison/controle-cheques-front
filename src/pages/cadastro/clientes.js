@@ -5,8 +5,7 @@ import style from "@/styles/clientes.module.css";
 import { baseURL } from "@/utils/url";
 import { useState, useEffect } from "react";
 import { getCookie } from "@/utils/cookie";
-import { getKeyByValue } from "@/utils/utils";
-import { showAddForm } from "@/utils/utils";
+import { getKeyByValue, showAddForm } from "@/utils/utils";
 import { Cliente } from "@/api/ClienteService";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -65,7 +64,7 @@ export default function Clientes() {
             }
         }
 
-        const response = await Cliente.createClient(formValues,  grupoId);
+        const response = await Cliente.createClient(formValues, grupoId);
         if (response && response.status === 201) {
             clearInputs('input');
             getAllClients();
@@ -77,15 +76,15 @@ export default function Clientes() {
         const addForm = document.getElementById('addForm')
         addForm.style.display = "none"
 
-        const addButton = document.getElementById( 'addButton')
+        const addButton = document.getElementById('addButton')
         addButton.style.display = "block"
     }
 
     // EDITS CLIENT IN DB
     const submitEdit = async (e) => {
         e.preventDefault();
-        
-        const {codigo, doc, nome, status} = formValues
+
+        const { codigo, doc, nome, status } = formValues
         const grupoName = formValues.grupo;
 
         const user = {
@@ -116,7 +115,7 @@ export default function Clientes() {
 
         const editWindow = document.getElementById('editWindowBackground');
         editWindow.style.display = "none";
-    
+
     }
 
     // DELETE CLIENT FUNCTION
@@ -142,9 +141,6 @@ export default function Clientes() {
             setClientSerialId(data);
         }
     }
-
-    
-   
 
     // --------------------------------- AUXILIARY FUNCTIONS ------------------------------------
 
@@ -205,7 +201,7 @@ export default function Clientes() {
         })
     }
 
-    
+
 
 
     // --------------------------------- USE EFFECTS ------------------------------------
@@ -235,11 +231,11 @@ export default function Clientes() {
                 <h3 className={style.name}>Cadastro de Clientes</h3>
 
                 <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Cliente</button>
-                
+
                 <form className={style.formCtr} onSubmit={createNewClient} id="addForm">
                     <div className={style.inputCtr} >
                         <h4>Código:</h4>
-                        <input type="text" name="codigo" className="input" onChange={handleInputChange}  id="codigo" placeholder="Código do Cliente" />
+                        <input type="text" name="codigo" className="input" onChange={handleInputChange} id="codigo" placeholder="Código do Cliente" />
                     </div>
                     <div className={`${style.nameCtr} ${style.inputCtr}`} >
                         <h4>Nome:</h4>
@@ -247,11 +243,11 @@ export default function Clientes() {
                     </div>
                     <div className={style.inputCtr} >
                         <h4>CPF/CNPJ:</h4>
-                        <input type="text" name="doc"  className="input" onChange={handleInputChange}  id="doc" required placeholder="Digite CPF ou CNPJ" />
+                        <input type="text" name="doc" className="input" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ" />
                     </div>
                     <div className={`${style.nameCtr} ${style.inputCtr}`} >
                         <h4>Grupo:</h4>
-                        <select id="grupo" name="grupo" className={`${style.select} input`}  onChange={handleInputChange}>
+                        <select id="grupo" name="grupo" className={`${style.select} input`} onChange={handleInputChange}>
                             <option></option>
                             {grupo?.map((emp) => {
                                 return (
@@ -311,7 +307,7 @@ export default function Clientes() {
                 </tbody>
             </table>
 
-            <ModalCadastro 
+            <ModalCadastro
                 name="Clientes"
                 submitEdit={submitEdit}
                 handleInputChange={handleInputChange}

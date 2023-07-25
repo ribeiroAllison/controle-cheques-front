@@ -6,22 +6,22 @@ import { convertToNumber } from '@/utils/utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function DoughnutGraph() {
+export function DoughnutChart() {
   const [estornados, setEstornados] = useState([]);
   const [semDestino, setSemDestino] = useState([]);
   const [vencimentoProximo, setVencimentoProximo] = useState([]);
 
-  const valorTotalEstornados = estornados.reduce((acc, value) => {
+  const valorTotalEstornados = estornados?.reduce((acc, value) => {
     acc += convertToNumber(value.valor);
     return acc;
   }, 0);
 
-  const valorTotalSemDestino = semDestino.reduce((acc, value) => {
+  const valorTotalSemDestino = semDestino?.reduce((acc, value) => {
     acc += convertToNumber(value.valor);
     return acc;
   }, 0);
 
-  const valorTotalVencimento = vencimentoProximo.reduce((acc, value) => {
+  const valorTotalVencimento = vencimentoProximo?.reduce((acc, value) => {
     acc += convertToNumber(value.valor);
     return acc;
   }, 0);

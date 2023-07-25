@@ -3,7 +3,7 @@ import Header from '@/components/Header'
 import Head from 'next/head'
 import React from 'react'
 import styles from '../../styles/dashboardPage.module.css'
-import { DoughnutGraph } from './components/DoughnutGraph'
+import { DoughnutChart } from './components/DoughnutChart'
 
 export default function Dashboard() {
     return (
@@ -16,7 +16,7 @@ export default function Dashboard() {
             <Header />
 
             <div className={styles.dashboardsWrapper}> 
-                <DoughnutGraph />
+                <DoughnutChart />
             </div>
 
             <ChequeControl

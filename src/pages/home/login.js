@@ -11,11 +11,12 @@ import HeaderLogin from '@/components/HeaderLogin';
 import User from '@/api/UserService';
 
 
+
 export default function Login() {
   const router = useRouter();
-  const notifySuccess = () => toast.success("Usuário logado com sucesso!");
-  const notifyFailure = () => toast.error("E-mail ou senha incorretos. Tente novamente!");
 
+  const notifySuccess = (msg) => toast.success(msg);
+  const notifyFailure = (msg) => toast.error(msg);
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -28,7 +29,7 @@ export default function Login() {
     setSenha(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const user = {
@@ -36,19 +37,18 @@ export default function Login() {
       senha: senha
     }
 
-    User.loginUser(user).then((data) => {
-      if (data?.response?.token) {
-        notifySuccess();
+    const response = await User.loginUser(user);
+      if (response && response.status === 200) {
+        notifySuccess(response.data.statusMessage);
 
         setEmail('');
         setSenha('');
 
         setTimeout(() => { router.push('/home/dashboard') }, 1100);
       } else {
-        notifyFailure();
+        notifyFailure(response.data);
         setSenha('');
       }
-    })
   }
 
   return (
