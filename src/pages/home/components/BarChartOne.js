@@ -1,55 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { Cliente } from '@/api/ClienteService';
+import { convertToNumber } from '@/utils/utils';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
-    },
-  },
-};
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: [],
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
-
 export function BarChartOne() {
-  return <Bar options={options} data={data} />;
+  const [cheques, setCheques] = useState([]);
+
+  const fetchTopTen = async () => {
+    const response = await Cliente.getTopTen();
+    setCheques(response.data);
+  }
+
+  const dataValues = cheques.map((item) => { return convertToNumber(item.valor) });
+  const labels = cheques.map((item) => { return item.cliente})
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Valor em BRL',
+        data: dataValues,
+        backgroundColor: ['#02ce83'],
+        borderColor: ['#000'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    fetchTopTen();
+  }, [])
+
+  return (
+    <Bar
+      data={data}
+      options={{ maintainAspectRatio: false, responsive: true }}
+    />
+  );
 }

@@ -1,5 +1,22 @@
-
 .dashboardsWrapper {
   display: flex;
+  justify-content: space-around;
+}
+
+.graphs {
+  width: 35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 5rem;
+}
+
+.graphsTitle {
+  text-transform: uppercase;
+  font-size: 1.8rem;
+}
+
+.graphs h3 {
+  font-size: 2rem;
+  color: var(--navColor);
 }

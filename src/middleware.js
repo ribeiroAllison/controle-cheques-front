@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request) {
     const token = request.cookies.get('token')?.value
-    console.log('Token do Middlware = ', token);
 
     if (!token) {
         const redirectUrl = new URL('/home/login', request.nextUrl.origin);

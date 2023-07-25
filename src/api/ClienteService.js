@@ -80,4 +80,14 @@ export class Cliente {
             return error.response;
         }
     }
+
+    // GET TOP TEN CLIENTS
+    static async getTopTen() {
+        try {
+            const response = await connection.get('/clientes/top10');
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
 }
