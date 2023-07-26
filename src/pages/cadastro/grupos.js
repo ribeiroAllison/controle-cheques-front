@@ -127,13 +127,12 @@ export default function Grupos() {
 
             <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Grupo</button>
 
-            <form className={style.formCtr} id="addForm">
+            <form className={style.formCtr} id="addForm" onSubmit={handleSubmit}>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas" />
                 </div>
-                <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
-                <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
+                <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
@@ -154,7 +153,9 @@ export default function Grupos() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredList?.map((destino) => (
+                    {!filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
+                    
+                        filteredList?.map((destino) => (
                         <tr key={destino.nome} data-cod={destino.id}>
                             <td id={destino.id}>{destino.nome}</td>
                             <td  onClick={handleEdit}><img src="/images/edit.svg" name={destino.id} /></td>

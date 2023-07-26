@@ -31,7 +31,7 @@ export default function Clientes() {
         }
     );
 
-    const [clientList, setClientList] = useState([]);
+    const [clientList, setClientList] = useState();
     const [filteredList, setFilteredList] = useState();
     const [grupo, setGrupo] = useState();
     const [vendedorList, setVendedorList] = useState();
@@ -290,10 +290,12 @@ export default function Clientes() {
                         <th>Status</th>
                         <th>Editar</th>
                         <th>Excluir</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     {
+                        !filteredList ? <tr><td colSpan={8} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
                         filteredList?.map((client) => (
                             <tr key={client.cod} data-cod={client.cod}>
                                 <td >{client.cod}</td>
@@ -303,6 +305,7 @@ export default function Clientes() {
                                 <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
                                 <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod} /></td>
                                 <td> <img src="/images/trash-bin.svg" onClick={handleDelete} /></td>
+                                
                             </tr>
                         ))}
                 </tbody>

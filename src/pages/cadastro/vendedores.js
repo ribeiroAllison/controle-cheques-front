@@ -131,13 +131,12 @@ export default function Vendedores() {
 
             <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Vendedor</button>
 
-            <form className={style.formCtr} id="addForm">
+            <form className={style.formCtr} id="addForm" onSubmit={handleSubmit}>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Vendedor" />
                 </div>
-                <button className={`${style.button} ${style.editButton}`} id="editButton" onClick={submitEdit} >Editar</button>
-                <button className={style.button} id="adicionaCliente" onClick={handleSubmit}>Adicionar</button>
+                <button className={style.button} id="adicionaCliente">Adicionar</button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
@@ -159,7 +158,7 @@ export default function Vendedores() {
                     </tr>
                 </thead>
                 <tbody>
-                    {
+                    {!filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
                         filteredList?.map((vendedor) => (
                             <tr key={vendedor.nome} data-cod={vendedor.id}>
                                 <td id={vendedor.id}>{vendedor.nome}</td>

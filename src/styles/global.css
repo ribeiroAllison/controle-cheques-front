@@ -91,3 +91,7 @@ a:hover{
 #addForm{
   display: none;
 }
+
+#loading{
+  height: 10rem;
+}

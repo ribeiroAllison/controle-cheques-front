@@ -29,6 +29,7 @@ export default function Destinos() {
         const { data } = await Destino.getAllDestinos();
         if (data) {
             setDestinos(data)
+            setFilteredList(data)
         }
     }
 
@@ -137,7 +138,7 @@ export default function Destinos() {
 
             <button className={`${style.button} addMarginLeft`} id="addButton" onClick={showAddForm}> Cadastrar Novo Destino</button>
 
-            <form className={style.formCtr} id="addForm">
+            <form className={style.formCtr} id="addForm" onSubmit={createDestination}>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
                     <input
@@ -149,18 +150,8 @@ export default function Destinos() {
                         placeholder="Nome de Destinos de Cheques"
                     />
                 </div>
-                <button
-                    className={`${style.button} ${style.editButton}`}
-                    id="editButton"
-                    onClick={handleSubmitEdit}
-                >Editar
-                </button>
-                <button
-                    className={style.button}
-                    id="adicionaCliente"
-                    onClick={createDestination}
-                >Adicionar
-                </button>
+                
+                <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
             </form>
 
@@ -181,7 +172,9 @@ export default function Destinos() {
                     </tr>
                 </thead>
                 <tbody>
-                    {destinos?.map((destino) => (
+                    { !filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
+                    
+                        filteredList.map((destino) => (
                         <tr key={destino.nome} data-cod={destino.id}>
                             <td id={destino.id}>{destino.nome}</td>
                             <td  onClick={handleEdit}><img name={destino.id} src="/images/edit.svg" /></td>

@@ -28,6 +28,10 @@
   height: 20px;
 }
 
+.select{
+  max-width: 10rem;
+}
+
 .inputCtrBox {
   display: flex;
   gap: 10px;
