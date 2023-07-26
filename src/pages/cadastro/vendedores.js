@@ -158,7 +158,7 @@ export default function Vendedores() {
                     </tr>
                 </thead>
                 <tbody>
-                    {!filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
+                    {!filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/loading.gif"/></td></tr> :
                         filteredList?.map((vendedor) => (
                             <tr key={vendedor.nome} data-cod={vendedor.id}>
                                 <td id={vendedor.id}>{vendedor.nome}</td>

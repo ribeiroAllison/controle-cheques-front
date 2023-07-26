@@ -45,6 +45,7 @@ export default function Clientes() {
         if (data) {
             setClientList(data);
             setFilteredList(data);
+            
         }
     }
 
@@ -295,7 +296,7 @@ export default function Clientes() {
                 </thead>
                 <tbody>
                     {
-                        !filteredList ? <tr><td colSpan={8} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
+                        !filteredList ? <tr><td colSpan={8} ><img id="loading"  src="/images/loading.gif"/></td></tr> :
                         filteredList?.map((client) => (
                             <tr key={client.cod} data-cod={client.cod}>
                                 <td >{client.cod}</td>

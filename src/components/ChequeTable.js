@@ -35,7 +35,7 @@ export default function ChequeTable(props) {
                 </tr>
             </thead>
             <tbody>
-                {
+                {   
                     props.list?.map((cheque) => (
                         <tr key={`cheque-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
                             <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)} >{cheque.cod_cliente}</td>

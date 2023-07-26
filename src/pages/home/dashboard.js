@@ -12,9 +12,21 @@ export default function Dashboard() {
     const [cheques, setCheques] = useState([]);
     const [estornados, setEstornados] = useState([]);
 
+    const transformAndSumValues =(array) =>{
+        const sumArray = [];
+        for (let item of array) {
+            const changedToNumber = Number(item.valor.replace('$', ''));
+            sumArray.push(changedToNumber)
+            
+        }
+        const sum = sumArray.reduce((acc, current) => acc + current)
+
+        return sum;
+    }
+
     const ratioInadimplencia = () => {
-        const totalCheques = cheques.length;
-        const totalEstornados = estornados.length;
+        const totalCheques = transformAndSumValues(cheques);
+        const totalEstornados = transformAndSumValues(estornados);
 
         if (totalCheques === 0) {
             return "0%";
@@ -65,7 +77,7 @@ export default function Dashboard() {
             <Header />
 
             <HeaderLine name="Dashboards" />
-            <div className={styles.dashboardsWrapper}>
+            <div className={`${styles.dashboardsWrapper} addMarginLeft`}>
                 <div className={styles.graphs}>
                     <BarChartOne />
                 </div>

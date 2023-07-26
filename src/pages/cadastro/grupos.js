@@ -153,7 +153,7 @@ export default function Grupos() {
                     </tr>
                 </thead>
                 <tbody>
-                    {!filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/coins.svg"/></td></tr> :
+                    {!filteredList ?  <tr><td colSpan={3} ><img id="loading"  src="/images/loading.gif"/></td></tr> :
                     
                         filteredList?.map((destino) => (
                         <tr key={destino.nome} data-cod={destino.id}>
