@@ -575,10 +575,10 @@ export default function ChequeControl(props) {
                         <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
 
                             <h4>No. Cheque</h4>
-                            <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque" />
+                            <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque" autoComplete="off" />
 
                             <h4>Cliente:</h4>
-                            <input type="text" name="cliente" onChange={handleEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput" />
+                            <input type="text" name="cliente" onChange={handleEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput" autoComplete="off"/>
                             <div className={style.searchBox} id="searchBoxEdit">
                                 <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
                                     {
@@ -587,10 +587,10 @@ export default function ChequeControl(props) {
                                 </select>
                             </div>
                             <h4>Valor</h4>
-                            <input type="text" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor" />
+                            <input type="text" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"  autoComplete="off"/>
 
                             <h4>Pedido</h4>
-                            <input type="number" onChange={handleEditInputChange} name="pedido" className="editInput" id="editPedido" />
+                            <input type="number" onChange={handleEditInputChange} name="pedido" className="editInput" id="editPedido" autoComplete="off"/>
                         </div>
 
                         <div className={style.inputCtr}>
