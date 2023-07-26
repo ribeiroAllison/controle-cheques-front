@@ -14,13 +14,16 @@ export default function Dashboard() {
 
     const transformAndSumValues =(array) =>{
         const sumArray = [];
+        let arrayFilled = false
+
         for (let item of array) {
             const changedToNumber = Number(item.valor.replace('$', ''));
             sumArray.push(changedToNumber)
+            arrayFilled = true;
             
         }
-        const sum = sumArray.reduce((acc, current) => acc + current)
-
+        const sum = arrayFilled && sumArray.reduce((acc, current) => acc + current)
+        console.log(sumArray)
         return sum;
     }
 
@@ -49,15 +52,20 @@ export default function Dashboard() {
 
                 const chequesArray = Array.isArray(chequesData.data) ? chequesData.data : [];
                 const estornadosArray = Array.isArray(estornadosData.data) ? estornadosData.data : [];
+
+                const estornados30Days = estornados.filter(cheque => {
+                    const vencDate = new Date(cheque.data_venc);
+                    return vencDate > aMonthAgo && vencDate <=today;
+                })
                 
                 if (chequesArray && estornadosArray) {
                     const filteredCheques = chequesArray.filter((cheque) => {
-                        const compenDate = new Date(cheque.data_compen);
-                        return compenDate > aMonthAgo && compenDate <= today;
+                        const vencDate = new Date(cheque.data_venc);
+                        return vencDate > aMonthAgo && vencDate <= today && cheque.compensado === true;
                     });
 
                     setCheques(filteredCheques);
-                    setEstornados(estornadosArray);
+                    setEstornados(estornados30Days);
                 }
             } catch (error) {
                 console.log(error);
