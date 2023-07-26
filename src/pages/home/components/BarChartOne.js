@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-export function BarChartOne() {
+export default function BarChartOne() {
   const [cheques, setCheques] = useState([]);
 
   const fetchTopTen = async () => {

@@ -6,7 +6,7 @@ import { convertToNumber } from '@/utils/utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function DoughnutChart() {
+export default function DoughnutChart() {
   const [estornados, setEstornados] = useState([]);
   const [semDestino, setSemDestino] = useState([]);
   const [vencimentoProximo, setVencimentoProximo] = useState([]);
