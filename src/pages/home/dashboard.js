@@ -11,31 +11,32 @@ import { Cheques } from '@/api/ChequeService'
 export default function Dashboard() {
     const [cheques, setCheques] = useState([]);
     const [estornados, setEstornados] = useState([]);
+    const [inadimplenciaRatio, setInadimplenciaRatio] = useState();
 
     const transformAndSumValues =(array) =>{
         const sumArray = [];
         let arrayFilled = false
 
         for (let item of array) {
-            const changedToNumber = Number(item.valor.replace('$', ''));
+            const changedToNumber = Number(item.valor.replace('$', '').replace(',', ''));
             sumArray.push(changedToNumber)
             arrayFilled = true;
             
         }
+        
         const sum = arrayFilled && sumArray.reduce((acc, current) => acc + current)
-        console.log(sumArray)
         return sum;
     }
 
     const ratioInadimplencia = () => {
-        const totalCheques = transformAndSumValues(cheques);
+        const totalCompensados = transformAndSumValues(cheques);
         const totalEstornados = transformAndSumValues(estornados);
 
-        if (totalCheques === 0) {
+        if (totalCompensados === 0) {
             return "0%";
         }
 
-        const inadimplencia = (totalEstornados / totalCheques) * 100;
+        const inadimplencia = (totalEstornados / (totalCompensados + totalEstornados)) * 100;
         return `${inadimplencia.toFixed(2)}%`;
     };
 
@@ -53,12 +54,12 @@ export default function Dashboard() {
                 const chequesArray = Array.isArray(chequesData.data) ? chequesData.data : [];
                 const estornadosArray = Array.isArray(estornadosData.data) ? estornadosData.data : [];
 
-                const estornados30Days = estornados.filter(cheque => {
+                const estornados30Days = estornadosArray.filter(cheque => {
                     const vencDate = new Date(cheque.data_venc);
                     return vencDate > aMonthAgo && vencDate <=today;
                 })
                 
-                if (chequesArray && estornadosArray) {
+                if (chequesArray) {
                     const filteredCheques = chequesArray.filter((cheque) => {
                         const vencDate = new Date(cheque.data_venc);
                         return vencDate > aMonthAgo && vencDate <= today && cheque.compensado === true;
@@ -66,6 +67,7 @@ export default function Dashboard() {
 
                     setCheques(filteredCheques);
                     setEstornados(estornados30Days);
+                    
                 }
             } catch (error) {
                 console.log(error);
@@ -74,6 +76,8 @@ export default function Dashboard() {
         }
         fetchData();
     }, [])
+
+    
 
     return (
         <>
