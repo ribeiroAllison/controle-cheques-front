@@ -37,6 +37,7 @@ export default function Cadastro() {
 
   const handleContraSenha = (e) => {
     setContraSenha(e.target.value);
+    
   }
 
   const handleSubmit = async (e) => {
