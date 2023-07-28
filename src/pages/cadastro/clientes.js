@@ -33,7 +33,7 @@ export default function Clientes() {
 
     const [clientList, setClientList] = useState();
     const [filteredList, setFilteredList] = useState();
-    const [grupo, setGrupo] = useState();
+    const [grupoList, setGrupoList] = useState();
     const [vendedorList, setVendedorList] = useState();
 
 
@@ -52,8 +52,6 @@ export default function Clientes() {
     // ADDS A NEW CLIENT
     const createNewClient = async (e) => {
         e.preventDefault();
-        const grupoName = document.getElementById('grupo').value;
-        const grupoId = getKeyByValue(grupo, grupoName);
         const treatDoc = (client) => {
             return client.replace(/[^\d]+/g, '');
         }
@@ -66,7 +64,7 @@ export default function Clientes() {
             }
         }
 
-        const response = await Cliente.createClient(formValues, grupoId);
+        const response = await Cliente.createClient(formValues);
         if (response && response.status === 201) {
             clearInputs('input');
             getAllClients();
@@ -86,31 +84,33 @@ export default function Clientes() {
     const submitEdit = async (e) => {
         e.preventDefault();
 
-        const { codigo, doc, nome, status } = formValues
-        const grupoName = formValues.grupo;
+        const { codigo, doc, nome, status, grupo, vendedor } = formValues
 
         const user = {
-            grupoId: getKeyByValue(grupo, grupoName),
+            grupoId: grupo,
             cod: codigo,
             doc: doc,
             nome: nome,
             status: status,
+            vendedor_id: vendedor
         }
 
         const response = await Cliente.editClient(user);
         if (response && response.status === 200) {
             getAllClients();
-            // clearInputs('input');
             notifySuccess(response.data);
 
-            const addButton = document.getElementById('adicionaCliente');
-            addButton.style.display = 'block';
+            setFormValues(
+                {
+                    codigo: "",
+                    nome: "",
+                    doc: "",
+                    status: "",
+                    grupo: "",
+                    vendedor: ""
+                }
+            )
 
-            const editButton = document.getElementById('editButton');
-            editButton.style.display = "none";
-
-            const codInput = document.getElementById('codigo');
-            codInput.removeAttribute('disabled');
         } else {
             notifyFailure(response.data);
         }
@@ -162,7 +162,24 @@ export default function Clientes() {
             });
             if (response.ok) {
                 let jsonResponse = await response.json();
-                setGrupo(jsonResponse);
+                setGrupoList(jsonResponse);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // GET VENDEDORES FUNCTION
+    async function getVendedores() {
+        try {
+            const response = await fetch(`${baseURL}/vendedores`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                setVendedorList(jsonResponse);
             }
         } catch (error) {
             console.log(error);
@@ -175,14 +192,18 @@ export default function Clientes() {
         const client = clientList.find((client) => client.cod === cod);
 
         if (client) {
-            const { cliente, doc, status, grupo } = client;
+            const { cliente, doc, status, grupo, vendedor } = client;
+            const grupo_id = getKeyByValue(grupoList, grupo)
+            const vendedor_id = getKeyByValue(vendedorList, vendedor)
+
             setFormValues({
                 ...formValues,
                 codigo: cod,
                 nome: cliente,
                 doc: doc,
                 status: status,
-                grupo: grupo
+                grupo: grupo_id,
+                vendedor: vendedor_id
             });
             const editWindow = document.getElementById('editWindowBackground');
             editWindow.style.display = "flex";
@@ -214,7 +235,8 @@ export default function Clientes() {
                 await Promise.all([
                     getAllClients(),
                     getAllSerialId(),
-                    getGrupos()
+                    getGrupos(),
+                    getVendedores()
                 ]);
             } catch (error) {
                 return error.response;
@@ -251,10 +273,23 @@ export default function Clientes() {
                         <h4>Grupo:</h4>
                         <select id="grupo" name="grupo" className={`${style.select} input`} onChange={handleInputChange}>
                             <option></option>
-                            {grupo?.map((emp) => {
+                            {grupoList?.map((emp) => {
                                 return (
-                                    <option key={emp.id} value={emp.nome}>
+                                    <option key={emp.id} value={emp.id}>
                                         {emp.nome}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <div className={`${style.nameCtr} ${style.inputCtr}`} >
+                        <h4>Vendedor:</h4>
+                        <select id="vendedor" name="vendedor" className={`${style.select} input`} onChange={handleInputChange}>
+                            <option></option>
+                            {vendedorList?.map((vend) => {
+                                return (
+                                    <option key={vend.id} value={vend.id}>
+                                        {vend.nome}
                                     </option>
                                 );
                             })}
@@ -288,6 +323,7 @@ export default function Clientes() {
                         <th>Nome</th>
                         <th>CPF / CNPJ</th>
                         <th>Grupo</th>
+                        <th>Vendedor</th>
                         <th>Status</th>
                         <th>Editar</th>
                         <th>Excluir</th>
@@ -303,6 +339,7 @@ export default function Clientes() {
                                 <td id={`client${client.cod}`}>{client.cliente}</td>
                                 <td id={`doc${client.cod}`}>{client.doc}</td>
                                 <td id={`grupo${client.cod}`}>{client.grupo}</td>
+                                <td id={`vendedor${client.cod}`} >{client.vendedor}</td>
                                 <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
                                 <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod} /></td>
                                 <td> <img src="/images/trash-bin.svg" onClick={handleDelete} /></td>
@@ -317,7 +354,8 @@ export default function Clientes() {
                 submitEdit={submitEdit}
                 handleInputChange={handleInputChange}
                 formValues={formValues}
-                grupo={grupo}
+                grupo={grupoList}
+                vendedores={vendedorList}
                 clearInputs={clearInputs}
             />
         </>

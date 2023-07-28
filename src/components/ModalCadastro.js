@@ -45,7 +45,19 @@ export default function ModalCadastro (props){
                                 <option></option>
                                 {props.grupo?.map((emp) => {
                                     return (
-                                        <option key={emp.id} value={emp.nome} selected={emp.nome === props.formValues.grupo}>
+                                        <option key={emp.id} value={emp.id} selected={emp.id === props.formValues.grupo}>
+                                            {emp.nome}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+
+                            <h4>Vendedor:</h4>
+                            <select id="vendedor" name="vendedor" className={style.select}  onChange={props.handleInputChange} value={props.formValues.vendedor}>
+                                <option></option>
+                                {props.vendedores?.map((emp) => {
+                                    return (
+                                        <option key={emp.id} value={emp.id} selected={emp.id === props.formValues.vendedor}>
                                             {emp.nome}
                                         </option>
                                     );

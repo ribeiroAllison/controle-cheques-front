@@ -12,16 +12,6 @@ export class Cliente {
         }
     }
 
-    // QUERY ALL SERIAL IDS
-    static async getAllSerialId() {
-        try {
-            const response = await connection.get('/clientes_id');
-            return response;
-        } catch (error) {
-            return error.response;
-        }
-    }
-
     // CREATE RANDOM ID
     static async createRandomId(){
         const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -37,15 +27,16 @@ export class Cliente {
     }
 
     // CREATE A CLIENT
-    static async createClient(client, grupoId) {
+    static async createClient(client) {
         const randomId = await this.createRandomId();
         try {
             const response = await connection.post('/clientes', {
                 cod: client.codigo || randomId,
                 nome: client.nome,
                 doc: client.doc,
-                grupo_id: grupoId ? grupoId : null,
-                status_pagador: client.status
+                grupo_id: client.grupo,
+                status_pagador: client.status,
+                vendedor_id: client.vendedor
             })
             return response;
         } catch (error) {
@@ -61,7 +52,8 @@ export class Cliente {
                 nome: client.nome,
                 doc: client.doc,
                 grupo_id: client.grupoId,
-                status_pagador: client.status
+                status_pagador: client.status,
+                vendedor_id: client.vendedor_id
             })
             return response;
         } catch (error) {
