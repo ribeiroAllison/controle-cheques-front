@@ -3,7 +3,7 @@ import style from "@/styles/clientes.module.css";
 import ClientSearchBox from "@/components/ClientSearchBox";
 import { baseURL } from "@/utils/url";
 import { useState, useEffect } from "react";
-import { linhas, clearInputs } from "@/utils/utils";
+import { linhas, clearInputs, getKeyByValue } from "@/utils/utils";
 import { getCookie } from "@/utils/cookie";
 import { Cheques } from "@/api/ChequeService";
 import { ToastContainer, toast } from "react-toastify";;
@@ -43,6 +43,7 @@ export default function CadastroCheques() {
     const [vendedorList, setVendedorList] = useState();
     const [destinoList, setDestinoList] = useState();
     const [qtdCheques, setQtdCheques] = useState(1);
+    const [selectedSeller, setSelectedSeller] = useState();
 
 
     // ---------------------------------- CHECKS FUNCTIONS ------------------------------------------------
@@ -140,7 +141,19 @@ export default function CadastroCheques() {
     const handleClick = (e) => {
         const clientCode = document.getElementById('cliente_cod')
         clientCode.value = e.target.value;
-        setFormValues({ ...formValues, cliente_cod: clientCode.value })
+        const client = clientList.find(client => client.cod === clientCode.value);
+        
+        if(client.vendedor){
+            const vendedorId = getKeyByValue(vendedorList, client.vendedor)
+            setSelectedSeller(vendedorId)
+            setFormValues({ ...formValues, cliente_cod: clientCode.value, vendedor_id: vendedorId })
+        }else{
+            setFormValues({ ...formValues, cliente_cod: clientCode.value })
+        }
+
+        
+        
+        
         document.getElementById('searchBox').style.display = 'none';
         document.getElementById('cliente').value = e.target.innerHTML;
     }
@@ -382,7 +395,7 @@ export default function CadastroCheques() {
                         >
                             <option key="0"></option>
                             {
-                                vendedorList?.map(seller => <option key={seller.id} value={seller.id}>{seller.nome}</option>)
+                                vendedorList?.map(seller => <option key={seller.id} value={seller.id} selected={seller.id === selectedSeller}>{seller.nome}</option>)
                             }
                         </select>
                     </div>

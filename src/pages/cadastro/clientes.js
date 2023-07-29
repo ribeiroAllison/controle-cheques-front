@@ -259,15 +259,15 @@ export default function Clientes() {
                 <form className={style.formCtr} onSubmit={createNewClient} id="addForm">
                     <div className={style.inputCtr} >
                         <h4>Código:</h4>
-                        <input type="text" name="codigo" className="input" onChange={handleInputChange} id="codigo" placeholder="Código do Cliente" />
+                        <input type="text" name="codigo" className="input" onChange={handleInputChange} id="codigo" placeholder="Código do Cliente" autoComplete="off"/>
                     </div>
                     <div className={`${style.nameCtr} ${style.inputCtr}`} >
                         <h4>Nome:</h4>
-                        <input type="text" name="nome" className="input" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente" />
+                        <input type="text" name="nome" className="input" onChange={handleInputChange} id="nome" required placeholder="Nome do Cliente" autoComplete="off"/>
                     </div>
                     <div className={style.inputCtr} >
                         <h4>CPF/CNPJ:</h4>
-                        <input type="text" name="doc" className="input" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ" />
+                        <input type="text" name="doc" className="input" onChange={handleInputChange} id="doc" required placeholder="Digite CPF ou CNPJ" autoComplete="off"/>
                     </div>
                     <div className={`${style.nameCtr} ${style.inputCtr}`} >
                         <h4>Grupo:</h4>
