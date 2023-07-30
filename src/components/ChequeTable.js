@@ -29,6 +29,7 @@ export default function ChequeTable(props) {
                     <th>Comp.</th>
                     <th>Venc.</th>
                     <th>Linha</th>
+                    <th>Vendedor</th>
                     <th>Obs</th>
                     <th>Editar</th>
                     <th>Excluir</th>
@@ -49,6 +50,7 @@ export default function ChequeTable(props) {
                             <td name={cheque.id} id={`compensado${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.compensado ? "Sim" : 'Não'}</td>
                             <td name={cheque.id} id={`vencido${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vencido ? "Sim" : "Não"}</td>
                             <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
+                            <td name={cheque.id} id={`vendedor${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vendedor}</td>
                             <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => props.handleOpenObs(cheque)} />}</td>
                             <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" onClick={() => props.handleEdit(cheque)} /></td>
                             <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => props.handleDelete(cheque.id)} /></td>
@@ -56,9 +58,8 @@ export default function ChequeTable(props) {
                     ))}
 
                 <tr style={{ backgroundColor: 'lightgrey' }}>
-                    <td colSpan={3} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>TOTAL CHEQUES</td>
+                    <td colSpan={4} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>TOTAL CHEQUES</td>
                     <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{props.list?.length}</td>
-                    <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>-</td>
                     <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
                         {props.list
                             ? props.list.reduce((acc, item) => {
@@ -70,6 +71,7 @@ export default function ChequeTable(props) {
                             })
                             : 0}
                     </td>
+                    <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>-</td>
                     <td colSpan={8} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>RESUMO</td>
                 </tr>
             </tbody>

@@ -11,6 +11,7 @@ import { Destino } from "@/api/DestinoService"
 import { Grupo } from "@/api/GrupoService"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Vendedor } from "@/api/VendedorService"
 
 
 export default function ChequeControl(props) {
@@ -65,6 +66,7 @@ export default function ChequeControl(props) {
         obs: "",
         num: ""
     });
+    const [vendedorList, setVendedorList] = useState();
 
 
     //------------------------------ HANDLING INPUTS -----------------------------------------------------------
@@ -131,6 +133,8 @@ export default function ChequeControl(props) {
         const data_vencString = data_vencDate && transformDate(data_vencDate);
         const data_venc = data_vencString ? rearrangeDate(data_vencString) : null;
         const linha = cheque.linha;
+        const vendedor = cheque.vendedor;
+        const destino = cheque.destino;
 
         const clienteInput = document.getElementById('editCliente');
         const numChequeInput = document.getElementById('editNumCheque');
@@ -142,10 +146,18 @@ export default function ChequeControl(props) {
         const obsInput = document.getElementById('editObsTextarea');
 
         const destinoInput = document.getElementById('editDestino');
-        const destinoName = document.getElementById(`destino${id}`).innerHTML;
         const options = destinoInput.options;
         for (let option of options) {
-            if (option.innerHTML === destinoName) {
+            if (option.innerHTML === destino) {
+                option.selected = true;
+                break;
+            }
+        }
+
+        const vendedorInput = document.getElementById('editVendedor');
+        const vendedorOptions = vendedorInput.options;
+        for (let option of vendedorOptions) {
+            if (option.innerHTML === vendedor) {
                 option.selected = true;
                 break;
             }
@@ -299,8 +311,9 @@ export default function ChequeControl(props) {
     useEffect(() => {
         getAllClients();
         getAllDestinos();
-        getGrupos();
+        getAllGrupos();
         getAllCheques();
+        getAllVendedores();
         refreshTables();
     }, [])
 
@@ -324,10 +337,18 @@ export default function ChequeControl(props) {
     }
 
     // GROUP FUNCTIONS
-    async function getGrupos() {
+    async function getAllGrupos() {
         const { data } = await Grupo.getAllGrupos();
         if (data) {
             setGrupos(data);
+        }
+    }
+
+    // VENDEDOR FUNCTIONS
+    async function getAllVendedores() {
+        const { data } = await Vendedor.getAllVendedores();
+        if (data) {
+            setVendedorList(data);
         }
     }
 
@@ -598,10 +619,18 @@ export default function ChequeControl(props) {
                             <input type="date" onChange={handleEditInputChange} name="data_venc" className="editInput" id="editDataVenc" />
 
                             <h4>Destino</h4>
-                            <select name="destino_id" onChange={handleEditInputChange} placeholder="Selecione Vendedor" className={`${style.select} editInput`} id="editDestino">
+                            <select name="destino_id" onChange={handleEditInputChange}  className={`${style.select} editInput`} id="editDestino">
                                 <option key="0"></option>
                                 {
                                     destinoList?.map(destino => <option key={`destinoList-${destino.id}`} value={destino.id}>{destino.nome}</option>)
+                                }
+                            </select>
+
+                            <h4>Vendedor</h4>
+                            <select name="vendedor_id" onChange={handleEditInputChange} className={`${style.select} editInput`} id="editVendedor">
+                                <option key="0"></option>
+                                {
+                                    vendedorList?.map(seller => <option key={`vendedorList-${seller.id}`} value={seller.id}>{seller.nome}</option>)
                                 }
                             </select>
 
