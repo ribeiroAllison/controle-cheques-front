@@ -48,6 +48,8 @@ body {
   border: 1px solid var(--black30);
   padding: 5px;
   font-size: 14px;
+  max-width: 18rem;
+  overflow-wrap: break-word;
 }
 
 .table img {
