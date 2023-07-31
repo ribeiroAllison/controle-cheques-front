@@ -148,6 +148,7 @@ export default function Destinos() {
                         id="nome"
                         required
                         placeholder="Nome de Destinos de Cheques"
+                        autoComplete="off"
                     />
                 </div>
                 

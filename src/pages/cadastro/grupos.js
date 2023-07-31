@@ -130,7 +130,7 @@ export default function Grupos() {
             <form className={style.formCtr} id="addForm" onSubmit={handleSubmit}>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas" />
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome de Grupos de Empresas" autoComplete="off" />
                 </div>
                 <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>

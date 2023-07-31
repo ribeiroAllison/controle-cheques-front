@@ -134,7 +134,7 @@ export default function Vendedores() {
             <form className={style.formCtr} id="addForm" onSubmit={handleSubmit}>
                 <div className={`${style.nameCtr} ${style.inputCtr}`} >
                     <h4>Nome:</h4>
-                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Vendedor" />
+                    <input type="text" name="nome" onChange={handleInputChange} id="nome" required placeholder="Nome do Vendedor" autoComplete="off" />
                 </div>
                 <button className={style.button} id="adicionaCliente">Adicionar</button>
                 <button className={style.button} onClick={handleClear} id="limpar">Limpar</button>
