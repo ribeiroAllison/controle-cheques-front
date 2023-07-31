@@ -188,7 +188,8 @@ export default function ChequeControl(props) {
             data_compen: dataComp,
             destino_id: destinoInput.value,
             pedido: pedido,
-            obs: obs
+            obs: obs,
+            vendedor_id: vendedorInput.value
         })
     }
 

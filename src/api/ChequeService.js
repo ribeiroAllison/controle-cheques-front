@@ -114,7 +114,8 @@ export class Cheques {
                 destino: editFormValues.destino_id,
                 obs: editFormValues.obs,
                 data_compen: editFormValues.data_compen,
-                pedido: editFormValues.pedido
+                pedido: editFormValues.pedido,
+                vendedor_id: editFormValues.vendedor_id
             });
             return response;
         } catch (error) {
