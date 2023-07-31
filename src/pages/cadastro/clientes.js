@@ -89,7 +89,7 @@ export default function Clientes() {
     const submitEdit = async (e) => {
         e.preventDefault();
 
-        const { codigo, doc, nome, status, grupo, vendedor, contato, telefone, email } = formValues
+        const { codigo, doc, nome, status, grupo, vendedor, contato, telefone, email, vendedor_id } = formValues
 
         const user = {
             grupoId: grupo,
@@ -100,7 +100,8 @@ export default function Clientes() {
             vendedor_id: vendedor,
             contato: contato,
             telefone:  telefone,
-            email: email
+            email: email,
+            vendedor_id: vendedor_id
         }
 
         const response = await Cliente.editClient(user);
@@ -115,7 +116,11 @@ export default function Clientes() {
                     doc: "",
                     status: "",
                     grupo: "",
-                    vendedor: ""
+                    vendedor_id: "",
+                    contato: "",
+                    telefone: "",
+                    email: "",
+                    vendedor_id: ""
                 }
             )
 

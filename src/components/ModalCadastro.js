@@ -53,21 +53,31 @@ export default function ModalCadastro (props){
                             </select>
 
                             <h4>Vendedor:</h4>
-                            <select id="vendedor" name="vendedor" className={style.select}  onChange={props.handleInputChange} value={props.formValues.vendedor}>
+                            <select id="vendedor" name="vendedor_id" className={style.select}  onChange={props.handleInputChange} value={props.formValues.vendedor_id}>
                                 <option></option>
                                 {props.vendedores?.map((emp) => {
                                     return (
-                                        <option key={emp.id} value={emp.id} selected={emp.id === props.formValues.vendedor}>
+                                        <option key={emp.id} value={emp.id} selected={emp.id === props.formValues.vendedor_id}>
                                             {emp.nome}
                                         </option>
                                     );
                                 })}
                             </select>
 
-                            <button className={`${style.button} ${style.editButton}`} id="editButton" type="submit">Editar</button>
+                            
+
+                        </div>
+                        <div className={`${style.inputCtr} ${style.nameCtr}`}>
+                            <h4>Nome do Contato</h4>
+                            <input type="text" onChange={props.handleInputChange} name="contato" className="editInput" id="editContato" value={props.formValues.contato}/>
+
+                            <h4>Telefone do Contato</h4>
+                            <input type="text" onChange={props.handleInputChange} name="telefone" className="editInput" id="editTelefone" value={props.formValues.telefone}/>
+
+                            <h4>Email do Contato</h4>
+                            <input type="email" onChange={props.handleInputChange} name="email" className="editInput" id="editEmail" value={props.formValues.email}/>
                         </div>
 
-                        
                         <div className={style.buttonCtr}>
                             <button type="submit" className={style.button} id="editaCheque">Editar</button>
                         </div>
