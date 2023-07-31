@@ -325,3 +325,8 @@ body.no-scroll {
 .nameOnlyBackground{
   width: 20rem;
 }
+
+.butonCtr{
+  display: flex;
+  gap:1rem;
+}

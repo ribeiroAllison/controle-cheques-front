@@ -27,7 +27,12 @@ export default function Clientes() {
             nome: "",
             doc: "",
             status: "",
-            grupo: ""
+            grupo: "",
+            vendedor_id: "",
+            contato: "",
+            telefone: "",
+            email: ""
+
         }
     );
 
@@ -84,7 +89,7 @@ export default function Clientes() {
     const submitEdit = async (e) => {
         e.preventDefault();
 
-        const { codigo, doc, nome, status, grupo, vendedor } = formValues
+        const { codigo, doc, nome, status, grupo, vendedor, contato, telefone, email } = formValues
 
         const user = {
             grupoId: grupo,
@@ -92,7 +97,10 @@ export default function Clientes() {
             doc: doc,
             nome: nome,
             status: status,
-            vendedor_id: vendedor
+            vendedor_id: vendedor,
+            contato: contato,
+            telefone:  telefone,
+            email: email
         }
 
         const response = await Cliente.editClient(user);
@@ -192,7 +200,7 @@ export default function Clientes() {
         const client = clientList.find((client) => client.cod === cod);
 
         if (client) {
-            const { cliente, doc, status, grupo, vendedor } = client;
+            const { cliente, doc, status, grupo, vendedor, contato, email, telefone } = client;
             const grupo_id = getKeyByValue(grupoList, grupo)
             const vendedor_id = getKeyByValue(vendedorList, vendedor)
 
@@ -203,7 +211,10 @@ export default function Clientes() {
                 doc: doc,
                 status: status,
                 grupo: grupo_id,
-                vendedor: vendedor_id
+                vendedor_id: vendedor_id,
+                contato: contato,
+                email: email,
+                telefone: telefone
             });
             const editWindow = document.getElementById('editWindowBackground');
             editWindow.style.display = "flex";
@@ -221,6 +232,10 @@ export default function Clientes() {
             doc: "",
             status: "",
             grupo: "",
+            vendedor_id: "",
+            contato: "",
+            email:  "",
+            telefone: ""
         })
     }
 
@@ -304,8 +319,27 @@ export default function Clientes() {
                             <option>Ruim</option>
                         </select>
                     </div>
-                    <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
-                    <button className={style.button} id="limpar" onClick={handleClear}>Limpar</button>
+                    
+                    <div className={style.butonCtr}>
+                    <fieldset>
+                        <legend>Dados de Contato</legend>
+                        <div className={`${style.nameCtr} ${style.inputCtr}`}  >
+                            <h4>Nome do Contato:</h4>
+                            <input type="text" name="contato" className="input" onChange={handleInputChange} id="contato" placeholder="Digite o Nome" autoComplete="off"/>
+                        </div>
+                        <div className={`${style.inputCtr}`} >
+                            <h4>Telefone:</h4>
+                            <input type="text" name="telefone" className="input" onChange={handleInputChange} id="telefone" placeholder="Telefone do Cliente" autoComplete="off"/>
+                        </div>
+                        <div className={`${style.inputCtr}`} >
+                            <h4>E-mail:</h4>
+                            <input type="email" name="email" className="input" onChange={handleInputChange} id="email" placeholder="Email do Cliente" autoComplete="off"/>
+                        </div>
+                    </fieldset>
+                        <button className={style.button} id="adicionaCliente" type="submit">Adicionar</button>
+                        <button className={style.button} id="limpar" onClick={handleClear}>Limpar</button>
+                    </div>
+                    
                 </form>
             </section>
             <HeaderLine name="Clientes" />

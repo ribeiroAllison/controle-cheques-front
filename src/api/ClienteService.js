@@ -36,7 +36,10 @@ export class Cliente {
                 doc: client.doc,
                 grupo_id: client.grupo,
                 status_pagador: client.status,
-                vendedor_id: client.vendedor
+                vendedor_id: client.vendedor,
+                contato: client.contato,
+                email: client.email,
+                telefone: client.telefone
             })
             return response;
         } catch (error) {
@@ -53,7 +56,10 @@ export class Cliente {
                 doc: client.doc,
                 grupo_id: client.grupoId,
                 status_pagador: client.status,
-                vendedor_id: client.vendedor_id
+                vendedor_id: client.vendedor_id,
+                contato: client.contato,
+                email: client.email,
+                telefone: client.telefone
             })
             return response;
         } catch (error) {
