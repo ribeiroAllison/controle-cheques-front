@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils"
 import HeaderLine from "@/components/HeaderLine"
 import ChequeTable from "./ChequeTable"
+import ModalContact from "./ModalContact"
 import { getCookie } from "@/utils/cookie"
 import { Cheques } from "@/api/ChequeService"
 import { Cliente } from "@/api/ClienteService"
@@ -67,6 +68,7 @@ export default function ChequeControl(props) {
         num: ""
     });
     const [vendedorList, setVendedorList] = useState();
+    const [contact, setContact] = useState();
 
 
     //------------------------------ HANDLING INPUTS -----------------------------------------------------------
@@ -303,6 +305,24 @@ export default function ChequeControl(props) {
         setEditFormValues({ ...editFormValues, cliente_cod: e.target.value })
         document.getElementById('searchBoxEdit').style.display = 'none';
         document.getElementById('editCliente').value = e.target.innerHTML;
+    }
+
+    //HANDLE CLICK ON CLIENT CONTACT
+    const handleContactClick = (cheque) =>{
+
+        const client = clientList.find(client => client.cod === cheque.cod_cliente)
+
+        setContact({
+            nome: client.cliente,
+            contato: client.contato || "",
+            telefone: client.telefone || "",
+            email: client.email || ""
+        })
+
+        console.log(client)
+
+        const editWindow = document.getElementById('contactWindowBackground');
+        editWindow.style.display = "flex";
     }
 
 
@@ -678,6 +698,8 @@ export default function ChequeControl(props) {
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
                     handleOpenObs={handleOpenObs}
+                    handleContactClick={handleContactClick}
+                    clientList={clientList}
                 />
             }
 
@@ -690,6 +712,8 @@ export default function ChequeControl(props) {
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
                         handleOpenObs={handleOpenObs}
+                        handleContactClick={handleContactClick}
+                        clientList={clientList}
                     />
 
                     <HeaderLine name="Sem Destino" />
@@ -698,6 +722,8 @@ export default function ChequeControl(props) {
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
                         handleOpenObs={handleOpenObs}
+                        handleContactClick={handleContactClick}
+                        clientList={clientList}
                     />
 
                     <HeaderLine name="A Vencer" />
@@ -706,6 +732,8 @@ export default function ChequeControl(props) {
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
                         handleOpenObs={handleOpenObs}
+                        handleContactClick={handleContactClick}
+                        clientList={clientList}
                     />
                 </>
             }
@@ -727,6 +755,10 @@ export default function ChequeControl(props) {
                     </div>
                 </div>
             </div>
+
+            <ModalContact 
+                contact={contact}
+            />
         </>
     )
 }

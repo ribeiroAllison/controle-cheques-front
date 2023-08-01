@@ -14,6 +14,16 @@ export default function ChequeTable(props) {
         }
     }
 
+    const isThereContact = (cheque) =>{
+        const client = props.clientList?.find(client => client.cod === cheque.cod_cliente);
+
+        if(client.contato || client.email || client.telefone){
+            return true
+        } else{
+            return false
+        }
+    }
+
     return (
         <table className="table">
             <thead>
@@ -31,8 +41,10 @@ export default function ChequeTable(props) {
                     <th>Linha</th>
                     <th>Vendedor</th>
                     <th>Obs</th>
+                    <th>Contato</th>
                     <th>Editar</th>
                     <th>Excluir</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +64,7 @@ export default function ChequeTable(props) {
                             <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
                             <td name={cheque.id} id={`vendedor${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vendedor}</td>
                             <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => props.handleOpenObs(cheque)} />}</td>
+                            <td name={cheque.id} id={`contato${cheque.id}`} className={assignClassStyle(cheque)}>{isThereContact(cheque) && <img src="/images/contact.svg" onClick={() => props.handleContactClick(cheque)} />}</td>
                             <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" onClick={() => props.handleEdit(cheque)} /></td>
                             <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => props.handleDelete(cheque.id)} /></td>
                         </tr>
@@ -72,7 +85,7 @@ export default function ChequeTable(props) {
                             : 0}
                     </td>
                     <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>-</td>
-                    <td colSpan={8} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>RESUMO</td>
+                    <td colSpan={9} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>RESUMO</td>
                 </tr>
             </tbody>
         </table>
