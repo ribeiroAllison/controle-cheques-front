@@ -64,7 +64,7 @@ export default function ChequeTable(props) {
                             <td name={cheque.id} id={`linha${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.linha}</td>
                             <td name={cheque.id} id={`vendedor${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.vendedor}</td>
                             <td name={cheque.id} id={`obs${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.obs && <img src="/images/message.svg" onClick={() => props.handleOpenObs(cheque)} />}</td>
-                            <td name={cheque.id} id={`contato${cheque.id}`} className={assignClassStyle(cheque)}>{isThereContact(cheque) && <img src="/images/contact.svg" onClick={() => props.handleContactClick(cheque)} />}</td>
+                            <td name={cheque.id} id={`contato${cheque.id}`} className={assignClassStyle(cheque)}>{<img src="/images/contact.svg" onClick={() => props.handleContactClick(cheque)} />}</td>
                             <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/edit.svg" onClick={() => props.handleEdit(cheque)} /></td>
                             <td name={cheque.id} className={assignClassStyle(cheque)}> <img src="/images/trash-bin.svg" onClick={() => props.handleDelete(cheque.id)} /></td>
                         </tr>
