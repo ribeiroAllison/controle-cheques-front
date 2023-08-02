@@ -1,0 +1,58 @@
+.container {
+  background-image: url('/images/main-banner-desktop.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;  
+  min-height: 1150px;
+  padding: 2.5rem;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px;
+  gap: 5rem;
+
+  position: relative;
+  top: 20vh;
+}
+
+.textContainer h1 {
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
+  font-weight: normal;
+  color: var(--white);
+}
+
+.textContainer strong {
+  font-weight: bold;
+  color: var(--white);
+}
+
+.textContainer h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-weight: normal;
+  color: var(--white);
+}
+
+@media (min-width: 2100px) {
+  .textContainer {
+    top: 10vh;
+    left: 12vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    min-height: 700px;
+    background-image: url('/images/main-banner-mobile.png');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .textContainer {
+    gap: 2.5rem;
+    top: auto;
+    text-align: center;
+  }
+}
