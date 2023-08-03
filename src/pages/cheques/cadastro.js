@@ -22,7 +22,7 @@ export default function CadastroCheques() {
         {
             num: "",
             valor: "",
-            data_rec: "",
+            data_rec: new Date(),
             tipo: "cheque",
             data_venc: "",
             cliente: "",
@@ -139,16 +139,19 @@ export default function CadastroCheques() {
 
     // AUX HANDLE CLICK FUNCTION TO FIND REGISTERED CLIENTS
     const handleClick = (e) => {
+        const clientId = Number(e.target.value)
+        
+        const client = clientList.find(client => client.id === clientId);
+
         const clientCode = document.getElementById('cliente_cod')
-        clientCode.value = e.target.value;
-        const client = clientList.find(client => client.cod === clientCode.value);
+        clientCode.value = client.cod;
         
         if(client.vendedor){
             const vendedorId = getKeyByValue(vendedorList, client.vendedor)
             setSelectedSeller(vendedorId)
-            setFormValues({ ...formValues, cliente_cod: clientCode.value, vendedor_id: vendedorId })
+            setFormValues({ ...formValues, cliente_cod: clientCode.value, vendedor_id: vendedorId, client_id: clientId })
         }else{
-            setFormValues({ ...formValues, cliente_cod: clientCode.value })
+            setFormValues({ ...formValues, cliente_cod: clientCode.value, client_id: clientId })
         }
 
         

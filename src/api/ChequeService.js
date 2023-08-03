@@ -77,7 +77,7 @@ export class Cheques {
                     valor: formValues[`valor${i}`].replace(',', '.'),
                     data_rec: formValues.data_rec,
                     tipo: formValues.tipo,
-                    cliente_cod: formValues.cliente_cod,
+                    cliente_id: formValues.client_id,
                     pedido: formValues.pedido ? formValues.pedido : null,
                     linha: formValues[`linha${i}`] ? formValues[`linha${i}`] : null,
                     destino_id: formValues.destino_id ? formValues.destino_id : null,

@@ -137,6 +137,7 @@ export default function ChequeControl(props) {
         const linha = cheque.linha;
         const vendedor = cheque.vendedor;
         const destino = cheque.destino;
+        const cliente_id = cheque.cliente_id
 
         const clienteInput = document.getElementById('editCliente');
         const numChequeInput = document.getElementById('editNumCheque');
@@ -191,7 +192,8 @@ export default function ChequeControl(props) {
             destino_id: destinoInput.value,
             pedido: pedido,
             obs: obs,
-            vendedor_id: vendedorInput.value
+            vendedor_id: vendedorInput.value,
+            cliente_id: cliente_id
         })
     }
 
