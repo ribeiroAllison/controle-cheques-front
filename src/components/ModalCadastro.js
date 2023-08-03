@@ -5,6 +5,18 @@ export default function ModalCadastro (props){
     // EDIT SCREEN CLOSING HANDLE
     const handleCloseEdit = (e) => {
         e.preventDefault();
+
+        props.setFormValues({
+            codigo: "",
+            nome: "",
+            doc: "",
+            status: "",
+            grupo: "",
+            vendedor_id: "",
+            contato: "",
+            email:  "",
+            telefone: ""
+        })
         
 
         const editWindow = document.getElementById('editWindowBackground');
@@ -32,13 +44,8 @@ export default function ModalCadastro (props){
                             <h4>Documento</h4>
                             <input type="text" onChange={props.handleInputChange} name="doc" className="editInput" id="editDoc" value={props.formValues.doc}/>
 
-                            <h4>Status:</h4>
-                            <select className={style.select} id="status" name="status"  onChange={props.handleInputChange} value={props.formValues.status}>
-                                <option></option>
-                                <option>Bom</option>
-                                <option>Médio</option>
-                                <option>Ruim</option>
-                            </select>
+                            <h4>Código</h4>
+                            <input type="text" onChange={props.handleInputChange} name="codigo" className="editInput"  value={props.formValues.codigo}/>
 
                             <h4>Grupo:</h4>
                             <select id="grupo" name="grupo" className={style.select}  onChange={props.handleInputChange} value={props.formValues.grupo}>
@@ -76,6 +83,14 @@ export default function ModalCadastro (props){
 
                             <h4>Email do Contato</h4>
                             <input type="email" onChange={props.handleInputChange} name="email" className="editInput" id="editEmail" value={props.formValues.email}/>
+
+                            <h4>Status:</h4>
+                            <select className={style.select} id="status" name="status"  onChange={props.handleInputChange} value={props.formValues.status}>
+                                <option></option>
+                                <option>Bom</option>
+                                <option>Médio</option>
+                                <option>Ruim</option>
+                            </select>
                         </div>
 
                         <div className={style.buttonCtr}>
