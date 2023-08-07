@@ -89,7 +89,7 @@ export default function Clientes() {
     const submitEdit = async (e) => {
         e.preventDefault();
 
-        const { codigo, doc, nome, status, grupo, vendedor, contato, telefone, email, vendedor_id } = formValues
+        const { codigo, doc, nome, status, grupo, vendedor, contato, telefone, email, vendedor_id, id } = formValues
 
         const user = {
             grupoId: grupo,
@@ -101,7 +101,8 @@ export default function Clientes() {
             contato: contato,
             telefone:  telefone,
             email: email,
-            vendedor_id: vendedor_id
+            vendedor_id: vendedor_id,
+            id: id
         }
 
         const response = await Cliente.editClient(user);
@@ -120,7 +121,8 @@ export default function Clientes() {
                     contato: "",
                     telefone: "",
                     email: "",
-                    vendedor_id: ""
+                    vendedor_id: "",
+                    id: ""
                 }
             )
 
@@ -201,11 +203,11 @@ export default function Clientes() {
 
     // HANDLING EDITING FIELDS
     const handleEdit = (e) => {
-        const cod = e.target.name;
-        const client = clientList.find((client) => client.cod === cod);
+        const id = Number(e.target.name);
+        const client = clientList.find((client) => client.id === id);
 
         if (client) {
-            const { cliente, doc, status, grupo, vendedor, contato, email, telefone } = client;
+            const { cliente, doc, status, grupo, vendedor, contato, email, telefone, id, cod } = client;
             const grupo_id = getKeyByValue(grupoList, grupo)
             const vendedor_id = getKeyByValue(vendedorList, vendedor)
 
@@ -219,7 +221,8 @@ export default function Clientes() {
                 vendedor_id: vendedor_id,
                 contato: contato,
                 email: email,
-                telefone: telefone
+                telefone: telefone,
+                id: id
             });
             const editWindow = document.getElementById('editWindowBackground');
             editWindow.style.display = "flex";
@@ -373,14 +376,14 @@ export default function Clientes() {
                     {
                         !filteredList ? <tr><td colSpan={8} ><img id="loading"  src="/images/loading.gif"/></td></tr> :
                         filteredList?.map((client) => (
-                            <tr key={client.cod} data-cod={client.cod}>
+                            <tr key={client.cod} data-cod={client.id}>
                                 <td >{client.cod}</td>
                                 <td id={`client${client.cod}`}>{client.cliente}</td>
                                 <td id={`doc${client.cod}`}>{client.doc}</td>
                                 <td id={`grupo${client.cod}`}>{client.grupo}</td>
                                 <td id={`vendedor${client.cod}`} >{client.vendedor}</td>
                                 <td id={`status${client.cod}`} className={client.status}>{client.status}</td>
-                                <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.cod} /></td>
+                                <td> <img src="/images/edit.svg" onClick={handleEdit} name={client.id} /></td>
                                 <td> <img src="/images/trash-bin.svg" onClick={handleDelete} /></td>
                                 
                             </tr>
@@ -396,6 +399,7 @@ export default function Clientes() {
                 grupo={grupoList}
                 vendedores={vendedorList}
                 clearInputs={clearInputs}
+                setFormValues={setFormValues}
             />
         </>
     )

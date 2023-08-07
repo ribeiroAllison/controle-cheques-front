@@ -5,6 +5,7 @@ import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils
 import HeaderLine from "@/components/HeaderLine"
 import ChequeTable from "./ChequeTable"
 import ModalContact from "./ModalContact"
+import ClientSearch from "./ClientSearch"
 import { getCookie } from "@/utils/cookie"
 import { Cheques } from "@/api/ChequeService"
 import { Cliente } from "@/api/ClienteService"
@@ -137,6 +138,7 @@ export default function ChequeControl(props) {
         const linha = cheque.linha;
         const vendedor = cheque.vendedor;
         const destino = cheque.destino;
+        const cliente_id = cheque.cliente_id
 
         const clienteInput = document.getElementById('editCliente');
         const numChequeInput = document.getElementById('editNumCheque');
@@ -191,7 +193,8 @@ export default function ChequeControl(props) {
             destino_id: destinoInput.value,
             pedido: pedido,
             obs: obs,
-            vendedor_id: vendedorInput.value
+            vendedor_id: vendedorInput.value,
+            cliente_id: cliente_id
         })
     }
 
@@ -295,14 +298,14 @@ export default function ChequeControl(props) {
 
     // HANDLE CLICK ON CLIENTS SEARCH FIELD
     const handleClick = (e) => {
-        setFormValues({ ...formValues, cliente_cod: e.target.value })
+        setFormValues({ ...formValues, cliente_id: e.target.value })
         document.getElementById('searchBox').style.display = 'none';
         document.getElementById('cliente').value = e.target.innerHTML;
     }
 
     // HANDLE CLICK ON CLIENTS
     const handleEditClick = (e) => {
-        setEditFormValues({ ...editFormValues, cliente_cod: e.target.value })
+        setEditFormValues({ ...editFormValues, cliente_id: e.target.value })
         document.getElementById('searchBoxEdit').style.display = 'none';
         document.getElementById('editCliente').value = e.target.innerHTML;
     }
@@ -532,17 +535,14 @@ export default function ChequeControl(props) {
                         </div>
 
 
-                        <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
-                            <h4>Cliente:</h4>
-                            <input type="text" name="cliente" onChange={handleInputChange} id="cliente" placeholder="Pesquise o Cliente" className="input" />
-                            <div className={style.searchBox} id="searchBox">
-                                <select size={4} id={`${style.clienteSelect} input`} onChange={handleInputChange}>
-                                    {
-                                        searchResult.map(client => <option onClick={handleClick} key={`codClient-${client.cod}`} value={client.cod}>{client.cliente}</option>)
-                                    }
-                                </select>
-                            </div>
-                        </div>
+                        <ClientSearch 
+                            handleInputChange={handleInputChange}
+                            searchResult={searchResult}
+                            handleClick={handleClick}
+                            id="cliente"
+                            divId="searchBox"
+                            
+                        />
                     </div>
 
                     <div className={style.inputCtr}>
@@ -619,15 +619,14 @@ export default function ChequeControl(props) {
                             <h4>No. Cheque</h4>
                             <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque" autoComplete="off" />
 
-                            <h4>Cliente:</h4>
-                            <input type="text" name="cliente" onChange={handleEditInputChange} id="editCliente" placeholder="Pesquise o Cliente" className="editInput" autoComplete="off"/>
-                            <div className={style.searchBox} id="searchBoxEdit">
-                                <select size={4} id={`${style.clienteSelect} editInput`} onChange={handleEditInputChange}>
-                                    {
-                                        searchResult.map(client => <option onClick={handleEditClick} key={`codCliente-${client.cod}`} value={client.cod} codCli={client.cod}>{client.cliente}</option>)
-                                    }
-                                </select>
-                            </div>
+                            <ClientSearch 
+                            handleInputChange={handleEditInputChange}
+                            searchResult={searchResult}
+                            handleClick={handleEditClick}
+                            id="editCliente"
+                            divId="searchBoxEdit"
+                            
+                        />
                             <h4>Valor</h4>
                             <input type="text" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"  autoComplete="off"/>
 

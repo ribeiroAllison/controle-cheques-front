@@ -17,7 +17,7 @@ export class Cheques {
     static async getSearchedCheques(formValues) {
         try {
             const searchParams = new URLSearchParams({
-                cliente_cod: formValues.cliente_cod ? formValues.cliente_cod : '',
+                cliente_id: formValues.cliente_id ? formValues.cliente_id : '',
                 data_init: formValues.data_init ? formValues.data_init : '',
                 data_fim: formValues.data_fim ? formValues.data_fim : '',
                 compensado: formValues.compensado ? formValues.compensado : '',
@@ -77,7 +77,7 @@ export class Cheques {
                     valor: formValues[`valor${i}`].replace(',', '.'),
                     data_rec: formValues.data_rec,
                     tipo: formValues.tipo,
-                    cliente_cod: formValues.cliente_cod,
+                    cliente_id: formValues.client_id,
                     pedido: formValues.pedido ? formValues.pedido : null,
                     linha: formValues[`linha${i}`] ? formValues[`linha${i}`] : null,
                     destino_id: formValues.destino_id ? formValues.destino_id : null,
@@ -104,7 +104,7 @@ export class Cheques {
         try {
             const response = await connection.put('/cheques', {
                 id: chequeId,
-                cliente: editFormValues.cliente_cod,
+                cliente: editFormValues.cliente_id,
                 numCheque: editFormValues.número_cheque,
                 valor: transformValue(editFormValues.valor),
                 data_venc: editFormValues.data_venc,

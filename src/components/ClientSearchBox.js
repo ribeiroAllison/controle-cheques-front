@@ -45,8 +45,8 @@ export default function ClientSearchBox(props) {
                         {
                             searchResult.map(client => <option
                                 onClick={props.handleClick}
-                                key={`clientCodigo-${client.cod}`}
-                                value={client.cod}>
+                                key={`clientCodigo-${client.id}`}
+                                value={client.id}>
                                 {client.cliente}
                             </option>)
                         }

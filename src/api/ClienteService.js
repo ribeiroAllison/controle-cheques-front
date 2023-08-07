@@ -59,7 +59,8 @@ export class Cliente {
                 vendedor_id: client.vendedor_id,
                 contato: client.contato,
                 email: client.email,
-                telefone: client.telefone
+                telefone: client.telefone,
+                id: client.id
             })
             return response;
         } catch (error) {
@@ -68,10 +69,10 @@ export class Cliente {
     }
 
     // DELETE A CLIENT
-    static async deleteClient(cod) {
+    static async deleteClient(id) {
         try {
             const response = await connection.delete('/clientes', {
-                data: { cod: cod }
+                data: { id: id }
             });
             return response;
         } catch (error) {
