@@ -3,6 +3,7 @@ import Link from "next/link";
 import header from "../styles/landpage/Header.module.css";
 import mainSection from "../styles/landpage/MainSection.module.css";
 import advantagesSection from "../styles/landpage/Advantages.module.css";
+import secondarySection from "../styles/landpage/Secondary.module.css";
 
 export default function Home() {
   return (
@@ -86,7 +87,37 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* CARDS SECTION */}
+
+      {/* SECONDARY SECTION */}
+      <section className={secondarySection.container}>
+        <div className={secondarySection.btnContainer}>
+          <Button>Clique aqui e teste grátis</Button>
+        </div>
+        <div className={secondarySection.cardsWrapper}>
+          <div className={secondarySection.cardContainer}>
+            <img src="/images/secondary-cards/card1.svg" alt="" />
+            <h1>Não se perca nos cheques</h1>
+            <p>
+              O Cheques.App é uma sistema online que facilita a administração e
+              gerenciamento de cheques recebidos e emitidos, além de realizar
+              automações para que o gestor não perca prazos e informações. É o
+              sistema ideal para empresas que trabalham com os cheques como
+              forma de pagamentos e recebimentos.
+            </p>
+          </div>
+          <div className={secondarySection.cardContainer}>
+            <img src="/images/secondary-cards/card2.svg" alt="" />
+            <h1>Não pare no tempo</h1>
+            <p>
+              Sabemos que o seu tempo é precioso, por isso o Cheques.App é ajuda
+              o gestor no gerenciamento e facilitação de tarefas de
+              recebimentos, pagamentos e compensações de cheques através de
+              automação. Menos tempo com burocracias e mais tempo para focar no
+              que interessa para sua empresa.
+            </p>
+          </div>
+        </div>
+      </section>
       {/* FORM SECTION */}
       {/* FOOTER SECTION */}
     </>
