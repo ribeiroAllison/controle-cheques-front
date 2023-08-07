@@ -18,12 +18,18 @@
 .menuWrapper {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   font-size: 1.25rem;
+  gap: 3.5rem;
+  padding: 0;
 }
 
 .menuWrapper li {
-  padding-right: 1.5rem;
   color: var(--white);
+}
+
+.menuWrapper li:hover {
+  color: var(--green-100);
 }
 
 .btnContainer {
@@ -42,5 +48,7 @@
 
   .menuWrapper {
     font-size: 1rem;
+    gap: 2rem;
+    padding: 0;
   }
 }
