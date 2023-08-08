@@ -1,0 +1,59 @@
+.container {
+  background-image: url("/images/alt-banner-desktop.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 40rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contactWrapper {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+}
+
+.contactWrapper h1 {
+  font-size: clamp(2rem, 3vw, 4.5rem);
+  color: var(--white);
+  max-width: 700px;
+}
+
+.contactWrapper button {
+  min-width: 400px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.contactWrapper img {
+  height: 75%;
+}
+
+@media (max-width: 768px) {
+  .container {
+    background-image: url("/images/alt-banner-mobile.png");
+    min-height: 20rem;
+  }
+
+  .contactWrapper {
+    gap: 3rem;
+  }
+
+  .contactWrapper h1 {
+    font-size: clamp(2rem, 3vw, 4.5rem);
+    color: var(--white);
+    padding-inline: 1rem;
+  }
+
+  .contactWrapper button {
+    min-width: 350px;
+  }
+}

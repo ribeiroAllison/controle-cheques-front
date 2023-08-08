@@ -4,6 +4,8 @@ import header from "../styles/landpage/Header.module.css";
 import mainSection from "../styles/landpage/MainSection.module.css";
 import advantagesSection from "../styles/landpage/Advantages.module.css";
 import secondarySection from "../styles/landpage/Secondary.module.css";
+import contactSection from "../styles/landpage/Contact.module.css";
+import footerSection from "../styles/landpage/Footer.module.css";
 
 export default function Home() {
   return (
@@ -118,8 +120,26 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* FORM SECTION */}
+
+      {/* CONTACT SECTION */}
+      <section className={contactSection.container}>
+        <div className={contactSection.contactWrapper}>
+          <h1>Entre em contato e conheça o sistema.</h1>
+          <Button>
+            Nos chame no Whatsapp! <img src="/images/whats-icon.svg" />
+          </Button>
+        </div>
+      </section>
+
       {/* FOOTER SECTION */}
+      <footer className={footerSection.container}>
+        <div className={footerSection.footerWrapper}>
+          <div className={footerSection.imgContainer}>
+            <img src="/images/cheques-logo.svg" alt="" />
+          </div>
+          <p>2023. Todos direitos reservados.</p>
+        </div>
+      </footer>
     </>
   );
 }
