@@ -37,12 +37,11 @@
 }
 
 .textContainer button {
-  background: var(--navColor);
+
 }
 
 .textContainer button:hover {
-  color: var(--black);
-  background: var(--menuGreen);
+  background: var(--navColor);
 }
 
 @media (min-width: 2100px) {

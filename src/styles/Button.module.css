@@ -1,10 +1,6 @@
 .button {
   font-size: 1.625rem;
-  background: linear-gradient(
-    90deg,
-    rgba(86, 226, 27, 1) 0%,
-    rgba(45, 162, 0, 1) 100%
-  );
+  background: var(--menuGreen);
   border-radius: var(--button-radius);
   color: var(--white);
   border: 0;
@@ -14,7 +10,7 @@
 }
 
 .button:hover {
-  transition: background-color 0.2s;
+  transition: all 0.3s;
   background: var(--green-300);
 }
 

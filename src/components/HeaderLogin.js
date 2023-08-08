@@ -1,33 +1,26 @@
-import style from '../styles/Header.module.css'
-import Link from 'next/link'
+import style from "../styles/HeaderLogin.module.css";
+import Link from "next/link";
 
 export default function HeaderLogin() {
-
-    return (
-        <>
-            <header className={style.header}>
-                <div className={style.imgCtr}>
-                    <Link href="/"><img className={style.img} src="/images/LISKO-TECH.png" /></Link>
-                </div>
-                <nav className={style.navBar}>
-                    <div className={style.menuOptions}>
-                        <div className={style.menuOption}>
-                            <h2>Menu</h2>
-                            <div className={style.option}>
-                                <h3><Link href="/home/cadastro">Cadastro</Link></h3>
-                                <h3><Link href="/home/login">Login</Link></h3>
-                            </div>
-                        </div>
-                        <div className={style.menuOption}>
-                            <h2>Fale Conosco</h2>
-                            <div className={style.option}>
-                                <h3><Link href="">Contato</Link></h3>
-                                <h3><Link href="">Sobre</Link></h3>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-        </>
-    )
+  return (
+    <>
+      <header className={style.headerContainer}>
+        <div className={style.imgContainer}>
+          <Link href="/">
+            <img src="/images/cheques-logo.svg" />
+          </Link>
+        </div>
+        <nav className={style.navWrapper}>
+          <ul>
+            <li>
+              <Link href="/">Fale Conosco</Link>
+            </li>
+            <li>
+              <Link href="/home/cadastro">Cadastro</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </>
+  );
 }

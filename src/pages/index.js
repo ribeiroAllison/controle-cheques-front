@@ -30,7 +30,7 @@ export default function Home() {
         </nav>
         <div className={header.btnContainer}>
           <Button>Teste grátis</Button>
-          <Button>Login</Button>
+          <Link href="/home/login"><Button>Login</Button></Link>
         </div>
       </header>
 
