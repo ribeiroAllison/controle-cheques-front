@@ -1,20 +1,40 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:wght@400;700&display=block");
 
 :root {
-  --navColor: #004225;
+  --navColor: #316e0f;
   --black30: #303030;
   --black: black;
-  --black30Faint: #30303069;
-  --buttonGreen: #00a86b;
-  --buttonGreenHover: #00a86abb;
-  --optionGreen: #02ce83;
+  --black30Faint: #252328;
+  --buttonGreen: #56E21B;
+  --buttonGreenHover: #3b9011;
+  --optionGreen: #42b413;
   --lightGray: #d9dddc;
-  --labelGray: #626060;
+  --labelGray: #444444;
+
   --white: white;
   --yellowTd: #fada5e;
   --redTd: #ff6347;
   --blueTd: #89cff0;
-  --menuGreen: #A8E4A0;
+  --menuGreen: #56E21B;
+
+  {/* New Global Styles According to figma */}
+
+  --green-50: #56E21B;
+  --green-100: #42b413;
+  --green-200: #3b9011;
+  --green-300: #2DA200;
+  --green-400: #316e0f;
+
+  --black-100: #303030; 
+  --black-200: #2d2d2e;
+  --black-300: #2a292c;
+  --black-400: #28262a;
+  --black-500: #252328;
+
+  --gray-50: #686868;
+  --gray-100: #444444;
+
+  --button-radius: 50px;
 }
 
 * {
@@ -23,6 +43,7 @@
   margin: 0;
   box-sizing: border-box;
   text-decoration: none;
+  list-style: none;
 }
 
 body {

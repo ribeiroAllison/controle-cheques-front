@@ -1,0 +1,51 @@
+.container {
+  padding: 3.5rem;
+}
+
+.container strong {
+  color: var(--green-100);
+}
+
+.titleWrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.titleWrapper h1 {
+  max-width: 700px;
+  padding-bottom: 1.15rem;
+  font-size: clamp(2rem, 2.25vw, 3rem);
+  color: var(--gray-50);
+  border-bottom: 6px solid var(--green-300);
+}
+
+.cardWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 5.25rem;
+  gap: 1.5rem;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 300px;
+}
+
+.cardContainer h2 {
+  color: var(--green-200);
+}
+
+.cardContainer p {
+  font-size: clamp(1rem, 0.875vw, 2rem);
+  color: var(--gray-50);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+}
