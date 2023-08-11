@@ -15,9 +15,6 @@ export default function HeaderLogin() {
             <li>
               <Link href="/">Fale Conosco</Link>
             </li>
-            <li>
-              <Link href="/home/cadastro">Cadastro</Link>
-            </li>
           </ul>
         </nav>
       </header>

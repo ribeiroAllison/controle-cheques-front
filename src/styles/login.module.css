@@ -68,6 +68,12 @@
   transition: color 0.3s;
 }
 
+.linkWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .btnContainer {
   display: flex;
   flex-direction: column;

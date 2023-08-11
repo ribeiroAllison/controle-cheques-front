@@ -33,6 +33,10 @@
   gap: 1rem;
 }
 
+.contactWrapper button:hover {
+  background: var(--green-400) !important;
+}
+
 .contactWrapper img {
   height: 75%;
 }

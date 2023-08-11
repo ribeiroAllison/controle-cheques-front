@@ -36,14 +36,6 @@
   color: var(--white);
 }
 
-.textContainer button {
-
-}
-
-.textContainer button:hover {
-  background: var(--navColor);
-}
-
 @media (min-width: 2100px) {
   .textContainer {
     top: 18vh;

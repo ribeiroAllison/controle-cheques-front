@@ -1,112 +1,125 @@
-import ChequeControl from '@/components/ChequeControl'
-import Header from '@/components/Header'
-import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
-import styles from '../../styles/dashboardPage.module.css'
-import DoughnutChart from './components/DoughnutChart'
-import BarChartOne  from './components/BarChartOne'
-import HeaderLine from '@/components/HeaderLine'
-import { Cheques } from '@/api/ChequeService'
+import ChequeControl from "@/components/ChequeControl";
+import Header from "@/components/Header";
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/dashboardPage.module.css";
+import DoughnutChart from "./components/DoughnutChart";
+import BarChartOne from "./components/BarChartOne";
+import HeaderLine from "@/components/HeaderLine";
+import { Cheques } from "@/api/ChequeService";
 
 export default function Dashboard() {
-    const [cheques, setCheques] = useState([]);
-    const [estornados, setEstornados] = useState([]);
-    const [inadimplenciaRatio, setInadimplenciaRatio] = useState();
+  const [cheques, setCheques] = useState([]);
+  const [estornados, setEstornados] = useState([]);
+  const [inadimplenciaRatio, setInadimplenciaRatio] = useState();
 
-    const transformAndSumValues =(array) =>{
-        const sumArray = [];
-        let arrayFilled = false
+  const transformAndSumValues = (array) => {
+    const sumArray = [];
+    let arrayFilled = false;
 
-        for (let item of array) {
-            const changedToNumber = Number(item.valor.replace('$', '').replace(',', ''));
-            sumArray.push(changedToNumber)
-            arrayFilled = true;
-            
-        }
-        
-        const sum = arrayFilled && sumArray.reduce((acc, current) => acc + current)
-        return sum;
+    for (let item of array) {
+      const changedToNumber = Number(
+        item.valor.replace("$", "").replace(",", "")
+      );
+      sumArray.push(changedToNumber);
+      arrayFilled = true;
     }
 
-    const ratioInadimplencia = () => {
-        const totalCompensados = transformAndSumValues(cheques);
-        const totalEstornados = transformAndSumValues(estornados);
+    const sum = arrayFilled && sumArray.reduce((acc, current) => acc + current);
+    return sum;
+  };
 
-        if (totalCompensados === 0) {
-            return "0%";
-        }
+  const ratioInadimplencia = () => {
+    const totalCompensados = transformAndSumValues(cheques);
+    const totalEstornados = transformAndSumValues(estornados);
 
-        const inadimplencia = (totalEstornados / (totalCompensados + totalEstornados)) * 100;
+    if (totalCompensados === 0) {
+      return "0%";
+    }
+
+    const inadimplencia = (totalEstornados / (totalCompensados + totalEstornados)) * 100;
+    if(inadimplencia){ 
         return `${inadimplencia.toFixed(2)}%`;
-    };
+    } else {
+        return "0%";
+    }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const today = new Date();
-                const aMonthAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+  };
 
-                const [chequesData, estornadosData] = await Promise.all([
-                    Cheques.getAllCheques(),
-                    Cheques.getEstornos()
-                ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const today = new Date();
+        const aMonthAgo = new Date(
+          new Date().setDate(new Date().getDate() - 30)
+        );
 
-                const chequesArray = Array.isArray(chequesData.data) ? chequesData.data : [];
-                const estornadosArray = Array.isArray(estornadosData.data) ? estornadosData.data : [];
+        const [chequesData, estornadosData] = await Promise.all([
+          Cheques.getAllCheques(),
+          Cheques.getEstornos(),
+        ]);
 
-                const estornados30Days = estornadosArray.filter(cheque => {
-                    const vencDate = new Date(cheque.data_venc);
-                    return vencDate > aMonthAgo && vencDate <=today;
-                })
-                
-                if (chequesArray) {
-                    const filteredCheques = chequesArray.filter((cheque) => {
-                        const vencDate = new Date(cheque.data_venc);
-                        return vencDate > aMonthAgo && vencDate <= today && cheque.compensado === true;
-                    });
+        const chequesArray = Array.isArray(chequesData.data)
+          ? chequesData.data
+          : [];
+        const estornadosArray = Array.isArray(estornadosData.data)
+          ? estornadosData.data
+          : [];
 
-                    setCheques(filteredCheques);
-                    setEstornados(estornados30Days);
-                    
-                }
-            } catch (error) {
-                console.log(error);
-                return error.response;
-            }
+        const estornados30Days = estornadosArray.filter((cheque) => {
+          const vencDate = new Date(cheque.data_venc);
+          return vencDate > aMonthAgo && vencDate <= today;
+        });
+
+        if (chequesArray) {
+          const filteredCheques = chequesArray.filter((cheque) => {
+            const vencDate = new Date(cheque.data_venc);
+            return (
+              vencDate > aMonthAgo &&
+              vencDate <= today &&
+              cheque.compensado === true
+            );
+          });
+
+          setCheques(filteredCheques);
+          setEstornados(estornados30Days);
         }
-        fetchData();
-    }, [])
+      } catch (error) {
+        console.log(error);
+        return error.response;
+      }
+    };
+    fetchData();
+  }, []);
 
-    
+  return (
+    <>
+      <Head>
+        <title>LISKO TECH - Cheques</title>
+        <meta name="description" content="Generated by create next app" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <Header />
 
-    return (
-        <>
-            <Head>
-                <title>LISKO TECH - Cheques</title>
-                <meta name="description" content="Generated by create next app" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-            </Head>
-            <Header />
+      <HeaderLine name="Dashboards" />
+      <div className={`${styles.dashboardsWrapper} addMarginLeft`}>
+        <div className={styles.graphs}>
+          <BarChartOne />
+        </div>
+        <div className={styles.graphs}>
+          <DoughnutChart />
+        </div>
+        <div className={styles.graphs}>
+          <h2 className={styles.graphsTitle}>Inadimplência 30 dias</h2>
+          <h3>{ratioInadimplencia()}</h3>
+        </div>
+      </div>
 
-            <HeaderLine name="Dashboards" />
-            <div className={`${styles.dashboardsWrapper} addMarginLeft`}>
-                <div className={styles.graphs}>
-                    <BarChartOne />
-                </div>
-                <div className={styles.graphs}>
-                    <DoughnutChart />
-                </div>
-                <div className={styles.graphs}>
-                    <h2 className={styles.graphsTitle}>Inadimplência 30 dias</h2>
-                    <h3>{ratioInadimplencia()}</h3>
-                </div>
-            </div>
-
-            <ChequeControl
-                headerLine="Estornados"
-                display="none"
-                submitOnMount={true}
-            />
-        </>
-    )
+      <ChequeControl
+        headerLine="Estornados"
+        display="none"
+        submitOnMount={true}
+      />
+    </>
+  );
 }

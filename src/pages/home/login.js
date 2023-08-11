@@ -53,7 +53,7 @@ export default function Login() {
 
   return (
     <div className={styles.pageWrapper}>
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={1500} />
       <HeaderLogin />
       <div className={styles.loginContainer}>
         <div className={styles.loginWrapper}>
@@ -64,37 +64,46 @@ export default function Login() {
               Acesse sua conta e organize suas entradas e saídas de cheques.
             </p>
           </div>
-          <LoginCard title="Faça login para continuar">
-            <form
-              className={styles.formLogin}
-              id="form"
-              onSubmit={handleSubmit}
-            >
-              <Input
-                id="email"
-                type="email"
-                placeholder="E-mail"
-                required
-                onChange={handleEmail}
-                value={email}
-              />
-              <Input
-                id="senha"
-                type="password"
-                placeholder="Senha"
-                required
-                onChange={handleSenha}
-                value={senha}
-              />
-              <Link href="/">Esqueceu a senha? Clique aqui.</Link>
-            </form>
-            <div className={styles.btnContainer}>
-              <Button type="submit" form="form">
-                Login
-              </Button>
-              <Link href="/home/cadastro">Ainda não possui conta?</Link>
-            </div>
-          </LoginCard>
+          <div className={styles.formWrapper}>
+            <LoginCard title="Faça login para continuar">
+              <form
+                className={styles.formLogin}
+                id="form"
+                onSubmit={handleSubmit}
+              >
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="E-mail"
+                  required
+                  onChange={handleEmail}
+                  value={email}
+                />
+                <Input
+                  id="senha"
+                  type="password"
+                  placeholder="Senha"
+                  required
+                  onChange={handleSenha}
+                  value={senha}
+                />
+                <div className={styles.linkWrapper}>
+                  <Link href="/home/esqueceu-senha">
+                    Esqueceu a senha? Clique aqui.
+                  </Link>
+                  <Link href="/home/recuperar-senha">
+                    Já tem o token? Troque a senha.
+                  </Link>
+                </div>
+              </form>
+              <div className={styles.btnContainer}>
+                <Button type="submit" form="form">
+                  Login
+                </Button>
+                <Link href="/home/cadastro">Ainda não possui conta?</Link>
+              </div>
+            </LoginCard>
+          </div>
         </div>
       </div>
     </div>

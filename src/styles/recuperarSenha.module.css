@@ -2,7 +2,7 @@
   height: 100vh;
 }
 
-.cadastroContainer {
+.recoverPwdContainer {
   background-image: url("/images/bg-login.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -10,24 +10,25 @@
   height: 100%;
 }
 
-.cadastroWrapper {
+.recoverPwdWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1 0;
+
 }
 
-.cadastroWrapper h1 {
+.recoverPwdWrapper h1 {
   font-size: 4rem;
   color: var(--green-50);
 }
 
-.cadastroWrapper a {
+.recoverPwdWrapper a {
   color: var(--green-50);
   line-height: 1.4;
 }
 
-.cadastroWrapper a:hover {
+.recoverPwdWrapper a:hover {
   transition: color 0.3s;
   color: var(--white);
 }
@@ -36,7 +37,8 @@
   background: linear-gradient(
     180deg,
     rgba(26, 26, 26, 1) 0%,
-    rgba(49, 49, 49, 0.9) 75%,
+    rgba(49, 49, 49, 0.9) 50%,
+    rgba(49, 49, 49, 0.8) 75%,
     rgba(68, 68, 68, 0.7) 100%
   );
 
@@ -44,15 +46,13 @@
   flex-direction: column;
   justify-content: center;
   gap: 2rem;
-
-  width: 600px;
-  height: 600px;
+  padding: 2rem;
 
   text-align: center;
   border-radius: 15px;
 }
 
-.formCadastro {
+.formRecoverPwd {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,22 +66,20 @@
 }
 
 @media (max-width: 768px) {
-  .cadastroContainer {
+  .recoverPwdContainer {
     padding: 0 0.5rem;
   }
 
-  .cadastroWrapper {
+  .recoverPwdWrapper {
     align-items: flex-start;
     padding-top: 3.5rem;
   }
 
-  .cadastroWrapper h1 {
-    font-size: 2.5rem;
+  .recoverPwdWrapper h1 {
+    font-size: 2rem;
   }
 
   .formContainer {
-    width: auto;
-    height: auto;
-    padding: 3rem;
+    padding: 2rem;
   }
 }

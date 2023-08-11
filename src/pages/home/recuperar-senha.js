@@ -1,28 +1,27 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import styles from "../../styles/cadastro.module.css";
 import Link from "next/link";
 import User from "@/api/UserService";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
 import HeaderLogin from "@/components/HeaderLogin";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import styles from "../../styles/recuperarSenha.module.css";
 
-export default function Cadastro() {
+export default function RecuperarSenha() {
   const router = useRouter();
 
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
-  const [nome, setNome] = useState("");
+  const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [contraSenha, setContraSenha] = useState("");
 
-  const handleNome = (e) => {
-    setNome(e.target.value);
+  const handleToken = (e) => {
+    setToken(e.target.value);
   };
 
   const handleEmail = (e) => {
@@ -46,18 +45,17 @@ export default function Cadastro() {
     }
 
     const user = {
-      nome: nome,
+      token: token,
       email: email,
       senha: senha,
     };
 
-    const response = await User.registerUser(user);
-
+    const response = await User.resetPassword(user);
     if (response && response.status === 200) {
-      notifySuccess(response.data.message);
+      notifySuccess(response.data);
 
-      setNome("");
       setEmail("");
+      setToken("");
       setSenha("");
       setContraSenha("");
 
@@ -65,7 +63,7 @@ export default function Cadastro() {
         router.push("/home/login");
       }, 2200);
     } else {
-      notifyFailure(response.data.message);
+      notifyFailure(response.data);
     }
   };
 
@@ -73,21 +71,15 @@ export default function Cadastro() {
     <div className={styles.pageWrapper}>
       <ToastContainer autoClose={1500} />
       <HeaderLogin />
-      <div className={styles.cadastroContainer}>
-        <div className={styles.cadastroWrapper}>
+      <div className={styles.recoverPwdContainer}>
+        <div className={styles.recoverPwdWrapper}>
           <div className={styles.formContainer}>
-            <h1>Crie sua conta</h1>
-            <form className={styles.formCadastro} onSubmit={handleSubmit} id="form">
-              <div className={styles.formField}>
-                <Input
-                  id="nome"
-                  type="text"
-                  placeholder="Nome"
-                  required
-                  onChange={handleNome}
-                  value={nome}
-                />
-              </div>
+            <h1>Redefina sua senha</h1>
+            <form
+              className={styles.formRecoverPwd}
+              onSubmit={handleSubmit}
+              id="form"
+            >
               <div className={styles.formField}>
                 <Input
                   id="email"
@@ -96,6 +88,16 @@ export default function Cadastro() {
                   required
                   onChange={handleEmail}
                   value={email}
+                />
+              </div>
+              <div className={styles.formField}>
+                <Input
+                  id="token"
+                  type="text"
+                  placeholder="Token"
+                  required
+                  onChange={handleToken}
+                  value={token}
                 />
               </div>
               <div className={styles.formField}>
@@ -119,10 +121,18 @@ export default function Cadastro() {
                 />
               </div>
             </form>
-            <Button type="submit" form="form">Criar Conta</Button>
-              <Link href="/home/login">
-                Já possui conta? <br />Clique aqui para fazer o login.
-              </Link>
+            <Button type="submit" form="form">
+              Redefinir Senha
+            </Button>
+            <Link href="/home/login">
+              <Button
+                style={{ backgroundColor: "white", color: "var(--green-300)" }}
+                type="submit"
+                form="form"
+              >
+                Voltar
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
