@@ -2,7 +2,7 @@
   height: 100vh;
 }
 
-.cadastroContainer {
+.esqueceuSenhaContainer {
   background-image: url("/images/bg-login.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -10,26 +10,30 @@
   height: 100%;
 }
 
-.cadastroWrapper {
+.esqueceuSenhaWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1 0;
 }
 
-.cadastroWrapper h1 {
-  font-size: 4rem;
+.esqueceuSenhaWrapper h1 {
+  font-size: 3rem;
   color: var(--green-50);
 }
 
-.cadastroWrapper a {
+.esqueceuSenhaWrapper a {
   color: var(--green-50);
   line-height: 1.4;
 }
 
-.cadastroWrapper a:hover {
+.esqueceuSenhaWrapper a:hover {
   transition: color 0.3s;
   color: var(--white);
+}
+
+.esqueceuSenhaWrapper #backBtn {
+  background-color: var(--white);
 }
 
 .formContainer {
@@ -46,13 +50,13 @@
   gap: 2rem;
 
   width: 600px;
-  height: 600px;
+  height: 400px;
 
   text-align: center;
   border-radius: 15px;
 }
 
-.formCadastro {
+.formEsqueceuSenha {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,16 +70,16 @@
 }
 
 @media (max-width: 768px) {
-  .cadastroContainer {
+  .esqueceuSenhaContainer {
     padding: 0 0.5rem;
   }
 
-  .cadastroWrapper {
+  .esqueceuSenhaWrapper {
     align-items: flex-start;
     padding-top: 3.5rem;
   }
 
-  .cadastroWrapper h1 {
+  .esqueceuSenhaWrapper h1 {
     font-size: 2.5rem;
   }
 

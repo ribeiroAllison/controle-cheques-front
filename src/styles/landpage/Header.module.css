@@ -30,6 +30,7 @@
 
 .menuWrapper li:hover {
   color: var(--green-100);
+  transition: color 0.3s;
 }
 
 .btnContainer {

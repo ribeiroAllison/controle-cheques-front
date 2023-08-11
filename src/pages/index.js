@@ -30,7 +30,7 @@ export default function Home() {
         </nav>
         <div className={header.btnContainer}>
           <Button>Teste grátis</Button>
-          <Button>Login</Button>
+          <Link href="/home/login"><Button>Login</Button></Link>
         </div>
       </header>
 
@@ -125,7 +125,7 @@ export default function Home() {
       <section className={contactSection.container}>
         <div className={contactSection.contactWrapper}>
           <h1>Entre em contato e conheça o sistema.</h1>
-          <Button>
+          <Button style={{ backgroundColor: 'var(--green-300)'}}>
             Nos chame no Whatsapp! <img src="/images/whats-icon.svg" />
           </Button>
         </div>
