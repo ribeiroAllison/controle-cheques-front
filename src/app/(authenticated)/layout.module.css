@@ -1,6 +1,7 @@
 .pageWrapper {
   display: flex;
-  height: 100vh;
+  height: 100%;
+  min-height: 100lvh;
 }
 
 .childrenWrapper {
@@ -15,8 +16,6 @@
     rgba(35, 109, 5, 0.95) 0%,
     rgba(45, 162, 0, 0.95) 100%
   );
-  position: inherit;
-  height: 100%;
   padding-top: 1rem;
 }
 

@@ -147,7 +147,7 @@ export default function Header() {
                   size={`${isOpen ? "42" : "28"}`}
                   color="white"
                 />
-                <span>Cheques Vencidos</span>
+                <span>Vencidos</span>
               </Link>
             </li>
             <li>
