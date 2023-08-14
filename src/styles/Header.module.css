@@ -11,6 +11,7 @@
 
 .sidebar {
   transition: all 0.5s ease;
+  padding-inline: 1rem;
 }
 
 .sidebar a {
@@ -25,7 +26,6 @@
   gap: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
-
   border-bottom: 1px solid #2da200;
 }
 
@@ -54,6 +54,7 @@
 
 .closedSideBar {
   width: 100px;
+  transition: all 0.3s;
 
   .header {
     flex-direction: column;
