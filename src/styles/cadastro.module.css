@@ -1,15 +1,3 @@
-.pageWrapper {
-  height: 100vh;
-}
-
-.cadastroContainer {
-  background-image: url("/images/bg-login.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  height: 100%;
-}
-
 .cadastroWrapper {
   display: flex;
   justify-content: center;
@@ -66,13 +54,9 @@
 }
 
 @media (max-width: 768px) {
-  .cadastroContainer {
-    padding: 0 0.5rem;
-  }
-
   .cadastroWrapper {
+    height: 100vh;
     align-items: flex-start;
-    padding-top: 3.5rem;
   }
 
   .cadastroWrapper h1 {

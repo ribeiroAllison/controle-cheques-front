@@ -7,13 +7,13 @@ import ChequeTable from "./ChequeTable"
 import ModalContact from "./ModalContact"
 import ClientSearch from "./ClientSearch"
 import { getCookie } from "@/utils/cookie"
-import { Cheques } from "@/api/ChequeService"
-import { Cliente } from "@/api/ClienteService"
-import { Destino } from "@/api/DestinoService"
-import { Grupo } from "@/api/GrupoService"
+import { Cheques } from "@/apiServices/ChequeService"
+import { Cliente } from "@/apiServices/ClienteService"
+import { Destino } from "@/apiServices/DestinoService"
+import { Grupo } from "@/apiServices/GrupoService"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Vendedor } from "@/api/VendedorService"
+import { Vendedor } from "@/apiServices/VendedorService"
 
 
 export default function ChequeControl(props) {

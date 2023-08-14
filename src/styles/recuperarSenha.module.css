@@ -1,21 +1,7 @@
-.pageWrapper {
-  height: 100vh;
-}
-
-.recoverPwdContainer {
-  background-image: url("/images/bg-login.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  height: 100%;
-}
-
 .recoverPwdWrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex: 1 0;
-
+  align-items: flex-start;
 }
 
 .recoverPwdWrapper h1 {
@@ -71,8 +57,7 @@
   }
 
   .recoverPwdWrapper {
-    align-items: flex-start;
-    padding-top: 3.5rem;
+    height: 100vh;
   }
 
   .recoverPwdWrapper h1 {

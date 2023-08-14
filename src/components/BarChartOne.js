@@ -8,7 +8,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { Cliente } from '@/api/ClienteService';
+import { Cliente } from '@/apiServices/ClienteService';
 import { convertToNumber } from '@/utils/utils';
 
 ChartJS.register(
