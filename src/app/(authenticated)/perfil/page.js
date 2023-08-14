@@ -53,42 +53,44 @@ const Perfil = () => {
     <>
       <ToastContainer autoClose={2000} />
       <div className={styles.editWrapper}>
-        <h1 className={styles.editTitle}>MENU USUÁRIO</h1>
-        <form className={styles.editForm} onSubmit={handleSubmit}>
-          <div className={styles.editFormField}>
-            <Input
-              type="text"
-              name="nome"
-              id="nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="Nome"
-            />
-          </div>
-          <div className={styles.editFormField}>
-            <Input
-              type="password"
-              name="senha"
-              id="senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Digite sua nova senha"
-              required
-            />
-          </div>
-          <div className={styles.editFormField}>
-            <Input
-              type="password"
-              name="contrasenha"
-              id="contrasenha"
-              value={contraSenha}
-              onChange={(e) => setContraSenha(e.target.value)}
-              placeholder="Repita a senha"
-              required
-            />
-          </div>
-          <Button type="submit">Editar</Button>
-        </form>
+        <div className={styles.editContainer}>
+          <h1 className={styles.editTitle}>Edite sua conta</h1>
+          <form className={styles.editForm} onSubmit={handleSubmit}>
+            <div className={styles.editFormField}>
+              <Input
+                type="text"
+                name="nome"
+                id="nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                placeholder="Nome"
+              />
+            </div>
+            <div className={styles.editFormField}>
+              <Input
+                type="password"
+                name="senha"
+                id="senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Digite sua nova senha"
+                required
+              />
+            </div>
+            <div className={styles.editFormField}>
+              <Input
+                type="password"
+                name="contrasenha"
+                id="contrasenha"
+                value={contraSenha}
+                onChange={(e) => setContraSenha(e.target.value)}
+                placeholder="Repita a senha"
+                required
+              />
+            </div>
+            <Button type="submit">Editar</Button>
+          </form>
+        </div>
       </div>
     </>
   );

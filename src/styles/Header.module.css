@@ -68,6 +68,11 @@
   .menuSection {
     padding-left: 0;
     text-align: center;
+    border-bottom: 3px solid #2da200;
+  }
+
+  .menuOptions {
+    padding-block: 1rem;
   }
 
   .menuSection p,

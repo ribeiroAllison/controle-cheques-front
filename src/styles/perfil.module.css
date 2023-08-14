@@ -5,16 +5,26 @@
   align-items: center;
   gap: 2rem;
   font-family: "Archivo", sans-serif;
+  height: 100%;
+}
 
+.editContainer {
   background: linear-gradient(
     180deg,
     rgba(26, 26, 26, 1) 0%,
     rgba(68, 68, 68, 1) 100%
   );
+  padding: 4rem;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .editTitle {
-  padding-top: 5rem;
+  font-size: 3rem;
+  color: var(--green-50);
+  text-transform: uppercase;
 }
 
 .editForm {
