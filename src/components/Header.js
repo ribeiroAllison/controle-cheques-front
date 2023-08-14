@@ -1,88 +1,158 @@
-import style from '../styles/Header.module.css'
-import Link from 'next/link'
-import { SignOut, UserCircle } from '@phosphor-icons/react'
-import { useRouter } from 'next/router';
-import { removeCookie } from '@/utils/cookie';
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { removeCookie } from "@/utils/cookie";
+import {
+  ArrowsLeftRight,
+  Briefcase,
+  ClockCounterClockwise,
+  Coins,
+  List,
+  MagnifyingGlass,
+  NotePencil,
+  PresentationChart,
+  UserCircle,
+  UserGear,
+  UsersThree,
+  X,
+} from "@phosphor-icons/react";
+import styles from "@/styles/Header.module.css";
 
 export default function Header() {
-    const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-    const handleLogout = async () => {
-        const confirmation = confirm('Você realmente deseja sair?')
-        if (confirmation) {
-            removeCookie('token');
-            setTimeout(() => { router.push('/home/login') }, 1100);
-        } else {
-            return;
-        }
+  const handleLogout = async () => {
+    const confirmation = confirm("Você realmente deseja sair?");
+    if (confirmation) {
+      removeCookie("token");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1100);
+    } else {
+      return;
     }
+  };
 
-    return (
-        <>
-            <header className={style.header}>
+  const handleSideBar = () => {
+    setIsOpen(!isOpen);
+  };
 
-                <div className={style.imgCtr}>
-                    <Link href="/home/dashboard"><img className={style.img} src="/images/LISKO-TECH.png" /></Link>
-                </div>
+  return (
+    <>
+      <div
+        className={`${styles.sidebar} ${!isOpen ? "" : styles.closedSideBar}`}
+        id="sidebar"
+      >
+        <header className={styles.header}>
+          <img src="/images/cheques-icon.svg" alt="" />
+          {isOpen ? (
+            <i className={styles.icon} onClick={handleSideBar}>
+              <List size={32} weight="fill" />
+            </i>
+          ) : (
+            <i className={styles.icon} onClick={handleSideBar}>
+              <X size={32} weight="fill" />
+            </i>
+          )}
+        </header>
 
-                <nav className={style.navBar}>
-                    <div className={style.menuOptions}>
-                        <div className={style.menuOption}>
-                            <h2>Home</h2>
-                            <div className={style.option}>
-                                <h3><Link href="/home/dashboard">Dashboard</Link></h3>
-                                <h3><Link href="/home/perfil">Meu Perfil</Link></h3>
-                            </div>
-                        </div>
+        <div className={styles.menuSection}>
+          <p>Home</p>
+          <ul className={styles.menuOptions}>
+            <li>
+              <Link href="/dashboard">
+                <UserCircle size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Dashboard</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/perfil">
+                <PresentationChart
+                  size={`${isOpen ? "42" : "28"}`}
+                  color="white"
+                />
+                <span>Perfil</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
 
-                        <div className={style.menuOption}>
-                            <h2>Cadastro</h2>
-                            <div className={style.option}>
-                                <h3><Link href="/cadastro/clientes">Clientes</Link></h3>
-                                <h3><Link href="/cadastro/destinos">Destinos</Link></h3>
-                                <h3><Link href="/cadastro/grupos">Grupos</Link></h3>
-                                <h3><Link href="/cadastro/vendedores">Vendedores</Link></h3>
-                            </div>
-                        </div>
+        <div className={styles.menuSection}>
+          <p>Cadastro</p>
+          <ul className={styles.menuOptions}>
+            <li>
+              <Link href="/cadastro/clientes">
+                <UserGear size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Clientes</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/cadastro/destinos">
+                <ArrowsLeftRight
+                  size={`${isOpen ? "42" : "28"}`}
+                  color="white"
+                />
+                <span>Destino</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/cadastro/grupos">
+                <UsersThree size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Grupo</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/cadastro/vendedores">
+                <Briefcase size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Vendedores</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
 
-                        <div className={style.menuOption}>
-                            <h2>Cheques</h2>
-                            <div className={style.option}>
-                                <h3><Link href="/cheques/cadastro">Cadastrar</Link></h3>
-                                <h3><Link href="/cheques/consultar-cheques">Consultar</Link></h3>
-                            </div>
-                        </div>
+        <div className={styles.menuSection}>
+          <p>Cheques</p>
+          <ul className={styles.menuOptions}>
+            <li>
+              <Link href="/cheques/cadastro">
+                <NotePencil size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Cadastrar</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/cheques/consultar-cheques">
+                <MagnifyingGlass
+                  size={`${isOpen ? "42" : "28"}`}
+                  color="white"
+                />
+                <span>Consultar</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
 
-                        <div className={style.menuOption}>
-                            <h2>Relatórios</h2>
-                            <div className={style.option}>
-                                <h3><Link href="">Cheques Vencidos</Link></h3>
-                                <h3><Link href="">Recebíveis</Link></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={style.menuOptionLogin}>
-
-                        <Link href="/home/perfil">
-                            <UserCircle
-                                className={style.icon}
-                                size={48}
-                                color="#A8E4A0"
-                                weight="regular"
-                            />
-                        </Link>
-                        <Link href="/home/login" onClick={handleLogout}>
-                            <SignOut
-                                className={style.icon}
-                                size={48}
-                                color="#A8E4A0"
-                                weight="regular"
-                            />
-                        </Link>
-                    </div>
-
-                </nav>
-            </header>
-        </>
-    )
+        <div className={styles.menuSection}>
+          <p>Relatórios</p>
+          <ul className={styles.menuOptions}>
+            <li>
+              <Link href="#">
+                <ClockCounterClockwise
+                  size={`${isOpen ? "42" : "28"}`}
+                  color="white"
+                />
+                <span>Cheques Vencidos</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="#">
+                <Coins size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Recebíveis</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </>
+  );
 }

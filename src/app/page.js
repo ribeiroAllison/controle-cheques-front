@@ -1,3 +1,4 @@
+import React from "react"
 import Button from "@/components/Button";
 import Link from "next/link";
 import header from "../styles/landpage/Header.module.css";
@@ -7,10 +8,9 @@ import secondarySection from "../styles/landpage/Secondary.module.css";
 import contactSection from "../styles/landpage/Contact.module.css";
 import footerSection from "../styles/landpage/Footer.module.css";
 
-export default function Home() {
+export default function Page () {
   return (
-    <>
-      {/* HEADER */}
+    <div>
       <header className={header.headerWrapper}>
         <div className={header.imgContainer}>
           <img src="/images/cheques-logo.svg" alt="" />
@@ -30,11 +30,10 @@ export default function Home() {
         </nav>
         <div className={header.btnContainer}>
           <Button>Teste grátis</Button>
-          <Link href="/home/login"><Button>Login</Button></Link>
+          <Link href="/login"><Button>Login</Button></Link>
         </div>
       </header>
 
-      {/* MAIN BANNER SECTION */}
       <main className={mainSection.container}>
         <div className={mainSection.textContainer}>
           <h1>
@@ -46,7 +45,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* ADVANTAGES SECTION */}
       <section className={advantagesSection.container}>
         <div className={advantagesSection.titleWrapper}>
           <h1>
@@ -90,7 +88,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECONDARY SECTION */}
       <section className={secondarySection.container}>
         <div className={secondarySection.btnContainer}>
           <Button>Clique aqui e teste grátis</Button>
@@ -121,7 +118,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT SECTION */}
       <section className={contactSection.container}>
         <div className={contactSection.contactWrapper}>
           <h1>Entre em contato e conheça o sistema.</h1>
@@ -131,7 +127,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER SECTION */}
       <footer className={footerSection.container}>
         <div className={footerSection.footerWrapper}>
           <div className={footerSection.imgContainer}>
@@ -140,6 +135,6 @@ export default function Home() {
           <p>2023. Todos direitos reservados.</p>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

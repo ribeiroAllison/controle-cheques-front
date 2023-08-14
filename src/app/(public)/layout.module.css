@@ -1,0 +1,21 @@
+.pageWrapper {
+  height: 100vh;
+}
+
+.childrenWrapper {
+  background-image: url("/images/bg-login.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 5rem;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    height: auto;
+  }
+
+  .childrenWrapper {
+    padding-top: 2rem;
+  }
+}

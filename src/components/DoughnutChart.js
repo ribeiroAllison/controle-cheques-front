@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { Cheques } from '@/api/ChequeService';
+import { Cheques } from '@/apiServices/ChequeService';
 import { convertToNumber } from '@/utils/utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
