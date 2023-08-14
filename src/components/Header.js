@@ -47,13 +47,19 @@ export default function Header() {
         <header className={styles.header}>
           <img src="/images/cheques-icon.svg" alt="" />
           {isOpen ? (
-            <i className={styles.icon} onClick={handleSideBar}>
-              <List size={32} weight="fill" />
-            </i>
+            <List
+              size={32}
+              weight="fill"
+              className={styles.icon}
+              onClick={handleSideBar}
+            />
           ) : (
-            <i className={styles.icon} onClick={handleSideBar}>
-              <X size={32} weight="fill" />
-            </i>
+            <X
+              size={32}
+              weight="fill"
+              className={styles.icon}
+              onClick={handleSideBar}
+            />
           )}
         </header>
 

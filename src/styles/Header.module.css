@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-bottom: 4rem;
+  padding-bottom: 1rem;
 }
 
 .icon {
@@ -10,17 +10,7 @@
 }
 
 .sidebar {
-  background: linear-gradient(
-    90deg,
-    rgba(35, 109, 5, 0.95) 0%,
-    rgba(45, 162, 0, 0.95) 100%
-  );
-  position: fixed;
-  width: 240px;
-  height: 100%;
   transition: all 0.5s ease;
-  padding-top: 5rem;
-  z-index: 999;
 }
 
 .sidebar a {
@@ -36,7 +26,7 @@
   padding-bottom: 1rem;
   padding-left: 1rem;
 
-  border-bottom: 1px solid #2DA200;
+  border-bottom: 1px solid #2da200;
 }
 
 .menuSection p {
@@ -58,7 +48,7 @@
 }
 
 .menuOptions li span {
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: var(--white);
 }
 
@@ -79,7 +69,8 @@
     text-align: center;
   }
 
-  .menuSection p, .menuOptions span {
+  .menuSection p,
+  .menuOptions span {
     display: none;
   }
 
@@ -88,7 +79,6 @@
     display: block;
   }
 }
-
 
 @media (max-width: 768px) {
   .sidebar {
