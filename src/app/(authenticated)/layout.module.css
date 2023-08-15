@@ -8,7 +8,9 @@
   width: 100%;
   flex: 1;
   overflow-y: auto; 
+  
 }
+
 
 .contentBar {
   background: linear-gradient(
@@ -17,6 +19,8 @@
     rgba(45, 162, 0, 0.95) 100%
   );
   padding-top: 1rem;
+  width: 12%;
+  min-width: 160px;
 }
 
 @media (max-width: 768px) {

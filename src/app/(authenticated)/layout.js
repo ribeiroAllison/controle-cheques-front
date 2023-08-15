@@ -9,7 +9,9 @@ export default function AuthenticatedLayout({ children }) {
       <div className={styles.contentBar}>
         <Header />
       </div>
-      <div className={styles.childrenWrapper}>{children}</div>
+      <div className={styles.childrenWrapper}>
+        {children}
+      </div>
     </div>
   );
 }

@@ -17,6 +17,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import styles from "@/styles/Header.module.css";
+import Image from 'next/image'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,13 @@ export default function Header() {
         id="sidebar"
       >
         <header className={styles.header}>
-          <img src="/images/cheques-icon.svg" alt="" />
+          {/* <img src="/images/cheques-icon.svg" alt="" id={styles.logo}/> */}
+          <Image 
+            src="/images/cheques-icon.svg"
+            alt="logo"
+            width={70}
+            height={70}
+          />
           {isOpen ? (
             <List
               size={32}
@@ -55,7 +62,7 @@ export default function Header() {
             />
           ) : (
             <X
-              size={32}
+              size={20}
               weight="fill"
               className={styles.icon}
               onClick={handleSideBar}
