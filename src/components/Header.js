@@ -46,7 +46,6 @@ export default function Header() {
         id="sidebar"
       >
         <header className={styles.header}>
-          {/* <img src="/images/cheques-icon.svg" alt="" id={styles.logo}/> */}
           <Image 
             src="/images/cheques-icon.svg"
             alt="logo"
