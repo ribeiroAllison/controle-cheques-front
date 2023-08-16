@@ -1,11 +1,9 @@
 .editWrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 2rem;
-  font-family: "Archivo", sans-serif;
-  height: 100%;
+  position: relative;
+  bottom: -15%;
 }
 
 .editContainer {
@@ -14,11 +12,12 @@
     rgba(26, 26, 26, 1) 0%,
     rgba(68, 68, 68, 1) 100%
   );
-  padding: 4rem;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  
+  padding: 4rem;
+  border-radius: 15px;
 }
 
 .editTitle {
@@ -33,13 +32,26 @@
   gap: 1.5rem;
 }
 
-.editForm label {
-  color: var(--labelGray);
-  font-size: 1rem;
-  padding-bottom: 0.2rem;
-}
+@media (max-width: 768px) {
+  .editWrapper {
+    height: auto;
+    padding-top: 5rem;
+    position: inherit;
+  }
 
-.editFormField {
-  display: flex;
-  flex-direction: column;
+  .editContainer {
+    gap: 1rem;
+    padding-inline: 0.875rem;
+  }
+  
+  .editTitle {
+    font-size: 1.75rem;
+    text-align: center;
+  }
+  
+  .editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }

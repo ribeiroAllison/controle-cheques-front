@@ -117,17 +117,11 @@
     height: 60px;
   }
 
-  .sidebar a i {
-    margin-left: -10px;
-  }
-
   .sidebar a:hover {
-    width: 200px;
     background: inherit;
   }
 
   .sidebar a:hover span {
     opacity: 1;
-    visibility: visible;
   }
 }
