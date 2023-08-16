@@ -13,7 +13,7 @@ export default function HeaderLogin() {
         <nav className={style.navWrapper}>
           <ul>
             <li>
-              <Link href="/">Fale Conosco</Link>
+              <Link href="/fale-conosco">Fale Conosco</Link>
             </li>
           </ul>
         </nav>

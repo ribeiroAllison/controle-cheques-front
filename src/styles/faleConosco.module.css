@@ -1,0 +1,137 @@
+.faleConoscoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Archivo", sans-serif;
+  text-align: center;
+}
+
+.faleConoscoWrapper h1 {
+  font-size: 2rem;
+  color: var(--green-50);
+  max-width: 400px;
+}
+
+.faleConoscoWrapper a {
+  color: var(--green-50);
+  line-height: 1.4;
+}
+
+.faleConoscoWrapper a:hover {
+  transition: color 0.3s;
+  color: var(--white);
+}
+
+.faleConoscoWrapper #backBtn {
+  background-color: var(--white);
+}
+
+.formContainer {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 1) 0%,
+    rgba(49, 49, 49, 0.9) 75%,
+    rgba(68, 68, 68, 0.7) 100%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 600px;
+
+  text-align: center;
+  border-radius: 15px;
+}
+
+.formEsqueceuSenha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.3rem;
+  width: 100%;
+}
+
+.fieldSet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0;
+  gap: 1.5rem;
+}
+
+.fieldSet textarea {
+  background: transparent;
+  border-radius: 15px;
+  border: 1px solid white;
+  width: 100%;
+  max-width: 390px;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  font-size: 1.4rem;
+  font-family: "Archivo", sans-serif;
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .faleConoscoWrapper h1 {
+    font-size: 1.5rem;
+  }
+
+  .faleConoscoWrapper a {
+    color: var(--green-50);
+    line-height: 1.4;
+  }
+
+  .faleConoscoWrapper a:hover {
+    transition: color 0.3s;
+    color: var(--white);
+  }
+
+  .faleConoscoWrapper #backBtn {
+    background-color: var(--white);
+  }
+
+  .formContainer {
+    background: linear-gradient(
+      180deg,
+      rgba(26, 26, 26, 1) 0%,
+      rgba(49, 49, 49, 0.9) 75%,
+      rgba(68, 68, 68, 0.7) 100%
+    );
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    width: 90%;
+
+    text-align: center;
+    border-radius: 15px;
+  }
+
+  .formEsqueceuSenha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.3rem;
+    width: 100%;
+  }
+
+  .fieldSet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0;
+    gap: 1.5rem;
+  }
+
+  .fieldSet textarea {
+    max-width: 100%;
+    width: auto;
+    min-width: 300px;
+    font-size: 1.1rem;
+  }
+}
