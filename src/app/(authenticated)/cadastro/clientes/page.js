@@ -171,8 +171,7 @@ export default function Clientes() {
     try {
       const response = await Grupo.getAllGrupos();
       if (response) {
-        setGrupoList(response);
-        notifySuccess(response.data);
+        setGrupoList(response.data);
       }
     } catch (error) {
       notifyFailure(response.data);
@@ -184,11 +183,10 @@ export default function Clientes() {
     try {
       const response = await Vendedor.getAllVendedores();
       if (response) {
-        setVendedorList(response);
-        notifySuccess(response.data);
+        setVendedorList(response.data);
       }
     } catch (error) {
-      notifyFailure(response.data);
+      notifyFailure(error.message);
     }
   }
 

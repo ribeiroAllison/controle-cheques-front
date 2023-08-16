@@ -19,8 +19,7 @@ import {
 import styles from "@/styles/Header.module.css";
 import Image from 'next/image'
 
-export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Header({ isOpen, handleSideBar }) {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -33,10 +32,6 @@ export default function Header() {
     } else {
       return;
     }
-  };
-
-  const handleSideBar = () => {
-    setIsOpen(!isOpen);
   };
 
   return (
@@ -61,7 +56,7 @@ export default function Header() {
             />
           ) : (
             <X
-              size={20}
+              size={25}
               weight="fill"
               className={styles.icon}
               onClick={handleSideBar}

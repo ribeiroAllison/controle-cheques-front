@@ -17,5 +17,6 @@
 
   .childrenWrapper {
     padding-top: 2rem;
+    height: 100lvh;
   }
 }

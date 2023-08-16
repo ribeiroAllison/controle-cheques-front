@@ -1,14 +1,14 @@
-import React from "react"
+import React from "react";
 import Button from "@/components/Button";
 import Link from "next/link";
-import header from "../styles/landpage/Header.module.css";
-import mainSection from "../styles/landpage/MainSection.module.css";
-import advantagesSection from "../styles/landpage/Advantages.module.css";
-import secondarySection from "../styles/landpage/Secondary.module.css";
-import contactSection from "../styles/landpage/Contact.module.css";
-import footerSection from "../styles/landpage/Footer.module.css";
+import header from "@/styles/landpage/Header.module.css";
+import mainSection from "@/styles/landpage/MainSection.module.css";
+import advantagesSection from "@/styles/landpage/Advantages.module.css";
+import secondarySection from "@/styles/landpage/Secondary.module.css";
+import contactSection from "@/styles/landpage/Contact.module.css";
+import footerSection from "@/styles/landpage/Footer.module.css";
 
-export default function Page () {
+export default function Page() {
   return (
     <div>
       <header className={header.headerWrapper}>
@@ -23,21 +23,23 @@ export default function Page () {
             <Link href="/">
               <li>Planos</li>
             </Link>
-            <Link href="/">
+            <Link href="/fale-conosco">
               <li>Fale conosco</li>
             </Link>
           </ul>
         </nav>
         <div className={header.btnContainer}>
           <Button>Teste grátis</Button>
-          <Link href="/login"><Button>Login</Button></Link>
+          <Link href="/login">
+            <Button>Login</Button>
+          </Link>
         </div>
       </header>
 
       <main className={mainSection.container}>
         <div className={mainSection.textContainer}>
           <h1>
-            Esqueça a burocracia e <strong>foque nos novos horizontes</strong>{" "}
+            <span>Esqueça a burocracia</span> e <strong>foque nos novos horizontes</strong>{" "}
             para o seu negócio.
           </h1>
           <h2>Sistema online de gestão de cheques</h2>
@@ -121,7 +123,7 @@ export default function Page () {
       <section className={contactSection.container}>
         <div className={contactSection.contactWrapper}>
           <h1>Entre em contato e conheça o sistema.</h1>
-          <Button style={{ backgroundColor: 'var(--green-300)'}}>
+          <Button style={{ backgroundColor: "var(--green-300)" }}>
             Nos chame no Whatsapp! <img src="/images/whats-icon.svg" />
           </Button>
         </div>
