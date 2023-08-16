@@ -27,8 +27,10 @@ export default class User {
         email: user.email,
         senha: user.senha,
       });
+
       if (response && response.status === 200) {
         setCookie("token", response.data.token.token);
+        setCookie("user", response.data.userName);
         return response;
       } else {
         return;

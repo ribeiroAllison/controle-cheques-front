@@ -7,9 +7,9 @@
 .childrenWrapper {
   width: 100%;
   flex: 1;
-  overflow-y: auto; 
+  overflow-y: auto;
+  flex-direction: column;
 }
-
 
 .contentBar {
   background: linear-gradient(
@@ -23,7 +23,7 @@
 
 .contentBarClosed {
   min-width: 100px;
-} 
+}
 
 @media (max-width: 768px) {
   .pageWrapper {
@@ -32,5 +32,14 @@
 
   .childrenWrapper {
     padding-top: 2rem;
+  }
+
+  .contentBar {
+    width: 80px;
+    min-width: auto;
+  }
+
+  .contentBarClosed{
+    min-width: auto;
   }
 }
