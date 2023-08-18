@@ -6,11 +6,11 @@
 
 .esqueceuSenhaWrapper h1 {
   font-size: 3rem;
-  color: var(--green-50);
+  color: var(--green-100);
 }
 
 .esqueceuSenhaWrapper a {
-  color: var(--green-50);
+  color: var(--green-100);
   line-height: 1.4;
 }
 

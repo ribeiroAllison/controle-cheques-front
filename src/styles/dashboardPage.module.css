@@ -1,22 +1,67 @@
 .dashboardsWrapper {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 2rem;
+  margin: 0;
 }
 
 .graphs {
-  width: 35rem;
+  height: 35vh;
+  width: 30vw;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  gap: 2rem;
+  padding: 1.5rem;
+  border-radius: 20px;
+  position: relative;
+  background: var(--white);
+  overflow: auto;
+}
+
+.graphsRatio {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 20px;
 }
 
 .graphsTitle {
-  text-transform: uppercase;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  color: var(--black30);
 }
 
-.graphs h3 {
-  font-size: 2rem;
-  color: var(--navColor);
+.graphsRatio h3 {
+  font-size: 8vw;
+  color: var(--green-200);
+}
+
+@media (max-width: 768px) {
+  .dashboardsWrapper {
+    padding: 1rem;
+  }
+
+  .graphs {
+    width: 70vw;
+    height: 25vh;
+    padding: 0.5rem;
+  }
+
+  .graphsRatio {
+    padding: 1rem;
+  }
+
+  .graphsTitle {
+    font-size: 1.25rem;
+  }
+
+  .graphs h3 {
+    font-size: 2rem;
+  }
 }

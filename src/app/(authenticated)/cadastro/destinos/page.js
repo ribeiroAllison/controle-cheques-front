@@ -8,6 +8,7 @@ import { showAddForm } from "@/utils/utils";
 import clearInputs from "@/utils/clearInputs";
 import ModalName from "@/components/ModalName";
 import style from "@/styles/clientes.module.css";
+import styles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -166,36 +167,38 @@ export default function Destinos() {
         setFilteredList={setFilteredList}
         param="nome"
       />
-      <table className="table" id={style.smallTable}>
-        <thead>
-          <tr>
-            <th>Destino</th>
-            <th>Editar</th>
-            <th>Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!filteredList ? (
+      <div className={styles.tableWrapper}>
+        <table className={styles.table} id={style.smallTable}>
+          <thead>
             <tr>
-              <td colSpan={3}>
-                <img id="loading" src="/images/loading.gif" />
-              </td>
+              <th>Destino</th>
+              <th>Editar</th>
+              <th>Excluir</th>
             </tr>
-          ) : (
-            filteredList.map((destino) => (
-              <tr key={destino.nome} data-cod={destino.id}>
-                <td id={destino.id}>{destino.nome}</td>
-                <td onClick={handleEdit}>
-                  <img name={destino.id} src="/images/edit.svg" />
-                </td>
-                <td name={destino.nome} onClick={handleDelete}>
-                  <img src="/images/trash-bin.svg" />
+          </thead>
+          <tbody>
+            {!filteredList ? (
+              <tr>
+                <td colSpan={3}>
+                  <img id="loading" src="/images/loading.gif" />
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              filteredList.map((destino) => (
+                <tr key={destino.nome} data-cod={destino.id}>
+                  <td id={destino.id}>{destino.nome}</td>
+                  <td onClick={handleEdit}>
+                    <img name={destino.id} src="/images/edit.svg" />
+                  </td>
+                  <td name={destino.nome} onClick={handleDelete}>
+                    <img src="/images/trash-bin.svg" />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
       <ModalName
         name="Destinos"
         submitEdit={handleSubmitEdit}

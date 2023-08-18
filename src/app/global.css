@@ -1,4 +1,3 @@
-
 :root {
   --navColor: #316e0f;
   --black30: #303030;
@@ -16,11 +15,9 @@
   --blueTd: #89cff0;
   --menuGreen: #56e21b;
 
-  --green-50: #56E21B;
-  --green-100: #4DC518;
-  --green-200: #44A815;
-  --green-300: #3A8B12;
-  --green-400: #316e0f;
+  --green-100: #56e21b;
+  --green-200: #2da200;
+  --green-300: #236d05;
 
   --black-100: #303030;
   --black-200: #2d2d2e;
@@ -30,6 +27,8 @@
 
   --gray-50: #686868;
   --gray-100: #444444;
+
+  --bg-color: #F5F5F5;
 
   --button-radius: 50px;
 }
@@ -45,39 +44,6 @@
 
 body {
   -webkit-font-smoothing: antialiased;
-  font-family: "Roboto", sans-serif;
-}
-
-.table {
-  border-collapse: collapse;
-  width: 90%;
-  margin: 20px;
-}
-
-.table th {
-  border: 1px solid black;
-  font-size: 14px;
-  top: 0;
-  background-color: var(--lightGray);
-  position: sticky;
-}
-
-.table td {
-  text-align: center;
-  border: 1px solid var(--black30);
-  padding: 5px;
-  font-size: 14px;
-  max-width: 18rem;
-  overflow-wrap: break-word;
-}
-
-.table img {
-  height: 22px;
-}
-
-.table img:hover {
-  cursor: pointer;
-  opacity: 50%;
 }
 
 .Bom {

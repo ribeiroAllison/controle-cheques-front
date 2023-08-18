@@ -9,6 +9,8 @@
   flex: 1;
   overflow-y: auto;
   flex-direction: column;
+
+  background: var(--bg-color);
 }
 
 .contentBar {
@@ -19,10 +21,12 @@
   );
   padding-top: 1rem;
   min-width: 200px;
+  transition: all 0.2s ease;
 }
 
 .contentBarClosed {
   min-width: 100px;
+  transition: all 0.2s ease;
 }
 
 @media (max-width: 768px) {

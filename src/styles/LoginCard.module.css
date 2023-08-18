@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  font-family: "Archivo", sans-serif;
   background: linear-gradient(
     180deg,
     rgba(26, 26, 26, 1) 0%,
@@ -19,7 +18,7 @@
 }
 
 .cardTitle {
-  color: var(--green-50);
+  color: var(--green-100);
   font-size: 2rem;
 }
 
