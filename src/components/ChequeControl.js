@@ -233,6 +233,43 @@ export default function ChequeControl(props) {
         }
     }
 
+    // SUBMIT MULTIPLE EDITS
+    const hadleEditMassive = async (e) => {
+        e.preventDefault();
+
+        const form ={}
+        const makeForm =() =>{
+            if(editFormValues.destino_id){
+                form.destino_id = editFormValues.destino_id
+            };
+
+            if(editFormValues.data_destino){
+                form.data_destino = editFormValues.data_destino;
+            };
+
+            if(editFormValues.obs){
+                form.obs = editFormValues.obs
+            }
+        }
+    
+        makeForm();
+
+        for(let id of selected){
+            const response = await Cheques.editMassCheck(form, id)
+            if (response && response.status === 200) {
+                props.submitOnMount ? refreshTables() : refreshSearch();
+                clearInputs('editInput');
+                document.getElementById('massEditObs').value = "";
+                notifySuccess(response.data);
+            } else {
+                notifyFailure(response.data);
+            }
+        }
+
+        const editWindow = document.getElementById('MassWindowBackground');
+        editWindow.style.display = "none";
+    }
+
     // CHECK SEARCH SUBMIT HANDLE
     const handleSearchSubmit = async (e) => {
         e?.preventDefault();
@@ -715,77 +752,31 @@ export default function ChequeControl(props) {
 
                     <form className={style.formCtr} id={style.editForm}>
 
-                        <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
-
-                            <h4>No. Cheque</h4>
-                            <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque" autoComplete="off" />
-
-                            <ClientSearch 
-                            handleInputChange={handleEditInputChange}
-                            searchResult={searchResult}
-                            handleClick={handleEditClick}
-                            id="editCliente"
-                            divId="searchBoxEdit"
-                            
-                        />
-                            <h4>Valor</h4>
-                            <input type="text" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"  autoComplete="off"/>
-
-                            <h4>Pedido</h4>
-                            <input type="number" onChange={handleEditInputChange} name="pedido" className="editInput" id="editPedido" autoComplete="off"/>
-                        </div>
+                        
 
                         <div className={style.inputCtr}>
-                            <h4>Vencimento</h4>
-                            <input type="date" onChange={handleEditInputChange} name="data_venc" className="editInput" id="editDataVenc" />
-
+                            
                             <h4>Destino</h4>
-                            <select name="destino_id" onChange={handleEditInputChange}  className={`${style.select} editInput`} id="editDestino">
+                            <select name="destino_id" onChange={handleEditInputChange}  className={`${style.select} editInput`} id="massDestino">
                                 <option key="0"></option>
                                 {
                                     destinoList?.map(destino => <option key={`destinoList-${destino.id}`} value={destino.id}>{destino.nome}</option>)
                                 }
                             </select>
 
-                            <h4>Vendedor</h4>
-                            <select name="vendedor_id" onChange={handleEditInputChange} className={`${style.select} editInput`} id="editVendedor">
-                                <option key="0"></option>
-                                {
-                                    vendedorList?.map(seller => <option key={`vendedorList-${seller.id}`} value={seller.id}>{seller.nome}</option>)
-                                }
-                            </select>
-
                             <h4>Data Entrega:</h4>
-                            <input type="date" name="data_destino" onChange={handleEditInputChange} className="input" />
+                            <input type="date" name="data_destino" onChange={handleEditInputChange} className="editInput" id="massDelivery"/>
                         </div>
 
                         <div className={style.statusCtr}>
-                            <fieldset className={style.formCtr}>
-                                <legend>Status</legend>
-                                <div className={style.inputCtr} >
-                                    <h4>Compensação:</h4>
-                                    <input type="date" name="data_compen" onChange={handleEditInputChange} id="data_compen" className="input" />
-                                </div>
-
-                                <div className={style.inputCtr} >
-                                    <h4>Linha:</h4>
-                                    <select className={`${style.select} input`} name="linha" id="editLinha" onChange={handleEditInputChange}>
-                                        <option></option>
-                                        {
-                                            linhas.map(linha => <option value={linha} key={linha}>{linha}</option>)
-                                        }
-                                    </select>
-                                </div>
-                            </fieldset>
-
                             <div className={style.inputCtr} id={style.editObs}>
                                 <h4>Observação:</h4>
-                                <textarea id="editObsTextarea" onChange={handleEditInputChange} name="obs"></textarea>
+                                <textarea id="massEditObs" onChange={handleEditInputChange} name="obs" className="ediInput"></textarea>
                             </div>
                         </div>
 
                         <div className={style.buttonCtr}>
-                            <button type="submit" className={style.button} id="editaCheque" onClick={handleEditSubmit}>Salvar</button>
+                            <button  className={style.button} onClick={hadleEditMassive}>Salvar</button>
                         </div>
                     </form>
                 </section>
