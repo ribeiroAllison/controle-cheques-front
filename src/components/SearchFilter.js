@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import style from "@/styles/clientes.module.css"
+import { MagnifyingGlass } from "@phosphor-icons/react";
 
 export default function SearchFilter (props) {
 
@@ -24,8 +25,13 @@ export default function SearchFilter (props) {
 
     return(
         <div className={style.formCtr}>
-            <h4>{`Pesquisa ${props.name}:`}</h4>
-            <input type="text" id="filter" onChange={handleChange}/>
+            <input 
+                type="text" 
+                id="filter" 
+                onChange={handleChange}
+                placeholder={props.placeHolder}
+            />
+            <MagnifyingGlass size={32} weight="bold" className={style.Icon} />
         </div>
     )
 }

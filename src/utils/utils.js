@@ -155,3 +155,11 @@ export function showAddForm() {
   const addButton = document.getElementById("addButton");
   addButton.style.display = "none";
 }
+
+export function hideAddForm() {
+  const addForm = document.getElementById("addForm");
+  addForm.style.display = "none";
+
+  const addButton = document.getElementById("addButton");
+  addButton.style.display = "block";
+}

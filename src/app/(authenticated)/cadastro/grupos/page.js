@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import clearInputs from "@/utils/clearInputs";
-import { showAddForm } from "@/utils/utils";
+import { hideAddForm, showAddForm } from "@/utils/utils";
 import { Grupo } from "@/apiServices/GrupoService";
 import ModalName from "@/components/ModalName";
-import style from "@/styles/clientes.module.css";
-import styles from "@/styles/Table.module.css";
+import styles from "@/styles/grupos.module.css";
+import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Grupos() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -122,78 +123,99 @@ export default function Grupos() {
   return (
     <>
       <ToastContainer autoClose={2000} />
-      <h3 className={style.name}>Cadastro de Grupos</h3>
-
-      <button
-        className={`${style.button} addMarginLeft`}
-        id="addButton"
-        onClick={showAddForm}
-      >
-        {" "}
-        Cadastrar Novo Grupo
-      </button>
-
-      <form className={style.formCtr} id="addForm" onSubmit={handleSubmit}>
-        <div className={`${style.nameCtr} ${style.inputCtr}`}>
-          <h4>Nome:</h4>
-          <input
-            type="text"
-            name="nome"
-            onChange={handleInputChange}
-            id="nome"
-            required
-            placeholder="Nome de Grupos de Empresas"
-            autoComplete="off"
+      <section className={styles.menuContainer}>
+        <div className={styles.menuWrapper}>
+          <div className={styles.menuHeader}>
+            <h2>Cadastro de Grupos</h2>
+            <ButtonAlternative id="addButton" onClick={showAddForm}>
+              Novo Destino
+            </ButtonAlternative>
+          </div>
+          <SearchFilter
+            name="Grupo"
+            list={grupos}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+            param="nome"
+            placeholder="Procurar grupo"
           />
         </div>
-        <button className={style.button} id="adicionaCliente" type="submit">
-          Adicionar
-        </button>
-        <button className={style.button} onClick={handleClear} id="limpar">
-          Limpar
-        </button>
-      </form>
 
-      <HeaderLine name="Grupos" />
-      <SearchFilter
-        name="Grupo"
-        list={grupos}
-        filteredList={filteredList}
-        setFilteredList={setFilteredList}
-        param="nome"
-      />
-      <div className={styles.tableWrapper}>
-        <table className={styles.table} id={style.smallTable}>
-          <thead>
-            <tr>
-              <th>Grupo</th>
-              <th>Editar</th>
-              <th>Excluir</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!filteredList ? (
+        <form className={styles.groupForm} id="addForm" onSubmit={handleSubmit}>
+          <div className={styles.groupFormHeader}>
+            <h3>Dados do Destino</h3>
+            <ButtonAlternative
+              style={{ backgroundColor: "var(--redTd)" }}
+              onClick={hideAddForm}
+            >
+              Voltar
+            </ButtonAlternative>
+          </div>
+          <div className={`${styles.inputCtr}`}>
+            <label htmlFor="nome">Nome:</label>
+            <input
+              type="text"
+              name="nome"
+              onChange={handleInputChange}
+              id="nome"
+              required
+              placeholder="Nome de Grupos de Empresas"
+              autoComplete="off"
+              className="input"
+            />
+          </div>
+          <div className={styles.btnContainer}>
+            <ButtonAlternative
+              id="adicionaCliente"
+              type="submit"
+              style={{ width: "150px" }}
+            >
+              Adicionar
+            </ButtonAlternative>
+            <ButtonAlternative
+              onClick={handleClear}
+              id="limpar"
+              style={{ width: "150px", backgroundColor: "var(--orangeTd" }}
+            >
+              Limpar
+            </ButtonAlternative>
+          </div>
+        </form>
+
+        <HeaderLine name="Grupos" />
+        <div className={tableStyles.tableWrapper}>
+          <table className={tableStyles.table} id={styles.smallTable}>
+            <thead>
               <tr>
-                <td colSpan={3}>
-                  <img id="loading" src="/images/loading.gif" />
-                </td>
+                <th>Grupo</th>
+                <th>Editar</th>
+                <th>Excluir</th>
               </tr>
-            ) : (
-              filteredList?.map((destino) => (
-                <tr key={destino.nome} data-cod={destino.id}>
-                  <td id={destino.id}>{destino.nome}</td>
-                  <td onClick={handleEdit}>
-                    <img src="/images/edit.svg" name={destino.id} />
-                  </td>
-                  <td name={destino.nome} onClick={handleDelete}>
-                    <img src="/images/trash-bin.svg" />
+            </thead>
+            <tbody>
+              {!filteredList ? (
+                <tr>
+                  <td colSpan={3}>
+                    <img id="loading" src="/images/loading.gif" />
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                filteredList?.map((destino) => (
+                  <tr key={destino.nome} data-cod={destino.id}>
+                    <td id={destino.id}>{destino.nome}</td>
+                    <td onClick={handleEdit}>
+                      <img src="/images/edit.svg" name={destino.id} />
+                    </td>
+                    <td name={destino.nome} onClick={handleDelete}>
+                      <img src="/images/trash-bin.svg" />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
       <ModalName
         name="Grupos"
         submitEdit={submitEdit}

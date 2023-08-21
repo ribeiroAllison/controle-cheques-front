@@ -3,7 +3,7 @@
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import { useState, useEffect } from "react";
-import { getKeyByValue, showAddForm } from "@/utils/utils";
+import { getKeyByValue, showAddForm, hideAddForm } from "@/utils/utils";
 import { Cliente } from "@/apiServices/ClienteService";
 import ModalCadastro from "@/components/ModalCadastro";
 import clearInputs from "@/utils/clearInputs";
@@ -13,7 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
-import Button from "@/components/Button";
+import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -269,13 +269,13 @@ export default function Clientes() {
   return (
     <>
       <ToastContainer autoClose={2000} />
-      <section>
+      <section className={style.menuContainer}>
         <div className={style.menuWrapper}>
           <div className={style.menuHeader}>
-            <h3 className={style.name}>Cadastro de Clientes</h3>
-            <Button id="addButton" onClick={showAddForm}>
+            <h1>Cadastro de Clientes</h1>
+            <ButtonAlternative id="addButton" onClick={showAddForm}>
               Novo Cliente
-            </Button>
+            </ButtonAlternative>
           </div>
           <SearchFilter
             name="Cliente"
@@ -283,149 +283,174 @@ export default function Clientes() {
             filteredList={filteredList}
             setFilteredList={setFilteredList}
             param="cliente"
+            placeHolder="Procurar cliente"
           />
         </div>
-        <form className={style.formCtr} onSubmit={createNewClient} id="addForm">
-          <div className={style.inputCtr}>
-            <h4>Código:</h4>
-            <input
-              type="text"
-              name="codigo"
-              className="input"
-              onChange={handleInputChange}
-              id="codigo"
-              placeholder="Código do Cliente"
-              autoComplete="off"
-            />
-          </div>
-          <div className={`${style.nameCtr} ${style.inputCtr}`}>
-            <h4>Nome:</h4>
-            <input
-              type="text"
-              name="nome"
-              className="input"
-              onChange={handleInputChange}
-              id="nome"
-              required
-              placeholder="Nome do Cliente"
-              autoComplete="off"
-            />
-          </div>
-          <div className={style.inputCtr}>
-            <h4>CPF/CNPJ:</h4>
-            <input
-              type="text"
-              name="doc"
-              className="input"
-              onChange={handleInputChange}
-              id="doc"
-              required
-              placeholder="Digite CPF ou CNPJ"
-              autoComplete="off"
-            />
-          </div>
-          <div className={`${style.nameCtr} ${style.inputCtr}`}>
-            <h4>Grupo:</h4>
-            <select
-              id="grupo"
-              name="grupo"
-              className={`${style.select} input`}
-              onChange={handleInputChange}
+        <form
+          className={style.clientForm}
+          onSubmit={createNewClient}
+          id="addForm"
+        >
+          <div className={style.clientFormHeader}>
+            <h2>Dados do Cliente</h2>
+            <ButtonAlternative
+              style={{ backgroundColor: "var(--redTd)" }}
+              onClick={hideAddForm}
             >
-              <option></option>
-              {grupoList.length > 0
-                ? grupoList.map((emp) => {
-                    return (
-                      <option key={emp.id} value={emp.id}>
-                        {emp.nome}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
+              Voltar
+            </ButtonAlternative>
           </div>
-          <div className={`${style.nameCtr} ${style.inputCtr}`}>
-            <h4>Vendedor:</h4>
-            <select
-              id="vendedor"
-              name="vendedor"
-              className={`${style.select} input`}
-              onChange={handleInputChange}
-            >
-              <option></option>
-              {vendedorList.length > 0
-                ? vendedorList?.map((vend) => {
-                    return (
-                      <option key={vend.id} value={vend.id}>
-                        {vend.nome}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
+          <div className={style.formLine}>
+            <div className={style.inputCtr}>
+              <h4>Código:</h4>
+              <input
+                type="text"
+                name="codigo"
+                className="input"
+                onChange={handleInputChange}
+                id="codigo"
+                placeholder="Código do Cliente"
+                autoComplete="off"
+              />
+            </div>
+            <div className={`${style.nameCtr} ${style.inputCtr}`}>
+              <h4>Nome:</h4>
+              <input
+                type="text"
+                name="nome"
+                className="input"
+                onChange={handleInputChange}
+                id="nome"
+                required
+                placeholder="Nome do Cliente"
+                autoComplete="off"
+              />
+            </div>
+            <div className={style.inputCtr}>
+              <h4>CPF/CNPJ:</h4>
+              <input
+                type="text"
+                name="doc"
+                className="input"
+                onChange={handleInputChange}
+                id="doc"
+                required
+                placeholder="Digite CPF ou CNPJ"
+                autoComplete="off"
+              />
+            </div>
           </div>
-          <div className={style.inputCtr}>
-            <h4>Status:</h4>
-            <select
-              className={`${style.select} input`}
-              id="status"
-              name="status"
-              value={formValues.status}
-              onChange={handleInputChange}
-            >
-              <option></option>
-              <option>Bom</option>
-              <option>Médio</option>
-              <option>Ruim</option>
-            </select>
+          <div className={style.formLine}>
+            <div className={`${style.nameCtr} ${style.inputCtr}`}>
+              <h4>Grupo:</h4>
+              <select
+                id="grupo"
+                name="grupo"
+                className={`${style.select} input`}
+                onChange={handleInputChange}
+              >
+                <option></option>
+                {grupoList.length > 0
+                  ? grupoList.map((emp) => {
+                      return (
+                        <option key={emp.id} value={emp.id}>
+                          {emp.nome}
+                        </option>
+                      );
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className={`${style.nameCtr} ${style.inputCtr}`}>
+              <h4>Vendedor:</h4>
+              <select
+                id="vendedor"
+                name="vendedor"
+                className={`${style.select}`}
+                onChange={handleInputChange}
+              >
+                <option></option>
+                {vendedorList.length > 0
+                  ? vendedorList?.map((vend) => {
+                      return (
+                        <option key={vend.id} value={vend.id}>
+                          {vend.nome}
+                        </option>
+                      );
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className={style.inputCtr}>
+              <h4>Status:</h4>
+              <select
+                className={`${style.select} input`}
+                id="status"
+                name="status"
+                value={formValues.status}
+                onChange={handleInputChange}
+              >
+                <option></option>
+                <option>Bom</option>
+                <option>Médio</option>
+                <option>Ruim</option>
+              </select>
+            </div>
           </div>
-
-          <div className={style.butonCtr}>
-            <fieldset>
-              <legend>Dados de Contato</legend>
-              <div className={`${style.nameCtr} ${style.inputCtr}`}>
-                <h4>Nome do Contato:</h4>
-                <input
-                  type="text"
-                  name="contato"
-                  className="input"
-                  onChange={handleInputChange}
-                  id="contato"
-                  placeholder="Digite o Nome"
-                  autoComplete="off"
-                />
-              </div>
-              <div className={`${style.inputCtr}`}>
-                <h4>Telefone:</h4>
-                <input
-                  type="text"
-                  name="telefone"
-                  className="input"
-                  onChange={handleInputChange}
-                  id="telefone"
-                  placeholder="Telefone do Cliente"
-                  autoComplete="off"
-                />
-              </div>
-              <div className={`${style.inputCtr}`}>
-                <h4>E-mail:</h4>
-                <input
-                  type="email"
-                  name="email"
-                  className="input"
-                  onChange={handleInputChange}
-                  id="email"
-                  placeholder="Email do Cliente"
-                  autoComplete="off"
-                />
+          <div className={style.buttonCtr}>
+            <fieldset className={style.fieldset}>
+              <p>Dados de Contato:</p>
+              <div className={style.fieldsWrapper}>
+                <div className={`${style.nameCtr} ${style.inputCtr}`}>
+                  <label htmlFor="contato">Nome do Contato:</label>
+                  <input
+                    type="text"
+                    name="contato"
+                    className="input"
+                    onChange={handleInputChange}
+                    id="contato"
+                    placeholder="Digite o Nome"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className={`${style.inputCtr}`}>
+                  <label htmlFor="telefone">Telefone:</label>
+                  <input
+                    type="text"
+                    name="telefone"
+                    className="input"
+                    onChange={handleInputChange}
+                    id="telefone"
+                    placeholder="Telefone do Cliente"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className={`${style.inputCtr}`}>
+                  <label htmlFor="email">E-mail:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="input"
+                    onChange={handleInputChange}
+                    id="email"
+                    placeholder="Email do Cliente"
+                    autoComplete="off"
+                  />
+                </div>
               </div>
             </fieldset>
-            <button className={style.button} id="adicionaCliente" type="submit">
-              Adicionar
-            </button>
-            <button className={style.button} id="limpar" onClick={handleClear}>
-              Limpar
-            </button>
+            <div className={style.btnContainer}>
+              <ButtonAlternative id="adicionaCliente" type="submit">
+                Adicionar
+              </ButtonAlternative>
+              <ButtonAlternative
+                id="limpar"
+                onClick={handleClear}
+                style={{ backgroundColor: "var(--orangeTd" }}
+              >
+                Limpar
+              </ButtonAlternative>
+            </div>
           </div>
         </form>
       </section>
@@ -471,7 +496,6 @@ export default function Clientes() {
                     />
                   </td>
                   <td>
-                    {" "}
                     <img src="/images/trash-bin.svg" onClick={handleDelete} />
                   </td>
                 </tr>

@@ -1,0 +1,23 @@
+.button {
+  font-size: 1.5rem;
+  background: var(--green-100);
+  border-radius: var(--button-radius);
+  color: var(--white);
+  border: 0;
+  cursor: pointer;
+  width: 14rem;
+  height: 2.25rem;
+  align-self: center;
+}
+
+.button:hover {
+  transition: all 0.3s;
+  background: var(--green-300);
+}
+
+@media (max-width: 768px) {
+  .button {
+    font-size: 1.2rem;
+    width: 10rem;
+  }
+}

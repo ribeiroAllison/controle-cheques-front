@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react";
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
-import { showAddForm } from "@/utils/utils";
+import { hideAddForm, showAddForm } from "@/utils/utils";
 import clearInputs from "@/utils/clearInputs";
 import ModalName from "@/components/ModalName";
 import { Vendedor } from "@/apiServices/VendedorService";
-import style from "@/styles/clientes.module.css";
-import styles from "@/styles/Table.module.css";
+import styles from "@/styles/vendedores.module.css";
+import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Vendedores() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -71,7 +72,7 @@ export default function Vendedores() {
     }
   };
 
-  // UPDATE SALESMEN IN DB
+  // UPDATE
   const handleEdit = (e) => {
     const id = e.target.name;
     setEditId(id);
@@ -93,7 +94,6 @@ export default function Vendedores() {
   // CLEAR INPUT FIELDS
   const handleClear = (e) => {
     e.preventDefault();
-
     clearInputs("input");
   };
 
@@ -123,79 +123,94 @@ export default function Vendedores() {
   return (
     <>
       <ToastContainer autoClose={2000} />
-      <h3 className={style.name}>Cadastro de Vendedores</h3>
-
-      <button
-        className={`${style.button} addMarginLeft`}
-        id="addButton"
-        onClick={showAddForm}
-      >
-        {" "}
-        Cadastrar Novo Vendedor
-      </button>
-
-      <form className={style.formCtr} id="addForm" onSubmit={handleSubmit}>
-        <div className={`${style.nameCtr} ${style.inputCtr}`}>
-          <h4>Nome:</h4>
-          <input
-            type="text"
-            name="nome"
-            onChange={handleInputChange}
-            id="nome"
-            required
-            placeholder="Nome do Vendedor"
-            autoComplete="off"
+      <section className={styles.menuContainer}>
+        <div className={styles.menuWrapper}>
+          <div className={styles.menuHeader}>
+            <h2>Cadastro de Vendedores</h2>
+            <ButtonAlternative id="addButton" onClick={showAddForm}>
+              Novo Vendedor
+            </ButtonAlternative>
+          </div>
+          <SearchFilter
+            name="Vendedor"
+            list={vendedores}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+            param="nome"
           />
         </div>
-        <button className={style.button} id="adicionaCliente">
-          Adicionar
-        </button>
-        <button className={style.button} onClick={handleClear} id="limpar">
-          Limpar
-        </button>
-      </form>
 
-      <HeaderLine name="Vendedores" />
-      <SearchFilter
-        name="Vendedor"
-        list={vendedores}
-        filteredList={filteredList}
-        setFilteredList={setFilteredList}
-        param="nome"
-      />
+        <form className={styles.salesForm} id="addForm" onSubmit={handleSubmit}>
+          <div className={styles.salesFormHeader}>
+            <h3>Dados do Destino</h3>
+            <ButtonAlternative
+              style={{ backgroundColor: "var(--redTd)" }}
+              onClick={hideAddForm}
+            >
+              Voltar
+            </ButtonAlternative>
+          </div>
+          <div className={`${styles.inputCtr}`}>
+            <h4>Nome:</h4>
+            <input
+              type="text"
+              name="nome"
+              onChange={handleInputChange}
+              id="nome"
+              required
+              placeholder="Nome do Vendedor"
+              autoComplete="off"
+              className="input"
+            />
+          </div>
+          <div className={styles.btnContainer}>
+            <ButtonAlternative id="adicionaVendedor" style={{ width: "150px" }}>
+              Adicionar
+            </ButtonAlternative>
+            <ButtonAlternative
+              onClick={handleClear}
+              id="limpar"
+              style={{ width: "150px", backgroundColor: "var(--orangeTd" }}
+            >
+              Limpar
+            </ButtonAlternative>
+          </div>
+        </form>
 
-      <div className={styles.tableWrapper}>
-        <table className={styles.table} id={style.smallTable}>
-          <thead>
-            <tr>
-              <th>Vendedor</th>
-              <th>Editar</th>
-              <th>Excluir</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!filteredList ? (
+        <HeaderLine name="Vendedores" />
+        <div className={tableStyles.tableWrapper}>
+          <table className={tableStyles.table} id={styles.smallTable}>
+            <thead>
               <tr>
-                <td colSpan={3}>
-                  <img id="loading" src="/images/loading.gif" />
-                </td>
+                <th>Vendedor</th>
+                <th>Editar</th>
+                <th>Excluir</th>
               </tr>
-            ) : (
-              filteredList?.map((vendedor) => (
-                <tr key={vendedor.nome} data-cod={vendedor.id}>
-                  <td id={vendedor.id}>{vendedor.nome}</td>
-                  <td onClick={handleEdit}>
-                    <img src="/images/edit.svg" name={vendedor.id} />
-                  </td>
-                  <td name={vendedor.nome} onClick={handleDelete}>
-                    <img src="/images/trash-bin.svg" />
+            </thead>
+            <tbody>
+              {!filteredList ? (
+                <tr>
+                  <td colSpan={3}>
+                    <img id="loading" src="/images/loading.gif" />
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                filteredList?.map((vendedor) => (
+                  <tr key={vendedor.nome} data-cod={vendedor.id}>
+                    <td id={vendedor.id}>{vendedor.nome}</td>
+                    <td onClick={handleEdit}>
+                      <img src="/images/edit.svg" name={vendedor.id} />
+                    </td>
+                    <td name={vendedor.nome} onClick={handleDelete}>
+                      <img src="/images/trash-bin.svg" />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
       <ModalName
         name="Vendedores"
         submitEdit={submitEdit}

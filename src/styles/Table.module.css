@@ -13,14 +13,14 @@
   border-collapse: collapse;
   border-style: hidden;
   border-radius: 15px;
-  white-space:nowrap;
+  white-space: nowrap;
   text-align: center;
 
-  width:100%;
+  width: 90%;
   overflow: hidden;
 }
 
-.table thead{
+.table thead {
   position: sticky;
 }
 
@@ -29,7 +29,7 @@
   padding: 12px 10px;
   overflow-wrap: break-word;
   text-wrap: no-wrap;
-
+  max-width: 18rem;
 }
 
 .table thead tr,
