@@ -1,5 +1,17 @@
-.formCtr,
-.formCtrCenter {
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.menuWrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 1rem;
+}
+
+.formCtr, .formCtrCenter {
   margin-left: 20px;
   display: flex;
   gap: 20px;
@@ -7,7 +19,7 @@
 }
 
 .formCtr {
-  align-items: flex-start;
+  
 }
 
 .formCtrCenter {
@@ -15,8 +27,7 @@
 }
 
 .name {
-  margin: 20px;
-  font-size: 25px;
+  font-size: 1.5rem;
 }
 
 .inputCtr input,
@@ -263,17 +274,17 @@ body.no-scroll {
 
 .vencTrue {
   background-color: var(--blueTd);
-  color: var(--black);
+  color: var(--white);
 }
 
 .semFundo {
   background-color: var(--redTd);
-  color: var(--black);
+  color: var(--white);
 }
 
 .chequeOK {
   background-color: var(--optionGreen);
-  color: var(--black);
+  color: var(--white);
 }
 
 .editTrue {

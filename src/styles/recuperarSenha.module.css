@@ -6,11 +6,11 @@
 
 .recoverPwdWrapper h1 {
   font-size: 4rem;
-  color: var(--green-50);
+  color: var(--green-100);
 }
 
 .recoverPwdWrapper a {
-  color: var(--green-50);
+  color: var(--green-100);
   line-height: 1.4;
 }
 

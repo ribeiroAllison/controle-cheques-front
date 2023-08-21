@@ -2,18 +2,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Archivo", sans-serif;
   text-align: center;
 }
 
 .faleConoscoWrapper h1 {
   font-size: 2rem;
-  color: var(--green-50);
+  color: var(--green-100);
   max-width: 400px;
 }
 
 .faleConoscoWrapper a {
-  color: var(--green-50);
+  color: var(--green-100);
   line-height: 1.4;
 }
 
@@ -70,7 +69,6 @@
   padding-left: 1rem;
   padding-top: 0.5rem;
   font-size: 1.4rem;
-  font-family: "Archivo", sans-serif;
   color: var(--white);
 }
 
@@ -80,7 +78,7 @@
   }
 
   .faleConoscoWrapper a {
-    color: var(--green-50);
+    color: var(--green-100);
     line-height: 1.4;
   }
 

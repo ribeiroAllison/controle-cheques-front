@@ -1,11 +1,19 @@
+"use client"
+
 import { UserFocus } from "@phosphor-icons/react";
 import Button from "./Button";
 import Link from "next/link";
 import styles from "@/styles/headerUser.module.css";
 import { getCookie } from "@/utils/cookie";
+import { useEffect, useState } from "react";
 
 export default function HeaderUser() {
-  const name = getCookie('user');
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    setName(getCookie('user'));
+  }, [])
+  
   return (
     <div>
       <div className={styles.headerUserContainer}>

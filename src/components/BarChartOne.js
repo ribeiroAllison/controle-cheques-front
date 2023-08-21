@@ -36,7 +36,7 @@ export default function BarChartOne() {
       {
         label: 'Valor em BRL',
         data: dataValues,
-        backgroundColor: ['#02ce83'],
+        backgroundColor: ['#236d05'],
         borderColor: ['#000'],
         borderWidth: 1,
       },
@@ -50,7 +50,7 @@ export default function BarChartOne() {
   return (
     <Bar
       data={data}
-      options={{ maintainAspectRatio: false, responsive: true }}
+      options={{ maintainAspectRatio: false, responsive: true,  }}
     />
   );
 }

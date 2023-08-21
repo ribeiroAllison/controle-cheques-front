@@ -47,7 +47,7 @@
 }
 
 .formLogin a {
-  color: var(--green-50);
+  color: var(--green-100);
 }
 
 .formLogin a:hover {
@@ -69,7 +69,7 @@
 }
 
 .btnContainer a {
-  color: var(--green-50);
+  color: var(--green-100);
 }
 
 .btnContainer a:hover {

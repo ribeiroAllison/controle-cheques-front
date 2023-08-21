@@ -34,7 +34,7 @@
 }
 
 .contactWrapper button:hover {
-  background: var(--green-400) !important;
+  background: var(--green-100) !important;
 }
 
 .contactWrapper img {

@@ -1,22 +1,131 @@
 .dashboardsWrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  margin: 0;
+  width: 100%;
 }
 
 .graphs {
-  width: 35rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  gap: 2rem;
+  padding: 1.5rem;
+  border-radius: 20px;
+  position: relative;
+  background: var(--white);
+  overflow: auto;
+  flex: 1;
+}
+
+.ratioWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.graphsTypes {
+  background: var(--white);
+  border-radius: 20px;
+  width: 100%;
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.graphsTypes ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.graphsTypes li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.graphsTypes span {
+  width: 6rem;
+  height: 0.875rem;
+  border-radius: 7px;
+}
+
+.graphsTypes p {
+  font-size: 1.15rem;
+} 
+
+.graphsRatio {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 20px;
+  height: 100%;
 }
 
 .graphsTitle {
-  text-transform: uppercase;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  color: var(--black30);
 }
 
-.graphs h3 {
-  font-size: 2rem;
-  color: var(--navColor);
+.graphsRatio h3 {
+  font-size: 8vw;
+  color: var(--green-200);
+}
+
+.compensado {
+  background: var(--green-200);
+}
+
+.aCompensar {
+  background: var(--yellowTd);
+}
+
+.semDestino {
+  background: var(--blueTd);
+}
+
+.estornado {
+  background: var(--redTd);
+}
+
+@media (max-width: 768px) {
+  .dashboardsWrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .graphs {
+    width: 100%;
+    padding: 0.5rem;
+    height: auto;
+  }
+
+  .graphsRatio {
+    padding: 1rem;
+  }
+
+  .graphsTitle {
+    font-size: 1.25rem;
+  }
+
+  .graphs h3 {
+    font-size: 2rem;
+  }
+
+  .graphsTypes p {
+    font-size: 0.875rem;
+  } 
+
+  .graphsRatio h3 {
+    font-size: 20vw;
+  }
 }

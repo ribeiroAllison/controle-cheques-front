@@ -3,16 +3,17 @@
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import { useState, useEffect } from "react";
-import { getCookie } from "@/utils/cookie";
 import { getKeyByValue, showAddForm } from "@/utils/utils";
 import { Cliente } from "@/apiServices/ClienteService";
 import ModalCadastro from "@/components/ModalCadastro";
 import clearInputs from "@/utils/clearInputs";
 import style from "@/styles/clientes.module.css";
+import styles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
+import Button from "@/components/Button";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -210,7 +211,7 @@ export default function Clientes() {
       } = client;
       const grupo_id = getKeyByValue(grupoList, grupo);
       const vendedor_id = getKeyByValue(vendedorList, vendedor);
-      
+
       setFormValues({
         ...formValues,
         codigo: cod,
@@ -269,17 +270,21 @@ export default function Clientes() {
     <>
       <ToastContainer autoClose={2000} />
       <section>
-        <h3 className={style.name}>Cadastro de Clientes</h3>
-
-        <button
-          className={`${style.button} addMarginLeft`}
-          id="addButton"
-          onClick={showAddForm}
-        >
-          {" "}
-          Cadastrar Novo Cliente
-        </button>
-
+        <div className={style.menuWrapper}>
+          <div className={style.menuHeader}>
+            <h3 className={style.name}>Cadastro de Clientes</h3>
+            <Button id="addButton" onClick={showAddForm}>
+              Novo Cliente
+            </Button>
+          </div>
+          <SearchFilter
+            name="Cliente"
+            list={clientList}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+            param="cliente"
+          />
+        </div>
         <form className={style.formCtr} onSubmit={createNewClient} id="addForm">
           <div className={style.inputCtr}>
             <h4>Código:</h4>
@@ -425,62 +430,56 @@ export default function Clientes() {
         </form>
       </section>
       <HeaderLine name="Clientes" />
-      <SearchFilter
-        name="Cliente"
-        list={clientList}
-        filteredList={filteredList}
-        setFilteredList={setFilteredList}
-        param="cliente"
-      />
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Código do Cliente</th>
-            <th>Nome</th>
-            <th>CPF / CNPJ</th>
-            <th>Grupo</th>
-            <th>Vendedor</th>
-            <th>Status</th>
-            <th>Editar</th>
-            <th>Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!filteredList ? (
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
             <tr>
-              <td colSpan={8}>
-                <img id="loading" src="/images/loading.gif" />
-              </td>
+              <th>Código do Cliente</th>
+              <th>Nome</th>
+              <th>CPF / CNPJ</th>
+              <th>Grupo</th>
+              <th>Vendedor</th>
+              <th>Status</th>
+              <th>Editar</th>
+              <th>Excluir</th>
             </tr>
-          ) : (
-            filteredList?.map((client) => (
-              <tr key={client.cod} data-cod={client.id}>
-                <td>{client.cod}</td>
-                <td id={`client${client.cod}`}>{client.cliente}</td>
-                <td id={`doc${client.cod}`}>{client.doc}</td>
-                <td id={`grupo${client.cod}`}>{client.grupo}</td>
-                <td id={`vendedor${client.cod}`}>{client.vendedor}</td>
-                <td id={`status${client.cod}`} className={client.status}>
-                  {client.status}
-                </td>
-                <td>
-                  {" "}
-                  <img
-                    src="/images/edit.svg"
-                    onClick={handleEdit}
-                    name={client.id}
-                  />
-                </td>
-                <td>
-                  {" "}
-                  <img src="/images/trash-bin.svg" onClick={handleDelete} />
+          </thead>
+          <tbody>
+            {!filteredList ? (
+              <tr>
+                <td colSpan={8}>
+                  <img id="loading" src="/images/loading.gif" />
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-
+            ) : (
+              filteredList?.map((client) => (
+                <tr key={client.cod} data-cod={client.id}>
+                  <td>{client.cod}</td>
+                  <td id={`client${client.cod}`}>{client.cliente}</td>
+                  <td id={`doc${client.cod}`}>{client.doc}</td>
+                  <td id={`grupo${client.cod}`}>{client.grupo}</td>
+                  <td id={`vendedor${client.cod}`}>{client.vendedor}</td>
+                  <td id={`status${client.cod}`} className={client.status}>
+                    {client.status}
+                  </td>
+                  <td>
+                    {" "}
+                    <img
+                      src="/images/edit.svg"
+                      onClick={handleEdit}
+                      name={client.id}
+                    />
+                  </td>
+                  <td>
+                    {" "}
+                    <img src="/images/trash-bin.svg" onClick={handleDelete} />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
       <ModalCadastro
         name="Clientes"
         submitEdit={submitEdit}

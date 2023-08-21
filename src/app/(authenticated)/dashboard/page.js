@@ -40,9 +40,9 @@ export default function Page() {
     const inadimplencia =
       (totalEstornados / (totalCompensados + totalEstornados)) * 100;
     if (inadimplencia) {
-      return `${inadimplencia.toFixed(2)}%`;
+      return `${inadimplencia.toFixed(0)}%`;
     } else {
-      return "0%";
+      return "00%";
     }
   };
 
@@ -85,7 +85,6 @@ export default function Page() {
           setEstornados(estornados30Days);
         }
       } catch (error) {
-        console.log(error);
         return error.response;
       }
     };
@@ -102,9 +101,31 @@ export default function Page() {
         <div className={styles.graphs}>
           <DoughnutChart />
         </div>
-        <div className={styles.graphs}>
-          <h2 className={styles.graphsTitle}>Inadimplência 30 dias</h2>
-          <h3>{ratioInadimplencia()}</h3>
+        <div className={styles.ratioWrapper}>
+          <div className={styles.graphsRatio}>
+            <h2 className={styles.graphsTitle}>Inadimplência 30 dias</h2>
+            <h3>{ratioInadimplencia()}</h3>
+          </div>
+          <div className={styles.graphsTypes}>
+            <ul>
+              <li>
+                <span className={styles.compensado}></span>
+                <p>Cheque Compensado</p>
+              </li>
+              <li>
+                <span className={styles.aCompensar}></span>
+                <p>Cheque a Compensar</p>
+              </li>
+              <li>
+                <span className={styles.semDestino}></span>
+                <p>Cheque Sem Destino</p>
+              </li>
+              <li>
+                <span className={styles.estornado}></span>
+                <p>Cheque Estornado</p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
