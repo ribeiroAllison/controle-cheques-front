@@ -331,6 +331,9 @@ body.no-scroll {
   gap:1rem;
 }
 
-.marginLeft{
+.massEditCtr{
   margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap:1rem;
 }

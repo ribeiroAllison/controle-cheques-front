@@ -794,6 +794,7 @@ export default function ChequeControl(props) {
                     selected={selected}
                     setSelected={setSelected}
                     openMassEdit={openMassEdit}
+                    allCheques = {allCheques}
                 />
             }
 
