@@ -86,7 +86,7 @@ export default function ChequeTable(props) {
                     {   
                         props.list?.map((cheque) => (
                             <tr key={`cheque-${cheque.id}`} id={`row${cheque.id}`} className="chequeRow">
-                                <td  className={assignClassStyle(cheque)} onChange={handleCheckboxChange}><input type="checkbox" name={cheque.id}/></td>
+                                <td  className={assignClassStyle(cheque)} onChange={handleCheckboxChange}><input type="checkbox" name={cheque.id} className="checkbox"/></td>
                                 <td name={cheque.id} id={`codCli${cheque.id}`} className={assignClassStyle(cheque)} >{cheque.cod_cliente}</td>
                                 <td name={cheque.id} id={`client${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.cliente}</td>
                                 <td name={cheque.id} id={`grupo${cheque.id}`} className={assignClassStyle(cheque)}>{cheque.grupo}</td>

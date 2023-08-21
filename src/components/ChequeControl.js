@@ -254,20 +254,29 @@ export default function ChequeControl(props) {
     
         makeForm();
 
-        for(let id of selected){
-            const response = await Cheques.editMassCheck(form, id)
-            if (response && response.status === 200) {
-                props.submitOnMount ? refreshTables() : refreshSearch();
-                clearInputs('editInput');
-                document.getElementById('massEditObs').value = "";
-                notifySuccess(response.data);
-            } else {
-                notifyFailure(response.data);
+        if(form.destino_id || form.data_destino || form.obs){
+            for(let id of selected){
+                const response = await Cheques.editMassCheck(form, id)
+                if (response && response.status === 200) {
+                    props.submitOnMount ? refreshTables() : refreshSearch();
+                    clearInputs('editInput');
+                    document.getElementById('massEditObs').value = "";
+                    notifySuccess(response.data);
+                } else {
+                    notifyFailure(response.data);
+                }
             }
         }
+        
 
         const editWindow = document.getElementById('MassWindowBackground');
         editWindow.style.display = "none";
+
+        const checkboxInputs = document.getElementsByClassName('checkbox');
+
+        for(let box of checkboxInputs){
+            box.checked = false;
+        }
     }
 
     // CHECK SEARCH SUBMIT HANDLE
