@@ -107,7 +107,7 @@ export default function ChequeTable(props) {
                         ))}
 
                     <tr style={{ backgroundColor: 'lightgrey' }}>
-                        <td colSpan={4} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>TOTAL CHEQUES</td>
+                        <td colSpan={5} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>TOTAL CHEQUES</td>
                         <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{props.list?.length}</td>
                         <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
                             {props.list
@@ -121,7 +121,7 @@ export default function ChequeTable(props) {
                                 : 0}
                         </td>
                         <td style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>-</td>
-                        <td colSpan={9} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>RESUMO</td>
+                        <td colSpan={19} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>RESUMO</td>
                     </tr>
                 </tbody>
             </table>
