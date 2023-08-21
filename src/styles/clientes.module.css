@@ -1,3 +1,8 @@
+.menuContainer {
+  max-width: 60%;
+  padding-inline: 2rem;
+}
+
 .menuHeader {
   display: flex;
   align-items: center;
@@ -9,38 +14,89 @@
   flex-direction: column;
   gap: 1rem;
   padding-left: 1rem;
+  padding-block: 1.5rem;
 }
 
-.formCtr, .formCtrCenter {
+.formCtrCenter {
   margin-left: 20px;
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 1.25rem;
   flex-wrap: wrap;
 }
 
 .formCtr {
-  
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.formCtrCenter {
-  align-items: center;
+.formCtr input {
+  border-radius: 15px;
+  height: 2rem;
+  padding-left: 1rem;
+  font-size: 1.25rem;
+}
+
+.Icon:hover {
+  transform: scale(1.15);
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
 .name {
   font-size: 1.5rem;
 }
 
+.inputCtr {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .inputCtr input,
 .select,
 .inputCtrMultiple input {
-  border-radius: 5px;
+  border-radius: 15px;
+  padding-left: 0.75rem;
   border-style: none;
-  border: 1px solid var(--black30);
-  height: 20px;
+  border: 0;
+  height: 2rem;
+  background: var(--gray-200);
+  font-size: 1rem;
+}
+
+.inputCtr {
+  width: 200px;
+}
+
+.inputCtr input::placeholder {
+  color: #979797;
 }
 
 .select{
-  max-width: 10rem;
+  max-width: 100%;
+}
+
+.clientForm {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #000;
+  border-radius: 15px;
+}
+
+.clientFormHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 1rem;
+}
+
+.formLine {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 2rem;
 }
 
 .inputCtrBox {
@@ -55,7 +111,7 @@
 }
 
 .nameCtr input {
-  width: 300px;
+  width: 250px;
 }
 
 .button {
@@ -70,12 +126,41 @@
   background-color: var(--buttonGreenHover);
 }
 
-.buttonCtr {
+.buttonCtr{
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 130px;
-  width: 150px;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btnContainer{
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 0;
+  background: var(--green-200);
+  border-radius: 15px;
+  padding: 1rem 2rem;
+}
+
+.fieldset p {
+  color: var(--white);
+  font-size: 2rem;
+}
+
+.fieldset label {
+  color: var(--white);
+  font-size: 1.15rem;
+}
+
+.fieldsWrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 .editButton {
@@ -140,10 +225,6 @@
   z-index: 1;
 }
 
-.fieldset {
-  margin: 10px 0;
-}
-
 #mainLegend {
   font-size: 25px;
 }
@@ -171,11 +252,10 @@
 .editFieldset {
   width: 900px;
   height: 250px;
-  margin: auto;
   background-color: var(--lightGray);
   border-radius: 10px;
   border: 1px solid black;
-  padding: 10px;
+  padding: 1.25rem;
 }
 
 .editFieldset img {
@@ -331,13 +411,4 @@ body.no-scroll {
 
 #addForm{
   display: none;
-}
-
-.nameOnlyBackground{
-  width: 20rem;
-}
-
-.butonCtr{
-  display: flex;
-  gap:1rem;
 }

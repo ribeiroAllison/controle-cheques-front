@@ -1,4 +1,5 @@
-import style from "@/styles/clientes.module.css";
+import styles from "@/styles/ModalCliente.module.css";
+import ButtonAlternative from "./ButtonAlternative";
 
 export default function ModalCadastro(props) {
   // EDIT SCREEN CLOSING HANDLE
@@ -22,58 +23,63 @@ export default function ModalCadastro(props) {
   };
 
   return (
-    <>
-      <div id="editWindowBackground" className={style.editBackground}>
-        <section className={style.editFieldset} id="editWindow">
-          <div className={style.popupHeader}>
-            <h2>Edição de {props.name}</h2>
-            <img src="/images/x-icon.svg" onClick={handleCloseEdit} />
-          </div>
+    <div id="editWindowBackground" className={styles.editBackground}>
+      <section className={styles.editFieldset} id="editWindow">
+        <div className={styles.popupHeader}>
+          <h2>Edição de {props.name}</h2>
+          <img src="/images/x-icon.svg" onClick={handleCloseEdit} />
+        </div>
 
-          <form
-            className={style.formCtr}
-            id={style.editForm}
-            onSubmit={props.submitEdit}
-          >
-            <div
-              className={`${style.inputCtr} ${style.nameCtr}`}
-              id="clienteBox"
-            >
-              <h4>Nome:</h4>
+        <form
+          id="clientEditForm"
+          className={styles.editFormCtr}
+          onSubmit={props.submitEdit}
+        >
+          <div className={styles.formLine}>
+            <div className={styles.formField}>
+              <label htmlFor="">Nome:</label>
               <input
                 type="text"
                 name="nome"
                 onChange={props.handleInputChange}
                 id="editCliente"
                 placeholder="Pesquise o Cliente"
-                className="editInput"
+                className={`${styles.inputField} ${styles.nameField}`}
                 value={props.formValues.nome}
               />
+            </div>
 
-              <h4>Documento</h4>
+            <div className={styles.formField}>
+              <label htmlFor="">Documento:</label>
               <input
                 type="text"
                 onChange={props.handleInputChange}
                 name="doc"
-                className="editInput"
+                className={`${styles.inputField} ${styles.docField}`}
                 id="editDoc"
                 value={props.formValues.doc}
               />
+            </div>
 
-              <h4>Código</h4>
+            <div className={styles.formField}>
+              <label htmlFor="">Código:</label>
               <input
                 type="text"
                 onChange={props.handleInputChange}
                 name="codigo"
-                className="editInput"
+                className={`${styles.inputField} ${styles.codeField}`}
                 value={props.formValues.codigo}
               />
+            </div>
+          </div>
 
-              <h4>Grupo:</h4>
+          <div className={styles.formLine}>
+            <div className={styles.formField}>
+              <label htmlFor="">Grupo:</label>
               <select
                 id="grupo"
                 name="grupo"
-                className={style.select}
+                className={styles.select}
                 onChange={props.handleInputChange}
                 value={props.formValues.grupo}
               >
@@ -92,12 +98,14 @@ export default function ModalCadastro(props) {
                     })
                   : null}
               </select>
+            </div>
 
-              <h4>Vendedor:</h4>
+            <div className={styles.formField}>
+              <label htmlFor="">Vendedor:</label>
               <select
                 id="vendedor"
                 name="vendedor_id"
-                className={style.select}
+                className={styles.select}
                 onChange={props.handleInputChange}
                 value={props.formValues.vendedor_id}
               >
@@ -117,40 +125,11 @@ export default function ModalCadastro(props) {
                   : null}
               </select>
             </div>
-            <div className={`${style.inputCtr} ${style.nameCtr}`}>
-              <h4>Nome do Contato</h4>
-              <input
-                type="text"
-                onChange={props.handleInputChange}
-                name="contato"
-                className="editInput"
-                id="editContato"
-                value={props.formValues.contato}
-              />
 
-              <h4>Telefone do Contato</h4>
-              <input
-                type="text"
-                onChange={props.handleInputChange}
-                name="telefone"
-                className="editInput"
-                id="editTelefone"
-                value={props.formValues.telefone}
-              />
-
-              <h4>Email do Contato</h4>
-              <input
-                type="email"
-                onChange={props.handleInputChange}
-                name="email"
-                className="editInput"
-                id="editEmail"
-                value={props.formValues.email}
-              />
-
-              <h4>Status:</h4>
+            <div className={styles.formField}>
+              <label htmlFor="">Status:</label>
               <select
-                className={style.select}
+                className={styles.select}
                 id="status"
                 name="status"
                 onChange={props.handleInputChange}
@@ -162,15 +141,50 @@ export default function ModalCadastro(props) {
                 <option>Ruim</option>
               </select>
             </div>
-
-            <div className={style.buttonCtr}>
-              <button type="submit" className={style.button} id="editaCheque">
-                Editar
-              </button>
+          </div>
+          <div className={styles.formLine}>
+            <div className={styles.formField}>
+              <label htmlFor="">Nome do Contato</label>
+              <input
+                type="text"
+                onChange={props.handleInputChange}
+                name="contato"
+                className={`${styles.inputField} ${styles.contactField}`}
+                id="editContato"
+                value={props.formValues.contato}
+              />
             </div>
-          </form>
-        </section>
-      </div>
-    </>
+
+            <div className={styles.formField}>
+              <label htmlFor="">Telefone do Contato</label>
+              <input
+                type="text"
+                onChange={props.handleInputChange}
+                name="telefone"
+                className={`${styles.inputField} ${styles.phoneField}`}
+                id="editTelefone"
+                value={props.formValues.telefone}
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="">Email do Contato</label>
+              <input
+                type="email"
+                onChange={props.handleInputChange}
+                name="email"
+                className={`${styles.inputField} ${styles.emailField}`}
+                id="editEmail"
+                value={props.formValues.email}
+              />
+            </div>
+          </div>
+
+          <ButtonAlternative type="submit" id="editaCheque">
+            Editar
+          </ButtonAlternative>
+        </form>
+      </section>
+    </div>
   );
 }

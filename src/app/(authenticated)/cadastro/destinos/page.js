@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
+import ButtonAlternative from "@/components/ButtonAlternative";
 import { Destino } from "@/apiServices/DestinoService";
-import { showAddForm } from "@/utils/utils";
+import { hideAddForm, showAddForm } from "@/utils/utils";
 import clearInputs from "@/utils/clearInputs";
 import ModalName from "@/components/ModalName";
-import style from "@/styles/clientes.module.css";
-import styles from "@/styles/Table.module.css";
+import styles from "@/styles/destino.module.css";
+import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -125,80 +126,106 @@ export default function Destinos() {
 
   return (
     <>
-      <ToastContainer autoClose={2000} />
-      <h3 className={style.name}>Cadastro de Destinos</h3>
-
-      <button
-        className={`${style.button} addMarginLeft`}
-        id="addButton"
-        onClick={showAddForm}
-      >
-        {" "}
-        Cadastrar Novo Destino
-      </button>
-
-      <form className={style.formCtr} id="addForm" onSubmit={createDestination}>
-        <div className={`${style.nameCtr} ${style.inputCtr}`}>
-          <h4>Nome:</h4>
-          <input
-            type="text"
-            name="nome"
-            onChange={handleInputChange}
-            id="nome"
-            required
-            placeholder="Nome de Destinos de Cheques"
-            autoComplete="off"
+      <section className={styles.menuContainer}>
+        <ToastContainer autoClose={2000} />
+        <div className={styles.menuWrapper}>
+          <div className={styles.menuHeader}>
+            <h2 className={styles.name}>Cadastro de Clientes</h2>
+            <ButtonAlternative id="addButton" onClick={showAddForm}>
+              Novo Destino
+            </ButtonAlternative>
+          </div>
+          <SearchFilter
+            name="Destino"
+            list={destinos}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+            param="nome"
+            placeHolder="Procurar destino"
           />
         </div>
 
-        <button className={style.button} id="adicionaCliente" type="submit">
-          Adicionar
-        </button>
-        <button className={style.button} onClick={handleClear} id="limpar">
-          Limpar
-        </button>
-      </form>
+        <form
+          className={styles.destinationForm}
+          id="addForm"
+          onSubmit={createDestination}
+        >
+          <div className={styles.destinationFormHeader}>
+            <h3>Dados do Destino</h3>
+            <ButtonAlternative
+              style={{ backgroundColor: "var(--redTd)" }}
+              onClick={hideAddForm}
+            >
+              Voltar
+            </ButtonAlternative>
+          </div>
 
-      <HeaderLine name="Destinos" />
-      <SearchFilter
-        name="Destino"
-        list={destinos}
-        filteredList={filteredList}
-        setFilteredList={setFilteredList}
-        param="nome"
-      />
-      <div className={styles.tableWrapper}>
-        <table className={styles.table} id={style.smallTable}>
-          <thead>
-            <tr>
-              <th>Destino</th>
-              <th>Editar</th>
-              <th>Excluir</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!filteredList ? (
+          <div className={`${styles.nameCtr} ${styles.inputCtr}`}>
+            <label htmlFor="nome">Nome:</label>
+            <input
+              type="text"
+              name="nome"
+              onChange={handleInputChange}
+              id="nome"
+              className="input"
+              required
+              placeholder="Nome de Destinos de Cheques"
+              autoComplete="off"
+            />
+          </div>
+
+          <div className={styles.btnContainer}>
+            <ButtonAlternative
+              id="adicionaCliente"
+              type="submit"
+              style={{ width: "150px" }}
+            >
+              Adicionar
+            </ButtonAlternative>
+            <ButtonAlternative
+              id="limpar"
+              onClick={handleClear}
+              style={{ width: "150px", backgroundColor: "var(--orangeTd" }}
+            >
+              Limpar
+            </ButtonAlternative>
+          </div>
+        </form>
+
+        <HeaderLine name="Destinos" />
+        <div className={tableStyle.tableWrapper}>
+          <table className={tableStyle.table} id={styles.smallTable}>
+            <thead>
               <tr>
-                <td colSpan={3}>
-                  <img id="loading" src="/images/loading.gif" />
-                </td>
+                <th>Destino</th>
+                <th>Editar</th>
+                <th>Excluir</th>
               </tr>
-            ) : (
-              filteredList.map((destino) => (
-                <tr key={destino.nome} data-cod={destino.id}>
-                  <td id={destino.id}>{destino.nome}</td>
-                  <td onClick={handleEdit}>
-                    <img name={destino.id} src="/images/edit.svg" />
-                  </td>
-                  <td name={destino.nome} onClick={handleDelete}>
-                    <img src="/images/trash-bin.svg" />
+            </thead>
+            <tbody>
+              {!filteredList ? (
+                <tr>
+                  <td colSpan={3}>
+                    <img id="loading" src="/images/loading.gif" />
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                filteredList.map((destino) => (
+                  <tr key={destino.nome} data-cod={destino.id}>
+                    <td id={destino.id}>{destino.nome}</td>
+                    <td onClick={handleEdit}>
+                      <img name={destino.id} src="/images/edit.svg" />
+                    </td>
+                    <td name={destino.nome} onClick={handleDelete}>
+                      <img src="/images/trash-bin.svg" />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
       <ModalName
         name="Destinos"
         submitEdit={handleSubmitEdit}

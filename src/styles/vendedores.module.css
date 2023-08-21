@@ -1,0 +1,55 @@
+.menuContainer {
+  max-width: 60%;
+  padding-inline: 2rem;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.menuWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 1rem;
+  padding-block: 1.5rem;
+}
+
+.salesForm {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #000;
+  border-radius: 15px;
+}
+
+.salesFormHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 1rem;
+}
+
+.inputCtr {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputCtr input {
+  border-radius: 15px;
+  padding-left: 0.75rem;
+  border-style: none;
+  border: 0;
+  height: 2rem;
+  background: var(--gray-200);
+  font-size: 1rem;
+  width: 350px;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
