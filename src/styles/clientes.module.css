@@ -330,3 +330,7 @@ body.no-scroll {
   display: flex;
   gap:1rem;
 }
+
+.marginLeft{
+  margin-left: 20px;
+}

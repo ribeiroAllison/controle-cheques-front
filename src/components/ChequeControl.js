@@ -70,6 +70,7 @@ export default function ChequeControl(props) {
     });
     const [vendedorList, setVendedorList] = useState();
     const [contact, setContact] = useState();
+    const [selected, setSelected] = useState([]);
 
 
     //------------------------------ HANDLING INPUTS -----------------------------------------------------------
@@ -112,8 +113,20 @@ export default function ChequeControl(props) {
     }
 
     // CHECK EDIT HANDLING
-    const handleEdit = (cheque) => {
-        const editWindow = document.getElementById('editWindowBackground');
+
+    const openMassEdit = () =>{
+        const editWindow = document.getElementById('MassWindowBackground');
+        editWindow.style.display = "flex";
+    }
+
+    const closeMassEdit = () =>{
+        const editWindow = document.getElementById('MassWindowBackground');
+        editWindow.style.display = "none";
+    }
+
+
+    const handleEdit = (cheque, param) => {
+        const editWindow = document.getElementById(param);
         editWindow.style.display = "flex";
 
         const id = cheque.id;
@@ -690,6 +703,94 @@ export default function ChequeControl(props) {
                 </section>
             </div>
 
+            
+            {/* MASSIVE EDIT MODAL*/}
+
+            <div id="MassWindowBackground" className={style.editBackground}>
+                <section className={style.editFieldset} id="editWindow">
+                    <div className={style.popupHeader}>
+                        <h2>Edição MASSIVA</h2>
+                        <img src="/images/x-icon.svg" onClick={closeMassEdit} />
+                    </div>
+
+                    <form className={style.formCtr} id={style.editForm}>
+
+                        <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
+
+                            <h4>No. Cheque</h4>
+                            <input type="text" onChange={handleEditInputChange} name="número_cheque" className="editInput" id="editNumCheque" autoComplete="off" />
+
+                            <ClientSearch 
+                            handleInputChange={handleEditInputChange}
+                            searchResult={searchResult}
+                            handleClick={handleEditClick}
+                            id="editCliente"
+                            divId="searchBoxEdit"
+                            
+                        />
+                            <h4>Valor</h4>
+                            <input type="text" onChange={handleEditInputChange} name="valor" className="editInput" id="editValor"  autoComplete="off"/>
+
+                            <h4>Pedido</h4>
+                            <input type="number" onChange={handleEditInputChange} name="pedido" className="editInput" id="editPedido" autoComplete="off"/>
+                        </div>
+
+                        <div className={style.inputCtr}>
+                            <h4>Vencimento</h4>
+                            <input type="date" onChange={handleEditInputChange} name="data_venc" className="editInput" id="editDataVenc" />
+
+                            <h4>Destino</h4>
+                            <select name="destino_id" onChange={handleEditInputChange}  className={`${style.select} editInput`} id="editDestino">
+                                <option key="0"></option>
+                                {
+                                    destinoList?.map(destino => <option key={`destinoList-${destino.id}`} value={destino.id}>{destino.nome}</option>)
+                                }
+                            </select>
+
+                            <h4>Vendedor</h4>
+                            <select name="vendedor_id" onChange={handleEditInputChange} className={`${style.select} editInput`} id="editVendedor">
+                                <option key="0"></option>
+                                {
+                                    vendedorList?.map(seller => <option key={`vendedorList-${seller.id}`} value={seller.id}>{seller.nome}</option>)
+                                }
+                            </select>
+
+                            <h4>Data Entrega:</h4>
+                            <input type="date" name="data_destino" onChange={handleEditInputChange} className="input" />
+                        </div>
+
+                        <div className={style.statusCtr}>
+                            <fieldset className={style.formCtr}>
+                                <legend>Status</legend>
+                                <div className={style.inputCtr} >
+                                    <h4>Compensação:</h4>
+                                    <input type="date" name="data_compen" onChange={handleEditInputChange} id="data_compen" className="input" />
+                                </div>
+
+                                <div className={style.inputCtr} >
+                                    <h4>Linha:</h4>
+                                    <select className={`${style.select} input`} name="linha" id="editLinha" onChange={handleEditInputChange}>
+                                        <option></option>
+                                        {
+                                            linhas.map(linha => <option value={linha} key={linha}>{linha}</option>)
+                                        }
+                                    </select>
+                                </div>
+                            </fieldset>
+
+                            <div className={style.inputCtr} id={style.editObs}>
+                                <h4>Observação:</h4>
+                                <textarea id="editObsTextarea" onChange={handleEditInputChange} name="obs"></textarea>
+                            </div>
+                        </div>
+
+                        <div className={style.buttonCtr}>
+                            <button type="submit" className={style.button} id="editaCheque" onClick={handleEditSubmit}>Salvar</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
             {
                 !props.submitOnMount &&
                 <ChequeTable
@@ -699,6 +800,9 @@ export default function ChequeControl(props) {
                     handleOpenObs={handleOpenObs}
                     handleContactClick={handleContactClick}
                     clientList={clientList}
+                    selected={selected}
+                    setSelected={setSelected}
+                    openMassEdit={openMassEdit}
                 />
             }
 
@@ -713,6 +817,8 @@ export default function ChequeControl(props) {
                         handleOpenObs={handleOpenObs}
                         handleContactClick={handleContactClick}
                         clientList={clientList}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
 
                     <HeaderLine name="Sem Destino" />
@@ -723,6 +829,8 @@ export default function ChequeControl(props) {
                         handleOpenObs={handleOpenObs}
                         handleContactClick={handleContactClick}
                         clientList={clientList}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
 
                     <HeaderLine name="A Vencer" />
@@ -733,6 +841,8 @@ export default function ChequeControl(props) {
                         handleOpenObs={handleOpenObs}
                         handleContactClick={handleContactClick}
                         clientList={clientList}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
                 </>
             }
