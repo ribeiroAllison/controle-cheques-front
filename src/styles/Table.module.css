@@ -7,20 +7,20 @@
 
 .table {
   margin: 25px;
-  font-size: 0.875rem;
+  font-size: 1rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border-spacing: 0;
   border-collapse: collapse;
   border-style: hidden;
   border-radius: 15px;
   white-space:nowrap;
+  text-align: center;
 
   width:100%;
   overflow: hidden;
 }
 
 .table thead{
-  text-align: left;
   position: sticky;
 }
 
@@ -29,12 +29,13 @@
   padding: 12px 10px;
   overflow-wrap: break-word;
   text-wrap: no-wrap;
+
 }
 
 .table thead tr,
 .table thead th {
   background-color: var(--gray-100);
-  color: #ffffff;
+  color: var(--white);
 }
 
 .table tbody tr {
@@ -45,11 +46,15 @@
   background-color: #f3f3f3;
 }
 
-.table img {
-  height: 22px;
+.table .Icon:hover {
+  cursor: pointer;
+  transform: scale(1.25);
+  transition: all 0.2s;
 }
 
-.table img:hover {
-  cursor: pointer;
-  opacity: 50%;
+.finalRow td {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--white);
+  background-color: var(--black-100);
 }

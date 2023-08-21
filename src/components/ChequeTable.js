@@ -5,6 +5,7 @@ import {
   transformDate,
 } from "@/utils/utils";
 import styles from "@/styles/Table.module.css";
+import { ChatCircleDots, IdentificationCard, PencilLine, Trash } from "@phosphor-icons/react";
 
 export default function ChequeTable(props) {
   const assignClassStyle = (cheque) => {
@@ -156,8 +157,10 @@ export default function ChequeTable(props) {
                 className={assignClassStyle(cheque)}
               >
                 {cheque.obs && (
-                  <img
-                    src="/images/message.svg"
+                  <ChatCircleDots
+                    className={styles.Icon}
+                    size={32}
+                    color="white"
                     onClick={() => props.handleOpenObs(cheque)}
                   />
                 )}
@@ -167,38 +170,36 @@ export default function ChequeTable(props) {
                 id={`contato${cheque.id}`}
                 className={assignClassStyle(cheque)}
               >
-                {
-                  <img
-                    src="/images/contact.svg"
-                    onClick={() => props.handleContactClick(cheque)}
-                  />
-                }
+                <IdentificationCard
+                  className={styles.Icon}
+                  size={32}
+                  color="white"
+                  onClick={() => props.handleContactClick(cheque)}
+                />
               </td>
               <td name={cheque.id} className={assignClassStyle(cheque)}>
-                {" "}
-                <img
-                  src="/images/edit.svg"
+                <PencilLine
+                  className={styles.Icon}
+                  size={32}
+                  color="white"
                   onClick={() => props.handleEdit(cheque)}
                 />
               </td>
               <td name={cheque.id} className={assignClassStyle(cheque)}>
-                {" "}
-                <img
-                  src="/images/trash-bin.svg"
+                <Trash
+                  className={styles.Icon}
+                  size={32}
+                  color="white"
                   onClick={() => props.handleDelete(cheque.id)}
                 />
               </td>
             </tr>
           ))}
 
-          <tr style={{ backgroundColor: "lightgrey" }}>
-            <td colSpan={4} style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-              TOTAL CHEQUES
-            </td>
-            <td style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-              {props.list?.length}
-            </td>
-            <td style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+          <tr className={styles.finalRow}>
+            <td colSpan={4}>TOTAL CHEQUES</td>
+            <td>{props.list?.length}</td>
+            <td>
               {props.list
                 ? props.list
                     .reduce((acc, item) => {
@@ -211,10 +212,8 @@ export default function ChequeTable(props) {
                     })
                 : 0}
             </td>
-            <td style={{ fontWeight: "bold", fontSize: "1.2rem" }}>-</td>
-            <td colSpan={9} style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-              RESUMO
-            </td>
+            <td>-</td>
+            <td colSpan={9}>RESUMO</td>
           </tr>
         </tbody>
       </table>

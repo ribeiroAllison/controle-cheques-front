@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
+import Button from "@/components/Button";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -269,17 +270,21 @@ export default function Clientes() {
     <>
       <ToastContainer autoClose={2000} />
       <section>
-        <h3 className={style.name}>Cadastro de Clientes</h3>
-
-        <button
-          className={`${style.button} addMarginLeft`}
-          id="addButton"
-          onClick={showAddForm}
-        >
-          {" "}
-          Cadastrar Novo Cliente
-        </button>
-
+        <div className={style.menuWrapper}>
+          <div className={style.menuHeader}>
+            <h3 className={style.name}>Cadastro de Clientes</h3>
+            <Button id="addButton" onClick={showAddForm}>
+              Novo Cliente
+            </Button>
+          </div>
+          <SearchFilter
+            name="Cliente"
+            list={clientList}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+            param="cliente"
+          />
+        </div>
         <form className={style.formCtr} onSubmit={createNewClient} id="addForm">
           <div className={style.inputCtr}>
             <h4>Código:</h4>
@@ -425,13 +430,6 @@ export default function Clientes() {
         </form>
       </section>
       <HeaderLine name="Clientes" />
-      <SearchFilter
-        name="Cliente"
-        list={clientList}
-        filteredList={filteredList}
-        setFilteredList={setFilteredList}
-        param="cliente"
-      />
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
           <thead>
