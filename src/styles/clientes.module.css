@@ -58,7 +58,7 @@
 .select,
 .inputCtrMultiple input {
   border-radius: 15px;
-  padding-left: 0.75rem;
+  padding-inline: 0.75rem;
   border-style: none;
   border: 0;
   height: 2rem;
@@ -182,9 +182,8 @@
 }
 
 .searchBox option {
-  width: 283px;
+  width: 250px;
   position: relative;
-  z-index: 150;
   background-color: var(--white);
 }
 
@@ -196,6 +195,7 @@
 .searchBox select {
   background-color: var(--white);
   z-index: 100;
+  width: 260px;
 }
 
 #clienteSelect {
@@ -205,11 +205,6 @@
 
 #clienteSelect option {
   color: var(--black30);
-}
-
-.obs textarea {
-  width: 190px;
-  height: 100px;
 }
 
 .filterCtr {
@@ -261,9 +256,6 @@
 .editFieldset img {
   width: 15px;
   z-index: 300;
-  /* position: relative;
-    left: 890px;
-    top:-10px; */
 }
 
 #obsBackground,
@@ -333,10 +325,6 @@
   gap: 10px;
 }
 
-body.no-scroll {
-  overflow: hidden;
-}
-
 .statusCtr {
   display: flex;
   flex-direction: column;
@@ -345,11 +333,6 @@ body.no-scroll {
 
 .statusCtr .formCtr {
   margin: 0;
-}
-
-#editObs textarea {
-  width: 230px;
-  height: 70px;
 }
 
 .vencTrue {
@@ -377,36 +360,6 @@ body.no-scroll {
 
 .withDestino {
   background-color: var(--yellowTd);
-}
-
-.paymentStatus {
-  margin-top: -19px;
-}
-
-.date {
-  gap: 4px;
-}
-
-.vencimento,
-.paymentStatus {
-  margin-top: -20px;
-}
-
-.linha {
-  gap: 5px;
-}
-
-.searchBoxCtr {
-  height: 50px;
-  margin-left: 20px;
-}
-
-#editWindowBackground {
-  z-index: 600;
-}
-
-.formVarQtd {
-  margin-top: 30px;
 }
 
 #addForm{

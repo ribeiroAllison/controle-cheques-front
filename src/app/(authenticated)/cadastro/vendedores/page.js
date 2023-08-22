@@ -137,6 +137,7 @@ export default function Vendedores() {
             filteredList={filteredList}
             setFilteredList={setFilteredList}
             param="nome"
+            placeHolder="Buscar Vendedor"
           />
         </div>
 

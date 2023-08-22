@@ -25,7 +25,7 @@ export default function ClientSearchBox(props) {
 
     return (
         <>
-            <div className={`${style.inputCtr} ${style.nameCtr}`} id="clienteBox" >
+            <div className={`${style.inputCtr}`} id="clienteBox" >
                 <h4>Cliente:</h4>
                 <input type="text"
                     name="cliente"

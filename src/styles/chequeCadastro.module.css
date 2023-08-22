@@ -1,0 +1,108 @@
+.checkForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  padding-bottom: 1rem;
+}
+
+.formLine {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.formField label,
+.formLine label {
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+}
+
+.checkMultiplerWrapper {
+  display: flex;
+  gap: 2rem;
+  padding-block: 1.5rem;
+}
+
+.inputCtr {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputCtr input::placeholder {
+  color: #979797;
+}
+
+.inputCtrMultiple {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formField input,
+.inputCtr input,
+.inputCtrMultiple input,
+.multipleField input {
+  border-radius: 15px;
+  padding-inline: 0.75rem;
+  border-style: none;
+  border: 0;
+  height: 2rem;
+  background: var(--gray-200);
+  font-size: 1rem;
+}
+
+.select {
+    border: 0;
+    background: var(--gray-200);
+    border-radius: 15px;
+    height: 2rem;
+    padding-left: 1rem;
+    font-size: 1rem;
+}
+
+.salesDataWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+
+  background: var(--green-200);
+  padding: 2rem;
+  border-radius: 15px;
+}
+
+.salesDataWrapper input,
+.salesDataWrapper textarea,
+.salesDataWrapper select  {
+  background: var(--white);
+}
+
+.inputCtr textarea {
+  border-radius: 15px;
+  padding-left: 0.75rem;
+  padding-top: 0.5rem;
+  border-style: none;
+  border: 0;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+
+  width: 450px;
+  height: 150px;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  padding-top: 2rem;
+}
