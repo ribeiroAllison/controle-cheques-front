@@ -827,6 +827,7 @@ export default function ChequeControl(props) {
                     openMassEdit={openMassEdit}
                     allCheques = {allCheques}
                     selectedSum={selectedSum}
+                    submitOnMount={props.submitOnMount}
                 />
             }
 
@@ -843,6 +844,7 @@ export default function ChequeControl(props) {
                         clientList={clientList}
                         selected={selected}
                         setSelected={setSelected}
+                        submitOnMount={props.submitOnMount}
                     />
 
                     <HeaderLine name="Sem Destino" />
@@ -855,6 +857,7 @@ export default function ChequeControl(props) {
                         clientList={clientList}
                         selected={selected}
                         setSelected={setSelected}
+                        submitOnMount={props.submitOnMount}
                     />
 
                     <HeaderLine name="A Vencer" />
@@ -867,6 +870,7 @@ export default function ChequeControl(props) {
                         clientList={clientList}
                         selected={selected}
                         setSelected={setSelected}
+                        submitOnMount={props.submitOnMount}
                     />
                 </>
             }
