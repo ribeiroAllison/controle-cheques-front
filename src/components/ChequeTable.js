@@ -38,17 +38,36 @@ export default function ChequeTable(props) {
     }
 }
 
+const sumSelected = () =>{
+  const selectedChecks = props.allCheques?.filter(cheque => props.selected.includes(cheque.id.toString()));
+  console.log(selectedChecks)
+  let sum = 0;
+  if(selectedChecks){
+      for(const check of selectedChecks){
+      sum += Number(check.valor.replace('$', '').replace(',', ''))
+  }
+  }
+  
+
+  setSelectedSum(sum)
+}
+
+useEffect(() =>{
+  sumSelected()
+}, [props.selected])
+
 return (
-  <div className={styles.tableWrapper}>
+  <>
     {
       props.selected?.length > 0 && 
       <div className={style.massEditCtr}>
           <button className={`${style.button}`} onClick={props.openMassEdit}>Edição Em Massa</button>
           <h4>Valor Selecionado:</h4>
           <h4>{selectedSum.toLocaleString('pt-BR', {style:'currency', currency: 'BRL'})}</h4>
-      </div>
-                
+      </div>    
       }
+
+<div className={styles.tableWrapper}>
     <table className={styles.table}>
       <thead>
         <tr>
@@ -235,5 +254,8 @@ return (
       </tbody>
     </table>
   </div>
+
+  </>
+  
 );
 }
