@@ -26,9 +26,8 @@
 .table th,
 .table td {
   padding: 8px 5px;
-  overflow-wrap: break-word;
-
-
+  overflow-wrap: wrap;
+  text-wrap: wrap;
 }
 
 .table thead tr,
