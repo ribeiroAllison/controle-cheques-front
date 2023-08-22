@@ -6,7 +6,7 @@ import {
 } from "@/utils/utils";
 import styles from "@/styles/Table.module.css";
 import { ChatCircleDots, IdentificationCard, PencilLine, Trash } from "@phosphor-icons/react";
-import {useState, useEffect} from "react";
+
 
 export default function ChequeTable(props) {
 
@@ -53,7 +53,7 @@ return (
       <thead>
         <tr>
           <th></th>
-          <th>Cod. Cliente</th>
+          <th>Cod.</th>
           <th>Cliente</th>
           <th>Grupo</th>
           <th>No. Cheque</th>
