@@ -70,6 +70,8 @@ export default function ChequeControl(props) {
     });
     const [vendedorList, setVendedorList] = useState();
     const [contact, setContact] = useState();
+    const [selected, setSelected] = useState([]);
+    const [selectedSum, setSelectedSum] = useState(0);
 
 
     //------------------------------ HANDLING INPUTS -----------------------------------------------------------
@@ -86,6 +88,7 @@ export default function ChequeControl(props) {
         const { name, value } = e.target;
         setEditFormValues({ ...editFormValues, [name]: value });
     };
+
 
 
     //------------------------------ CHEQUES FUNCTIONS -----------------------------------------------------------
@@ -112,8 +115,20 @@ export default function ChequeControl(props) {
     }
 
     // CHECK EDIT HANDLING
-    const handleEdit = (cheque) => {
-        const editWindow = document.getElementById('editWindowBackground');
+
+    const openMassEdit = () =>{
+        const editWindow = document.getElementById('MassWindowBackground');
+        editWindow.style.display = "flex";
+    }
+
+    const closeMassEdit = () =>{
+        const editWindow = document.getElementById('MassWindowBackground');
+        editWindow.style.display = "none";
+    }
+
+
+    const handleEdit = (cheque, param) => {
+        const editWindow = document.getElementById(param);
         editWindow.style.display = "flex";
 
         const id = cheque.id;
@@ -218,6 +233,54 @@ export default function ChequeControl(props) {
         } else {
             notifyFailure(response.data);
         }
+    }
+
+    // SUBMIT MULTIPLE EDITS
+    const hadleEditMassive = async (e) => {
+        e.preventDefault();
+
+        const form ={}
+        const makeForm =() =>{
+            if(editFormValues.destino_id){
+                form.destino_id = editFormValues.destino_id
+            };
+
+            if(editFormValues.data_destino){
+                form.data_destino = editFormValues.data_destino;
+            };
+
+            if(editFormValues.obs){
+                form.obs = editFormValues.obs
+            }
+        }
+    
+        makeForm();
+
+        if(form.destino_id || form.data_destino || form.obs){
+            for(let id of selected){
+                const response = await Cheques.editMassCheck(form, id)
+                if (response && response.status === 200) {
+                    props.submitOnMount ? refreshTables() : refreshSearch();
+                    clearInputs('editInput');
+                    document.getElementById('massEditObs').value = "";
+                    notifySuccess(response.data);
+                } else {
+                    notifyFailure(response.data);
+                }
+            }
+        }
+        
+
+        const editWindow = document.getElementById('MassWindowBackground');
+        editWindow.style.display = "none";
+
+        const checkboxInputs = document.getElementsByClassName('checkbox');
+
+        for(let box of checkboxInputs){
+            box.checked = false;
+        }
+
+        setSelectedSum(0)
     }
 
     // CHECK SEARCH SUBMIT HANDLE
@@ -350,6 +413,11 @@ export default function ChequeControl(props) {
         findClient(editFormValues, "searchBoxEdit", 'clienteEdit')
     }, [editFormValues.cliente])
 
+    //SUM SELECTED CHECKS
+    useEffect(() =>{
+        sumSelected()
+    }, [selected])
+
     //------------------------------ OTHER TABLES FUNCTIONS  ----------------------------------------------------------------
 
     // DESTINO FUNCTIONS
@@ -450,6 +518,19 @@ export default function ChequeControl(props) {
         getEstornos();
         getSemDestino();
         getAVencer();
+    }
+
+    //SUM THE VALUE OF SELECTED CHECKS
+    const sumSelected = () =>{
+        const selectedChecks = allCheques?.filter(cheque => selected.includes(cheque.id.toString()));
+        let sum = 0;
+        if(selectedChecks){
+            for(const check of selectedChecks){
+            sum += Number(check.valor.replace('$', '').replace(',', ''))
+        }
+        }
+        
+        setSelectedSum(sum)
     }
 
 
@@ -690,6 +771,48 @@ export default function ChequeControl(props) {
                 </section>
             </div>
 
+            
+            {/* MASSIVE EDIT MODAL*/}
+
+            <div id="MassWindowBackground" className={style.editBackground}>
+                <section className={style.editFieldset} id="editWindow">
+                    <div className={style.popupHeader}>
+                        <h2>Edição MASSIVA</h2>
+                        <img src="/images/x-icon.svg" onClick={closeMassEdit} />
+                    </div>
+
+                    <form className={style.formCtr} id={style.editForm}>
+
+                        
+
+                        <div className={style.inputCtr}>
+                            
+                            <h4>Destino</h4>
+                            <select name="destino_id" onChange={handleEditInputChange}  className={`${style.select} editInput`} id="massDestino">
+                                <option key="0"></option>
+                                {
+                                    destinoList?.map(destino => <option key={`destinoList-${destino.id}`} value={destino.id}>{destino.nome}</option>)
+                                }
+                            </select>
+
+                            <h4>Data Entrega:</h4>
+                            <input type="date" name="data_destino" onChange={handleEditInputChange} className="editInput" id="massDelivery"/>
+                        </div>
+
+                        <div className={style.statusCtr}>
+                            <div className={style.inputCtr} id={style.editObs}>
+                                <h4>Observação:</h4>
+                                <textarea id="massEditObs" onChange={handleEditInputChange} name="obs" className="ediInput"></textarea>
+                            </div>
+                        </div>
+
+                        <div className={style.buttonCtr}>
+                            <button  className={style.button} onClick={hadleEditMassive}>Salvar</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
             {
                 !props.submitOnMount &&
                 <ChequeTable
@@ -699,6 +822,11 @@ export default function ChequeControl(props) {
                     handleOpenObs={handleOpenObs}
                     handleContactClick={handleContactClick}
                     clientList={clientList}
+                    selected={selected}
+                    setSelected={setSelected}
+                    openMassEdit={openMassEdit}
+                    allCheques = {allCheques}
+                    selectedSum={selectedSum}
                 />
             }
 
@@ -713,6 +841,8 @@ export default function ChequeControl(props) {
                         handleOpenObs={handleOpenObs}
                         handleContactClick={handleContactClick}
                         clientList={clientList}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
 
                     <HeaderLine name="Sem Destino" />
@@ -723,6 +853,8 @@ export default function ChequeControl(props) {
                         handleOpenObs={handleOpenObs}
                         handleContactClick={handleContactClick}
                         clientList={clientList}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
 
                     <HeaderLine name="A Vencer" />
@@ -733,6 +865,8 @@ export default function ChequeControl(props) {
                         handleOpenObs={handleOpenObs}
                         handleContactClick={handleContactClick}
                         clientList={clientList}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
                 </>
             }

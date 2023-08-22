@@ -15,8 +15,7 @@
   border-radius: 15px;
   white-space: nowrap;
   text-align: center;
-
-  width: 90%;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -26,10 +25,10 @@
 
 .table th,
 .table td {
-  padding: 12px 10px;
+  padding: 8px 5px;
   overflow-wrap: break-word;
-  text-wrap: no-wrap;
-  max-width: 18rem;
+  text-wrap: wrap;
+
 }
 
 .table thead tr,

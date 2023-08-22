@@ -365,3 +365,10 @@
 #addForm{
   display: none;
 }
+
+.massEditCtr{
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap:1rem;
+}
