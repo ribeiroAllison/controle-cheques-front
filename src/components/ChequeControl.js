@@ -71,6 +71,7 @@ export default function ChequeControl(props) {
     const [vendedorList, setVendedorList] = useState();
     const [contact, setContact] = useState();
     const [selected, setSelected] = useState([]);
+    const [selectedSum, setSelectedSum] = useState(0);
 
 
     //------------------------------ HANDLING INPUTS -----------------------------------------------------------
@@ -87,6 +88,7 @@ export default function ChequeControl(props) {
         const { name, value } = e.target;
         setEditFormValues({ ...editFormValues, [name]: value });
     };
+
 
 
     //------------------------------ CHEQUES FUNCTIONS -----------------------------------------------------------
@@ -277,6 +279,8 @@ export default function ChequeControl(props) {
         for(let box of checkboxInputs){
             box.checked = false;
         }
+
+        setSelectedSum(0)
     }
 
     // CHECK SEARCH SUBMIT HANDLE
@@ -409,6 +413,11 @@ export default function ChequeControl(props) {
         findClient(editFormValues, "searchBoxEdit", 'clienteEdit')
     }, [editFormValues.cliente])
 
+    //SUM SELECTED CHECKS
+    useEffect(() =>{
+        sumSelected()
+    }, [selected])
+
     //------------------------------ OTHER TABLES FUNCTIONS  ----------------------------------------------------------------
 
     // DESTINO FUNCTIONS
@@ -509,6 +518,19 @@ export default function ChequeControl(props) {
         getEstornos();
         getSemDestino();
         getAVencer();
+    }
+
+    //SUM THE VALUE OF SELECTED CHECKS
+    const sumSelected = () =>{
+        const selectedChecks = allCheques?.filter(cheque => selected.includes(cheque.id.toString()));
+        let sum = 0;
+        if(selectedChecks){
+            for(const check of selectedChecks){
+            sum += Number(check.valor.replace('$', '').replace(',', ''))
+        }
+        }
+        
+        setSelectedSum(sum)
     }
 
 
@@ -804,6 +826,7 @@ export default function ChequeControl(props) {
                     setSelected={setSelected}
                     openMassEdit={openMassEdit}
                     allCheques = {allCheques}
+                    selectedSum={selectedSum}
                 />
             }
 

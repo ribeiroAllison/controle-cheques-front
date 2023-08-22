@@ -9,7 +9,6 @@ import { ChatCircleDots, IdentificationCard, PencilLine, Trash } from "@phosphor
 import {useState, useEffect} from "react";
 
 export default function ChequeTable(props) {
-  const [selectedSum, setSelectedSum] = useState(0);
 
   const assignClassStyle = (cheque) => {
     if (
@@ -36,34 +35,16 @@ export default function ChequeTable(props) {
         const filtered = props.selected.filter(element => element !== id)
         props.setSelected(filtered)
     }
-}
-
-const sumSelected = () =>{
-  const selectedChecks = props.allCheques?.filter(cheque => props.selected.includes(cheque.id.toString()));
-  console.log(selectedChecks)
-  let sum = 0;
-  if(selectedChecks){
-      for(const check of selectedChecks){
-      sum += Number(check.valor.replace('$', '').replace(',', ''))
   }
-  }
-  
-
-  setSelectedSum(sum)
-}
-
-useEffect(() =>{
-  sumSelected()
-}, [props.selected])
 
 return (
   <>
     {
-      props.selected?.length > 0 && 
+      props.selectedSum > 0 && 
       <div className={style.massEditCtr}>
           <button className={`${style.button}`} onClick={props.openMassEdit}>Edição Em Massa</button>
           <h4>Valor Selecionado:</h4>
-          <h4>{selectedSum.toLocaleString('pt-BR', {style:'currency', currency: 'BRL'})}</h4>
+          <h4>{props.selectedSum.toLocaleString('pt-BR', {style:'currency', currency: 'BRL'})}</h4>
       </div>    
       }
 
@@ -218,7 +199,7 @@ return (
                 className={styles.Icon}
                 size={32}
                 color="white"
-                onClick={() => props.handleEdit(cheque)}
+                onClick={() => props.handleEdit(cheque, 'editWindowBackground')}
               />
             </td>
             <td name={cheque.id} className={assignClassStyle(cheque)}>
@@ -233,7 +214,7 @@ return (
         ))}
 
         <tr className={styles.finalRow}>
-          <td colSpan={4}>TOTAL CHEQUES</td>
+          <td colSpan={5}>TOTAL CHEQUES</td>
           <td>{props.list?.length}</td>
           <td>
             {props.list
