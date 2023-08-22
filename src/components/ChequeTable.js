@@ -52,7 +52,7 @@ return (
     <table className={styles.table}>
       <thead>
         <tr>
-          <th></th>
+          {!props.submitOnMount && <th></th>}
           <th>Cod.</th>
           <th>Cliente</th>
           <th>Grupo</th>
@@ -78,12 +78,13 @@ return (
             id={`row${cheque.id}`}
             className="chequeRow"
           >
+            {!props.submitOnMount &&
             <td  
               className={assignClassStyle(cheque)} 
               onChange={handleCheckboxChange}
             >
               <input type="checkbox" name={cheque.id} className="checkbox"/>
-            </td>
+            </td>}
             <td
               name={cheque.id}
               id={`codCli${cheque.id}`}
