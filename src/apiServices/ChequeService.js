@@ -123,6 +123,18 @@ export class Cheques {
         }
     }
 
+    //DINAMIC MASSIVE EDIT
+
+    static async editMassCheck(form, chequeId) {
+        form.id = chequeId;
+        try {
+            const response = await connection.put('/cheques/mass',form);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
+
     // DELETE A CHECK IN DB
     static async deleteCheck(chequeId) {
         try {
