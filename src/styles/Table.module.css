@@ -13,7 +13,7 @@
   border-collapse: collapse;
   border-style: hidden;
   border-radius: 15px;
-  white-space: nowrap;
+  white-space: wrap;
   text-align: center;
   width: 100%;
   overflow: hidden;
@@ -27,7 +27,6 @@
 .table td {
   padding: 8px 5px;
   overflow-wrap: wrap;
-  text-wrap: wrap;
 }
 
 .table thead tr,

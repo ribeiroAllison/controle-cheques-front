@@ -215,7 +215,7 @@ return (
         ))}
 
         <tr className={styles.finalRow}>
-          <td colSpan={5}>TOTAL CHEQUES</td>
+          {props.submitOnMount ? <td colSpan={4}>TOTAL CHEQUES</td> : <td colSpan={5}>TOTAL CHEQUES</td>}
           <td>{props.list?.length}</td>
           <td>
             {props.list
