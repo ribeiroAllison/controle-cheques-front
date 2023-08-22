@@ -130,7 +130,7 @@ export default function Destinos() {
         <ToastContainer autoClose={2000} />
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
-            <h2 className={styles.name}>Cadastro de Clientes</h2>
+            <h2 className={styles.name}>Cadastro de Destinos</h2>
             <ButtonAlternative id="addButton" onClick={showAddForm}>
               Novo Destino
             </ButtonAlternative>
@@ -151,7 +151,7 @@ export default function Destinos() {
           onSubmit={createDestination}
         >
           <div className={styles.destinationFormHeader}>
-            <h3>Dados do Destino</h3>
+            <span>Dados do Destino</span>
             <ButtonAlternative
               style={{ backgroundColor: "var(--redTd)" }}
               onClick={hideAddForm}
@@ -160,7 +160,7 @@ export default function Destinos() {
             </ButtonAlternative>
           </div>
 
-          <div className={`${styles.nameCtr} ${styles.inputCtr}`}>
+          <div className={`${styles.inputCtr}`}>
             <label htmlFor="nome">Nome:</label>
             <input
               type="text"
@@ -178,14 +178,13 @@ export default function Destinos() {
             <ButtonAlternative
               id="adicionaCliente"
               type="submit"
-              style={{ width: "150px" }}
             >
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative
               id="limpar"
               onClick={handleClear}
-              style={{ width: "150px", backgroundColor: "var(--orangeTd" }}
+              style={{ backgroundColor: "var(--orangeTd" }}
             >
               Limpar
             </ButtonAlternative>

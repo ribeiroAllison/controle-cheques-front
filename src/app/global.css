@@ -61,10 +61,6 @@ body {
   color: aliceblue;
 }
 
-Button a {
-  color: var(--white);
-}
-
 a:hover {
   color: var(--labelGray);
 }

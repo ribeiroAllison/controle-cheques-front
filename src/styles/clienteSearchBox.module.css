@@ -1,0 +1,63 @@
+
+
+.inputCtr {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputCtr label{
+
+}
+
+.inputCtr input,
+.select,
+.inputCtrMultiple input {
+  border-radius: 15px;
+  padding-inline: 0.75rem;
+  border-style: none;
+  border: 0;
+  height: 2rem;
+  background: var(--gray-200);
+  font-size: 1rem;
+}
+
+.searchBox {
+  display: none;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.searchBox option {
+  width: 14rem;
+  position: relative;
+  background-color: var(--white);
+}
+
+.searchBox option:hover {
+  background-color: var(--optionGreen);
+  cursor: pointer;
+}
+
+.searchBox select {
+  background-color: var(--white);
+  z-index: 100;
+  width: 14rem;
+}
+
+#clienteSelect {
+  margin-top: 3.5rem;
+  width: 14rem;
+  border-radius: 15px;
+  padding-inline: 0.75rem;
+  border-style: none;
+  border: 0;
+  background: var(--gray-200);
+  font-size: 1rem;
+  overflow-x: hidden;
+}
+
+#clienteSelect option {
+  color: var(--black30);
+  background: var(--gray-200);
+  padding-left: 0.75rem;
+}

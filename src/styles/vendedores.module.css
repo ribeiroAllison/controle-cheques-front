@@ -1,10 +1,10 @@
 .menuContainer {
-  max-width: 60%;
   padding-inline: 2rem;
 }
 
 .menuHeader {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 2rem;
 }
@@ -21,14 +21,21 @@
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid #000;
   border-radius: 15px;
+  max-width: 800px;
+  gap: 2rem;
 }
 
 .salesFormHeader {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding-block: 1rem;
+}
+
+.salesFormHeader span {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .inputCtr {
@@ -45,11 +52,37 @@
   height: 2rem;
   background: var(--gray-200);
   font-size: 1rem;
-  width: 350px;
+  min-width: 250px;
+  max-width: 400px;
 }
 
 .btnContainer {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
-  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+
+  .salesForm{
+    align-items: center;
+    padding-inline: 0.5rem;
+  }
+
+  .salesFormHeader {
+    justify-content: center;
+  }
+
+  .btnContainer {
+    justify-content: center;
+  }
+
+  .menuContainer {
+    padding-inline: 0.5rem;
+  }
+
+  .salesFormHeader span {
+    font-size: 1.75rem;
+  }
 }
