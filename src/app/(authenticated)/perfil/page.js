@@ -6,7 +6,7 @@ import Input from "@/components/Input";
 import User from "@/apiServices/UserService";
 import decode from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import styles from "@/styles/perfil.module.css";
 
 const Perfil = () => {

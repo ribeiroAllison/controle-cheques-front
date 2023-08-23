@@ -11,7 +11,7 @@ import ModalName from "@/components/ModalName";
 import styles from "@/styles/destino.module.css";
 import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 export default function Destinos() {
   const notifySuccess = (msg) => toast.success(msg);

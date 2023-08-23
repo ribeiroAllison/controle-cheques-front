@@ -1,63 +1,42 @@
-
-
 .inputCtr {
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
-.inputCtr label{
-
-}
-
-.inputCtr input,
-.select,
-.inputCtrMultiple input {
+.inputCtr input {
   border-radius: 15px;
-  padding-inline: 0.75rem;
   border-style: none;
   border: 0;
   height: 2rem;
-  background: var(--gray-200);
   font-size: 1rem;
+  padding-inline: 0.75rem;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .searchBox {
   display: none;
   position: absolute;
-  overflow-y: auto;
+  width: 100%;
 }
 
-.searchBox option {
-  width: 14rem;
-  position: relative;
-  background-color: var(--white);
+.customSelect {
+  width: 100%;
+  max-height: 150px;
+  background-color: var(--gray-200);
+  border-radius: 15px;
+  overflow: auto;
 }
 
-.searchBox option:hover {
+.customOption {
+  padding: 10px;
+  transition: background-color 0.2s;
+}
+
+.customOption:hover {
   background-color: var(--optionGreen);
   cursor: pointer;
-}
-
-.searchBox select {
-  background-color: var(--white);
-  z-index: 100;
-  width: 14rem;
-}
-
-#clienteSelect {
-  margin-top: 3.5rem;
-  width: 14rem;
-  border-radius: 15px;
-  padding-inline: 0.75rem;
-  border-style: none;
-  border: 0;
-  background: var(--gray-200);
-  font-size: 1rem;
-  overflow-x: hidden;
-}
-
-#clienteSelect option {
-  color: var(--black30);
-  background: var(--gray-200);
-  padding-left: 0.75rem;
 }

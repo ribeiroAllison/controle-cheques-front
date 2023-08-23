@@ -5,14 +5,12 @@ import ClientSearchBox from "@/components/ClientSearchBox";
 import ButtonAlternative from "@/components/ButtonAlternative";
 import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
-import { Destino } from "@/apiServices/DestinoService";
 import { baseURL } from "@/utils/url";
-import { linhas, clearInputs, getKeyByValue } from "@/utils/utils";
+import { clearInputs, getKeyByValue } from "@/utils/utils";
 import { getCookie } from "@/utils/cookie";
 import style from "@/styles/clientes.module.css";
 import styles from "@/styles/chequeCadastro.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function CadastroCheques() {
   const token = getCookie("token");
@@ -232,148 +230,154 @@ export default function CadastroCheques() {
   return (
     <>
       <ToastContainer autoClose={2000} />
-      <section className={styles.formWrapper}>
+      <section className={styles.cadastroWrapper}>
+        <h1 className={styles.title}>Dados do Cheque</h1>
         <form onSubmit={handleSubmit} className={styles.checkForm}>
-          <h1 className={styles.title}>Dados do Cheque</h1>
-          <div className={styles.formLine}>
-            <div className={styles.formField}>
-              <label htmlFor="checkQty">Quantidade de Cheques</label>
-              <select
-                name="checkQty"
-                onChange={changeCheckQuantity}
-                className={styles.select}
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-            <div className={styles.formField}>
-              <label htmlFor="data_rec">Data de Recebimento:</label>
-              <input
-                type="date"
-                name="data_rec"
-                onChange={handleInputChange}
-                id="data_rec"
-                required
-                className="input"
-                defaultValue={new Date().toISOString().split("T")[0]}
-              />
-            </div>
-            <div className={styles.formField}>
-              <label htmlFor="tipo">Tipo de Pagamento:</label>
-              <input
-                type="text"
-                name="tipo"
-                onChange={handleInputChange}
-                defaultValue="Cheque"
-                autoComplete="off"
-              />
-            </div>
-          </div>
-
-          <section className={styles.checkMultiplerWrapper}>
-            <div className={styles.inputCtrMultiple}>
-              <h4>Número:</h4>
-              {defineQtdCheques(qtdCheques)}
-              <ButtonAlternative onClick={replicateNumCheque}>
-                Replicar Número
-              </ButtonAlternative>
-            </div>
-
-            <div className={styles.inputCtrMultiple}>
-              <h4>Valor:</h4>
-              {defineQtdValores(qtdCheques)}
-              <ButtonAlternative onClick={replicateValor}>
-                Replicar Valor
-              </ButtonAlternative>
-            </div>
-
-            <div className={`${styles.inputCtrMultiple}`}>
-              <h4>Data de Vencimento:</h4>
-              {defineQtdVencimentos(qtdCheques)}
-            </div>
-          </section>
-
-          <h3 className={styles.title}>Dados da Venda</h3>
-          <section className={styles.salesDataWrapper} id="clienteForm">
+          <div>
             <div className={styles.formLine}>
-              <ClientSearchBox
-                clientList={clientList}
-                formValues={formValues}
-                handleInputChange={handleInputChange}
-                handleClick={handleClick}
-                required={true}
-              />
-
-              <div className={styles.inputCtr}>
-                <label htmlFor="cliente_cod">Código do Cliente:</label>
-                <input
-                  type="text"
-                  name="cliente_cod"
-                  id="cliente_cod"
-                  onChange={handleInputChange}
-                  disabled
-                  className="input"
-                />
-              </div>
-            </div>
-
-            <div className={styles.formLine}>
-              <div className={styles.inputCtr}>
-                <label htmlFor="pedido">Número do Pedido:</label>
-                <input
-                  type="number"
-                  name="pedido"
-                  id="pedido"
-                  onChange={handleInputChange}
-                  placeholder="Número do Pedido"
-                  className="input"
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className={styles.inputCtr}>
-                <label htmlFor="vendedor_id">Vendedor</label>
+              <div className={styles.formField}>
+                <label htmlFor="checkQty">Quantidade de Cheques</label>
                 <select
-                  name="vendedor_id"
-                  onChange={handleInputChange}
-                  placeholder="Selecione Vendedor"
-                  className={`${style.select} input`}
+                  name="checkQty"
+                  onChange={changeCheckQuantity}
+                  className={styles.select}
                 >
-                  <option key="0"></option>
-                  {vendedorList?.map((seller) => (
-                    <option
-                      key={seller.id}
-                      value={seller.id}
-                      selected={seller.id === selectedSeller}
-                    >
-                      {seller.nome}
-                    </option>
-                  ))}
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
                 </select>
               </div>
-            </div>
-            <div className={styles.formLine}>
-              <div className={`${styles.inputCtr}`}>
-                <label htmlFor="obs">Observação:</label>
-                <textarea
-                  name="obs"
+              <div className={styles.formField}>
+                <label htmlFor="data_rec">Data de Recebimento:</label>
+                <input
+                  type="date"
+                  name="data_rec"
                   onChange={handleInputChange}
+                  id="data_rec"
+                  required
                   className="input"
+                  defaultValue={new Date().toISOString().split("T")[0]}
+                />
+              </div>
+              <div className={styles.formField}>
+                <label htmlFor="tipo">Tipo de Pagamento:</label>
+                <input
+                  type="text"
+                  name="tipo"
+                  onChange={handleInputChange}
+                  defaultValue="Cheque"
                   autoComplete="off"
                 />
               </div>
             </div>
-          </section>
-          <section className={styles.btnContainer}>
+
+            <section className={styles.checkMultiplerWrapper}>
+              <div className={styles.inputCtrMultiple}>
+                <h4>Número:</h4>
+                {defineQtdCheques(qtdCheques)}
+                <ButtonAlternative onClick={replicateNumCheque}>
+                  Replicar Número
+                </ButtonAlternative>
+              </div>
+
+              <div className={styles.inputCtrMultiple}>
+                <h4>Valor:</h4>
+                {defineQtdValores(qtdCheques)}
+                <ButtonAlternative onClick={replicateValor}>
+                  Replicar Valor
+                </ButtonAlternative>
+              </div>
+
+              <div className={`${styles.inputCtrMultiple}`}>
+                <h4>Data de Vencimento:</h4>
+                {defineQtdVencimentos(qtdCheques)}
+              </div>
+            </section>
+          </div>
+
+          <section className={styles.salesDataWrapper} id="clienteForm">
+            <h3 className={styles.salesTitle}>Dados da Venda</h3>
+            <div className={styles.formSection}>
+              <div className={styles.formInputFields}>
+                <div className={styles.formLine}>
+                  <ClientSearchBox
+                    clientList={clientList}
+                    formValues={formValues}
+                    handleInputChange={handleInputChange}
+                    handleClick={handleClick}
+                    required={true}
+                  />
+
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="cliente_cod">Código do Cliente:</label>
+                    <input
+                      type="text"
+                      name="cliente_cod"
+                      id="cliente_cod"
+                      onChange={handleInputChange}
+                      disabled
+                      className="input"
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formLine}>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="pedido">Número do Pedido:</label>
+                    <input
+                      type="number"
+                      name="pedido"
+                      id="pedido"
+                      onChange={handleInputChange}
+                      placeholder="Número do Pedido"
+                      className="input"
+                      autoComplete="off"
+                    />
+                  </div>
+
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="vendedor_id">Vendedor</label>
+                    <select
+                      name="vendedor_id"
+                      onChange={handleInputChange}
+                      placeholder="Selecione Vendedor"
+                      className={`${styles.select} input`}
+                    >
+                      <option key="0"></option>
+                      {vendedorList?.map((seller) => (
+                        <option
+                          key={seller.id}
+                          value={seller.id}
+                          selected={seller.id === selectedSeller}
+                        >
+                          {seller.nome}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.formLine}>
+                <div className={`${styles.inputCtr}`}>
+                  <label htmlFor="obs">Observação:</label>
+                  <textarea
+                    name="obs"
+                    onChange={handleInputChange}
+                    className="input"
+                    autoComplete="off"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <section className={styles.btnContainer}>
             <ButtonAlternative type="submit" id="adicionaCliente">
               Salvar
             </ButtonAlternative>
@@ -383,6 +387,7 @@ export default function CadastroCheques() {
             >
               Limpar
             </ButtonAlternative>
+          </section>
           </section>
         </form>
       </section>

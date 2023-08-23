@@ -10,7 +10,7 @@ import { Vendedor } from "@/apiServices/VendedorService";
 import styles from "@/styles/vendedores.module.css";
 import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Vendedores() {

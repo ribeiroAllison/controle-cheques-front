@@ -1,41 +1,58 @@
-.checkForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 2rem;
+.cadastroWrapper {
+  display: inline-block;
 }
 
 .title {
-  font-size: 2rem;
-  padding-bottom: 1rem;
+  font-size: 1.75rem;
+  padding: 1rem 2rem;
+}
+
+.checkForm {
+  display: flex;
+  justify-content: flex-start;
+  padding: 1rem 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.formDiv {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .formLine {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .formField {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 .formField label,
 .formLine label {
   font-weight: 700;
-  padding-bottom: 0.5rem;
 }
 
 .checkMultiplerWrapper {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   padding-block: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .inputCtr {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .inputCtr input::placeholder {
@@ -44,6 +61,7 @@
 
 .inputCtrMultiple {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   gap: 0.5rem;
 }
@@ -51,33 +69,23 @@
 .formField input,
 .inputCtr input,
 .inputCtrMultiple input,
-.multipleField input {
+.multipleField input,
+.select {
   border-radius: 15px;
   padding-inline: 0.75rem;
   border-style: none;
   border: 0;
   height: 2rem;
-  width: 14rem;
+  min-width: 200px;
+  width: 100%;
   background: var(--gray-200);
   font-size: 1rem;
-}
-
-.select {
-    border: 0;
-    background: var(--gray-200);
-    border-radius: 15px;
-    height: 2rem;
-    padding-left: 1rem;
-    font-size: 1rem;
-    width: 14rem;
 }
 
 .salesDataWrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 600px;
-
   background: var(--green-200);
   padding: 2rem;
   border-radius: 15px;
@@ -85,8 +93,28 @@
 
 .salesDataWrapper input,
 .salesDataWrapper textarea,
-.salesDataWrapper select  {
+.salesDataWrapper select {
   background: var(--white);
+}
+.salesDataWrapper label {
+  color: var(--white);
+}
+
+.salesTitle {
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formInputFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .inputCtr textarea {
@@ -96,10 +124,9 @@
   border-style: none;
   border: 0;
   font-size: 1rem;
-  font-family: 'Roboto', sans-serif;
-
+  font-family: "Roboto", sans-serif;
   width: 450px;
-  height: 150px;
+  height: 100px;
 }
 
 .btnContainer {

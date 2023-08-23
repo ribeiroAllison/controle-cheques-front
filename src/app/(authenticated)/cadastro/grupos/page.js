@@ -10,7 +10,7 @@ import ModalName from "@/components/ModalName";
 import styles from "@/styles/grupos.module.css";
 import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Grupos() {
