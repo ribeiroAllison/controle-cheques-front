@@ -1,19 +1,24 @@
-import style from "@/styles/clientes.module.css"
-import { baseURL } from "@/utils/url"
+"use client";
+
 import { useState, useEffect } from "react"
-import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils"
 import HeaderLine from "@/components/HeaderLine"
 import ChequeTable from "./ChequeTable"
 import ModalContact from "./ModalContact"
 import ClientSearch from "./ClientSearch"
 import { getCookie } from "@/utils/cookie"
+import { baseURL } from "@/utils/url"
+import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils"
+import { Vendedor } from "@/apiServices/VendedorService"
 import { Cheques } from "@/apiServices/ChequeService"
 import { Cliente } from "@/apiServices/ClienteService"
 import { Destino } from "@/apiServices/DestinoService"
 import { Grupo } from "@/apiServices/GrupoService"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Vendedor } from "@/apiServices/VendedorService"
+import style from "@/styles/clientes.module.css";
+import styles from "@/styles/ChequeControl.module.css";
+import ButtonAlternative from "./ButtonAlternative"
+import ClientSearchBox from "./ClientSearchBox"
 
 
 export default function ChequeControl(props) {
@@ -269,8 +274,6 @@ export default function ChequeControl(props) {
                 }
             }
         }
-        
-
         const editWindow = document.getElementById('MassWindowBackground');
         editWindow.style.display = "none";
 
@@ -279,7 +282,6 @@ export default function ChequeControl(props) {
         for(let box of checkboxInputs){
             box.checked = false;
         }
-
         setSelectedSum(0)
     }
 
@@ -375,18 +377,13 @@ export default function ChequeControl(props) {
 
     //HANDLE CLICK ON CLIENT CONTACT
     const handleContactClick = (cheque) =>{
-
         const client = clientList.find(client => client.cod === cheque.cod_cliente)
-
         setContact({
             nome: client.cliente,
             contato: client.contato || "",
             telefone: client.telefone || "",
             email: client.email || ""
         })
-
-        console.log(client)
-
         const editWindow = document.getElementById('contactWindowBackground');
         editWindow.style.display = "flex";
     }
@@ -588,25 +585,33 @@ export default function ChequeControl(props) {
         <>
             <ToastContainer autoClose={2000} />
             {/* FILTER SCREEN */}
-            <fieldset className={style.filterField} style={{ display: `${props.display}` }}>
-                <legend id={style.mainLegend}>Opções de Filtros</legend>
-                <form className={style.formCtr} id={style.clienteForm}>
-                    <div className={style.filterCtr}>
-
-                        <div className={style.inputCtrBox}>
-                            <div className={style.inputCtr} >
-                                <h4>Destino</h4>
-                                <select name="destino_id" onChange={handleInputChange} placeholder="Selecione Vendedor" className={`${style.select} input`}>
+            <div className={styles.filterWrapper}>
+                <h1 id={styles.title}>Opções de Filtros</h1>
+                <section className={styles.filterField} style={{ display: `${props.display}` }}>
+                    <form className={styles.filterCheckForm} id="clienteForm">
+                    <div className={styles.formDiv}>
+                        <div className={styles.filterLine}>
+                            <div className={styles.formField} >
+                                <label htmlFor="destino_id">Destino:</label>
+                                <select 
+                                    name="destino_id" 
+                                    onChange={handleInputChange} 
+                                    placeholder="Selecione Vendedor" 
+                                    className={`${styles.select} input`}
+                                >
                                     <option key="0"></option>
                                     {
                                         destinoList?.map(destino => <option key={`destino-${destino.id}`} value={destino.id}>{destino.nome}</option>)
                                     }
                                 </select>
                             </div>
-
-                            <div className={style.inputCtr} >
-                                <h4>Grupo</h4>
-                                <select name="grupo" onChange={handleInputChange} className={`${style.select} input`}>
+                            <div className={styles.formField} >
+                                <label htmlFor="grupo">Grupo:</label>
+                                <select 
+                                    name="grupo" 
+                                    onChange={handleInputChange} 
+                                    className={`${styles.select} input`}
+                                >
                                     <option key="0"></option>
                                     {
                                         grupos?.map(grupo => <option key={`grupo-${grupo.id}`} value={grupo.nome}>{grupo.nome}</option>)
@@ -614,78 +619,102 @@ export default function ChequeControl(props) {
                                 </select>
                             </div>
                         </div>
-
-
-                        <ClientSearch 
+                        <ClientSearchBox
+                            clientList={clientList}
+                            formValues={formValues}
                             handleInputChange={handleInputChange}
-                            searchResult={searchResult}
                             handleClick={handleClick}
-                            id="cliente"
-                            divId="searchBox"
-                            
                         />
-                    </div>
+                            {/*<ClientSearch 
+                                handleInputChange={handleInputChange}
+                                searchResult={searchResult}
+                                handleClick={handleClick}
+                                id="cliente"
+                                divId="searchBox"
+                                />*/}
 
-                    <div className={style.inputCtr}>
-                        <div className={style.inputCtrBox}>
-                            <div className={style.inputCtr}>
-                                <h4>No. Pedido</h4>
+                        <div className={styles.filterLine}>
+                            <div className={styles.formField}>
+                                <label>No. Pedido:</label>
                                 <input type="text" name="pedido" onChange={handleInputChange} id="pedido" className="input" />
                             </div>
-
-                            <div className={style.inputCtr}>
-                                <h4>No. Cheque</h4>
+                            <div className={styles.formField}>
+                                <label>No. Cheque:</label>
                                 <input type="text" name="número_cheque" onChange={handleInputChange} id="num" className="input" />
                             </div>
                         </div>
 
-                        <div className={style.inputCtrBox}>
-                            <fieldset className={`${style.formCtr} ${style.fieldset}`}>
-                                <legend>Vencimento</legend>
-                                <div className={style.inputCtr} >
-                                    <h4>Data Inicial:</h4>
-                                    <input type="date" name="data_init" onChange={handleInputChange} id="data_init" className="input" />
-                                </div>
-
-                                <div className={style.inputCtr} >
-                                    <h4>Data Fim:</h4>
-                                    <input type="date" name="data_fim" onChange={handleInputChange} id="data_fim" className="input" />
-                                </div>
-                            </fieldset>
-
-                            <fieldset className={`${style.formCtr} ${style.fieldset}`}>
-                                <legend>Status</legend>
-                                <div className={style.inputCtr} >
-                                    <h4>Compensado:</h4>
-                                    <select className={`${style.select} input`} name="compensado" id="compensado" onChange={handleInputChange} >
-                                        <option value={null}></option>
-                                        <option value={false}>Não</option>
-                                        <option value={true}>Sim</option>
-                                    </select>
-                                </div>
-
-                                <div className={style.inputCtr} >
-                                    <h4>Vencido:</h4>
-                                    <select className={`${style.select} input`} name="vencido" id="vencido" onChange={handleInputChange}>
-                                        <option value={null}></option>
-                                        <option value={false}>Não</option>
-                                        <option value={true}>Sim</option>
-
-                                    </select>
-                                </div>
-                            </fieldset>
+                        <div className={styles.btnContainer}>
+                            <ButtonAlternative 
+                                type="submit" 
+                                id="buscaCheque" 
+                                onClick={handleSearchSubmit}
+                            >
+                                Buscar
+                            </ButtonAlternative>
+                            <ButtonAlternative onClick={handleClear}>Limpar</ButtonAlternative>
                         </div>
                     </div>
 
-                    <div className={style.buttonCtr}>
-                        <button type="submit" className={style.button} id="buscaCheque" onClick={handleSearchSubmit}>Buscar</button>
-                        <button className={style.button} onClick={handleClear}>Limpar</button>
+                    <div className={styles.fieldSetDiv}>
+                        <fieldset className={`${styles.fieldset}`}>
+                            <span>Vencimento</span>
+                            <div className={styles.formField} >
+                                <label htmlFor="data_init">Data Inicial:</label>
+                                <input 
+                                    type="date" 
+                                    name="data_init" 
+                                    onChange={handleInputChange} 
+                                    id="data_init" 
+                                    className="input" 
+                                />
+                            </div>
+                            <div className={styles.formField} >
+                                <label>Data Fim:</label>
+                                <input 
+                                    type="date" 
+                                    name="data_fim" 
+                                    onChange={handleInputChange} 
+                                    id="data_fim" 
+                                    className="input" 
+                                />
+                            </div>
+                        </fieldset>
+                        <fieldset className={`${styles.fieldset}`}>
+                            <span>Status</span>
+                            <div className={styles.formField}>
+                                <label htmlFor="compensado">Compensado:</label>
+                                <select 
+                                    className={`${styles.select} input`} 
+                                    name="compensado" 
+                                    id="compensado" 
+                                    onChange={handleInputChange}
+                                >
+                                    <option value={null}></option>
+                                    <option value={false}>Não</option>
+                                    <option value={true}>Sim</option>
+                                </select>
+                            </div>
+                            <div className={styles.formField}>
+                                <label htmlFor="vencido">Vencido:</label>
+                                <select 
+                                    className={`${styles.select} input`} 
+                                    name="vencido" 
+                                    id="vencido" 
+                                    onChange={handleInputChange}
+                                >
+                                    <option value={null}></option>
+                                    <option value={false}>Não</option>
+                                    <option value={true}>Sim</option>
+                                </select>
+                            </div>
+                        </fieldset>
                     </div>
-                </form>
-            </fieldset>
+                    </form>
+                </section>
+            </div>
 
             {/* EDIT SCREEN MODAL*/}
-
             <div id="editWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
                     <div className={style.popupHeader}>
@@ -773,7 +802,6 @@ export default function ChequeControl(props) {
 
             
             {/* MASSIVE EDIT MODAL*/}
-
             <div id="MassWindowBackground" className={style.editBackground}>
                 <section className={style.editFieldset} id="editWindow">
                     <div className={style.popupHeader}>
@@ -887,8 +915,22 @@ export default function ChequeControl(props) {
                     </div>
 
                     <div className={style.obsButtonCtr}>
-                        <button type="submit" className={style.button} id="editObs" onClick={handleEditObs}>Salvar</button>
-                        <button type="submit" className={style.button} id="deleteObs" onClick={handleClearObs}>Deletar</button>
+                        <button 
+                            type="submit" 
+                            className={style.button} 
+                            id="editObs" 
+                            onClick={handleEditObs}
+                        >
+                            Salvar
+                        </button>
+                        <button 
+                            type="submit" 
+                            className={style.button} 
+                            id="deleteObs" 
+                            onClick={handleClearObs}
+                        >
+                            Deletar
+                        </button>
                     </div>
                 </div>
             </div>

@@ -55,3 +55,8 @@
   color: var(--white);
   background-color: var(--black-100);
 }
+
+@media (max-width: 768px) {
+
+
+}

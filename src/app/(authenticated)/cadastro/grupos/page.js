@@ -10,7 +10,7 @@ import ModalName from "@/components/ModalName";
 import styles from "@/styles/grupos.module.css";
 import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Grupos() {
@@ -126,7 +126,7 @@ export default function Grupos() {
       <section className={styles.menuContainer}>
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
-            <h2>Cadastro de Grupos</h2>
+            <h1>Cadastro de Grupos</h1>
             <ButtonAlternative id="addButton" onClick={showAddForm}>
               Novo Destino
             </ButtonAlternative>
@@ -137,13 +137,13 @@ export default function Grupos() {
             filteredList={filteredList}
             setFilteredList={setFilteredList}
             param="nome"
-            placeholder="Procurar grupo"
+            placeHolder="Procurar grupo"
           />
         </div>
 
         <form className={styles.groupForm} id="addForm" onSubmit={handleSubmit}>
           <div className={styles.groupFormHeader}>
-            <h3>Dados do Destino</h3>
+            <span>Dados do Grupo</span>
             <ButtonAlternative
               style={{ backgroundColor: "var(--redTd)" }}
               onClick={hideAddForm}
@@ -168,14 +168,13 @@ export default function Grupos() {
             <ButtonAlternative
               id="adicionaCliente"
               type="submit"
-              style={{ width: "150px" }}
             >
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative
               onClick={handleClear}
               id="limpar"
-              style={{ width: "150px", backgroundColor: "var(--orangeTd" }}
+              style={{ backgroundColor: "var(--orangeTd" }}
             >
               Limpar
             </ButtonAlternative>

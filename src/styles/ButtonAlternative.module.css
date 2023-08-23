@@ -14,10 +14,3 @@
   transition: all 0.3s;
   background: var(--green-300);
 }
-
-@media (max-width: 768px) {
-  .button {
-    font-size: 1.2rem;
-    width: 10rem;
-  }
-}

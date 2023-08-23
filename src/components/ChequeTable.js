@@ -1,3 +1,5 @@
+"use client";
+
 import style from "@/styles/clientes.module.css";
 import {
   convertToNumber,

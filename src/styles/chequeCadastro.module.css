@@ -1,0 +1,165 @@
+.cadastroWrapper {
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.75rem;
+  padding: 1rem 2rem;
+}
+
+.checkForm {
+  display: flex;
+  justify-content: flex-start;
+  padding: 1rem 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.formDiv {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.formLine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.formField {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formField label,
+.formLine label {
+  font-weight: 700;
+}
+
+.checkMultiplerWrapper {
+  display: flex;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.inputCtr {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.inputCtr input::placeholder {
+  color: #979797;
+}
+
+.inputCtrMultiple {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formField input,
+.inputCtr input,
+.inputCtrMultiple input,
+.multipleField input,
+.select {
+  border-radius: 15px;
+  padding-inline: 0.75rem;
+  border-style: none;
+  border: 0;
+  height: 2rem;
+  min-width: 200px;
+  width: 13.75rem;
+  background: var(--gray-200);
+  font-size: 1rem;
+}
+
+.salesDataWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--green-200);
+  padding: 2rem;
+  border-radius: 15px;
+}
+
+.salesDataWrapper input,
+.salesDataWrapper textarea,
+.salesDataWrapper select {
+  background: var(--white);
+}
+.salesDataWrapper label {
+  color: var(--white);
+  font-weight: 700;
+}
+
+.salesTitle {
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formInputFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formInputsWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.textAreaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.textAreaWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.textAreaWrapper textarea {
+  border-radius: 15px;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  font-size: 1rem;
+  font-family: "Nunito", sans-serif;
+  width: 100%;
+  min-height: 100px;
+  outline: none;
+  resize: vertical;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  padding-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .cadastroWrapper {
+    display: flex;
+  }
+}

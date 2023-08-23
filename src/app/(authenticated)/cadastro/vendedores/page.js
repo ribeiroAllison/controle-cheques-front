@@ -10,7 +10,7 @@ import { Vendedor } from "@/apiServices/VendedorService";
 import styles from "@/styles/vendedores.module.css";
 import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Vendedores() {
@@ -126,7 +126,7 @@ export default function Vendedores() {
       <section className={styles.menuContainer}>
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
-            <h2>Cadastro de Vendedores</h2>
+            <h1>Cadastro de Vendedores</h1>
             <ButtonAlternative id="addButton" onClick={showAddForm}>
               Novo Vendedor
             </ButtonAlternative>
@@ -137,12 +137,13 @@ export default function Vendedores() {
             filteredList={filteredList}
             setFilteredList={setFilteredList}
             param="nome"
+            placeHolder="Procurar vendedor"
           />
         </div>
 
         <form className={styles.salesForm} id="addForm" onSubmit={handleSubmit}>
           <div className={styles.salesFormHeader}>
-            <h3>Dados do Destino</h3>
+            <span>Dados do Vendedor</span>
             <ButtonAlternative
               style={{ backgroundColor: "var(--redTd)" }}
               onClick={hideAddForm}
@@ -164,13 +165,13 @@ export default function Vendedores() {
             />
           </div>
           <div className={styles.btnContainer}>
-            <ButtonAlternative id="adicionaVendedor" style={{ width: "150px" }}>
+            <ButtonAlternative id="adicionaVendedor">
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative
               onClick={handleClear}
               id="limpar"
-              style={{ width: "150px", backgroundColor: "var(--orangeTd" }}
+              style={{ backgroundColor: "var(--orangeTd" }}
             >
               Limpar
             </ButtonAlternative>

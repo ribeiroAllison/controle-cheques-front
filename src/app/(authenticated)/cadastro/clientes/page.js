@@ -10,7 +10,6 @@ import clearInputs from "@/utils/clearInputs";
 import style from "@/styles/clientes.module.css";
 import styles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
 import ButtonAlternative from "@/components/ButtonAlternative";

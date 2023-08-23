@@ -1,0 +1,42 @@
+.inputWrapper {
+  max-width: 100%;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.searchBox {
+  display: none;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.searchBox option {
+  display: block;
+  position: relative;
+  background-color: var(--white);
+  width: 440px;
+}
+
+.searchBox option:hover {
+  background-color: var(--optionGreen);
+  cursor: pointer;
+}
+
+.searchBox select {
+  background-color: var(--white);
+  z-index: 999;
+}
+
+.clientSelect {
+  position: absolute;
+}
+
+.clientSelect option {
+  color: var(--black30);
+}
+

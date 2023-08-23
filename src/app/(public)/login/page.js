@@ -9,7 +9,7 @@ import User from "@/apiServices/UserService";
 import Link from "next/link";
 import styles from "@/styles/login.module.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 export default function Login() {
   const router = useRouter();

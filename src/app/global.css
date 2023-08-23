@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
 :root {
   --navColor: #316e0f;
   --black30: #303030;
@@ -31,6 +33,7 @@
   --gray-200: #D9D9D9;
 
   --bg-color: #F5F5F5;
+  --bg-color-alt: #E5E5E5;
 
   --button-radius: 50px;
 }
@@ -46,6 +49,7 @@
 
 body {
   -webkit-font-smoothing: antialiased;
+  font-family: 'Nunito', sans-serif;
 }
 
 .Bom {
@@ -59,10 +63,6 @@ body {
 .Ruim {
   background-color: crimson;
   color: aliceblue;
-}
-
-Button a {
-  color: var(--white);
 }
 
 a:hover {
