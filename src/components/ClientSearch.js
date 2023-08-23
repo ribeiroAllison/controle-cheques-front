@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "../styles/clientSearch.module.css"
+import styles from "@/styles/ClientSearch.module.css"
 
 export default function ClientSearch(props) {
   return (
