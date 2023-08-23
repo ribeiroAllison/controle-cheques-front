@@ -1,4 +1,6 @@
-import styles from "@/styles/ClienteSearchBox.module.css";
+"use client";
+
+import styles from "../styles/ClienteSearchBox.module.css";
 import { useState, useEffect } from "react";
 
 export default function ClientSearchBox(props) {
