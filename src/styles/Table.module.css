@@ -1,8 +1,7 @@
 .tableWrapper {
   display: flex;
   flex: 1;
-  overflow: auto;
-  width: 100%;
+
 }
 
 .table {
@@ -13,20 +12,33 @@
   border-collapse: collapse;
   border-style: hidden;
   border-radius: 15px;
-  white-space: wrap;
   text-align: center;
   width: 100%;
   overflow: hidden;
-}
 
-.table thead {
-  position: sticky;
 }
 
 .table th,
 .table td {
   padding: 8px 5px;
-  overflow-wrap: wrap;
+  white-space: normal; /* Allow content to expand vertically */
+  height: fit-content;
+  max-width: 10rem;
+
+
+}
+
+.table td{
+  word-break: break-word;
+}
+
+#noBreak,
+#noBreakDate{
+  word-break: normal;
+}
+
+.table th {
+  position: sticky;
 }
 
 .table thead tr,
@@ -57,6 +69,5 @@
 }
 
 @media (max-width: 768px) {
-
-
+  /* Add responsive styles if needed */
 }

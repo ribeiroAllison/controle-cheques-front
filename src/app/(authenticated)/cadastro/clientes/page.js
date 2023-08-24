@@ -333,7 +333,6 @@ export default function Clientes() {
                 className="input"
                 onChange={handleInputChange}
                 id="doc"
-                required
                 placeholder="Digite CPF ou CNPJ"
                 autoComplete="off"
               />
