@@ -124,7 +124,7 @@ return (
             </td>
             <td
               name={cheque.id}
-              id={`valor${cheque.id}`}
+              id={styles.noBreak}
               className={assignClassStyle(cheque)}
             >
               {transformCurrency(cheque.valor)}
@@ -138,7 +138,7 @@ return (
             </td>
             <td
               name={cheque.id}
-              id={`data_venc${cheque.id}`}
+              id={styles.noBreakDate}
               className={assignClassStyle(cheque)}
             >
               {transformDate(cheque.data_venc)}
