@@ -1,9 +1,3 @@
-.cadastroWrapper {
-  display: inline-flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
 .title {
   font-size: 1.75rem;
   padding: 1rem 2rem;
@@ -16,6 +10,12 @@
   gap: 2rem;
   flex-wrap: wrap;
   width: 100%;
+}
+
+.formInputsWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .formDiv {
@@ -35,6 +35,7 @@
   flex-wrap: wrap;
   flex-direction: column;
   gap: 0.5rem;
+  max-width: 100%;
 }
 
 .formField label,
@@ -49,17 +50,6 @@
   flex-wrap: wrap;
 }
 
-.inputCtr {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.inputCtr input::placeholder {
-  color: #979797;
-}
-
 .inputCtrMultiple {
   display: flex;
   flex-wrap: wrap;
@@ -67,37 +57,35 @@
   gap: 0.5rem;
 }
 
-.formField input,
-.inputCtr input,
-.inputCtrMultiple input,
-.multipleField input,
 .select {
   border-radius: 15px;
   padding-inline: 0.75rem;
   border-style: none;
   border: 0;
   height: 2rem;
-  min-width: 200px;
-  width: 13.75rem;
   background: var(--gray-200);
   font-size: 1rem;
+  min-width: 200px;
+  width: 13.75rem;
+  max-width: 100%;
 }
 
-.salesDataWrapper {
+.salesDataContainer {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
   background: var(--green-200);
   padding: 2rem;
   border-radius: 15px;
+  max-width: 100%;
 }
 
-.salesDataWrapper input,
-.salesDataWrapper textarea,
-.salesDataWrapper select {
-  background: var(--white);
+.salesDataContainer textarea,
+.salesDataContainer select {
+  background: var(--gray-200);
 }
-.salesDataWrapper label {
+.salesDataContainer label {
   color: var(--white);
   font-weight: 700;
 }
@@ -107,29 +95,22 @@
   color: var(--white);
 }
 
-.formSection {
+.inputFieldsLine {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.formInputFields {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.formInputsWrapper {
-  display: flex;
-  flex-direction: column;
+  gap: 1rem;
   flex-wrap: wrap;
+}
+
+.searchContainer {
+  width: 100%; /* Ou a largura desejada */
+  position: relative;
 }
 
 .textAreaContainer {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 100%;
+  max-width: 100%;
 }
 
 .textAreaWrapper {
@@ -148,18 +129,34 @@
   width: 100%;
   min-height: 100px;
   outline: none;
-  resize: vertical;
+  resize: none;
 }
 
 .btnContainer {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   justify-content: flex-start;
   padding-top: 2rem;
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {
-  .cadastroWrapper {
-    display: flex;
+
+  .title {
+    text-align: center;
+  }
+
+  .formLine {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .checkForm {
+    padding: 1rem 1rem;
+  }
+
+  .checkMultiplerWrapper {
+    justify-content: center;
   }
 }

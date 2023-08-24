@@ -2,15 +2,6 @@
   position: relative;
 }
 
-.inputCtr input {
-  border-radius: 15px;
-  border-style: none;
-  border: 0;
-  height: 2rem;
-  font-size: 1rem;
-  padding-inline: 0.75rem;
-}
-
 .inputField {
   display: flex;
   flex-direction: column;

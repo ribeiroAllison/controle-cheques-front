@@ -55,7 +55,7 @@
   background-color: #f3f3f3;
 }
 
-.table .Icon:hover {
+.Icon:hover {
   cursor: pointer;
   transform: scale(1.25);
   transition: all 0.2s;
