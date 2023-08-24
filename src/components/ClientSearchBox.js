@@ -1,7 +1,8 @@
 "use client";
 
-import styles from "@/styles/ClientSearchBox.module.css"
+import styles from "@/styles/clientSearchBox.module.css"
 import { useState, useEffect } from "react";
+import { InputForms } from "./InputForms";
 
 export default function ClientSearchBox(props) {
   const [searchResult, setSearchResult] = useState([{}]);
@@ -27,16 +28,15 @@ export default function ClientSearchBox(props) {
   }, [props.formValues.cliente]);
 
   return (
-    <div className={`${styles.inputCtr}`} id="clienteBox">
+    <div id="clienteBox">
       <div className={styles.inputField}>
         <label htmlFor="cliente">Cliente:</label>
-        <input
+        <InputForms
           type="text"
           name="cliente"
           onChange={props.handleInputChange}
           id="cliente"
           placeholder="Pesquise o Cliente"
-          className="input"
           required={props.required}
           autoComplete="off"
         />

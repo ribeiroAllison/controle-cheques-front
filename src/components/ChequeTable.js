@@ -180,7 +180,7 @@ return (
                 <ChatCircleDots
                   className={styles.Icon}
                   size={32}
-                  color="white"
+                  color="black"
                   onClick={() => props.handleOpenObs(cheque)}
                 />
               )}
@@ -193,7 +193,7 @@ return (
               <IdentificationCard
                 className={styles.Icon}
                 size={32}
-                color="white"
+                color="black"
                 onClick={() => props.handleContactClick(cheque)}
               />
             </td>
@@ -201,7 +201,7 @@ return (
               <PencilLine
                 className={styles.Icon}
                 size={32}
-                color="white"
+                color="black"
                 onClick={() => props.handleEdit(cheque, 'editWindowBackground')}
               />
             </td>
@@ -209,7 +209,7 @@ return (
               <Trash
                 className={styles.Icon}
                 size={32}
-                color="white"
+                color="black"
                 onClick={() => props.handleDelete(cheque.id)}
               />
             </td>
@@ -217,7 +217,7 @@ return (
         ))}
 
         <tr className={styles.finalRow}>
-          {props.submitOnMount ? <td colSpan={4}>TOTAL CHEQUES</td> : <td colSpan={5}>TOTAL CHEQUES</td>}
+          {props.submitOnMount ? <td colSpan={4}>TOTAL CHEQUES</td> : <td colSpan={4}>TOTAL CHEQUES</td>}
           <td>{props.list?.length}</td>
           <td>
             {props.list
@@ -233,7 +233,7 @@ return (
               : 0}
           </td>
           <td>-</td>
-          <td colSpan={9}>RESUMO</td>
+          <td colSpan={10}>RESUMO</td>
         </tr>
       </tbody>
     </table>

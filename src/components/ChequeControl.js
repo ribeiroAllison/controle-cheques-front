@@ -1,25 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react"
-import HeaderLine from "@/components/HeaderLine"
-import ChequeTable from "./ChequeTable"
-import ModalContact from "./ModalContact"
-import ClientSearch from "./ClientSearch"
-import { getCookie } from "@/utils/cookie"
-import { baseURL } from "@/utils/url"
-import { clearInputs, linhas, transformDate, rearrangeDate } from "@/utils/utils"
-import { Vendedor } from "@/apiServices/VendedorService"
-import { Cheques } from "@/apiServices/ChequeService"
-import { Cliente } from "@/apiServices/ClienteService"
-import { Destino } from "@/apiServices/DestinoService"
-import { Grupo } from "@/apiServices/GrupoService"
+import { useState, useEffect } from "react";
+import HeaderLine from "@/components/HeaderLine";
+import ChequeTable from "./ChequeTable";
+import ModalContact from "./ModalContact";
+import ClientSearch from "./ClientSearch";
+import { InputForms } from "./InputForms";
+import { getCookie } from "@/utils/cookie";
+import { baseURL } from "@/utils/url";
+import { 
+    clearInputs, 
+    linhas, 
+    transformDate, 
+    rearrangeDate 
+} from "@/utils/utils";
+import { Vendedor } from "@/apiServices/VendedorService";
+import { Cheques } from "@/apiServices/ChequeService";
+import { Cliente } from "@/apiServices/ClienteService";
+import { Destino } from "@/apiServices/DestinoService";
+import { Grupo } from "@/apiServices/GrupoService";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import ButtonAlternative from "./ButtonAlternative";
+import ClientSearchBox from "./ClientSearchBox";
 import style from "@/styles/clientes.module.css";
 import styles from "@/styles/ChequeControl.module.css";
-import ButtonAlternative from "./ButtonAlternative"
-import ClientSearchBox from "./ClientSearchBox"
-
 
 export default function ChequeControl(props) {
     const token = getCookie('token');
@@ -94,15 +98,14 @@ export default function ChequeControl(props) {
         setEditFormValues({ ...editFormValues, [name]: value });
     };
 
-
-
     //------------------------------ CHEQUES FUNCTIONS -----------------------------------------------------------
-
 
     // RETRIEVE ALL CHECKS
     async function getAllCheques() {
         const { data } = await Cheques.getAllCheques();
-        setAllCheques(data);
+        if(data) {
+            setAllCheques(data);
+        }
     }
 
     // CHECK DELETE HANDLING
@@ -130,7 +133,6 @@ export default function ChequeControl(props) {
         const editWindow = document.getElementById('MassWindowBackground');
         editWindow.style.display = "none";
     }
-
 
     const handleEdit = (cheque, param) => {
         const editWindow = document.getElementById(param);
@@ -497,6 +499,7 @@ export default function ChequeControl(props) {
                 'Authorization': `Bearer ${token}`
             },
         })
+        console.log(response)
         if (response.ok) {
             let jsonResponse = await response.json();
             setChequeslist(jsonResponse);
@@ -518,15 +521,14 @@ export default function ChequeControl(props) {
     }
 
     //SUM THE VALUE OF SELECTED CHECKS
-    const sumSelected = () =>{
+    const sumSelected = () => {
         const selectedChecks = allCheques?.filter(cheque => selected.includes(cheque.id.toString()));
         let sum = 0;
         if(selectedChecks){
             for(const check of selectedChecks){
             sum += Number(check.valor.replace('$', '').replace(',', ''))
+            }
         }
-        }
-        
         setSelectedSum(sum)
     }
 
@@ -619,19 +621,15 @@ export default function ChequeControl(props) {
                                 </select>
                             </div>
                         </div>
-                        <ClientSearchBox
-                            clientList={clientList}
-                            formValues={formValues}
-                            handleInputChange={handleInputChange}
-                            handleClick={handleClick}
-                        />
-                            {/*<ClientSearch 
+
+                        <div className={styles.searchContainer}>
+                            <ClientSearchBox
+                                clientList={clientList}
+                                formValues={formValues}
                                 handleInputChange={handleInputChange}
-                                searchResult={searchResult}
                                 handleClick={handleClick}
-                                id="cliente"
-                                divId="searchBox"
-                                />*/}
+                            />
+                        </div>
 
                         <div className={styles.filterLine}>
                             <div className={styles.formField}>
@@ -671,7 +669,7 @@ export default function ChequeControl(props) {
                             </div>
                             <div className={styles.formField} >
                                 <label>Data Fim:</label>
-                                <input 
+                                <InputForms 
                                     type="date" 
                                     name="data_fim" 
                                     onChange={handleInputChange} 
