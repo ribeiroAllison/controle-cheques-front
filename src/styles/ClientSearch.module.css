@@ -5,38 +5,30 @@
 .inputField {
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 0.5rem;
 }
 
 .searchBox {
   display: none;
   position: absolute;
-  overflow-y: auto;
+  width: 100%;
 }
 
-.searchBox option {
-  display: block;
-  position: relative;
-  background-color: var(--white);
-  width: 440px;
+.customSelect {
+  width: 100%;
+  max-height: 150px;
+  background-color: var(--gray-200);
+  border-radius: 15px;
+  overflow: auto;
 }
 
-.searchBox option:hover {
+.customOption {
+  padding: 10px;
+  transition: background-color 0.2s;
+}
+
+.customOption:hover {
   background-color: var(--optionGreen);
   cursor: pointer;
-}
-
-.searchBox select {
-  background-color: var(--white);
-  z-index: 999;
-}
-
-.clientSelect {
-  position: absolute;
-}
-
-.clientSelect option {
-  color: var(--black30);
 }
 

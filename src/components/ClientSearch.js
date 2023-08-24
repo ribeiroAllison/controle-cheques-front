@@ -1,13 +1,14 @@
 "use client";
 
-import styles from "@/styles/ClientSearch.module.css"
+import styles from "@/styles/ClientSearch.module.css";
+import { InputForms } from "./InputForms";
 
 export default function ClientSearch(props) {
   return (
     <div className={`${styles.inputWrapper}`} id="clienteBox">
       <div className={styles.inputField}>
         <label htmlFor="cliente">Cliente:</label>
-        <input
+        <InputForms
           type="text"
           name="cliente"
           onChange={props.handleInputChange}
@@ -17,21 +18,18 @@ export default function ClientSearch(props) {
         />
       </div>
       <div className={styles.searchBox} id={props.divId}>
-        <select
-          size={4}
-          id={`${styles.clientSelect} input`}
-          onChange={props.handleInputChange}
-        >
+        <div className={styles.customSelect}>
           {props.searchResult.map((client) => (
             <option
               onClick={props.handleClick}
               key={`codClient-${client.cod}`}
               value={client.id}
+              className={styles.customOption}
             >
               {client.cliente}
             </option>
           ))}
-        </select>
+        </div>
       </div>
     </div>
   );
