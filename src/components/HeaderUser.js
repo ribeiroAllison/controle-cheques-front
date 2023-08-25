@@ -3,7 +3,7 @@
 import { UserFocus } from "@phosphor-icons/react";
 import Button from "./Button";
 import Link from "next/link";
-import styles from "@/styles/headerUser.module.css";
+import styles from "@/styles/HeaderUser.module.css";
 import { getCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
 
