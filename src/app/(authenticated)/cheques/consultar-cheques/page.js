@@ -6,7 +6,7 @@ export default function ConsultarCheques() {
   return (
     <ChequeControl 
       headerLine="Cheques" 
-      display="block" 
+      display="inline-flex" 
       endPoint="cheques" 
     />
   );

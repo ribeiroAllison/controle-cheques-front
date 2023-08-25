@@ -25,6 +25,7 @@ import ClientSearchBox from "./ClientSearchBox";
 import style from "@/styles/clientes.module.css";
 import styles from "@/styles/ChequeControl.module.css";
 import Button from "./Button";
+import { ModalObs } from "./ModalObs";
 
 export default function ChequeControl(props) {
   const token = getCookie("token");
@@ -545,7 +546,7 @@ export default function ChequeControl(props) {
   //------------------------------ OBSERVATION FIELD FUNCTIONS ----------------------------------------------------
 
   // OBSERVATION SCREEN CLOSING
-  const closeObs = () => {
+  const handleCloseObs = () => {
     const module = document.getElementsByClassName("obsScreen")[0];
     toggleOverflow();
     module.style.display = "none";
@@ -570,7 +571,7 @@ export default function ChequeControl(props) {
     e.preventDefault();
     const response = await Cheques.editObs(obsDetails.id, obsDetails.obs);
     if (response && response.status === 200) {
-      closeObs();
+      handleCloseObs();
       props.submitOnMount ? refreshTables() : refreshSearch();
       notifySuccess(response.data);
     } else {
@@ -583,7 +584,7 @@ export default function ChequeControl(props) {
     e.preventDefault();
     const response = await Cheques.clearObs(obsDetails.id);
     if (response && response.status === 200) {
-      closeObs();
+      handleCloseObs();
       props.submitOnMount ? refreshTables() : refreshSearch();
       notifySuccess(response.data);
     } else {
@@ -596,8 +597,8 @@ export default function ChequeControl(props) {
     <>
       <ToastContainer autoClose={2000} />
       {/* FILTER SCREEN */}
-      <div className={styles.filterWrapper}>
-        <h1 id={styles.title}>Opções de Filtros</h1>
+      <div className={styles.filterWrapper} style={{ display: `${props.display}` }}>
+        <h1 className={styles.title}>Opções de Filtros</h1>
         <section className={styles.filterField}>
           <form className={styles.filterCheckForm} id="clienteForm">
             <div className={styles.formDiv}>
@@ -1032,40 +1033,13 @@ export default function ChequeControl(props) {
         </>
       )}
 
-      {/* OBS SCREEN MODAL */}
-      <div id={style.obsBackground} className="obsScreen">
-        <div id={style.obsCtr}>
-          <div className={style.popupHeader}>
-            <h4>{`Observação do Cheque ${obsDetails.num} do cliente ${obsDetails.cliente}`}</h4>
-            <img src="/images/x-icon.svg" onClick={closeObs} />
-          </div>
-          <div className={style.obsContent}>
-            <textarea
-              value={obsDetails.obs}
-              onChange={(e) =>
-                setObsDetails({ ...obsDetails, obs: e.target.value })
-              }
-            ></textarea>
-          </div>
-
-          <div className={style.obsButtonCtr}>
-            <ButtonAlternative
-              type="submit"
-              id="editObs"
-              onClick={handleEditObs}
-            >
-              Salvar
-            </ButtonAlternative>
-            <ButtonAlternative
-              type="submit"
-              id="deleteObs"
-              onClick={handleClearObs}
-            >
-              Deletar
-            </ButtonAlternative>
-          </div>
-        </div>
-      </div>
+      <ModalObs 
+        obsDetails={obsDetails}
+        setObsDetails={setObsDetails}
+        handleEditObs={handleEditObs}
+        handleClearObs={handleClearObs}
+        handleCloseObs={handleCloseObs}
+      />
 
       <ModalContact contact={contact} />
     </>
