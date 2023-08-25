@@ -1,5 +1,6 @@
 import styles from "@/styles/ModalCliente.module.css";
 import ButtonAlternative from "./ButtonAlternative";
+import { InputForms } from "./InputForms";
 
 export default function ModalCadastro(props) {
   // EDIT SCREEN CLOSING HANDLE
@@ -26,7 +27,7 @@ export default function ModalCadastro(props) {
     <div id="editWindowBackground" className={styles.editBackground}>
       <section className={styles.editFieldset} id="editWindow">
         <div className={styles.popupHeader}>
-          <h2>Edição de {props.name}</h2>
+          <h1>Edição de {props.name}</h1>
           <img src="/images/x-icon.svg" onClick={handleCloseEdit} />
         </div>
 
@@ -37,8 +38,8 @@ export default function ModalCadastro(props) {
         >
           <div className={styles.formLine}>
             <div className={styles.formField}>
-              <label htmlFor="">Nome:</label>
-              <input
+              <label htmlFor="nome">Nome:</label>
+              <InputForms
                 type="text"
                 name="nome"
                 onChange={props.handleInputChange}
@@ -50,8 +51,8 @@ export default function ModalCadastro(props) {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="">Documento:</label>
-              <input
+              <label htmlFor="doc">Documento:</label>
+              <InputForms
                 type="text"
                 onChange={props.handleInputChange}
                 name="doc"
@@ -62,8 +63,8 @@ export default function ModalCadastro(props) {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="">Código:</label>
-              <input
+              <label htmlFor="codigo">Código:</label>
+              <InputForms
                 type="text"
                 onChange={props.handleInputChange}
                 name="codigo"
@@ -75,7 +76,7 @@ export default function ModalCadastro(props) {
 
           <div className={styles.formLine}>
             <div className={styles.formField}>
-              <label htmlFor="">Grupo:</label>
+              <label htmlFor="grupo">Grupo:</label>
               <select
                 id="grupo"
                 name="grupo"
@@ -101,7 +102,7 @@ export default function ModalCadastro(props) {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="">Vendedor:</label>
+              <label htmlFor="vendedor_id">Vendedor:</label>
               <select
                 id="vendedor"
                 name="vendedor_id"
@@ -127,7 +128,7 @@ export default function ModalCadastro(props) {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="">Status:</label>
+              <label htmlFor="status">Status:</label>
               <select
                 className={styles.select}
                 id="status"
@@ -144,8 +145,8 @@ export default function ModalCadastro(props) {
           </div>
           <div className={styles.formLine}>
             <div className={styles.formField}>
-              <label htmlFor="">Nome do Contato</label>
-              <input
+              <label htmlFor="">Nome do Contato:</label>
+              <InputForms
                 type="text"
                 onChange={props.handleInputChange}
                 name="contato"
@@ -156,8 +157,8 @@ export default function ModalCadastro(props) {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="">Telefone do Contato</label>
-              <input
+              <label htmlFor="">Telefone do Contato:</label>
+              <InputForms
                 type="text"
                 onChange={props.handleInputChange}
                 name="telefone"
@@ -168,8 +169,8 @@ export default function ModalCadastro(props) {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="">Email do Contato</label>
-              <input
+              <label htmlFor="">Email do Contato:</label>
+              <InputForms
                 type="email"
                 onChange={props.handleInputChange}
                 name="email"

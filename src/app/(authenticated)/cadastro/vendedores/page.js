@@ -6,12 +6,11 @@ import SearchFilter from "@/components/SearchFilter";
 import { hideAddForm, showAddForm } from "@/utils/utils";
 import clearInputs from "@/utils/clearInputs";
 import ModalName from "@/components/ModalName";
+import ButtonAlternative from "@/components/ButtonAlternative";
 import { Vendedor } from "@/apiServices/VendedorService";
 import styles from "@/styles/vendedores.module.css";
 import tableStyles from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
-
-import ButtonAlternative from "@/components/ButtonAlternative";
 
 export default function Vendedores() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -165,7 +164,7 @@ export default function Vendedores() {
             />
           </div>
           <div className={styles.btnContainer}>
-            <ButtonAlternative id="adicionaVendedor">
+            <ButtonAlternative id="adicionaVendedor" onClick={handleSubmit}>
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative

@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "@/styles/ClientSearch.module.css"
+import styles from "@/styles/ClientSearchBox.module.css"
 import { useState, useEffect } from "react";
 import { InputForms } from "./InputForms";
 

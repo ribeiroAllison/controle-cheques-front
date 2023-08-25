@@ -8,6 +8,10 @@
   gap: 0.5rem;
 }
 
+.inputField label {
+  font-weight: bold;
+}
+
 .searchBox {
   display: none;
   position: absolute;
