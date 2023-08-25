@@ -1,0 +1,75 @@
+.menuContainer {
+    padding-inline: 2rem;
+  }
+  
+  .menuHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .menuWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-block: 1.5rem;
+  }
+  
+  .destinationForm {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 15px;
+    gap: 2rem;
+    max-width: 800px;
+  }
+  
+  .destinationFormHeader {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  
+  .destinationFormHeader span{
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .inputCtr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .inputCtr label {
+    font-weight: bold;
+    font-size: 1.15rem;
+  }
+  
+  .inputCtr input {
+    border-radius: 15px;
+    padding-left: 0.75rem;
+    border-style: none;
+    border: 0;
+    height: 2rem;
+    background: var(--gray-200);
+    font-size: 1rem;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  
+  .btnContainer {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  #smallTable {
+    width: 50%;
+  }
+  

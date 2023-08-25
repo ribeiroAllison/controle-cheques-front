@@ -4,42 +4,48 @@ import { useState, useEffect } from "react";
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import ButtonAlternative from "@/components/ButtonAlternative";
-import { Destino } from "@/apiServices/DestinoService";
+import { Tipo } from "@/apiServices/TipoService";
 import { hideAddForm, showAddForm } from "@/utils/utils";
 import clearInputs from "@/utils/clearInputs";
 import ModalName from "@/components/ModalName";
-import styles from "@/styles/destino.module.css";
+import styles from "@/styles/tipo.module.css";
 import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 
-export default function Destinos() {
+export default function Tipos() {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
   //STATES
   const [formValues, setFormValues] = useState({ nome: "" });
-  const [destinos, setDestinos] = useState([]);
-  const [filteredList, setFilteredList] = useState();
+  const [tipos, setTipos] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
   const [editId, setEditId] = useState();
 
   // ----------------------------------- DESTINATION FUNCTIONS---------------------------------------
 
   // QUERY ALL DESTINATIONS IN DB
-  async function getAllDestinos() {
-    const { data } = await Destino.getAllDestinos();
-    if (data) {
-      setDestinos(data);
-      setFilteredList(data);
+  async function getAllTipos() {
+    try{
+        const { data } = await Tipo.getAllTipos();
+        if (data) {
+            setTipos(data);
+            setFilteredList(data);
+        }
+    } catch(error){
+        console.log(error);
+        notifyFailure('Falha ao buscar tipos cadastrados')
     }
+   
   }
 
   // CREATE A NEW DESTINATION
   const createDestination = async (e) => {
     e.preventDefault();
-    const response = await Destino.createNewDestino(formValues);
+    const response = await Tipo.createNewTipo(formValues);
     if (response && response.status === 201) {
-      getAllDestinos();
+      getAllTipos();
       notifySuccess(response.data);
     } else {
       notifyFailure(response.data);
@@ -54,13 +60,13 @@ export default function Destinos() {
 
   // DELETE A DESTINATION
   const handleDelete = async (e) => {
-    const confirmation = confirm("Você realmente deseja apagar esse destino?");
+    const confirmation = confirm("Você realmente deseja apagar esse tipo?");
     const id = e.target.closest("tr").getAttribute("data-cod");
 
     if (confirmation) {
-      const response = await Destino.deleteDestino(id);
+      const response = await Tipo.deleteTipo(id);
       if (response && response.status === 201) {
-        getAllDestinos();
+        getAllTipos();
         notifySuccess(response.data);
       } else {
         notifyFailure(response.data);
@@ -72,10 +78,10 @@ export default function Destinos() {
   const handleEdit = (e) => {
     const id = e.target.name;
     setEditId(id);
-    const destino = destinos.find((destino) => destino.id === Number(id));
+    const tipo = tipos.find((tipo) => tipo.id === Number(id));
 
-    if (destino) {
-      const nome = destino.nome;
+    if (tipo) {
+      const nome = tipo.nome;
 
       setFormValues({
         ...formValues,
@@ -93,9 +99,9 @@ export default function Destinos() {
     const nome = formValues.nome;
     const id = editId;
 
-    const response = await Destino.editDestino(id, nome);
+    const response = await Tipo.editTipo(id, nome);
     if (response && response.status === 200) {
-      getAllDestinos();
+      getAllTipos();
       clearInputs("input");
       notifySuccess(response.data);
     } else {
@@ -121,7 +127,7 @@ export default function Destinos() {
   };
 
   useEffect(() => {
-    getAllDestinos();
+    getAllTipos();
   }, []);
 
   return (
@@ -130,18 +136,18 @@ export default function Destinos() {
         <ToastContainer autoClose={2000} />
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
-            <h2 className={styles.name}>Cadastro de Destinos</h2>
+            <h2 className={styles.name}>Cadastro de tipos</h2>
             <ButtonAlternative id="addButton" onClick={showAddForm}>
-              Novo Destino
+              Novo tipo
             </ButtonAlternative>
           </div>
           <SearchFilter
-            name="Destino"
-            list={destinos}
+            name="tipo"
+            list={tipos}
             filteredList={filteredList}
             setFilteredList={setFilteredList}
             param="nome"
-            placeHolder="Procurar destino"
+            placeHolder="Procurar tipo"
           />
         </div>
 
@@ -151,7 +157,7 @@ export default function Destinos() {
           onSubmit={createDestination}
         >
           <div className={styles.destinationFormHeader}>
-            <span>Dados do Destino</span>
+            <span>Dados do tipo</span>
             <ButtonAlternative
               style={{ backgroundColor: "var(--redTd)" }}
               onClick={hideAddForm}
@@ -169,7 +175,7 @@ export default function Destinos() {
               id="nome"
               className="input"
               required
-              placeholder="Nome de Destinos de Cheques"
+              placeholder="Nome de tipos de Cheques"
               autoComplete="off"
             />
           </div>
@@ -191,17 +197,17 @@ export default function Destinos() {
           </div>
         </form>
 
-        <HeaderLine name="Destinos" />
+        <HeaderLine name="tipos" />
         <div className={tableStyle.tableWrapper}>
           <table className={tableStyle.table} id={styles.smallTable}>
             <thead>
               <tr>
-                <th>Destino</th>
+                <th>tipo</th>
                 <th>Editar</th>
                 <th>Excluir</th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {!filteredList ? (
                 <tr>
                   <td colSpan={3}>
@@ -209,24 +215,24 @@ export default function Destinos() {
                   </td>
                 </tr>
               ) : (
-                filteredList.map((destino) => (
-                  <tr key={destino.nome} data-cod={destino.id}>
-                    <td id={destino.id}>{destino.nome}</td>
+                filteredList?.map((tipo) => (
+                  <tr key={tipo.nome} data-cod={tipo.id}>
+                    <td id={tipo.id}>{tipo.nome}</td>
                     <td onClick={handleEdit}>
-                      <img name={destino.id} src="/images/edit.svg" />
+                      <img name={tipo.id} src="/images/edit.svg" />
                     </td>
-                    <td name={destino.nome} onClick={handleDelete}>
+                    <td name={tipo.nome} onClick={handleDelete}>
                       <img src="/images/trash-bin.svg" />
                     </td>
                   </tr>
                 ))
               )}
-            </tbody>
+            </tbody> */}
           </table>
         </div>
       </section>
       <ModalName
-        name="Destinos"
+        name="tipos"
         submitEdit={handleSubmitEdit}
         handleInputChange={handleInputChange}
         formValues={formValues}
