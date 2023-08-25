@@ -15,6 +15,7 @@ import {
   UserCircle,
   UserGear,
   UsersThree,
+  CurrencyCircleDollar,
   X,
 } from "@phosphor-icons/react";
 import styles from "@/styles/Header.module.css";
@@ -45,8 +46,8 @@ export default function Header({ isOpen, handleSideBar }) {
           <Image 
             src="/images/cheques-icon.svg"
             alt="logo"
-            width={70}
-            height={70}
+            width={50}
+            height={50}
           />
           {isOpen ? (
             <List
@@ -114,6 +115,12 @@ export default function Header({ isOpen, handleSideBar }) {
               <Link href="/cadastro/vendedores">
                 <Briefcase size={`${isOpen ? "42" : "28"}`} color="white" />
                 <span>Vendedores</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/cadastro/tipo">
+                <CurrencyCircleDollar size={`${isOpen ? "42" : "28"}`} color="white" />
+                <span>Tipo de Pgto</span>
               </Link>
             </li>
           </ul>
