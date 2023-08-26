@@ -55,14 +55,17 @@ export default function Clientes() {
     };
 
     for (let client of clientList) {
-      if (treatDoc(client.doc) === treatDoc(formValues.doc)) {
-        alert(
-          `Cliente com esse CPF/CNPJ já cadastrado com nome de ${client.cliente}`
-        );
-        clearInputs();
-        return;
+      if(client.doc){
+        if (treatDoc(client.doc) === treatDoc(formValues.doc)) {
+          alert(
+            `Cliente com esse CPF/CNPJ já cadastrado com nome de ${client.cliente}`
+          );
+          clearInputs();
+          return;
+        }
       }
     }
+      
 
     const response = await Cliente.createClient(formValues);
     if (response && response.status === 201) {

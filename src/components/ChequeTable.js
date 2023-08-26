@@ -55,12 +55,12 @@ return (
       <thead>
         <tr>
           {!props.submitOnMount && <th></th>}
-          <th>Cod.</th>
           <th>Cliente</th>
           <th>Grupo</th>
           <th>No. Cheque</th>
           <th>Pedido</th>
           <th>Valor</th>
+          <th>Tipo</th>
           <th>Destino</th>
           <th>Data Venc.</th>
           <th>Comp.</th>
@@ -87,13 +87,6 @@ return (
             >
               <input type="checkbox" name={cheque.id} className="checkbox"/>
             </td>}
-            <td
-              name={cheque.id}
-              id={`codCli${cheque.id}`}
-              className={assignClassStyle(cheque)}
-            >
-              {cheque.cod_cliente}
-            </td>
             <td
               name={cheque.id}
               id={`client${cheque.id}`}
@@ -128,6 +121,12 @@ return (
               className={assignClassStyle(cheque)}
             >
               {transformCurrency(cheque.valor)}
+            </td>
+            <td
+              name={cheque.id}
+              className={assignClassStyle(cheque)}
+            >
+              {cheque.tipo}
             </td>
             <td
               name={cheque.id}

@@ -13,6 +13,7 @@ import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 
+
 export default function Tipos() {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);

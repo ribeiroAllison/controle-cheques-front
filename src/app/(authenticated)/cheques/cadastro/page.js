@@ -7,6 +7,7 @@ import { InputForms } from "@/components/InputForms";
 import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
 import { Vendedor } from "@/apiServices/VendedorService";
+import { Tipo } from "@/apiServices/TipoService";
 import { clearInputs, getKeyByValue } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import styles from "@/styles/chequeCadastro.module.css";
@@ -38,6 +39,7 @@ export default function CadastroCheques() {
   const [vendedorList, setVendedorList] = useState();
   const [qtdCheques, setQtdCheques] = useState(1);
   const [selectedSeller, setSelectedSeller] = useState();
+  const [tipos, setTipos] = useState();
 
   // ---------------------------------- CHECKS FUNCTIONS ------------------------------------------------
 
@@ -109,6 +111,19 @@ export default function CadastroCheques() {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+// QUERY ALL PAYMENT TYPES
+
+  async function getAllTipos() {
+    try{
+      const {data} = await Tipo.getAllTipos();
+      if(data){
+        setTipos(data)
+      } 
+    } catch(error){
+      console.log(error)
     }
   }
   // ---------------------------------- AUX FUNCTIONS ------------------------------------------------
@@ -212,9 +227,12 @@ export default function CadastroCheques() {
     return inputs;
   };
 
+  // EFFECTS
+
   useEffect(() => {
     getAllClients();
     getAllVendedores();
+    getAllTipos();
   }, []);
 
   // ---------------------------------- RENDER ELEMENTS --------------------------------------------
@@ -258,15 +276,23 @@ export default function CadastroCheques() {
                 />
               </div>
               <div className={styles.formField}>
-                <label htmlFor="tipo">Tipo de Pagamento:</label>
-                <InputForms
-                  type="text"
-                  name="tipo"
+                <label htmlFor="tipo_id">Tipo</label>
+                <select
+                  name="tipo_id"
                   onChange={handleInputChange}
-                  defaultValue="Cheque"
-                  autoComplete="off"
-                  className="input"
-                />
+                  placeholder="Selecione Tipo"
+                  className={`${styles.select} input`}
+                >
+                  <option key="0"></option>
+                  {tipos?.map((tipo) => (
+                    <option
+                      key={tipo.id}
+                      value={tipo.id}
+                    >
+                      {tipo.nome}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

@@ -76,7 +76,7 @@ export class Cheques {
                     num: formValues[`num${i}`],
                     valor: formValues[`valor${i}`].replace(',', '.'),
                     data_rec: formValues.data_rec,
-                    tipo: formValues.tipo,
+                    tipo_id: formValues.tipo_id,
                     cliente_id: formValues.client_id,
                     pedido: formValues.pedido ? formValues.pedido : null,
                     linha: formValues[`linha${i}`] ? formValues[`linha${i}`] : null,
@@ -115,7 +115,8 @@ export class Cheques {
                 obs: editFormValues.obs,
                 data_compen: editFormValues.data_compen,
                 pedido: editFormValues.pedido,
-                vendedor_id: editFormValues.vendedor_id
+                vendedor_id: editFormValues.vendedor_id,
+                tipo_id: editFormValues.tipo_id
             });
             return response;
         } catch (error) {
