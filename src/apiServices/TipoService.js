@@ -5,11 +5,7 @@ export class Tipo {
   // QUERY ALL DESTINATIONS IN DB
   static async getAllTipos() {
     try {
-      const response = await connection.get('/tipos', {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
+      const response = await connection.get('/tipos');
       return response;
     } catch (error) {
       return error.response;

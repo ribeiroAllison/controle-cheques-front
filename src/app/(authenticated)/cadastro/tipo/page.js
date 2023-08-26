@@ -207,7 +207,7 @@ export default function Tipos() {
                 <th>Excluir</th>
               </tr>
             </thead>
-            {/* <tbody>
+            <tbody>
               {!filteredList ? (
                 <tr>
                   <td colSpan={3}>
@@ -227,7 +227,7 @@ export default function Tipos() {
                   </tr>
                 ))
               )}
-            </tbody> */}
+            </tbody>
           </table>
         </div>
       </section>
