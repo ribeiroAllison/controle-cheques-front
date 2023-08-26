@@ -19,6 +19,7 @@ import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
 import { Destino } from "@/apiServices/DestinoService";
 import { Grupo } from "@/apiServices/GrupoService";
+import { Tipo } from "@/apiServices/TipoService"
 import { ToastContainer, toast } from "react-toastify";
 import ButtonAlternative from "./ButtonAlternative";
 import ClientSearchBox from "./ClientSearchBox";
@@ -77,6 +78,7 @@ export default function ChequeControl(props) {
     num: "",
   });
   const [vendedorList, setVendedorList] = useState();
+  const [tipoList, setTipoList] = useState();
   const [contact, setContact] = useState();
   const [selected, setSelected] = useState([]);
   const [selectedSum, setSelectedSum] = useState(0);
@@ -407,6 +409,7 @@ export default function ChequeControl(props) {
     getAllGrupos();
     getAllCheques();
     getAllVendedores();
+    getAllTipos();
     refreshTables();
   }, []);
 
@@ -448,6 +451,12 @@ export default function ChequeControl(props) {
     if (data) {
       setVendedorList(data);
     }
+  }
+
+  // TIPO FUNCTIONS
+  async function getAllTipos(){
+    const { data } = await Tipo.getAllTipos();
+    data && setTipoList(data)
   }
 
   // EDIT SCREEN CLEAR HANDLE
@@ -800,6 +809,26 @@ export default function ChequeControl(props) {
                     id="editPedido"
                     autoComplete="off"
                   />
+                </div>
+
+                <div className={styles.inputField}>
+                  <label>Tipo</label>
+                  <select
+                    name="tipo_id"
+                    onChange={handleEditInputChange}
+                    className={`${styles.select} editInput`}
+                    id="editTipo"
+                  >
+                    <option key="0"></option>
+                    {tipoList?.map((tipo) => (
+                      <option
+                        key={`tipoList-${tipo.id}`}
+                        value={tipo.id}
+                      >
+                        {tipo.nome}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
