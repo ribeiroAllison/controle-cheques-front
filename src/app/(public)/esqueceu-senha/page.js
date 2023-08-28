@@ -61,6 +61,7 @@ export default function ForgotPwd() {
                 required
                 onChange={handleEmail}
                 value={email}
+                autocomplete="off"
               />
             </div>
           </form>

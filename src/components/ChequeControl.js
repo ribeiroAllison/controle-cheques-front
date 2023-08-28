@@ -19,7 +19,7 @@ import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
 import { Destino } from "@/apiServices/DestinoService";
 import { Grupo } from "@/apiServices/GrupoService";
-import { Tipo } from "@/apiServices/TipoService"
+import { Tipo } from "@/apiServices/TipoService";
 import { ToastContainer, toast } from "react-toastify";
 import ButtonAlternative from "./ButtonAlternative";
 import ClientSearchBox from "./ClientSearchBox";
@@ -289,6 +289,7 @@ export default function ChequeControl(props) {
       box.checked = false;
     }
     setSelectedSum(0);
+    setSelected([]);
   };
 
   // CHECK SEARCH SUBMIT HANDLE
@@ -454,9 +455,9 @@ export default function ChequeControl(props) {
   }
 
   // TIPO FUNCTIONS
-  async function getAllTipos(){
+  async function getAllTipos() {
     const { data } = await Tipo.getAllTipos();
-    data && setTipoList(data)
+    data && setTipoList(data);
   }
 
   // EDIT SCREEN CLEAR HANDLE
@@ -606,7 +607,10 @@ export default function ChequeControl(props) {
     <>
       <ToastContainer autoClose={2000} />
       {/* FILTER SCREEN */}
-      <div className={styles.filterWrapper} style={{ display: `${props.display}` }}>
+      <div
+        className={styles.filterWrapper}
+        style={{ display: `${props.display}` }}
+      >
         <h1 className={styles.title}>Opções de Filtros</h1>
         <section className={styles.filterField}>
           <form className={styles.filterCheckForm} id="clienteForm">
@@ -821,10 +825,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {tipoList?.map((tipo) => (
-                      <option
-                        key={`tipoList-${tipo.id}`}
-                        value={tipo.id}
-                      >
+                      <option key={`tipoList-${tipo.id}`} value={tipo.id}>
                         {tipo.nome}
                       </option>
                     ))}
@@ -941,7 +942,8 @@ export default function ChequeControl(props) {
               <ButtonAlternative
                 type="submit"
                 id="editaCheque"
-                onClick={handleEditSubmit}>
+                onClick={handleEditSubmit}
+              >
                 Salvar
               </ButtonAlternative>
             </div>
@@ -950,19 +952,19 @@ export default function ChequeControl(props) {
       </div>
 
       {/* MASSIVE EDIT MODAL*/}
-      <div id="MassWindowBackground" className={style.editBackground}>
-        <section className={style.editFieldset} id="editWindow">
-          <div className={style.popupHeader}>
-            <h2>Edição MASSIVA</h2>
+      <div id="MassWindowBackground" className={styles.editBackground}>
+        <section className={styles.editFieldset} id="editWindow">
+          <div className={styles.popupHeader}>
+            <h1>Edição Pagamentos</h1>
             <img src="/images/x-icon.svg" onClick={closeMassEdit} />
           </div>
-          <form className={style.formCtr} id={style.editForm}>
-            <div className={style.inputCtr}>
-              <h4>Destino</h4>
+          <form className={styles.massForm} id={style.editForm}>
+            <div className={styles.inputField}>
+              <label>Destino:</label>
               <select
                 name="destino_id"
                 onChange={handleEditInputChange}
-                className={`${style.select} editInput`}
+                className={`${styles.select} editInput`}
                 id="massDestino"
               >
                 <option key="0"></option>
@@ -972,9 +974,10 @@ export default function ChequeControl(props) {
                   </option>
                 ))}
               </select>
-
-              <h4>Data Entrega:</h4>
-              <input
+            </div>
+            <div className={styles.inputField}>
+              <label>Data Entrega:</label>
+              <InputForms
                 type="date"
                 name="data_destino"
                 onChange={handleEditInputChange}
@@ -983,21 +986,19 @@ export default function ChequeControl(props) {
               />
             </div>
 
-            <div className={style.statusCtr}>
-              <div className={style.inputCtr} id={style.editObs}>
-                <h4>Observação:</h4>
-                <textarea
-                  id="massEditObs"
-                  onChange={handleEditInputChange}
-                  name="obs"
-                  className="ediInput"
-                ></textarea>
-              </div>
+            <div className={styles.inputField} id="editObs">
+              <label>Observação:</label>
+              <textarea
+                id="massEditObs"
+                onChange={handleEditInputChange}
+                name="obs"
+                className="ediInput"
+              ></textarea>
             </div>
 
-            <div className={style.buttonCtr}>
-              <Button onClick={hadleEditMassive}>Salvar</Button>
-            </div>
+            <ButtonAlternative onClick={hadleEditMassive}>
+              Salvar
+            </ButtonAlternative>
           </form>
         </section>
       </div>
@@ -1062,7 +1063,7 @@ export default function ChequeControl(props) {
         </>
       )}
 
-      <ModalObs 
+      <ModalObs
         obsDetails={obsDetails}
         setObsDetails={setObsDetails}
         handleEditObs={handleEditObs}

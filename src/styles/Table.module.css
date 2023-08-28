@@ -24,8 +24,6 @@
   white-space: normal; /* Allow content to expand vertically */
   height: fit-content;
   max-width: 10rem;
-
-
 }
 
 .table td{
@@ -66,6 +64,17 @@
   font-size: 1.2rem;
   color: var(--white);
   background-color: var(--black-100);
+}
+
+.massEditCtr {
+  display: flex;
+  align-items: center;
+  padding-inline: 2rem;
+  gap: 1rem;
+}
+.massEditCtr span {
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {

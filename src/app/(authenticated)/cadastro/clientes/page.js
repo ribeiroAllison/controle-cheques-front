@@ -8,7 +8,7 @@ import { Cliente } from "@/apiServices/ClienteService";
 import ModalCadastro from "@/components/ModalCadastro";
 import clearInputs from "@/utils/clearInputs";
 import style from "@/styles/clientes.module.css";
-import styles from "@/styles/Table.module.css";
+import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
@@ -456,8 +456,8 @@ export default function Clientes() {
         </form>
       </section>
       <HeaderLine name="Clientes" />
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
+      <div className={tableStyle.tableWrapper}>
+        <table className={tableStyle.table}>
           <thead>
             <tr>
               <th>Código do Cliente</th>
@@ -489,15 +489,19 @@ export default function Clientes() {
                     {client.status}
                   </td>
                   <td>
-                    {" "}
                     <img
                       src="/images/edit.svg"
                       onClick={handleEdit}
                       name={client.id}
+                      className={tableStyle.Icon}
                     />
                   </td>
                   <td>
-                    <img src="/images/trash-bin.svg" onClick={handleDelete} />
+                    <img 
+                      src="/images/trash-bin.svg" 
+                      onClick={handleDelete}
+                      className={tableStyle.Icon}
+                    />
                   </td>
                 </tr>
               ))

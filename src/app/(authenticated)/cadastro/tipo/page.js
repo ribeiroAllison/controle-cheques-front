@@ -219,11 +219,21 @@ export default function Tipos() {
                 filteredList?.map((tipo) => (
                   <tr key={tipo.nome} data-cod={tipo.id}>
                     <td id={tipo.id}>{tipo.nome}</td>
-                    <td onClick={handleEdit}>
-                      <img name={tipo.id} src="/images/edit.svg" />
+                    <td>
+                      <img 
+                        name={tipo.id} 
+                        src="/images/edit.svg"
+                        className={tableStyle.Icon}
+                        onClick={handleEdit}
+                      />
                     </td>
-                    <td name={tipo.nome} onClick={handleDelete}>
-                      <img src="/images/trash-bin.svg" />
+                    <td>
+                      <img
+                        name={tipo.nome}
+                        src="/images/trash-bin.svg" 
+                        onClick={handleDelete}
+                        className={tableStyle.Icon}
+                      />
                     </td>
                   </tr>
                 ))
