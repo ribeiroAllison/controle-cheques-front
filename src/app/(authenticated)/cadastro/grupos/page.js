@@ -8,7 +8,7 @@ import { hideAddForm, showAddForm } from "@/utils/utils";
 import { Grupo } from "@/apiServices/GrupoService";
 import ModalName from "@/components/ModalName";
 import styles from "@/styles/grupos.module.css";
-import tableStyles from "@/styles/Table.module.css";
+import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 import ButtonAlternative from "@/components/ButtonAlternative";
@@ -182,8 +182,8 @@ export default function Grupos() {
         </form>
 
         <HeaderLine name="Grupos" />
-        <div className={tableStyles.tableWrapper}>
-          <table className={tableStyles.table} id={styles.smallTable}>
+        <div className={tableStyle.tableWrapper}>
+          <table className={tableStyle.table} id={styles.smallTable}>
             <thead>
               <tr>
                 <th>Grupo</th>
@@ -202,11 +202,21 @@ export default function Grupos() {
                 filteredList?.map((destino) => (
                   <tr key={destino.nome} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
-                    <td onClick={handleEdit}>
-                      <img src="/images/edit.svg" name={destino.id} />
+                    <td >
+                      <img 
+                        src="/images/edit.svg" 
+                        name={destino.id}
+                        className={tableStyle.Icon} 
+                        onClick={handleEdit}
+                      />
                     </td>
-                    <td name={destino.nome} onClick={handleDelete}>
-                      <img src="/images/trash-bin.svg" />
+                    <td>
+                      <img
+                        name={destino.nome}
+                        src="/images/trash-bin.svg"
+                        className={tableStyle.Icon} 
+                        onClick={handleDelete}
+                      />
                     </td>
                   </tr>
                 ))

@@ -87,6 +87,7 @@ export default function RecuperarSenha() {
                 required
                 onChange={handleEmail}
                 value={email}
+                autocomplete="off"
               />
             </div>
             <div className={styles.formField}>
@@ -97,6 +98,7 @@ export default function RecuperarSenha() {
                 required
                 onChange={handleToken}
                 value={token}
+                autocomplete="off"
               />
             </div>
             <div className={styles.formField}>
@@ -107,6 +109,7 @@ export default function RecuperarSenha() {
                 required
                 onChange={handleSenha}
                 value={senha}
+                autocomplete="off"
               />
             </div>
             <div className={styles.formField}>
@@ -117,6 +120,7 @@ export default function RecuperarSenha() {
                 required
                 onChange={handleContraSenha}
                 value={contraSenha}
+                autocomplete="off"
               />
             </div>
           </form>

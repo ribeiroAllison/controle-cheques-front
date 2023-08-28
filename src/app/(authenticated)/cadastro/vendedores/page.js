@@ -9,7 +9,7 @@ import ModalName from "@/components/ModalName";
 import ButtonAlternative from "@/components/ButtonAlternative";
 import { Vendedor } from "@/apiServices/VendedorService";
 import styles from "@/styles/vendedores.module.css";
-import tableStyles from "@/styles/Table.module.css";
+import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Vendedores() {
@@ -178,8 +178,8 @@ export default function Vendedores() {
         </form>
 
         <HeaderLine name="Vendedores" />
-        <div className={tableStyles.tableWrapper}>
-          <table className={tableStyles.table} id={styles.smallTable}>
+        <div className={tableStyle.tableWrapper}>
+          <table className={tableStyle.table} id={styles.smallTable}>
             <thead>
               <tr>
                 <th>Vendedor</th>
@@ -198,11 +198,21 @@ export default function Vendedores() {
                 filteredList?.map((vendedor) => (
                   <tr key={vendedor.nome} data-cod={vendedor.id}>
                     <td id={vendedor.id}>{vendedor.nome}</td>
-                    <td onClick={handleEdit}>
-                      <img src="/images/edit.svg" name={vendedor.id} />
+                    <td>
+                      <img 
+                        src="/images/edit.svg" 
+                        name={vendedor.id}
+                        className={tableStyle.Icon}
+                        onClick={handleEdit}
+                      />
                     </td>
-                    <td name={vendedor.nome} onClick={handleDelete}>
-                      <img src="/images/trash-bin.svg" />
+                    <td >
+                      <img 
+                        src="/images/trash-bin.svg" 
+                        name={vendedor.nome} 
+                        onClick={handleDelete} 
+                        className={tableStyle.Icon}
+                      />
                     </td>
                   </tr>
                 ))

@@ -156,6 +156,7 @@
   color: var(--buttonGreen);
   font-size: 2rem;
   padding-bottom: 2rem;
+  padding-inline: 1rem;
 }
 
 .popupHeader img {
@@ -239,6 +240,14 @@
   justify-content: space-between;
   flex-direction: column;
 }
+
+.massForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 
 @media (max-width: 768px) {
   .filterWrapper {

@@ -205,18 +205,31 @@ export default function Destinos() {
               {!filteredList ? (
                 <tr>
                   <td colSpan={3}>
-                    <img id="loading" src="/images/loading.gif" />
+                    <img 
+                      id="loading" 
+                      src="/images/loading.gif"
+                      className={tableStyle.Icon} 
+                    />
                   </td>
                 </tr>
               ) : (
                 filteredList.map((destino) => (
                   <tr key={destino.nome} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
-                    <td onClick={handleEdit}>
-                      <img name={destino.id} src="/images/edit.svg" />
+                    <td>
+                      <img 
+                        name={destino.id} 
+                        src="/images/edit.svg"
+                        className={tableStyle.Icon}
+                        onClick={handleEdit}
+                      />
                     </td>
-                    <td name={destino.nome} onClick={handleDelete}>
-                      <img src="/images/trash-bin.svg" />
+                    <td name={destino.nome}>
+                      <img 
+                        src="/images/trash-bin.svg" 
+                        className={tableStyle.Icon}
+                        onClick={handleDelete}
+                      />
                     </td>
                   </tr>
                 ))
