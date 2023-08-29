@@ -220,6 +220,7 @@ export default function CadastroCheques() {
           onChange={handleInputChange}
           id={`data_venc${i}`}
           required
+          className="input"
           autoComplete="off"
         />
       );
@@ -228,7 +229,6 @@ export default function CadastroCheques() {
   };
 
   // EFFECTS
-
   useEffect(() => {
     getAllClients();
     getAllVendedores();
@@ -270,7 +270,6 @@ export default function CadastroCheques() {
                   name="data_rec"
                   onChange={handleInputChange}
                   id="data_rec"
-                  className="input"
                   required
                   defaultValue={new Date().toISOString().split("T")[0]}
                 />
@@ -344,6 +343,7 @@ export default function CadastroCheques() {
                   id="cliente_cod"
                   onChange={handleInputChange}
                   disabled
+                  className="input"
                 />
               </div>
             </div>
@@ -358,11 +358,12 @@ export default function CadastroCheques() {
                   onChange={handleInputChange}
                   placeholder="Número do Pedido"
                   autoComplete="off"
+                  className="input"
                 />
               </div>
 
               <div className={styles.formField}>
-                <label htmlFor="vendedor_id">Vendedor</label>
+                <label htmlFor="vendedor_id">Vendedor:</label>
                 <select
                   name="vendedor_id"
                   onChange={handleInputChange}
@@ -374,7 +375,7 @@ export default function CadastroCheques() {
                     <option
                       key={seller.cod}
                       value={seller.id}
-                      defaultValue={seller.id === selectedSeller}
+                      selected={selectedSeller}
                     >
                       {seller.nome}
                     </option>
