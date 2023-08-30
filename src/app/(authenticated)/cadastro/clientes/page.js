@@ -55,7 +55,7 @@ export default function Clientes() {
     };
 
     for (let client of clientList) {
-      if(client.doc){
+      if (client.doc) {
         if (treatDoc(client.doc) === treatDoc(formValues.doc)) {
           alert(
             `Cliente com esse CPF/CNPJ já cadastrado com nome de ${client.cliente}`
@@ -65,7 +65,6 @@ export default function Clientes() {
         }
       }
     }
-      
 
     const response = await Cliente.createClient(formValues);
     if (response && response.status === 201) {
@@ -279,14 +278,6 @@ export default function Clientes() {
               Novo Cliente
             </ButtonAlternative>
           </div>
-          <SearchFilter
-            name="Cliente"
-            list={clientList}
-            filteredList={filteredList}
-            setFilteredList={setFilteredList}
-            param="cliente"
-            placeHolder="Procurar cliente"
-          />
         </div>
         <form
           className={style.clientForm}
@@ -454,6 +445,14 @@ export default function Clientes() {
             </div>
           </div>
         </form>
+        <SearchFilter
+          name="Cliente"
+          list={clientList}
+          filteredList={filteredList}
+          setFilteredList={setFilteredList}
+          param="cliente"
+          placeHolder="Procurar cliente"
+        />
       </section>
       <HeaderLine name="Clientes" />
       <div className={tableStyle.tableWrapper}>
@@ -497,8 +496,8 @@ export default function Clientes() {
                     />
                   </td>
                   <td>
-                    <img 
-                      src="/images/trash-bin.svg" 
+                    <img
+                      src="/images/trash-bin.svg"
                       onClick={handleDelete}
                       className={tableStyle.Icon}
                     />
