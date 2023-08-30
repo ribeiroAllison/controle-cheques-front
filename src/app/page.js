@@ -29,7 +29,9 @@ export default function Page() {
           </ul>
         </nav>
         <div className={header.btnContainer}>
-          <Button>Teste grátis</Button>
+          <Link href="/cadastro">
+            <Button>Teste grátis</Button>
+          </Link>
           <Link href="/login">
             <Button>Login</Button>
           </Link>
@@ -39,11 +41,15 @@ export default function Page() {
       <main className={mainSection.container}>
         <div className={mainSection.textContainer}>
           <h1>
-            <span>Esqueça a burocracia</span> e <strong>foque nos novos horizontes</strong>{" "}
-            para o seu negócio.
+            <span>Esqueça a burocracia</span> e{" "}
+            <strong>foque nos novos horizontes</strong> para o seu negócio.
           </h1>
           <h2>Sistema online de gestão de cheques</h2>
-          <Button>Teste grátis</Button>
+          <Link href="/cadastro">
+            <Button style={{ backgroundColor: "var(--green-300)" }}>
+              Teste grátis
+            </Button>
+          </Link>
         </div>
       </main>
 
@@ -92,7 +98,11 @@ export default function Page() {
 
       <section className={secondarySection.container}>
         <div className={secondarySection.btnContainer}>
-          <Button>Clique aqui e teste grátis</Button>
+          <Link href="/cadastro">
+            <Button style={{ height: "60px" }}>
+              Clique aqui e teste grátis
+            </Button>
+          </Link>
         </div>
         <div className={secondarySection.cardsWrapper}>
           <div className={secondarySection.cardContainer}>

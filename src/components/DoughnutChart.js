@@ -33,9 +33,9 @@ export default function DoughnutChart() {
         label: 'Valor em BRL',
         data: [valorTotalEstornados, valorTotalSemDestino, valorTotalVencimento],
         backgroundColor: [
-          '#56e21b',
-          '#236d05',
-          '#2da200',
+          '#AF0707',
+          '#3A96EA',
+          '#FFC100',
         ],
         borderColor: ['#000'],
         borderWidth: 1,

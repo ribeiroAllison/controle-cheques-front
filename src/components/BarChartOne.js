@@ -36,7 +36,7 @@ export default function BarChartOne() {
       {
         label: 'Valor em BRL',
         data: dataValues,
-        backgroundColor: ['#236d05'],
+        backgroundColor: ['#384B41'],
         borderColor: ['#000'],
         borderWidth: 1,
       },

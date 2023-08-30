@@ -325,7 +325,7 @@
 }
 
 .chequeOK {
-  background-color: var(--optionGreen);
+  background-color: var(--green-300);
   color: var(--white);
 }
 
