@@ -39,11 +39,13 @@ export default function Page() {
       <main className={mainSection.container}>
         <div className={mainSection.textContainer}>
           <h1>
-            <span>Esqueça a burocracia</span> e <strong>foque nos novos horizontes</strong>{" "}
-            para o seu negócio.
+            <span>Esqueça a burocracia</span> e{" "}
+            <strong>foque nos novos horizontes</strong> para o seu negócio.
           </h1>
           <h2>Sistema online de gestão de cheques</h2>
-          <Button>Teste grátis</Button>
+          <Button style={{ backgroundColor: "var(--green-300)" }}>
+            Teste grátis
+          </Button>
         </div>
       </main>
 

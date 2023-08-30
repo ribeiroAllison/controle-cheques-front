@@ -18,7 +18,7 @@ export default function HeaderUser() {
     <div>
       <div className={styles.headerUserContainer}>
         <div className={styles.headerUserWrapper}>
-          <UserFocus size={90} weight="fill" color="#44A815" />
+          <UserFocus size={90} weight="fill" color="#384b41" />
           <div className={styles.headerUserLeft}>
             <p>Olá, {name}!</p>
             <Link href="/perfil">
