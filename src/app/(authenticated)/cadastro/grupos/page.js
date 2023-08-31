@@ -131,14 +131,6 @@ export default function Grupos() {
               Novo Destino
             </ButtonAlternative>
           </div>
-          <SearchFilter
-            name="Grupo"
-            list={grupos}
-            filteredList={filteredList}
-            setFilteredList={setFilteredList}
-            param="nome"
-            placeHolder="Procurar grupo"
-          />
         </div>
 
         <form className={styles.groupForm} id="addForm" onSubmit={handleSubmit}>
@@ -165,10 +157,7 @@ export default function Grupos() {
             />
           </div>
           <div className={styles.btnContainer}>
-            <ButtonAlternative
-              id="adicionaCliente"
-              type="submit"
-            >
+            <ButtonAlternative id="adicionaCliente" type="submit">
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative
@@ -180,7 +169,14 @@ export default function Grupos() {
             </ButtonAlternative>
           </div>
         </form>
-
+        <SearchFilter
+          name="Grupo"
+          list={grupos}
+          filteredList={filteredList}
+          setFilteredList={setFilteredList}
+          param="nome"
+          placeHolder="Procurar grupo"
+        />
         <HeaderLine name="Grupos" />
         <div className={tableStyle.tableWrapper}>
           <table className={tableStyle.table} id={styles.smallTable}>
@@ -202,11 +198,11 @@ export default function Grupos() {
                 filteredList?.map((destino) => (
                   <tr key={destino.nome} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
-                    <td >
-                      <img 
-                        src="/images/edit.svg" 
+                    <td>
+                      <img
+                        src="/images/edit.svg"
                         name={destino.id}
-                        className={tableStyle.Icon} 
+                        className={tableStyle.Icon}
                         onClick={handleEdit}
                       />
                     </td>
@@ -214,7 +210,7 @@ export default function Grupos() {
                       <img
                         name={destino.nome}
                         src="/images/trash-bin.svg"
-                        className={tableStyle.Icon} 
+                        className={tableStyle.Icon}
                         onClick={handleDelete}
                       />
                     </td>

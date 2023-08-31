@@ -130,14 +130,6 @@ export default function Vendedores() {
               Novo Vendedor
             </ButtonAlternative>
           </div>
-          <SearchFilter
-            name="Vendedor"
-            list={vendedores}
-            filteredList={filteredList}
-            setFilteredList={setFilteredList}
-            param="nome"
-            placeHolder="Procurar vendedor"
-          />
         </div>
 
         <form className={styles.salesForm} id="addForm" onSubmit={handleSubmit}>
@@ -176,7 +168,14 @@ export default function Vendedores() {
             </ButtonAlternative>
           </div>
         </form>
-
+        <SearchFilter
+          name="Vendedor"
+          list={vendedores}
+          filteredList={filteredList}
+          setFilteredList={setFilteredList}
+          param="nome"
+          placeHolder="Procurar vendedor"
+        />
         <HeaderLine name="Vendedores" />
         <div className={tableStyle.tableWrapper}>
           <table className={tableStyle.table} id={styles.smallTable}>
@@ -199,18 +198,18 @@ export default function Vendedores() {
                   <tr key={vendedor.nome} data-cod={vendedor.id}>
                     <td id={vendedor.id}>{vendedor.nome}</td>
                     <td>
-                      <img 
-                        src="/images/edit.svg" 
+                      <img
+                        src="/images/edit.svg"
                         name={vendedor.id}
                         className={tableStyle.Icon}
                         onClick={handleEdit}
                       />
                     </td>
-                    <td >
-                      <img 
-                        src="/images/trash-bin.svg" 
-                        name={vendedor.nome} 
-                        onClick={handleDelete} 
+                    <td>
+                      <img
+                        src="/images/trash-bin.svg"
+                        name={vendedor.nome}
+                        onClick={handleDelete}
                         className={tableStyle.Icon}
                       />
                     </td>
