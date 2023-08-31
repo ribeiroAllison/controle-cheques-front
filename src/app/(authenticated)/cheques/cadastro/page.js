@@ -40,6 +40,7 @@ export default function CadastroCheques() {
   const [qtdCheques, setQtdCheques] = useState(1);
   const [selectedSeller, setSelectedSeller] = useState();
   const [tipos, setTipos] = useState();
+  const [selectedClient, setSelectedClient] = useState();
 
   // ---------------------------------- CHECKS FUNCTIONS ------------------------------------------------
 
@@ -77,6 +78,14 @@ export default function CadastroCheques() {
   // HANDLES CHECK(S) SUBMISSION - POST TO DB
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    
+    const cliente = clientList.filter((item) => item.id === selectedClient);
+    console.log(cliente[0]);
+    if(formValues.valor > cliente[0]){
+      notifyFailure(`Limite de crédito de ${cliente.credito} foi ultrapassado!`)
+    }
+
     const response = await Cheques.addNewCheck(formValues, qtdCheques);
     response.forEach((res) => {
       if (res.status === 201) {
@@ -115,7 +124,6 @@ export default function CadastroCheques() {
   }
 
 // QUERY ALL PAYMENT TYPES
-
   async function getAllTipos() {
     try{
       const {data} = await Tipo.getAllTipos();
@@ -131,6 +139,7 @@ export default function CadastroCheques() {
   // AUX HANDLE CLICK FUNCTION TO FIND REGISTERED CLIENTS
   const handleClick = (e) => {
     const clientId = Number(e.target.value);
+    setSelectedClient(clientId);
     const client = clientList.find((client) => client.id === clientId);
     const clientCode = document.getElementById("cliente_cod");
     clientCode.value = client.cod;
@@ -271,7 +280,7 @@ export default function CadastroCheques() {
                   onChange={handleInputChange}
                   id="data_rec"
                   required
-                  defaultValue={new Date().toISOString().split("T")[0]}
+                  value={new Date().toISOString().split("T")[0]}
                 />
               </div>
               <div className={styles.formField}>

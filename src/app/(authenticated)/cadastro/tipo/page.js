@@ -12,8 +12,6 @@ import styles from "@/styles/tipo.module.css";
 import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
-
-
 export default function Tipos() {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
@@ -28,17 +26,16 @@ export default function Tipos() {
 
   // QUERY ALL DESTINATIONS IN DB
   async function getAllTipos() {
-    try{
-        const { data } = await Tipo.getAllTipos();
-        if (data) {
-            setTipos(data);
-            setFilteredList(data);
-        }
-    } catch(error){
-        console.log(error);
-        notifyFailure('Falha ao buscar tipos cadastrados')
+    try {
+      const { data } = await Tipo.getAllTipos();
+      if (data) {
+        setTipos(data);
+        setFilteredList(data);
+      }
+    } catch (error) {
+      console.log(error);
+      notifyFailure("Falha ao buscar tipos cadastrados");
     }
-   
   }
 
   // CREATE A NEW DESTINATION
@@ -142,14 +139,6 @@ export default function Tipos() {
               Novo tipo
             </ButtonAlternative>
           </div>
-          <SearchFilter
-            name="tipo"
-            list={tipos}
-            filteredList={filteredList}
-            setFilteredList={setFilteredList}
-            param="nome"
-            placeHolder="Procurar tipo"
-          />
         </div>
 
         <form
@@ -182,10 +171,7 @@ export default function Tipos() {
           </div>
 
           <div className={styles.btnContainer}>
-            <ButtonAlternative
-              id="adicionaCliente"
-              type="submit"
-            >
+            <ButtonAlternative id="adicionaCliente" type="submit">
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative
@@ -197,8 +183,15 @@ export default function Tipos() {
             </ButtonAlternative>
           </div>
         </form>
-
-        <HeaderLine name="tipos" />
+        <SearchFilter
+          name="tipo"
+          list={tipos}
+          filteredList={filteredList}
+          setFilteredList={setFilteredList}
+          param="nome"
+          placeHolder="Procurar tipo"
+        />
+        <HeaderLine name="Tipos" />
         <div className={tableStyle.tableWrapper}>
           <table className={tableStyle.table} id={styles.smallTable}>
             <thead>
@@ -220,8 +213,8 @@ export default function Tipos() {
                   <tr key={tipo.nome} data-cod={tipo.id}>
                     <td id={tipo.id}>{tipo.nome}</td>
                     <td>
-                      <img 
-                        name={tipo.id} 
+                      <img
+                        name={tipo.id}
                         src="/images/edit.svg"
                         className={tableStyle.Icon}
                         onClick={handleEdit}
@@ -230,7 +223,7 @@ export default function Tipos() {
                     <td>
                       <img
                         name={tipo.nome}
-                        src="/images/trash-bin.svg" 
+                        src="/images/trash-bin.svg"
                         onClick={handleDelete}
                         className={tableStyle.Icon}
                       />

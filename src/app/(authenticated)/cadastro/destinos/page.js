@@ -12,7 +12,6 @@ import styles from "@/styles/destino.module.css";
 import tableStyle from "@/styles/Table.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
-
 export default function Destinos() {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
@@ -135,14 +134,6 @@ export default function Destinos() {
               Novo Destino
             </ButtonAlternative>
           </div>
-          <SearchFilter
-            name="Destino"
-            list={destinos}
-            filteredList={filteredList}
-            setFilteredList={setFilteredList}
-            param="nome"
-            placeHolder="Procurar destino"
-          />
         </div>
 
         <form
@@ -175,10 +166,7 @@ export default function Destinos() {
           </div>
 
           <div className={styles.btnContainer}>
-            <ButtonAlternative
-              id="adicionaCliente"
-              type="submit"
-            >
+            <ButtonAlternative id="adicionaCliente" type="submit">
               Adicionar
             </ButtonAlternative>
             <ButtonAlternative
@@ -190,7 +178,14 @@ export default function Destinos() {
             </ButtonAlternative>
           </div>
         </form>
-
+        <SearchFilter
+          name="Destino"
+          list={destinos}
+          filteredList={filteredList}
+          setFilteredList={setFilteredList}
+          param="nome"
+          placeHolder="Procurar destino"
+        />
         <HeaderLine name="Destinos" />
         <div className={tableStyle.tableWrapper}>
           <table className={tableStyle.table} id={styles.smallTable}>
@@ -205,10 +200,10 @@ export default function Destinos() {
               {!filteredList ? (
                 <tr>
                   <td colSpan={3}>
-                    <img 
-                      id="loading" 
+                    <img
+                      id="loading"
                       src="/images/loading.gif"
-                      className={tableStyle.Icon} 
+                      className={tableStyle.Icon}
                     />
                   </td>
                 </tr>
@@ -217,16 +212,16 @@ export default function Destinos() {
                   <tr key={destino.nome} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
                     <td>
-                      <img 
-                        name={destino.id} 
+                      <img
+                        name={destino.id}
                         src="/images/edit.svg"
                         className={tableStyle.Icon}
                         onClick={handleEdit}
                       />
                     </td>
                     <td name={destino.nome}>
-                      <img 
-                        src="/images/trash-bin.svg" 
+                      <img
+                        src="/images/trash-bin.svg"
                         className={tableStyle.Icon}
                         onClick={handleDelete}
                       />
