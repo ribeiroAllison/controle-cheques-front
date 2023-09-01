@@ -39,7 +39,8 @@ export class Cliente {
                 vendedor_id: client.vendedor,
                 contato: client.contato,
                 email: client.email,
-                telefone: client.telefone
+                telefone: client.telefone,
+                credito: client.credito,
             })
             return response;
         } catch (error) {
@@ -60,7 +61,8 @@ export class Cliente {
                 contato: client.contato,
                 email: client.email,
                 telefone: client.telefone,
-                id: client.id
+                id: client.id,
+                credito: client.credito,
             })
             return response;
         } catch (error) {

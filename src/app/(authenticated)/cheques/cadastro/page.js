@@ -8,7 +8,11 @@ import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
 import { Vendedor } from "@/apiServices/VendedorService";
 import { Tipo } from "@/apiServices/TipoService";
-import { clearInputs, getKeyByValue } from "@/utils/utils";
+import {
+  clearInputs,
+  convertToNumber,
+  getKeyByValue,
+} from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import styles from "@/styles/chequeCadastro.module.css";
 
@@ -40,6 +44,7 @@ export default function CadastroCheques() {
   const [qtdCheques, setQtdCheques] = useState(1);
   const [tipos, setTipos] = useState();
   const [selectedClient, setSelectedClient] = useState();
+  const [selectedSeller, setSelectedSeller] = useState();
 
   // ---------------------------------- CHECKS FUNCTIONS ------------------------------------------------
 
@@ -78,14 +83,25 @@ export default function CadastroCheques() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const cliente = clientList.filter((item) => item.id === selectedClient);
-    console.log(cliente[0]);
-    if (formValues.valor > cliente[0]) {
-      notifyFailure(
-        `Limite de crédito de ${cliente.credito} foi ultrapassado!`
-      );
+    const { totalValueClient, credito } = await getValueByClient();
+    let total = 0;
+
+    for(let i = 0; i < qtdCheques; i++) {
+      let fieldName = `valor${i}`;
+      let fieldValue = formValues[fieldName];
+
+      if(!isNaN(parseFloat(fieldValue))){
+        total += parseFloat(fieldValue);
+      }
     }
 
+    console.log(total);
+
+    if (credito && (totalValueClient + total) > credito) {
+      notifyFailure(
+        `Limite de crédito de ${credito} foi ultrapassado!`
+      );
+    }
     const response = await Cheques.addNewCheck(formValues, qtdCheques);
     response.forEach((res) => {
       if (res.status === 201) {
@@ -144,20 +160,20 @@ export default function CadastroCheques() {
     const client = clientList.find((client) => client.id === clientId);
     const clientCode = document.getElementById("cliente_cod");
     clientCode.value = client.cod;
+    const vendedorName = document.getElementById("vendedor_name");
 
     if (client.vendedor) {
-      const vendedor = vendedorList.find(
-        (salesmen) => salesmen.nome == client.vendedor
-      );
-      // consegui puxar vendedor na variavel acima, mas travei aqui :(
-        
+      vendedorName.value = client.vendedor;
+      const vendedorId = getKeyByValue(vendedorList, client.vendedor);
+      setSelectedSeller(vendedorId);
       setFormValues({
         ...formValues,
         cliente_cod: clientCode.value,
-        vendedor_id: vendedor.id,
+        vendedor_id: vendedorId,
         client_id: clientId,
       });
     } else {
+      setSelectedSeller("");
       setFormValues({
         ...formValues,
         cliente_cod: clientCode.value,
@@ -241,6 +257,27 @@ export default function CadastroCheques() {
     return inputs;
   };
 
+  // GET TOTAL VALUE PER CLIENT
+  const getValueByClient = async () => {
+    const cliente = clientList.filter((item) => item.id === selectedClient);
+
+    const { data } = await Cheques.getSearchedCheques({
+      cliente_id: cliente[0].id,
+    });
+    const credito = cliente[0].credito;
+    const totalValueClient = data.reduce((acc, item) => {
+      acc += convertToNumber(item.valor);
+      return acc;
+    }, 0);
+
+    const resultObj = {
+      credito,
+      totalValueClient
+    }
+
+    return resultObj;
+  };
+
   // EFFECTS
   useEffect(() => {
     getAllClients();
@@ -284,7 +321,6 @@ export default function CadastroCheques() {
                   onChange={handleInputChange}
                   id="data_rec"
                   required
-                  className="input"
                   defaultValue={new Date().toISOString().split("T")[0]}
                 />
               </div>
@@ -298,7 +334,7 @@ export default function CadastroCheques() {
                 >
                   <option key="0"></option>
                   {tipos?.map((tipo) => (
-                    <option key={tipo.id} value={tipo.id}>
+                    <option key={tipo.nome} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -381,9 +417,13 @@ export default function CadastroCheques() {
                   placeholder="Selecione Vendedor"
                   className={`${styles.select} input`}
                 >
-                  <option key="0"></option>
+                  <option key="0" id="vendedor_name"></option>
                   {vendedorList?.map((seller) => (
-                    <option key={seller.cod} value={seller.id}>
+                    <option
+                      key={seller.nome}
+                      value={seller.id}
+                      selected={seller.id === selectedSeller}
+                    >
                       {seller.nome}
                     </option>
                   ))}
