@@ -6,6 +6,7 @@ import ChequeTable from "./ChequeTable";
 import ModalContact from "./ModalContact";
 import ClientSearch from "./ClientSearch";
 import { InputForms } from "./InputForms";
+import { ModalObs } from "./ModalObs";
 import { getCookie } from "@/utils/cookie";
 import { baseURL } from "@/utils/url";
 import {
@@ -20,13 +21,12 @@ import { Cliente } from "@/apiServices/ClienteService";
 import { Destino } from "@/apiServices/DestinoService";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Tipo } from "@/apiServices/TipoService";
-import { ToastContainer, toast } from "react-toastify";
 import ButtonAlternative from "./ButtonAlternative";
 import ClientSearchBox from "./ClientSearchBox";
+import { ToastContainer, toast } from "react-toastify";
 import style from "@/styles/clientes.module.css";
 import styles from "@/styles/ChequeControl.module.css";
-import Button from "./Button";
-import { ModalObs } from "./ModalObs";
+
 
 export default function ChequeControl(props) {
   const token = getCookie("token");
@@ -479,7 +479,7 @@ export default function ChequeControl(props) {
   const handleCloseEdit = (e) => {
     e.preventDefault();
     clearInputs("editInput");
-
+    document.getElementById("searchBoxEdit").style.display = "none";
     const editWindow = document.getElementById("editWindowBackground");
     editWindow.style.display = "none";
 
@@ -517,7 +517,6 @@ export default function ChequeControl(props) {
         },
       }
     );
-    console.log(response);
     if (response.ok) {
       let jsonResponse = await response.json();
       setChequeslist(jsonResponse);

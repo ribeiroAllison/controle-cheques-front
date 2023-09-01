@@ -29,7 +29,7 @@
 .popupHeader h4,
 .popupHeader h2 {
   width: 95%;
-  color: var(--buttonGreen);
+  color: var(--green-100);
 }
 
 .popupHeader img {

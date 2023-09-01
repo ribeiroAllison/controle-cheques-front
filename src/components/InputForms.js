@@ -15,7 +15,6 @@ export const InputForms = (props) => {
     name={props.name}
     required={props.required}
     disabled={props.disabled}
-    value={props.defaultValue}
     {...otherProps}
   />
   )

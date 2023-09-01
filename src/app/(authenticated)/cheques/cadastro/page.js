@@ -38,7 +38,6 @@ export default function CadastroCheques() {
   const [clientList, setClientList] = useState();
   const [vendedorList, setVendedorList] = useState();
   const [qtdCheques, setQtdCheques] = useState(1);
-  const [selectedSeller, setSelectedSeller] = useState();
   const [tipos, setTipos] = useState();
   const [selectedClient, setSelectedClient] = useState();
 
@@ -79,11 +78,12 @@ export default function CadastroCheques() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     const cliente = clientList.filter((item) => item.id === selectedClient);
     console.log(cliente[0]);
-    if(formValues.valor > cliente[0]){
-      notifyFailure(`Limite de crédito de ${cliente.credito} foi ultrapassado!`)
+    if (formValues.valor > cliente[0]) {
+      notifyFailure(
+        `Limite de crédito de ${cliente.credito} foi ultrapassado!`
+      );
     }
 
     const response = await Cheques.addNewCheck(formValues, qtdCheques);
@@ -123,15 +123,15 @@ export default function CadastroCheques() {
     }
   }
 
-// QUERY ALL PAYMENT TYPES
+  // QUERY ALL PAYMENT TYPES
   async function getAllTipos() {
-    try{
-      const {data} = await Tipo.getAllTipos();
-      if(data){
-        setTipos(data)
-      } 
-    } catch(error){
-      console.log(error)
+    try {
+      const { data } = await Tipo.getAllTipos();
+      if (data) {
+        setTipos(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
   // ---------------------------------- AUX FUNCTIONS ------------------------------------------------
@@ -139,18 +139,22 @@ export default function CadastroCheques() {
   // AUX HANDLE CLICK FUNCTION TO FIND REGISTERED CLIENTS
   const handleClick = (e) => {
     const clientId = Number(e.target.value);
+
     setSelectedClient(clientId);
     const client = clientList.find((client) => client.id === clientId);
     const clientCode = document.getElementById("cliente_cod");
     clientCode.value = client.cod;
 
     if (client.vendedor) {
-      const vendedorId = getKeyByValue(vendedorList, client.vendedor);
-      setSelectedSeller(vendedorId);
+      const vendedor = vendedorList.find(
+        (salesmen) => salesmen.nome == client.vendedor
+      );
+      // consegui puxar vendedor na variavel acima, mas travei aqui :(
+        
       setFormValues({
         ...formValues,
         cliente_cod: clientCode.value,
-        vendedor_id: vendedorId,
+        vendedor_id: vendedor.id,
         client_id: clientId,
       });
     } else {
@@ -280,7 +284,8 @@ export default function CadastroCheques() {
                   onChange={handleInputChange}
                   id="data_rec"
                   required
-                  value={new Date().toISOString().split("T")[0]}
+                  className="input"
+                  defaultValue={new Date().toISOString().split("T")[0]}
                 />
               </div>
               <div className={styles.formField}>
@@ -293,10 +298,7 @@ export default function CadastroCheques() {
                 >
                   <option key="0"></option>
                   {tipos?.map((tipo) => (
-                    <option
-                      key={tipo.id}
-                      value={tipo.id}
-                    >
+                    <option key={tipo.id} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -330,7 +332,6 @@ export default function CadastroCheques() {
 
           <section className={styles.salesDataContainer} id="clienteForm">
             <h3 className={styles.salesTitle}>Dados da Venda</h3>
-
             <div className={styles.inputFieldsLine}>
               <div className={styles.inputField}>
                 <div className={styles.searchContainer}>
@@ -374,6 +375,7 @@ export default function CadastroCheques() {
               <div className={styles.formField}>
                 <label htmlFor="vendedor_id">Vendedor:</label>
                 <select
+                  id="vendedor"
                   name="vendedor_id"
                   onChange={handleInputChange}
                   placeholder="Selecione Vendedor"
@@ -381,11 +383,7 @@ export default function CadastroCheques() {
                 >
                   <option key="0"></option>
                   {vendedorList?.map((seller) => (
-                    <option
-                      key={seller.cod}
-                      value={seller.id}
-                      selected={selectedSeller}
-                    >
+                    <option key={seller.cod} value={seller.id}>
                       {seller.nome}
                     </option>
                   ))}
