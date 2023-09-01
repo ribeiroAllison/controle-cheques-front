@@ -15,6 +15,7 @@ export default function ClientSearch(props) {
           id={props.id}
           placeholder="Pesquise o Cliente"
           className="input"
+          autoComplete="off"
         />
       </div>
       <div className={styles.searchBox} id={props.divId}>

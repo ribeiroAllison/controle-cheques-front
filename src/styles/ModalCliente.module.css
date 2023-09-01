@@ -26,7 +26,7 @@
 }
 
 .popupHeader h1 {
-  color: var(--buttonGreen);
+  color: var(--green-100);
   font-size: 2rem;
   text-overflow: ellipsis;
   white-space: nowrap;

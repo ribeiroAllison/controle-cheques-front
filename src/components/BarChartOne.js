@@ -50,7 +50,7 @@ export default function BarChartOne() {
   return (
     <Bar
       data={data}
-      options={{ maintainAspectRatio: false, responsive: true,  }}
+      options={{ maintainAspectRatio: false, responsive: true }}
     />
   );
 }

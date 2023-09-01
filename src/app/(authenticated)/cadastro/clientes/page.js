@@ -96,6 +96,7 @@ export default function Clientes() {
       telefone,
       email,
       vendedor_id,
+      credito,
       id,
     } = formValues;
 
@@ -128,6 +129,7 @@ export default function Clientes() {
         telefone: "",
         email: "",
         id: "",
+        credito: "",
       });
     } else {
       notifyFailure(response.data);
@@ -328,6 +330,18 @@ export default function Clientes() {
                 onChange={handleInputChange}
                 id="doc"
                 placeholder="Digite CPF ou CNPJ"
+                autoComplete="off"
+              />
+            </div>
+            <div className={style.inputCtr}>
+              <h4>Limite de Crédito:</h4>
+              <input
+                type="number"
+                name="credito"
+                className="input"
+                onChange={handleInputChange}
+                id="credito"
+                placeholder="Limite em R$"
                 autoComplete="off"
               />
             </div>

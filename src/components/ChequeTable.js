@@ -230,13 +230,9 @@ export default function ChequeTable(props) {
             ))}
 
             <tr className={styles.finalRow}>
-              {props.submitOnMount ? (
-                <td colSpan={4}>TOTAL CHEQUES</td>
-              ) : (
-                <td colSpan={4}>TOTAL CHEQUES</td>
-              )}
+              <td colSpan={2}>TOTAL CHEQUES</td>
               <td>{props.list?.length}</td>
-              <td>
+              <td colSpan={3}>
                 {props.list
                   ? props.list
                       .reduce((acc, item) => {

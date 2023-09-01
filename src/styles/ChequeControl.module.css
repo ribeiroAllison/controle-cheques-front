@@ -153,7 +153,7 @@
 }
 
 .popupHeader h1 {
-  color: var(--buttonGreen);
+  color: var(--green-100);
   font-size: 2rem;
   padding-bottom: 2rem;
   padding-inline: 1rem;
