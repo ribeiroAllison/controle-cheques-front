@@ -29,6 +29,7 @@ export default function Clientes() {
     contato: "",
     telefone: "",
     email: "",
+    credito: "",
   });
 
   const [clientList, setClientList] = useState([]);
@@ -63,7 +64,7 @@ export default function Clientes() {
           clearInputs();
           return;
         }
-      }
+      } 
     }
 
     const response = await Cliente.createClient(formValues);
@@ -110,6 +111,7 @@ export default function Clientes() {
       telefone: telefone,
       email: email,
       vendedor_id: vendedor_id,
+      credito: credito,
       id: id,
     };
 
@@ -151,14 +153,6 @@ export default function Clientes() {
       } else {
         notifyFailure(response.data);
       }
-    }
-  };
-
-  // QUERY FROM DB TO RETRIEVE CLIENTS SERIAL_ID
-  const getAllSerialId = async () => {
-    const { data } = await Cliente.getAllSerialId();
-    if (data) {
-      setClientSerialId(data);
     }
   };
 
@@ -210,6 +204,7 @@ export default function Clientes() {
         email,
         telefone,
         id,
+        credito,
         cod,
       } = client;
       const grupo_id = getKeyByValue(grupoList, grupo);
@@ -226,6 +221,7 @@ export default function Clientes() {
         contato: contato,
         email: email,
         telefone: telefone,
+        credito: credito,
         id: id,
       });
       const editWindow = document.getElementById("editWindowBackground");
@@ -258,7 +254,6 @@ export default function Clientes() {
       try {
         await Promise.all([
           getAllClients(),
-          getAllSerialId(),
           getGrupos(),
           getVendedores(),
         ]);
@@ -492,7 +487,7 @@ export default function Clientes() {
               </tr>
             ) : (
               filteredList?.map((client) => (
-                <tr key={client.cod} data-cod={client.id}>
+                <tr key={client.id} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`doc${client.cod}`}>{client.doc}</td>

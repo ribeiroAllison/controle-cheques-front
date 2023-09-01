@@ -136,7 +136,7 @@ export default function ChequeControl(props) {
   const handleEdit = (cheque, param) => {
     const editWindow = document.getElementById(param);
     editWindow.style.display = "flex";
-
+    console.log(cheque);
     const id = cheque.id;
     setChequeId(id);
 
@@ -767,7 +767,7 @@ export default function ChequeControl(props) {
             <div className={styles.inputGroup}>
               <div className={styles.inputLine}>
                 <div className={styles.inputField}>
-                  <label htmlFor="número_cheque">No. Cheque</label>
+                  <label htmlFor="número_cheque">No. Cheque:</label>
                   <InputForms
                     type="text"
                     onChange={handleEditInputChange}
@@ -791,7 +791,7 @@ export default function ChequeControl(props) {
 
               <div className={styles.inputLine}>
                 <div className={styles.inputField}>
-                  <label htmlFor="valor">Valor</label>
+                  <label htmlFor="valor">Valor:</label>
                   <InputForms
                     type="text"
                     onChange={handleEditInputChange}
@@ -803,7 +803,7 @@ export default function ChequeControl(props) {
                 </div>
 
                 <div className={styles.inputField}>
-                  <label>Pedido</label>
+                  <label>Pedido:</label>
                   <InputForms
                     type="number"
                     onChange={handleEditInputChange}
@@ -815,7 +815,7 @@ export default function ChequeControl(props) {
                 </div>
 
                 <div className={styles.inputField}>
-                  <label>Tipo</label>
+                  <label>Tipo:</label>
                   <select
                     name="tipo_id"
                     onChange={handleEditInputChange}
@@ -836,7 +836,7 @@ export default function ChequeControl(props) {
             <div className={styles.inputGroup}>
               <div className={styles.inputLine}>
                 <div className={styles.inputField}>
-                  <label>Vencimento</label>
+                  <label>Vencimento:</label>
                   <InputForms
                     type="date"
                     onChange={handleEditInputChange}
@@ -846,7 +846,7 @@ export default function ChequeControl(props) {
                   />
                 </div>
                 <div className={styles.inputField}>
-                  <label>Destino</label>
+                  <label>Destino:</label>
                   <select
                     name="destino_id"
                     onChange={handleEditInputChange}
@@ -868,7 +868,7 @@ export default function ChequeControl(props) {
 
               <div className={styles.inputLine}>
                 <div className={styles.inputField}>
-                  <label>Vendedor</label>
+                  <label>Vendedor:</label>
                   <select
                     name="vendedor_id"
                     onChange={handleEditInputChange}
@@ -896,11 +896,21 @@ export default function ChequeControl(props) {
                     className="input"
                   />
                 </div>
+
+                <div className={styles.inputField}>
+                  <label>Data de Cadastro:</label>
+                  <InputForms
+                    type="date"
+                    name=""
+                    disabled
+                    value=""
+                  />
+                </div>
               </div>
             </div>
             <div className={styles.statusWrapper}>
               <fieldset className={styles.statusFieldset}>
-                <span>Status</span>
+                <span>Status:</span>
                 <div className={styles.inputField}>
                   <label htmlFor="data_compen">Compensação:</label>
                   <InputForms
