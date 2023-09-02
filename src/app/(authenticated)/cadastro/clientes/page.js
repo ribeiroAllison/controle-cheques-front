@@ -1,18 +1,18 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
-import { useState, useEffect } from "react";
-import { getKeyByValue, showAddForm, hideAddForm } from "@/utils/utils";
-import { Cliente } from "@/apiServices/ClienteService";
 import ModalCadastro from "@/components/ModalCadastro";
-import clearInputs from "@/utils/clearInputs";
-import style from "@/styles/clientes.module.css";
-import tableStyle from "@/styles/Table.module.css";
-import { ToastContainer, toast } from "react-toastify";
+import ButtonAlternative from "@/components/ButtonAlternative";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
-import ButtonAlternative from "@/components/ButtonAlternative";
+import { Cliente } from "@/apiServices/ClienteService";
+import clearInputs from "@/utils/clearInputs";
+import { getKeyByValue, showAddForm, hideAddForm } from "@/utils/utils";
+import { ToastContainer, toast } from "react-toastify";
+import tableStyle from "@/styles/Table.module.css";
+import style from "@/styles/clientes.module.css";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -292,7 +292,7 @@ export default function Clientes() {
           </div>
           <div className={style.formLine}>
             <div className={style.inputCtr}>
-              <h4>Código:</h4>
+              <label htmlFor="codigo">Código:</label>
               <input
                 type="text"
                 name="codigo"
@@ -303,8 +303,8 @@ export default function Clientes() {
                 autoComplete="off"
               />
             </div>
-            <div className={`${style.nameCtr} ${style.inputCtr}`}>
-              <h4>Nome:</h4>
+            <div className={`${style.inputCtr}`}>
+              <label htmlFor="nome">Nome:</label>
               <input
                 type="text"
                 name="nome"
@@ -317,7 +317,7 @@ export default function Clientes() {
               />
             </div>
             <div className={style.inputCtr}>
-              <h4>CPF/CNPJ:</h4>
+              <label htmlFor="doc">CPF/CNPJ:</label>
               <input
                 type="text"
                 name="doc"
@@ -329,7 +329,7 @@ export default function Clientes() {
               />
             </div>
             <div className={style.inputCtr}>
-              <h4>Limite de Crédito:</h4>
+              <label htmlFor="credito">Limite de Crédito:</label>
               <input
                 type="number"
                 name="credito"
@@ -342,8 +342,8 @@ export default function Clientes() {
             </div>
           </div>
           <div className={style.formLine}>
-            <div className={`${style.nameCtr} ${style.inputCtr}`}>
-              <h4>Grupo:</h4>
+            <div className={`${style.inputCtr}`}>
+              <label htmlFor="grupo">Grupo:</label>
               <select
                 id="grupo"
                 name="grupo"
@@ -362,12 +362,12 @@ export default function Clientes() {
                   : null}
               </select>
             </div>
-            <div className={`${style.nameCtr} ${style.inputCtr}`}>
-              <h4>Vendedor:</h4>
+            <div className={style.inputCtr}>
+              <label htmlFor="vendedor">Vendedor:</label>
               <select
                 id="vendedor"
                 name="vendedor"
-                className={`${style.select}`}
+                className={style.select}
                 onChange={handleInputChange}
               >
                 <option></option>
@@ -383,7 +383,7 @@ export default function Clientes() {
               </select>
             </div>
             <div className={style.inputCtr}>
-              <h4>Status:</h4>
+              <label htmlFor="status">Status:</label>
               <select
                 className={`${style.select} input`}
                 id="status"
@@ -398,11 +398,11 @@ export default function Clientes() {
               </select>
             </div>
           </div>
-          <div className={style.buttonCtr}>
+          <div className={style.contactArea}>
             <fieldset className={style.fieldset}>
               <p>Dados de Contato:</p>
               <div className={style.fieldsWrapper}>
-                <div className={`${style.nameCtr} ${style.inputCtr}`}>
+                <div className={style.inputCtr}>
                   <label htmlFor="contato">Nome do Contato:</label>
                   <input
                     type="text"
@@ -414,7 +414,7 @@ export default function Clientes() {
                     autoComplete="off"
                   />
                 </div>
-                <div className={`${style.inputCtr}`}>
+                <div className={style.inputCtr}>
                   <label htmlFor="telefone">Telefone:</label>
                   <input
                     type="text"
@@ -426,7 +426,7 @@ export default function Clientes() {
                     autoComplete="off"
                   />
                 </div>
-                <div className={`${style.inputCtr}`}>
+                <div className={style.inputCtr}>
                   <label htmlFor="email">E-mail:</label>
                   <input
                     type="email"
@@ -460,6 +460,7 @@ export default function Clientes() {
           filteredList={filteredList}
           setFilteredList={setFilteredList}
           param="cliente"
+          param2="cod"
           placeHolder="Procurar cliente"
         />
       </section>

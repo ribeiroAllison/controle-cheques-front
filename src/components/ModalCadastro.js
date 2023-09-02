@@ -17,6 +17,7 @@ export default function ModalCadastro(props) {
       contato: "",
       email: "",
       telefone: "",
+      credito: "",
     });
 
     const editWindow = document.getElementById("editWindowBackground");
@@ -70,6 +71,18 @@ export default function ModalCadastro(props) {
                 name="codigo"
                 className={`${styles.inputField} ${styles.codeField}`}
                 value={props.formValues.codigo}
+              />
+            </div>
+            <div className={styles.formField}>
+              <label htmlFor="">Limite de Crédito:</label>
+              <InputForms
+                type="number"
+                onChange={props.handleInputChange}
+                name="credito"
+                className={`${styles.inputField} ${styles.emailField}`}
+                id="editCredit"
+                value={props.formValues.credito}
+                placeHolder="R$ 1.000.000,00"
               />
             </div>
           </div>
@@ -126,7 +139,6 @@ export default function ModalCadastro(props) {
                   : null}
               </select>
             </div>
-
             <div className={styles.formField}>
               <label htmlFor="status">Status:</label>
               <select
@@ -143,7 +155,9 @@ export default function ModalCadastro(props) {
               </select>
             </div>
           </div>
-          <div className={styles.formLine}>
+
+          <div className={styles.formContactColumn}>
+            <h2>Dados de Contato</h2>
             <div className={styles.formField}>
               <label htmlFor="">Nome do Contato:</label>
               <InputForms
@@ -180,11 +194,13 @@ export default function ModalCadastro(props) {
               />
             </div>
           </div>
-
-          <ButtonAlternative type="submit" id="editaCheque">
-            Editar
-          </ButtonAlternative>
         </form>
+        <ButtonAlternative 
+          form="clientEditForm" 
+          type="submit" 
+          id="editaCheque"
+        >Editar
+        </ButtonAlternative>
       </section>
     </div>
   );

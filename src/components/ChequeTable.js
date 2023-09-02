@@ -1,18 +1,17 @@
 "use client";
 
-import style from "@/styles/clientes.module.css";
 import {
   convertToNumber,
   transformCurrency,
   transformDate,
 } from "@/utils/utils";
-import styles from "@/styles/Table.module.css";
 import {
   ChatCircleDots,
   IdentificationCard,
   PencilLine,
   Trash,
 } from "@phosphor-icons/react";
+import styles from "@/styles/Table.module.css";
 import ButtonAlternative from "./ButtonAlternative";
 
 export default function ChequeTable(props) {
@@ -23,13 +22,13 @@ export default function ChequeTable(props) {
       !cheque.linha &&
       !cheque.destino
     ) {
-      return style.vencTrue;
+      return styles.vencTrue;
     } else if (cheque.compensado) {
-      return style.chequeOK;
+      return styles.chequeOK;
     } else if (cheque.linha) {
-      return style.semFundo;
+      return styles.semFundo;
     } else if (!cheque.compensado && cheque.destino) {
-      return style.withDestino;
+      return styles.withDestino;
     }
   };
 
@@ -230,7 +229,7 @@ export default function ChequeTable(props) {
             ))}
 
             <tr className={styles.finalRow}>
-              <td colSpan={2}>TOTAL CHEQUES</td>
+              <td colSpan={3}>TOTAL CHEQUES</td>
               <td>{props.list?.length}</td>
               <td colSpan={3}>
                 {props.list

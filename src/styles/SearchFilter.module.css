@@ -1,0 +1,13 @@
+.formCtr {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.formCtr input {
+  border-radius: 15px;
+  height: 2rem;
+  padding-left: 1rem;
+  font-size: 1.25rem;
+}
