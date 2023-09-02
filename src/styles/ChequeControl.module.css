@@ -160,7 +160,7 @@
 }
 
 .popupHeader img {
-  width: 15px;
+  width: 20px;
 }
 
 .popupHeader img:hover,
@@ -248,6 +248,9 @@
   width: 100%;
 }
 
+.editTrue {
+  background-color: var(--lightGray);
+}
 
 @media (max-width: 768px) {
   .filterWrapper {

@@ -18,33 +18,31 @@ export default function ModalContact(props) {
         </div>
         <form className={styles.editFormCtr}>
           <div className={`${styles.formField}`} id="clienteBox">
-            <div className={styles.formFieldDiv}>
-              <label htmlFor="name">Nome do Contato:</label>
-              <InputForms
-                name="name"
-                type="text"
-                disabled
-                value={props.contact?.contato}
-              />
-            </div>
-            <div className={styles.formFieldDiv}>
-              <label htmlFor="email">Email:</label>
-              <InputForms
-                name="email"
-                type="text"
-                disabled
-                value={props.contact?.email}
-              />
-            </div>
-            <div className={styles.formFieldDiv}>
-              <label htmlFor="phone">Telefone:</label>
-              <InputForms
-                name="phone"
-                type="text"
-                disabled
-                value={props.contact?.telefone}
-              />
-            </div>
+            <label htmlFor="name">Nome do Contato:</label>
+            <InputForms
+              name="name"
+              type="text"
+              disabled
+              value={props.contact?.contato}
+            />
+          </div>
+          <div className={styles.formField}>
+            <label htmlFor="email">Email:</label>
+            <InputForms
+              name="email"
+              type="text"
+              disabled
+              value={props.contact?.email}
+            />
+          </div>
+          <div className={styles.formField}>
+            <label htmlFor="phone">Telefone:</label>
+            <InputForms
+              name="phone"
+              type="text"
+              disabled
+              value={props.contact?.telefone}
+            />
           </div>
         </form>
       </section>

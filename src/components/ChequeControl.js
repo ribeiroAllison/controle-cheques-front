@@ -24,7 +24,6 @@ import { Tipo } from "@/apiServices/TipoService";
 import ButtonAlternative from "./ButtonAlternative";
 import ClientSearchBox from "./ClientSearchBox";
 import { ToastContainer, toast } from "react-toastify";
-import style from "@/styles/clientes.module.css";
 import styles from "@/styles/ChequeControl.module.css";
 
 
@@ -144,7 +143,7 @@ export default function ChequeControl(props) {
 
     const selectRow = document.getElementsByName(id);
     for (let cell of selectRow) {
-      cell.classList.add(`${style.editTrue}`);
+      cell.classList.add(`${styles.editTrue}`);
     }
 
     const codCli = cheque.cod_cliente;
@@ -492,7 +491,7 @@ export default function ChequeControl(props) {
   const deleteEditClass = () => {
     const allTds = document.querySelectorAll("td, img");
     for (let td of allTds) {
-      td.classList.remove(`${style.editTrue}`);
+      td.classList.remove(`${styles.editTrue}`);
     }
   };
 
@@ -967,7 +966,7 @@ export default function ChequeControl(props) {
             <h1>Edição Pagamentos</h1>
             <img src="/images/x-icon.svg" onClick={closeMassEdit} />
           </div>
-          <form className={styles.massForm} id={style.editForm}>
+          <form className={styles.massForm} id="editForm">
             <div className={styles.inputField}>
               <label>Destino:</label>
               <select

@@ -196,7 +196,7 @@ export default function Tipos() {
           <table className={tableStyle.table} id={styles.smallTable}>
             <thead>
               <tr>
-                <th>tipo</th>
+                <th>Tipo de Pagamento</th>
                 <th>Editar</th>
                 <th>Excluir</th>
               </tr>
@@ -236,7 +236,7 @@ export default function Tipos() {
         </div>
       </section>
       <ModalName
-        name="tipos"
+        name="Tipos"
         submitEdit={handleSubmitEdit}
         handleInputChange={handleInputChange}
         formValues={formValues}

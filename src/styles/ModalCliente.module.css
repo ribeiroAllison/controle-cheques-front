@@ -17,6 +17,11 @@
   min-width: 600px;
 }
 
+.editFieldset button {
+  display: block;
+  margin: 0.5rem auto;
+}
+
 .popupHeader {
   display: flex;
   justify-content: space-between;
@@ -34,7 +39,7 @@
 }
 
 .popupHeader img {
-  width: 15px;
+  width: 20px;
 }
 
 .popupHeader img:hover,
@@ -45,15 +50,31 @@
 
 .editFormCtr {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center
+  gap: 3rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 .formLine {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.formContactColumn {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: var(--green-200);
+  border-radius: 10px;
+}
+
+.formContactColumn label,
+.formContactColumn h2 {
+  color: var(--white);
 }
 
 .formField {
@@ -89,12 +110,17 @@
   font-size: 1rem;
 }
 
-.formFieldDiv {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+@media (max-width: 768px) {
+  .editFormCtr {
+    flex-direction: column;
+    align-items: center;
+  }
+  .editFieldset {
+    min-width: auto;
+  }
 
-.clientInputField {
-  width: 100%;
+  .popupHeader {
+    justify-content: center;
+    gap: 2rem;
+  }
 }

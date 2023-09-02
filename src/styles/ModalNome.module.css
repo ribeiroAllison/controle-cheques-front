@@ -21,19 +21,18 @@
 
 .popupHeader {
   display: flex;
-  height: 22%;
+  gap: 1rem;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.popupHeader h4,
-.popupHeader h2 {
-  width: 95%;
+.popupHeader h1 {
   color: var(--green-100);
+  font-size: 2rem;
 }
 
 .popupHeader img {
-  width: 15px;
+  width: 20px;
 }
 
 .popupHeader img:hover {
@@ -48,25 +47,21 @@
   gap: 1rem;
 }
 
-.inputCtr input {
-  border-radius: 15px;
-  padding-left: 0.75rem;
-  border-style: none;
-  border: 0;
-  height: 2rem;
-  background: var(--gray-200);
-  font-size: 1rem;
-  width: 300px;
-}
-
 .formField {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
+}
+
+.formField input {
+  min-width: 200px;
+  width: 100%;
 }
 
 .formField label {
   font-size: 1.25rem;
+  font-weight: bold;
 }
 
 #smallTable {

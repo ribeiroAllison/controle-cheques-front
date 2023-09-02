@@ -77,6 +77,34 @@
   font-weight: bold;
 }
 
+.vencTrue {
+  background-color: var(--blueTd);
+  color: var(--white);
+}
+
+.semFundo {
+  background-color: var(--redTd);
+  color: var(--white);
+}
+
+.chequeOK {
+  background-color: var(--green-200);
+  color: var(--white);
+}
+
+.editTrue {
+  background-color: var(--lightGray);
+}
+
+.chequeOK.editTrue {
+  background-color: var(--lightGray);
+}
+
+.withDestino {
+  background-color: var(--yellowTd);
+}
+
+
 @media (max-width: 768px) {
   /* Add responsive styles if needed */
 }
