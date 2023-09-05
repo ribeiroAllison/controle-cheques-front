@@ -6,7 +6,7 @@ import { InputForms } from "./InputForms";
 export default function ClientSearch(props) {
   return (
     <div className={`${styles.inputWrapper}`} id="clienteBox">
-      <div className={styles.inputField}>
+      <div className="inputField">
         <label htmlFor="cliente">Cliente:</label>
         <InputForms
           type="text"

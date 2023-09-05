@@ -30,7 +30,6 @@ export default function ForgotPwd() {
     };
 
     const response = await User.generateToken(user);
-    console.log(response);
     if (response && response.status === 200) {
       notifySuccess(response.data);
       setEmail("");
@@ -53,7 +52,7 @@ export default function ForgotPwd() {
             onSubmit={handleSubmit}
             id="form"
           >
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="email"
                 type="email"

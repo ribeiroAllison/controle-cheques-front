@@ -614,7 +614,7 @@ export default function ChequeControl(props) {
           <form className={styles.filterCheckForm} id="clienteForm">
             <div className={styles.formDiv}>
               <div className={styles.filterLine}>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label htmlFor="destino_id">Destino:</label>
                   <select
                     name="destino_id"
@@ -630,7 +630,7 @@ export default function ChequeControl(props) {
                     ))}
                   </select>
                 </div>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label htmlFor="grupo">Grupo:</label>
                   <select
                     name="grupo"
@@ -657,7 +657,7 @@ export default function ChequeControl(props) {
               </div>
 
               <div className={styles.filterLine}>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label>No. Pedido:</label>
                   <input
                     type="text"
@@ -667,7 +667,7 @@ export default function ChequeControl(props) {
                     className="input"
                   />
                 </div>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label>No. Cheque:</label>
                   <input
                     type="text"
@@ -699,7 +699,7 @@ export default function ChequeControl(props) {
             <div className={styles.fieldSetDiv}>
               <fieldset className={`${styles.fieldset}`}>
                 <span>Vencimento</span>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label htmlFor="data_init">Data Inicial:</label>
                   <InputForms
                     type="date"
@@ -709,7 +709,7 @@ export default function ChequeControl(props) {
                     className="input"
                   />
                 </div>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label>Data Fim:</label>
                   <InputForms
                     type="date"
@@ -722,7 +722,7 @@ export default function ChequeControl(props) {
               </fieldset>
               <fieldset className={`${styles.fieldset}`}>
                 <span>Status</span>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label htmlFor="compensado">Compensado:</label>
                   <select
                     className={`${styles.select} input`}
@@ -735,7 +735,7 @@ export default function ChequeControl(props) {
                     <option value={true}>Sim</option>
                   </select>
                 </div>
-                <div className={styles.formField}>
+                <div className="formField">
                   <label htmlFor="vencido">Vencido:</label>
                   <select
                     className={`${styles.select} input`}
@@ -765,7 +765,7 @@ export default function ChequeControl(props) {
           <form className={styles.checkForm}>
             <div className={styles.inputGroup}>
               <div className={styles.inputLine}>
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label htmlFor="número_cheque">No. Cheque:</label>
                   <InputForms
                     type="text"
@@ -789,7 +789,7 @@ export default function ChequeControl(props) {
               </div>
 
               <div className={styles.inputLine}>
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label htmlFor="valor">Valor:</label>
                   <InputForms
                     type="text"
@@ -801,7 +801,7 @@ export default function ChequeControl(props) {
                   />
                 </div>
 
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Pedido:</label>
                   <InputForms
                     type="number"
@@ -813,7 +813,7 @@ export default function ChequeControl(props) {
                   />
                 </div>
 
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Tipo:</label>
                   <select
                     name="tipo_id"
@@ -834,7 +834,7 @@ export default function ChequeControl(props) {
 
             <div className={styles.inputGroup}>
               <div className={styles.inputLine}>
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Vencimento:</label>
                   <InputForms
                     type="date"
@@ -844,7 +844,7 @@ export default function ChequeControl(props) {
                     id="editDataVenc"
                   />
                 </div>
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Destino:</label>
                   <select
                     name="destino_id"
@@ -866,7 +866,7 @@ export default function ChequeControl(props) {
               </div>
 
               <div className={styles.inputLine}>
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Vendedor:</label>
                   <select
                     name="vendedor_id"
@@ -886,7 +886,7 @@ export default function ChequeControl(props) {
                   </select>
                 </div>
 
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Data Entrega:</label>
                   <InputForms
                     type="date"
@@ -896,7 +896,7 @@ export default function ChequeControl(props) {
                   />
                 </div>
 
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label>Data de Cadastro:</label>
                   <InputForms
                     type="date"
@@ -910,7 +910,7 @@ export default function ChequeControl(props) {
             <div className={styles.statusWrapper}>
               <fieldset className={styles.statusFieldset}>
                 <span>Status:</span>
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label htmlFor="data_compen">Compensação:</label>
                   <InputForms
                     type="date"
@@ -921,7 +921,7 @@ export default function ChequeControl(props) {
                   />
                 </div>
 
-                <div className={styles.inputField}>
+                <div className="inputField">
                   <label htmlFor="linha">Linha:</label>
                   <select
                     className={`${styles.select} input`}
@@ -937,7 +937,7 @@ export default function ChequeControl(props) {
                     ))}
                   </select>
                 </div>
-                <div className={styles.inputField} id="editObs">
+                <div className="inputField" id="editObs">
                   <label>Observação:</label>
                   <textarea
                     id="editObsTextarea"
@@ -967,7 +967,7 @@ export default function ChequeControl(props) {
             <img src="/images/x-icon.svg" onClick={closeMassEdit} />
           </div>
           <form className={styles.massForm} id="editForm">
-            <div className={styles.inputField}>
+            <div className="inputField">
               <label>Destino:</label>
               <select
                 name="destino_id"
@@ -983,7 +983,7 @@ export default function ChequeControl(props) {
                 ))}
               </select>
             </div>
-            <div className={styles.inputField}>
+            <div className="inputField">
               <label>Data Entrega:</label>
               <InputForms
                 type="date"
@@ -994,7 +994,7 @@ export default function ChequeControl(props) {
               />
             </div>
 
-            <div className={styles.inputField} id="editObs">
+            <div className="inputField" id="editObs">
               <label>Observação:</label>
               <textarea
                 id="massEditObs"

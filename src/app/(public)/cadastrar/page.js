@@ -10,12 +10,12 @@ import styles from "@/styles/cadastro.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 
+
 export default function Cadastro() {
   const router = useRouter();
 
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
-
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -54,7 +54,7 @@ export default function Cadastro() {
     const response = await User.registerUser(user);
 
     if (response && response.status === 200) {
-      notifySuccess(response.data.message);
+      notifySuccess(response.data);
 
       setNome("");
       setEmail("");
@@ -65,7 +65,7 @@ export default function Cadastro() {
         router.push("/login");
       }, 2200);
     } else {
-      notifyFailure(response.data.message);
+      notifyFailure(response.data);
     }
   };
 
@@ -80,7 +80,7 @@ export default function Cadastro() {
             onSubmit={handleSubmit}
             id="form"
           >
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="nome"
                 type="text"
@@ -90,7 +90,7 @@ export default function Cadastro() {
                 value={nome}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="email"
                 type="email"
@@ -100,7 +100,7 @@ export default function Cadastro() {
                 value={email}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="senha1"
                 type="password"
@@ -110,7 +110,7 @@ export default function Cadastro() {
                 value={senha}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="senha2"
                 type="password"

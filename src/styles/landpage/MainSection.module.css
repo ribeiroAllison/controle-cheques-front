@@ -30,7 +30,7 @@
   color: var(--white);
 }
 
-.textContainer strong {
+.textContainer em {
   font-weight: bold;
   color: var(--white);
 }

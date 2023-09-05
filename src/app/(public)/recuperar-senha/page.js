@@ -71,7 +71,7 @@ export default function RecuperarSenha() {
   return (
     <>
       <ToastContainer autoClose={1500} />
-      <div className={styles.recoverPwdWrapper}>
+      <section className={styles.recoverPwdWrapper}>
         <div className={styles.formContainer}>
           <h1>Redefina sua senha</h1>
           <form
@@ -79,7 +79,7 @@ export default function RecuperarSenha() {
             onSubmit={handleSubmit}
             id="form"
           >
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="email"
                 type="email"
@@ -90,7 +90,7 @@ export default function RecuperarSenha() {
                 autocomplete="off"
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="token"
                 type="text"
@@ -101,7 +101,7 @@ export default function RecuperarSenha() {
                 autocomplete="off"
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="senha1"
                 type="password"
@@ -112,7 +112,7 @@ export default function RecuperarSenha() {
                 autocomplete="off"
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="senha2"
                 type="password"
@@ -129,7 +129,7 @@ export default function RecuperarSenha() {
           </Button>
           <Link href="/login">
             <Button
-              style={{ backgroundColor: "white", color: "var(--green-300)" }}
+              style={{ backgroundColor: "white", color: "var(--green-200)" }}
               type="submit"
               form="form"
             >
@@ -137,7 +137,7 @@ export default function RecuperarSenha() {
             </Button>
           </Link>
         </div>
-      </div>
+      </section>
     </>
   );
 }
