@@ -85,7 +85,7 @@ export class Cheques {
                     obs: formValues.obs ? formValues.obs : null,
                     vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
                     compensado: isCompensadoVar(formValues, 15, i),
-                    vencido: isVencidoVar(formValues, 4, i),
+                    vencido: isVencidoVar(formValues, i),
                     data_venc: formValues[`data_venc${i}`] ? formValues[`data_venc${i}`] : null,
                     data_compen: formValues[`data_compen${i}`] ? formValues[`data_compen${i}`] : null,
                     data_destino: formValues.data_destino ? formValues.data_destino : null
@@ -109,7 +109,7 @@ export class Cheques {
                 valor: transformValue(editFormValues.valor),
                 data_venc: editFormValues.data_venc,
                 compensado: isCompensado(editFormValues, 15),
-                vencido: isVencido(editFormValues, 4),
+                vencido: isVencido(editFormValues),
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
                 obs: editFormValues.obs,

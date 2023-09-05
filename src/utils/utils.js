@@ -1,3 +1,5 @@
+import { Configuracao } from "@/apiServices/ConfigService";
+
 export const clearInputs = (inputId) => {
   const inputs = document.getElementsByClassName(inputId);
   for (let input of inputs) {
@@ -6,17 +8,22 @@ export const clearInputs = (inputId) => {
 };
 
 export const linhas = [
-  11, 12, 13, 14, 20, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44,
+  11, 12, 13, 14, 20, 22, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44,
   45, 48, 49, 59, 60, 61, 64,
 ];
 
-export const isVencido = (formValues, excessDays) => {
+export const isVencido = async (formValues) => {
+  
+  const {tolerancia_venc} = await Configuracao.getConfig() || 0
+
+  console.log(tolerancia_venc)
+
   const hoje = new Date();
   const compDate = formValues.data_compen
     ? new Date(formValues.data_compen)
     : "";
   const vencDate = new Date(formValues.data_venc);
-  vencDate.setDate(vencDate.getDate() + excessDays);
+  vencDate.setDate(vencDate.getDate() + tolerancia_venc);
 
   let result;
 
@@ -31,13 +38,17 @@ export const isVencido = (formValues, excessDays) => {
   return result;
 };
 
-export const isVencidoVar = (formValues, excessDays, i) => {
+export const isVencidoVar = async (formValues, i) => {
+
+  const {tolerancia_venc} = await Configuracao.getConfig() || 0
+
+
   const hoje = new Date();
   const compDate = formValues[`data_compen${i}`]
     ? new Date(formValues[`data_compen${i}`])
     : "";
   const vencDate = new Date(formValues[`data_venc${i}`]);
-  vencDate.setDate(vencDate.getDate() + excessDays);
+  vencDate.setDate(vencDate.getDate() + tolerancia_venc);
 
   let result;
 
