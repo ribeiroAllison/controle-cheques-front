@@ -101,6 +101,11 @@ export class Cheques {
 
     // EDIT CHECK DATA
     static async editCheck(editFormValues, chequeId) {
+
+        const config = await Configuracao.getConfig();
+        const { tolerancia_venc } = config.data[0]
+
+
         try {
             const response = await connection.put('/cheques', {
                 id: chequeId,
@@ -109,7 +114,7 @@ export class Cheques {
                 valor: transformValue(editFormValues.valor),
                 data_venc: editFormValues.data_venc,
                 compensado: isCompensado(editFormValues, 15),
-                vencido: isVencido(editFormValues),
+                vencido: isVencido(editFormValues, tolerancia_venc),
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
                 obs: editFormValues.obs,
