@@ -10,12 +10,12 @@ import styles from "@/styles/cadastro.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 
+
 export default function Cadastro() {
   const router = useRouter();
 
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
-
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -54,7 +54,7 @@ export default function Cadastro() {
     const response = await User.registerUser(user);
 
     if (response && response.status === 200) {
-      notifySuccess(response.data.message);
+      notifySuccess(response.data);
 
       setNome("");
       setEmail("");
@@ -65,7 +65,7 @@ export default function Cadastro() {
         router.push("/login");
       }, 2200);
     } else {
-      notifyFailure(response.data.message);
+      notifyFailure(response.data);
     }
   };
 

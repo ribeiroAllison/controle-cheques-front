@@ -29,7 +29,7 @@ export default function Page() {
           </ul>
         </nav>
         <div className={header.btnContainer}>
-          <Link href="/cadastro">
+          <Link href="/cadastrar">
             <Button>Teste grátis</Button>
           </Link>
           <Link href="/login">

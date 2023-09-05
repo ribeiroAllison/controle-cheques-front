@@ -99,7 +99,7 @@ export default function Login() {
               <Button type="submit" form="form">
                 Login
               </Button>
-              <Link href="/cadastro">Ainda não possui conta?</Link>
+              <Link href="/cadastrar">Ainda não possui conta?</Link>
             </div>
           </LoginCard>
         </div>
