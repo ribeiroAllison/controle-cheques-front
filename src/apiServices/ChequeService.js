@@ -1,4 +1,5 @@
 import { connection } from '../utils/connection';
+import { Configuracao } from './ConfigService';
 import { isCompensado, isCompensadoVar, isVencido, isVencidoVar, transformValue } from '@/utils/utils';
 
 export class Cheques {

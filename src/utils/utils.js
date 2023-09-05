@@ -12,23 +12,13 @@ export const linhas = [
   45, 48, 49, 59, 60, 61, 64,
 ];
 
-export const isVencido = async (formValues) => {
-  
-  const config = await Configuracao.getConfig();
-  const { tolerancia_venc } = config.data[0]
-
-  console.log(`tolerancia_venc: ${tolerancia_venc} - type: ${typeof tolerancia_venc}`)
-
-  const excessDays = tolerancia_venc || 0
-
-
+export const isVencido = (formValues, excessDays) => {
   const hoje = new Date();
   const compDate = formValues.data_compen
     ? new Date(formValues.data_compen)
     : "";
   const vencDate = new Date(formValues.data_venc);
-  vencDate.setDate(vencDate.getDate() + excessDays);
-  console.log(`vencDate: ${vencDate}`);
+  vencDate.setDate(vencDate.getDate() + (excessDays+1));
 
   let result;
 
@@ -40,7 +30,6 @@ export const isVencido = async (formValues) => {
     result = false;
   }
 
-  console.log(`result: ${result} - type: ${typeof result}`)
   return result;
 };
 
