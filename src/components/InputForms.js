@@ -2,7 +2,7 @@ import styles from "@/styles/InputForm.module.css"
 
 export const InputForms = (props) => {
   const { className: propClassName, ...otherProps } = props;
-  const combinedClassName = `${styles.inputField} ${propClassName || ''}`;
+  const combinedClassName = `${styles.formInput} ${propClassName || ''}`;
 
   return ( 
   <input 

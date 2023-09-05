@@ -11,7 +11,6 @@ import styles from "@/styles/dashboardPage.module.css";
 export default function Page() {
   const [cheques, setCheques] = useState([]);
   const [estornados, setEstornados] = useState([]);
-  const [inadimplenciaRatio, setInadimplenciaRatio] = useState();
 
   const transformAndSumValues = (array) => {
     const sumArray = [];
@@ -94,7 +93,7 @@ export default function Page() {
   return (
     <>
       <HeaderLine name="Dashboards" />
-      <div className={`${styles.dashboardsWrapper} addMarginLeft`}>
+      <section className={styles.dashboardsWrapper}>
         <div className={styles.graphs}>
           <BarChartOne />
         </div>
@@ -104,7 +103,7 @@ export default function Page() {
         <div className={styles.ratioWrapper}>
           <div className={styles.graphsRatio}>
             <h2 className={styles.graphsTitle}>Inadimplência 30 dias</h2>
-            <h3>{ratioInadimplencia()}</h3>
+            <span>{ratioInadimplencia()}</span>
           </div>
           <div className={styles.graphsTypes}>
             <ul>
@@ -127,7 +126,7 @@ export default function Page() {
             </ul>
           </div>
         </div>
-      </div>
+      </section>
 
       <ChequeControl
         headerLine="Estornados"

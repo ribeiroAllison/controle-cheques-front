@@ -2,16 +2,6 @@
   position: relative;
 }
 
-.inputField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.inputField label {
-  font-weight: bold;
-}
-
 .searchBox {
   display: none;
   position: absolute;
@@ -32,6 +22,6 @@
 }
 
 .customOption:hover {
-  background-color: var(--optionGreen);
+  background-color: var(--green-100);
   cursor: pointer;
 }

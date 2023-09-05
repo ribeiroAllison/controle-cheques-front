@@ -43,7 +43,7 @@
   font-size: 1rem;
   min-width: 200px;
   width: 100%;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 .select {
@@ -59,12 +59,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-}
-
-.formField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .searchContainer {
@@ -182,26 +176,6 @@
   gap: 1rem;
 }
 
-.inputField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-}
-
-.inputField label {
-  font-weight: bold;
-}
-
-.inputField textarea {
-  border-radius: 15px;
-  background-color: var(--lightGray);
-  padding: 0.5rem;
-  font-family: 'Nunito', sans-serif;
-  min-height: 80px;
-  font-size: 0.875rem;
-}
-
 .statusWrapper {
   display: flex;
   flex-direction: column;
@@ -229,12 +203,21 @@
   font-weight: bold;
 }
 
+.statusFieldset textarea {
+  border-radius: 15px;
+  background-color: var(--gray-200);
+  padding: 0.5rem;
+  font-family: "Nunito", sans-serif;
+  min-height: 80px;
+  font-size: 0.875rem;
+}
+
 #obsCtr {
   background-color: var(--white);
   width: 400px;
   height: 200px;
   border-radius: 10px;
-  border: 1px solid var(--black);
+  border: 1px solid var(--black-100);
   padding: 5px;
   display: flex;
   justify-content: space-between;
@@ -249,7 +232,7 @@
 }
 
 .editTrue {
-  background-color: var(--lightGray);
+  background-color: var(--gray-200);
 }
 
 @media (max-width: 768px) {

@@ -80,7 +80,7 @@ export default function Cadastro() {
             onSubmit={handleSubmit}
             id="form"
           >
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="nome"
                 type="text"
@@ -90,7 +90,7 @@ export default function Cadastro() {
                 value={nome}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="email"
                 type="email"
@@ -100,7 +100,7 @@ export default function Cadastro() {
                 value={email}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="senha1"
                 type="password"
@@ -110,7 +110,7 @@ export default function Cadastro() {
                 value={senha}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <Input
                 id="senha2"
                 type="password"

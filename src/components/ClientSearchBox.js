@@ -28,8 +28,8 @@ export default function ClientSearchBox(props) {
   }, [props.formValues.cliente]);
 
   return (
-    <div className={`${styles.inputCtr}`} id="clienteBox">
-      <div className={styles.inputField}>
+    <div className={styles.inputCtr} id="clienteBox">
+      <div className="inputField">
         <label htmlFor="cliente">Cliente:</label>
         <InputForms
           type="text"

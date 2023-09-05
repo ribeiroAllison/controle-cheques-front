@@ -47,21 +47,9 @@
   gap: 1rem;
 }
 
-.formField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-}
-
 .formField input {
   min-width: 200px;
   width: 100%;
-}
-
-.formField label {
-  font-size: 1.25rem;
-  font-weight: bold;
 }
 
 #smallTable {

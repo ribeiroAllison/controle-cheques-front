@@ -294,7 +294,7 @@ export default function CadastroCheques() {
         <form onSubmit={handleSubmit} className={styles.checkForm}>
           <div className={styles.formInputsWrapper}>
             <div className={styles.formLine}>
-              <div className={styles.formField}>
+              <div className="formField">
                 <label htmlFor="checkQty">Quantidade de Cheques</label>
                 <select
                   name="checkQty"
@@ -313,7 +313,7 @@ export default function CadastroCheques() {
                   <option value="10">10</option>
                 </select>
               </div>
-              <div className={styles.formField}>
+              <div className="formField">
                 <label htmlFor="data_rec">Data de Recebimento:</label>
                 <InputForms
                   type="date"
@@ -324,7 +324,7 @@ export default function CadastroCheques() {
                   defaultValue={new Date().toISOString().split("T")[0]}
                 />
               </div>
-              <div className={styles.formField}>
+              <div className="formField">
                 <label htmlFor="tipo_id">Tipo</label>
                 <select
                   name="tipo_id"
@@ -369,7 +369,7 @@ export default function CadastroCheques() {
           <section className={styles.salesDataContainer} id="clienteForm">
             <h3 className={styles.salesTitle}>Dados da Venda</h3>
             <div className={styles.inputFieldsLine}>
-              <div className={styles.inputField}>
+              <div className="inputField">
                 <div className={styles.searchContainer}>
                   <ClientSearchBox
                     clientList={clientList}
@@ -381,7 +381,7 @@ export default function CadastroCheques() {
                 </div>
               </div>
 
-              <div className={styles.formField}>
+              <div className="formField">
                 <label htmlFor="cliente_cod">Código do Cliente:</label>
                 <InputForms
                   type="text"
@@ -395,7 +395,7 @@ export default function CadastroCheques() {
             </div>
 
             <div className={styles.inputFieldsLine}>
-              <div className={styles.formField}>
+              <div className="formField">
                 <label htmlFor="pedido">Número do Pedido:</label>
                 <InputForms
                   type="number"
@@ -408,7 +408,7 @@ export default function CadastroCheques() {
                 />
               </div>
 
-              <div className={styles.formField}>
+              <div className="formField">
                 <label htmlFor="vendedor_id">Vendedor:</label>
                 <select
                   id="vendedor"

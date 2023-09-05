@@ -38,7 +38,7 @@ export default function ModalCadastro(props) {
           onSubmit={props.submitEdit}
         >
           <div className={styles.formLine}>
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="nome">Nome:</label>
               <InputForms
                 type="text"
@@ -51,7 +51,7 @@ export default function ModalCadastro(props) {
               />
             </div>
 
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="doc">Documento:</label>
               <InputForms
                 type="text"
@@ -63,7 +63,7 @@ export default function ModalCadastro(props) {
               />
             </div>
 
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="codigo">Código:</label>
               <InputForms
                 type="text"
@@ -73,7 +73,7 @@ export default function ModalCadastro(props) {
                 value={props.formValues.codigo}
               />
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="">Limite de Crédito:</label>
               <InputForms
                 type="number"
@@ -88,7 +88,7 @@ export default function ModalCadastro(props) {
           </div>
 
           <div className={styles.formLine}>
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="grupo">Grupo:</label>
               <select
                 id="grupo"
@@ -114,7 +114,7 @@ export default function ModalCadastro(props) {
               </select>
             </div>
 
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="vendedor_id">Vendedor:</label>
               <select
                 id="vendedor"
@@ -139,7 +139,7 @@ export default function ModalCadastro(props) {
                   : null}
               </select>
             </div>
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="status">Status:</label>
               <select
                 className={styles.select}
@@ -158,7 +158,7 @@ export default function ModalCadastro(props) {
 
           <div className={styles.formContactColumn}>
             <h2>Dados de Contato</h2>
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="">Nome do Contato:</label>
               <InputForms
                 type="text"
@@ -170,7 +170,7 @@ export default function ModalCadastro(props) {
               />
             </div>
 
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="">Telefone do Contato:</label>
               <InputForms
                 type="text"
@@ -182,7 +182,7 @@ export default function ModalCadastro(props) {
               />
             </div>
 
-            <div className={styles.formField}>
+            <div className="formField">
               <label htmlFor="">Email do Contato:</label>
               <InputForms
                 type="email"

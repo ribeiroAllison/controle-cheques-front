@@ -55,12 +55,12 @@ export default function Login() {
   return (
     <>
       <ToastContainer autoClose={1500} />
-      <div className={styles.loginWrapper}>
-        <div className={styles.imgWrapper}>
+      <section className={styles.loginWrapper}>
+        <figure className={styles.imgWrapper}>
           <img src="/images/login-img.svg" alt="" />
           <h1>Seja bem-vindo!</h1>
           <p>Acesse sua conta e organize suas entradas e saídas de cheques.</p>
-        </div>
+        </figure>
         <div className={styles.formWrapper}>
           <LoginCard title="Faça login para continuar">
             <form
@@ -103,7 +103,7 @@ export default function Login() {
             </div>
           </LoginCard>
         </div>
-      </div>
+      </section>
     </>
   );
 }

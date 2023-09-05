@@ -1,16 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 :root {
-  --navColor: #316e0f;
-  --black30: #303030;
-  --black: black;
-  --black30Faint: #252328;
-  --buttonGreen: #56e21b;
-  --buttonGreenHover: #3b9011;
-  --optionGreen: #42b413;
-  --lightGray: #d9dddc;
-  --labelGray: #444444;
-
   --white: white;
   --yellowTd: #FFC100;
   --redTd: #AF0707;
@@ -39,17 +29,17 @@
 }
 
 * {
-  color: var(--black30);
+  color: var(--black-100);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
   list-style: none;
+  font-family: 'Nunito', sans-serif;
 }
 
 body {
   -webkit-font-smoothing: antialiased;
-  font-family: 'Nunito', sans-serif;
 }
 
 .Bom {
@@ -66,11 +56,7 @@ body {
 }
 
 a:hover {
-  color: var(--labelGray);
-}
-
-.addMarginLeft {
-  margin-left: 20px;
+  color: var(--gray-100);
 }
 
 #addForm {
@@ -81,6 +67,23 @@ a:hover {
   height: 10rem;
 }
 
-#contactWindow {
-  width: 25rem;
+/* INPUT OR SIMILAR CLASSES */
+
+label {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formField {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 100%;
 }

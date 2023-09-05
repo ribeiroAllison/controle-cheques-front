@@ -46,11 +46,6 @@
   width: 100%;
 }
 
-.formField {
-  display: flex;
-  flex-direction: column;
-}
-
 @media (max-width: 768px) {
   .recoverPwdContainer {
     padding: 0 0.5rem;

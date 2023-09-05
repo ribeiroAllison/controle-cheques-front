@@ -11,9 +11,16 @@ export const ModalObs = ({
   return (
     <div id={style.obsBackground} className="obsScreen">
       <div className={style.obsCtr}>
+        <img src="/images/x-icon.svg" onClick={handleCloseObs} />
         <div className={style.popupHeader}>
-          <h1>{`Cheque ${obsDetails.num} do cliente ${obsDetails.cliente}`}</h1>
-          <img src="/images/x-icon.svg" onClick={handleCloseObs} />
+          <div className={style.popupHeaderTitle}>
+            <span>No. Cheque:</span>
+            <p>{obsDetails.num}</p>
+          </div>
+          <div className={style.popupHeaderTitle}>
+            <span>Cliente:</span>
+            <p>{obsDetails.cliente}</p>
+          </div>
         </div>
         <div className={style.obsContent}>
           <label>Observação:</label>
@@ -26,17 +33,14 @@ export const ModalObs = ({
         </div>
 
         <div className={style.btnContainer}>
-          <ButtonAlternative 
-            type="submit" 
-            id="editObs" 
-            onClick={handleEditObs}>
+          <ButtonAlternative type="submit" id="editObs" onClick={handleEditObs}>
             Salvar
           </ButtonAlternative>
           <ButtonAlternative
             type="submit"
             id="deleteObs"
             onClick={handleClearObs}
-            style={{ backgroundColor: "var(--redTd)"}}
+            style={{ backgroundColor: "var(--redTd)" }}
           >
             Deletar
           </ButtonAlternative>
