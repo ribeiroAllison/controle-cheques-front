@@ -49,6 +49,7 @@
 }
 
 .graphsTypes span {
+  flex: 1;
   width: 6rem;
   height: 0.875rem;
   border-radius: 7px;
@@ -56,6 +57,10 @@
 
 .graphsTypes p {
   font-size: 1.15rem;
+  font-weight: bold;
+  flex: 1;
+  min-width: 200px;
+  white-space: nowrap;
 } 
 
 .graphsRatio {
@@ -71,12 +76,13 @@
 
 .graphsTitle {
   font-size: 2rem;
-  color: var(--black30);
+  color: var(--black-100);
 }
 
-.graphsRatio h3 {
+.graphsRatio span {
   font-size: 8vw;
   color: var(--green-200);
+  font-weight: bold;
 }
 
 .compensado {
@@ -111,6 +117,10 @@
 
   .graphsRatio {
     padding: 1rem;
+  }
+
+  .graphsRatio span {
+    font-size: 15vw;
   }
 
   .graphsTitle {

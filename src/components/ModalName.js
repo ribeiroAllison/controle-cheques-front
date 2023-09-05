@@ -23,7 +23,7 @@ export default function ModalName(props) {
           id={styles.editForm}
           onSubmit={props.submitEdit}
         >
-          <div className={styles.formField}>
+          <div className="formField">
             <label htmlFor="nome">Nome:</label>
             <InputForms
               type="text"

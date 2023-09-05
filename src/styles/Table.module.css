@@ -93,11 +93,11 @@
 }
 
 .editTrue {
-  background-color: var(--lightGray);
+  background-color: var(--gray-200);
 }
 
 .chequeOK.editTrue {
-  background-color: var(--lightGray);
+  background-color: var(--gray-200);
 }
 
 .withDestino {

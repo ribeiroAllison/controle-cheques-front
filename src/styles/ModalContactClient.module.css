@@ -9,15 +9,15 @@
   justify-content: center;
 }
 
-.editFieldset {
+.contactFieldset {
   background-color: var(--white);
   border-radius: 10px;
   border: 1px solid black;
   padding: 2rem;
-  min-width: 600px;
+  max-width: 500px;
 }
 
-.editFieldset button {
+.contactFieldset button {
   display: block;
   margin: 0.5rem auto;
 }
@@ -26,7 +26,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding-bottom: 2rem;
+  gap: 2rem;
+  padding-bottom: 1rem;
   overflow: hidden;
 }
 
@@ -48,38 +49,12 @@
   cursor: pointer;
 }
 
-.editFormCtr {
-  display: flex;
-  gap: 3rem;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-.formLine {
+.contactFormCtr {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
   flex-wrap: wrap;
-}
-
-.formContactColumn {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  padding: 1rem;
-  background-color: var(--green-200);
-  border-radius: 10px;
-}
-
-.formContactColumn label,
-.formContactColumn h2 {
-  color: var(--white);
-}
-
-.formField label {
-  font-size: 1.25rem;
-  font-weight: bold;
+  gap: 1rem;
 }
 
 .select {
@@ -95,11 +70,11 @@
 }
 
 @media (max-width: 768px) {
-  .editFormCtr {
+  .contactFormCtr {
     flex-direction: column;
     align-items: center;
   }
-  .editFieldset {
+  .contactFieldset {
     min-width: auto;
   }
 

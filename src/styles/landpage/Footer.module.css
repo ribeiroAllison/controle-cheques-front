@@ -1,5 +1,5 @@
 .container {
-  background-color: var(--labelGray);
+  background-color: var(--gray-100);
   padding: 2rem;
   display: flex;
 }
@@ -10,6 +10,7 @@
 
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10rem;
 }
 
@@ -35,6 +36,7 @@
   .footerWrapper {
     gap: 2rem;
     left: auto;
+    justify-content: center;
   }
   
   .footerWrapper p {

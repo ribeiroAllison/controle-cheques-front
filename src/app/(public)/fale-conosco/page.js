@@ -30,7 +30,7 @@ export default function FaleConosco() {
   return (
     <>
       <ToastContainer autoClose={1500} />
-      <div className={styles.faleConoscoWrapper}>
+      <section className={styles.faleConoscoWrapper}>
         <div className={styles.formContainer}>
           <h1>Envie sua mensagem para nosso time</h1>
           <form
@@ -76,7 +76,7 @@ export default function FaleConosco() {
           </Button>
           <Link href="/login">Voltar para login.</Link>
         </div>
-      </div>
+      </section>
     </>
   );
 }

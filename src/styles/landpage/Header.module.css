@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-around;
   padding: 1.675rem 3.3rem;
-  background-color: var(--labelGray);
+  background-color: var(--gray-100);
 }
 
 .imgContainer {
