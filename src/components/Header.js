@@ -6,7 +6,7 @@ import { removeCookie } from "@/utils/cookie";
 import {
   ArrowsLeftRight,
   Briefcase,
-  ClockCounterClockwise,
+  Gear,
   Coins,
   List,
   MagnifyingGlass,
@@ -148,15 +148,15 @@ export default function Header({ isOpen, handleSideBar }) {
         </div>
 
         <div className={styles.menuSection}>
-          <p>Relatórios</p>
+          <p>Ajustes</p>
           <ul className={styles.menuOptions}>
             <li>
-              <Link href="#">
-                <ClockCounterClockwise
+              <Link href="/configuracoes">
+                <Gear
                   size={`${isOpen ? "42" : "28"}`}
                   color="white"
                 />
-                <span>Vencidos</span>
+                <span>Configurações</span>
               </Link>
             </li>
             <li>
