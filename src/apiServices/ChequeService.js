@@ -119,7 +119,15 @@ export class Cheques {
         const config = await Configuracao.getConfig();
         const { tolerancia_venc, tolerancia_comp, ativo } = config.data[0]
 
-        const excessDays = ativo ? tolerancia_venc : 0;
+        let vencDays, compDays;
+
+        if(ativo){
+            vencDays = tolerancia_venc
+            compDays = tolerancia_comp
+        } else {
+            vencDays = 0
+            compDays = 0
+        }
 
 
         try {
@@ -129,8 +137,8 @@ export class Cheques {
                 numCheque: editFormValues.número_cheque,
                 valor: transformValue(editFormValues.valor),
                 data_venc: editFormValues.data_venc,
-                compensado: isCompensado(editFormValues, 15),
-                vencido: isVencido(editFormValues, excessDays),
+                compensado: isCompensado(editFormValues, compDays),
+                vencido: isVencido(editFormValues, vencDays),
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
                 obs: editFormValues.obs,
