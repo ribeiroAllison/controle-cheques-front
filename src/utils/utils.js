@@ -33,17 +33,14 @@ export const isVencido = (formValues, excessDays) => {
   return result;
 };
 
-export const isVencidoVar = async (formValues, i) => {
-
-  const {tolerancia_venc} = await Configuracao.getConfig() || 0
-
+export const isVencidoVar = async (formValues, i, excessDays) => {
 
   const hoje = new Date();
   const compDate = formValues[`data_compen${i}`]
     ? new Date(formValues[`data_compen${i}`])
     : "";
   const vencDate = new Date(formValues[`data_venc${i}`]);
-  vencDate.setDate(vencDate.getDate() + tolerancia_venc);
+  vencDate.setDate(vencDate.getDate() + (excessDays +1));
 
   let result;
 

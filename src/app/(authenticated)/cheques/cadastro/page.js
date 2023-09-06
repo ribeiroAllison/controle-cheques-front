@@ -103,7 +103,7 @@ export default function CadastroCheques() {
       );
     }
     const response = await Cheques.addNewCheck(formValues, qtdCheques);
-    response.forEach((res) => {
+    response?.forEach((res) => {
       if (res.status === 201) {
         notifySuccess(res.data);
       } else {

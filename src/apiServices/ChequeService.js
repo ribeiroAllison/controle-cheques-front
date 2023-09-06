@@ -68,6 +68,14 @@ export class Cheques {
 
     // CREATE ONE OR MORE CHECKS IN DB
     static async addNewCheck(formValues, qtdCheques) {
+
+        const config = await Configuracao.getConfig();
+        const { tolerancia_comp, ativo } = config.data[0]
+
+        const excessDays = ativo ?  tolerancia_comp : 0;
+
+        console.log(`comp: ${tolerancia_comp}, excess: ${excessDays}, excess-type: ${typeof excessDays}`)
+
         try {
             let checksList = [];
             let responses = [];
@@ -86,14 +94,16 @@ export class Cheques {
                     obs: formValues.obs ? formValues.obs : null,
                     vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
                     compensado: isCompensadoVar(formValues, 15, i),
-                    vencido: isVencidoVar(formValues, i),
+                    vencido: isVencidoVar(formValues, i, excessDays),
                     data_venc: formValues[`data_venc${i}`] ? formValues[`data_venc${i}`] : null,
                     data_compen: formValues[`data_compen${i}`] ? formValues[`data_compen${i}`] : null,
                     data_destino: formValues.data_destino ? formValues.data_destino : null
                 });
                 responses.push(response);
                 checksList.push(formValues[`num${i}`]);
+                
             }
+            
             return responses;
         } catch (error) {
             return error.response;
@@ -104,7 +114,9 @@ export class Cheques {
     static async editCheck(editFormValues, chequeId) {
 
         const config = await Configuracao.getConfig();
-        const { tolerancia_venc } = config.data[0]
+        const { tolerancia_venc, ativo } = config.data[0]
+
+        const excessDays = ativo ? tolerancia_venc : 0;
 
 
         try {
@@ -115,7 +127,7 @@ export class Cheques {
                 valor: transformValue(editFormValues.valor),
                 data_venc: editFormValues.data_venc,
                 compensado: isCompensado(editFormValues, 15),
-                vencido: isVencido(editFormValues, tolerancia_venc),
+                vencido: isVencido(editFormValues, excessDays),
                 linha: editFormValues.linha,
                 destino: editFormValues.destino_id,
                 obs: editFormValues.obs,
