@@ -68,13 +68,18 @@ export class Cheques {
 
     // CREATE ONE OR MORE CHECKS IN DB
     static async addNewCheck(formValues, qtdCheques) {
-
         const config = await Configuracao.getConfig();
-        const { tolerancia_comp, ativo } = config.data[0]
+        const { tolerancia_venc, tolerancia_comp, ativo } = config.data[0]
 
-        const excessDays = ativo ?  tolerancia_comp : 0;
+        let vencDays, compDays;
 
-        console.log(`comp: ${tolerancia_comp}, excess: ${excessDays}, excess-type: ${typeof excessDays}`)
+        if(ativo){
+            vencDays = tolerancia_venc
+            compDays = tolerancia_comp
+        } else {
+            vencDays = 0
+            compDays = 0
+        }
 
         try {
             let checksList = [];
@@ -93,17 +98,15 @@ export class Cheques {
                     terceiro: formValues.terceiro,
                     obs: formValues.obs ? formValues.obs : null,
                     vendedor_id: formValues.vendedor_id ? formValues.vendedor_id : null,
-                    compensado: isCompensadoVar(formValues, 15, i),
-                    vencido: isVencidoVar(formValues, i, excessDays),
+                    compensado: isCompensadoVar(formValues, compDays, i),
+                    vencido: isVencidoVar(formValues, vencDays, i),
                     data_venc: formValues[`data_venc${i}`] ? formValues[`data_venc${i}`] : null,
                     data_compen: formValues[`data_compen${i}`] ? formValues[`data_compen${i}`] : null,
                     data_destino: formValues.data_destino ? formValues.data_destino : null
                 });
                 responses.push(response);
                 checksList.push(formValues[`num${i}`]);
-                
             }
-            
             return responses;
         } catch (error) {
             return error.response;
@@ -114,7 +117,7 @@ export class Cheques {
     static async editCheck(editFormValues, chequeId) {
 
         const config = await Configuracao.getConfig();
-        const { tolerancia_venc, ativo } = config.data[0]
+        const { tolerancia_venc, tolerancia_comp, ativo } = config.data[0]
 
         const excessDays = ativo ? tolerancia_venc : 0;
 
