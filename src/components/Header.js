@@ -127,7 +127,7 @@ export default function Header({ isOpen, handleSideBar }) {
         </div>
 
         <div className={styles.menuSection}>
-          <p>Cheques</p>
+          <p>Recebíveis</p>
           <ul className={styles.menuOptions}>
             <li>
               <Link href="/cheques/cadastro">
@@ -148,7 +148,7 @@ export default function Header({ isOpen, handleSideBar }) {
         </div>
 
         <div className={styles.menuSection}>
-          <p>Ajustes</p>
+          <p>Outros</p>
           <ul className={styles.menuOptions}>
             <li>
               <Link href="/configuracoes">

@@ -66,7 +66,7 @@ export default function ChequeTable(props) {
               {!props.submitOnMount && <th></th>}
               <th>Cliente</th>
               <th>Grupo</th>
-              <th>No. Cheque</th>
+              <th>No.</th>
               <th>Pedido</th>
               <th>Valor</th>
               <th>Tipo</th>

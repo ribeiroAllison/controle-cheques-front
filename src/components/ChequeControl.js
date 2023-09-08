@@ -668,7 +668,7 @@ export default function ChequeControl(props) {
                   />
                 </div>
                 <div className="formField">
-                  <label>No. Cheque:</label>
+                  <label>No. Recebível:</label>
                   <input
                     type="text"
                     name="número_cheque"

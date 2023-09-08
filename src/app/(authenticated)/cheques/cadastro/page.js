@@ -69,8 +69,7 @@ export default function CadastroCheques() {
           name={`num${i}`}
           onChange={handleInputChange}
           id={`num${i}`}
-          required
-          placeholder={`Número do cheque ${i + 1}`}
+          placeholder={`No. do Recebível ${i + 1}`}
           className="input numCheque"
           autoComplete="off"
         />
@@ -288,14 +287,14 @@ export default function CadastroCheques() {
   // ---------------------------------- RENDER ELEMENTS --------------------------------------------
   return (
     <>
-      <h1 className={styles.title}>Dados do Cheque</h1>
+      <h1 className={styles.title}>Dados do Recebível</h1>
       <section>
         <ToastContainer autoClose={2000} />
         <form onSubmit={handleSubmit} className={styles.checkForm}>
           <div className={styles.formInputsWrapper}>
             <div className={styles.formLine}>
               <div className="formField">
-                <label htmlFor="checkQty">Quantidade de Cheques</label>
+                <label htmlFor="checkQty">Qtd de Recebimentos</label>
                 <select
                   name="checkQty"
                   onChange={changeCheckQuantity}

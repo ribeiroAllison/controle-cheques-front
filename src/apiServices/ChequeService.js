@@ -87,7 +87,7 @@ export class Cheques {
 
             for (let i = 0; i < qtdCheques; i++) {
                 const response = await connection.post('/cheques', {
-                    num: formValues[`num${i}`],
+                    num: formValues[`num${i}`] ? formValues[`num${i}`] : null,
                     valor: formValues[`valor${i}`].replace(',', '.'),
                     data_rec: formValues.data_rec,
                     tipo_id: formValues.tipo_id,
