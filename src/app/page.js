@@ -107,7 +107,7 @@ export default function Page() {
 
         <section className={secondarySection.container}>
           <div className={secondarySection.btnContainer}>
-            <Link href="/cadastro">
+            <Link href="/cadastrar">
               <Button style={{ height: "60px" }}>
                 Clique aqui e teste grátis
               </Button>
