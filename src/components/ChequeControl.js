@@ -758,7 +758,7 @@ export default function ChequeControl(props) {
       <div id="editWindowBackground" className={styles.editBackground}>
         <section className={styles.editFieldset} id="editWindow">
           <div className={styles.popupHeader}>
-            <h1>Edição de Cheque</h1>
+            <h1>Edição de Recebível</h1>
             <img src="/images/x-icon.svg" onClick={handleCloseEdit} />
           </div>
 
@@ -766,7 +766,7 @@ export default function ChequeControl(props) {
             <div className={styles.inputGroup}>
               <div className={styles.inputLine}>
                 <div className="inputField">
-                  <label htmlFor="número_cheque">No. Cheque:</label>
+                  <label htmlFor="número_cheque">Número:</label>
                   <InputForms
                     type="text"
                     onChange={handleEditInputChange}
@@ -922,19 +922,16 @@ export default function ChequeControl(props) {
                 </div>
 
                 <div className="inputField">
-                  <label htmlFor="linha">Linha:</label>
+                  <label htmlFor="linha">Estornado:</label>
                   <select
                     className={`${styles.select} input`}
                     name="linha"
                     id="editLinha"
                     onChange={handleEditInputChange}
                   >
-                    <option></option>
-                    {linhas.map((linha) => (
-                      <option value={linha} key={linha}>
-                        {linha}
-                      </option>
-                    ))}
+                    <option value ="">Não</option>
+                    <option value={1} >Sim</option>
+                    
                   </select>
                 </div>
                 <div className="inputField" id="editObs">

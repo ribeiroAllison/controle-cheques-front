@@ -74,7 +74,7 @@ export default function ChequeTable(props) {
               <th>Data Venc.</th>
               <th>Comp.</th>
               <th>Venc.</th>
-              <th>Linha</th>
+              <th>Estornado</th>
               <th>Vendedor</th>
               <th>Obs</th>
               <th>Contato</th>
@@ -172,7 +172,7 @@ export default function ChequeTable(props) {
                   id={`linha${cheque.id}`}
                   className={assignClassStyle(cheque)}
                 >
-                  {cheque.linha}
+                  {cheque.linha ? "Sim" : "Não"}
                 </td>
                 <td
                   name={cheque.id}

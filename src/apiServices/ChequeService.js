@@ -139,7 +139,7 @@ export class Cheques {
                 data_venc: editFormValues.data_venc,
                 compensado: isCompensado(editFormValues, compDays),
                 vencido: isVencido(editFormValues, vencDays),
-                linha: editFormValues.linha,
+                linha: editFormValues.linha === "" ? null : editFormValues.linha,
                 destino: editFormValues.destino_id,
                 obs: editFormValues.obs,
                 data_compen: editFormValues.data_compen,

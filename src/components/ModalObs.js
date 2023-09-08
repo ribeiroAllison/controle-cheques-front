@@ -14,7 +14,7 @@ export const ModalObs = ({
         <img src="/images/x-icon.svg" onClick={handleCloseObs} />
         <div className={style.popupHeader}>
           <div className={style.popupHeaderTitle}>
-            <span>No. Cheque:</span>
+            <span>Número:</span>
             <p>{obsDetails.num}</p>
           </div>
           <div className={style.popupHeaderTitle}>
