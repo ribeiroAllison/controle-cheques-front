@@ -148,7 +148,7 @@ export default function Header({ isOpen, handleSideBar }) {
         </div>
 
         <div className={styles.menuSection}>
-          <p>Outros</p>
+          <p>Ajustes</p>
           <ul className={styles.menuOptions}>
             <li>
               <Link href="/configuracoes">
@@ -159,12 +159,7 @@ export default function Header({ isOpen, handleSideBar }) {
                 <span>Configurações</span>
               </Link>
             </li>
-            <li>
-              <Link href="#">
-                <Coins size={`${isOpen ? "42" : "28"}`} color="white" />
-                <span>Recebíveis</span>
-              </Link>
-            </li>
+            
           </ul>
         </div>
       </div>
