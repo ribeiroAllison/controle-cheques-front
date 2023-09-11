@@ -1,0 +1,85 @@
+.editBackground {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(48, 48, 48, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactFieldset {
+  background-color: var(--white);
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+.contactFieldset button {
+  display: block;
+  margin: 0.5rem auto;
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  overflow: hidden;
+}
+
+.popupHeader h1 {
+  color: var(--green-100);
+  font-size: 2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.popupHeader img {
+  width: 20px;
+}
+
+.popupHeader img:hover,
+.editFieldset img:hover {
+  opacity: 50%;
+  cursor: pointer;
+}
+
+.contactFormCtr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.select {
+  border: 0;
+  background: var(--gray-200);
+  width: 13.75rem;
+  max-width: 100%;
+  min-width: 200px;
+  border-radius: 15px;
+  height: 2rem;
+  padding-inline: 0.75rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .contactFormCtr {
+    flex-direction: column;
+    align-items: center;
+  }
+  .contactFieldset {
+    min-width: auto;
+  }
+
+  .popupHeader {
+    justify-content: center;
+    gap: 2rem;
+  }
+}

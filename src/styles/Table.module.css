@@ -1,20 +1,24 @@
 .tableWrapper {
   display: flex;
   flex: 1;
+  margin: 15px 10px;
+  border-radius: 15px;
+  overflow: hidden;
+  width: 98%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 
 }
 
 .table {
-  margin: 25px;
+  
   font-size: 1rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border-spacing: 0;
   border-collapse: collapse;
   border-style: hidden;
-  border-radius: 15px;
   text-align: center;
   width: 100%;
-  overflow: scroll;
+
+  
 
 }
 
