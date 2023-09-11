@@ -36,7 +36,7 @@ export default function ChequeControl(props) {
   // STATES DEFINITION
   const [formValues, setFormValues] = useState({
     cliente: "",
-    cliente_cod: null,
+    cliente_id: null,
     data_init: null,
     data_fim: null,
     compensado: null,
@@ -45,11 +45,12 @@ export default function ChequeControl(props) {
     data_compen: null,
     pedido: null,
     grupo: null,
+    número_cheque: null
   });
   const [editFormValues, setEditFormValues] = useState({
     id: null,
     cliente: "",
-    cliente_cod: null,
+    cliente_id: null,
     número_cheque: null,
     valor: null,
     data_venc: null,
@@ -302,15 +303,16 @@ export default function ChequeControl(props) {
 
     setFrozenParams({
       cliente: "",
-      cliente_cod: formValues.cliente_cod,
-      data_init: formValues.data_init,
-      data_fim: formValues.data_fim,
-      compensado: formValues.compensado,
-      destino_id: formValues.destino_id,
-      vencido: formValues.vencido,
-      pedido: formValues.pedido,
-      número_cheque: formValues.número_cheque,
-      grupo: formValues.grupo,
+      cliente_id: formValues.cliente_id || null,
+      data_init: formValues.data_init || null,
+      data_fim: formValues.data_fim || null,
+      compensado: formValues.compensado || null,
+      destino_id: formValues.destino_id || null,
+      vencido: formValues.vencido || null,
+      pedido: formValues.pedido || null,
+      número_cheque: formValues.número_cheque || null,
+      grupo: formValues.grupo || null,
+      número_cheque: formValues.número_cheque
     });
 
     setFormValues({
@@ -498,12 +500,15 @@ export default function ChequeControl(props) {
   // SEARCH REFRESHING HANDLE
   const refreshSearch = async () => {
     const searchParams = new URLSearchParams({
-      cliente_cod: frozenParams.cliente_cod ? frozenParams.cliente_cod : "",
+      cliente_id: frozenParams.cliente_id ? frozenParams.cliente_id : "",
       data_init: frozenParams.data_init ? frozenParams.data_init : "",
       data_fim: frozenParams.data_fim ? frozenParams.data_fim : "",
       compensado: frozenParams.compensado ? frozenParams.compensado : "",
       destino_id: frozenParams.destino_id ? frozenParams.destino_id : "",
       vencido: frozenParams.vencido ? frozenParams.vencido : "",
+      grupo: frozenParams.grupo ? frozenParams.grupo : "",
+      pedido: frozenParams.pedido ? frozenParams.pedido : "" , 
+      número_cheque: frozenParams.número_cheque ? frozenParams.número_cheque : ""
     });
 
     const response = await fetch(
