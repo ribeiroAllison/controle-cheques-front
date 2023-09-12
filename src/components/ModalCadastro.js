@@ -82,7 +82,6 @@ export default function ModalCadastro(props) {
                 className={`${styles.inputField} ${styles.emailField}`}
                 id="editCredit"
                 value={props.formValues.credito}
-                placeHolder="R$ 1.000.000,00"
               />
             </div>
           </div>

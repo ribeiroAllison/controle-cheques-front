@@ -6,20 +6,15 @@
   overflow: hidden;
   width: 98%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-
 }
 
 .table {
-  
   font-size: 1rem;
   border-spacing: 0;
   border-collapse: collapse;
   border-style: hidden;
   text-align: center;
   width: 100%;
-
-  
-
 }
 
 .table th,
@@ -30,12 +25,12 @@
   max-width: 10rem;
 }
 
-.table td{
+.table td {
   word-break: break-word;
 }
 
 #noBreak,
-#noBreakDate{
+#noBreakDate {
   word-break: normal;
 }
 
@@ -107,7 +102,6 @@
 .withDestino {
   background-color: var(--yellowTd);
 }
-
 
 @media (max-width: 768px) {
   /* Add responsive styles if needed */

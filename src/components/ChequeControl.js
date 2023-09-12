@@ -11,7 +11,6 @@ import { getCookie } from "@/utils/cookie";
 import { baseURL } from "@/utils/url";
 import {
   clearInputs,
-  linhas,
   transformDate,
   rearrangeDate,
 } from "@/utils/utils";
@@ -134,9 +133,9 @@ export default function ChequeControl(props) {
   };
 
   const handleEdit = (cheque, param) => {
+    console.log(cheque);
     const editWindow = document.getElementById(param);
     editWindow.style.display = "flex";
-    console.log(cheque);
     const id = cheque.id;
     setChequeId(id);
 
@@ -164,6 +163,9 @@ export default function ChequeControl(props) {
     const vendedor = cheque.vendedor;
     const destino = cheque.destino;
     const cliente_id = cheque.cliente_id;
+    const data_recDate = cheque.data_venc;
+    const data_recString = data_recDate && transformDate(data_recDate);
+    const data_rec = data_recString ? rearrangeDate(data_recString) : null;
 
     const clienteInput = document.getElementById("editCliente");
     const numChequeInput = document.getElementById("editNumCheque");
@@ -173,6 +175,7 @@ export default function ChequeControl(props) {
     const dataCompInput = document.getElementById("data_compen");
     const pedidoInput = document.getElementById("editPedido");
     const obsInput = document.getElementById("editObsTextarea");
+    const data_cadastro = document.getElementById("data_rec");
 
     const destinoInput = document.getElementById("editDestino");
     const options = destinoInput.options;
@@ -200,6 +203,7 @@ export default function ChequeControl(props) {
     linhaInput.value = linha;
     pedidoInput.value = pedido;
     obsInput.value = obs;
+    data_cadastro.value = data_rec;
 
     const dataCompDate = allCheques.find(
       (cheque) => cheque.id === Number(id)
@@ -247,7 +251,7 @@ export default function ChequeControl(props) {
   };
 
   // SUBMIT MULTIPLE EDITS
-  const hadleEditMassive = async (e) => {
+  const handleEditMassive = async (e) => {
     e.preventDefault();
 
     const form = {};
@@ -312,7 +316,6 @@ export default function ChequeControl(props) {
       pedido: formValues.pedido || null,
       número_cheque: formValues.número_cheque || null,
       grupo: formValues.grupo || null,
-      número_cheque: formValues.número_cheque
     });
 
     setFormValues({
@@ -663,8 +666,8 @@ export default function ChequeControl(props) {
 
               <div className={styles.filterLine}>
                 <div className="formField">
-                  <label>No. Pedido:</label>
-                  <input
+                  <label htmlFor="pedido">No. Pedido:</label>
+                  <InputForms
                     type="text"
                     name="pedido"
                     onChange={handleInputChange}
@@ -673,8 +676,8 @@ export default function ChequeControl(props) {
                   />
                 </div>
                 <div className="formField">
-                  <label>No. Recebível:</label>
-                  <input
+                  <label htmlFor="número_cheque">No. Recebível:</label>
+                  <InputForms
                     type="text"
                     name="número_cheque"
                     onChange={handleInputChange}
@@ -905,9 +908,9 @@ export default function ChequeControl(props) {
                   <label>Data de Cadastro:</label>
                   <InputForms
                     type="date"
-                    name=""
+                    name="data_rec"
+                    id="data_rec"
                     disabled
-                    value=""
                   />
                 </div>
               </div>
@@ -1006,7 +1009,7 @@ export default function ChequeControl(props) {
               ></textarea>
             </div>
 
-            <ButtonAlternative onClick={hadleEditMassive}>
+            <ButtonAlternative onClick={handleEditMassive}>
               Salvar
             </ButtonAlternative>
           </form>

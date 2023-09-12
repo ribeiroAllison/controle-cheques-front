@@ -9,10 +9,16 @@ import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
 import { Cliente } from "@/apiServices/ClienteService";
 import clearInputs from "@/utils/clearInputs";
-import { getKeyByValue, showAddForm, hideAddForm } from "@/utils/utils";
+import {
+  getKeyByValue,
+  showAddForm,
+  hideAddForm,
+  convertToNumber,
+} from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import tableStyle from "@/styles/Table.module.css";
 import style from "@/styles/clientes.module.css";
+import { Cheques } from "@/apiServices/ChequeService";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -43,8 +49,14 @@ export default function Clientes() {
   const getAllClients = async () => {
     const { data } = await Cliente.getAllClients();
     if (data) {
-      setClientList(data);
-      setFilteredList(data);
+      calculateChequeValues(data)
+        .then((updatedClientList) => {
+          setClientList(updatedClientList);
+          setFilteredList(updatedClientList);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
 
@@ -64,7 +76,7 @@ export default function Clientes() {
           clearInputs();
           return;
         }
-      } 
+      }
     }
 
     const response = await Cliente.createClient(formValues);
@@ -153,6 +165,34 @@ export default function Clientes() {
       } else {
         notifyFailure(response.data);
       }
+    }
+  };
+
+  // GET TOTAL VALUE PER CLIENT
+  const calculateChequeValues = async (clientList) => {
+    try {
+      const { data } = await Cheques.getAllCheques();
+
+      const updatedClientList = clientList.map((item) => {
+        const totalValueClient = data
+          .filter((cheque) => cheque.cliente_id === item.id)
+          .reduce((acc, cheque) => {
+            acc += convertToNumber(cheque.valor);
+            return acc;
+          }, 0);
+        const newItem = {
+          ...item,
+          saldo: new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(totalValueClient),
+        };
+        return newItem;
+      });
+      return updatedClientList;
+    } catch (error) {
+      console.error(error);
+      return [];
     }
   };
 
@@ -252,11 +292,7 @@ export default function Clientes() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await Promise.all([
-          getAllClients(),
-          getGrupos(),
-          getVendedores(),
-        ]);
+        await Promise.all([getAllClients(), getGrupos(), getVendedores()]);
       } catch (error) {
         return error.response;
       }
@@ -474,7 +510,8 @@ export default function Clientes() {
               <th>CPF / CNPJ</th>
               <th>Grupo</th>
               <th>Vendedor</th>
-              <th>Status</th>
+              <th>Limite</th>
+              <th>Saldo Aberto</th>
               <th>Editar</th>
               <th>Excluir</th>
             </tr>
@@ -494,8 +531,14 @@ export default function Clientes() {
                   <td id={`doc${client.cod}`}>{client.doc}</td>
                   <td id={`grupo${client.cod}`}>{client.grupo}</td>
                   <td id={`vendedor${client.cod}`}>{client.vendedor}</td>
-                  <td id={`status${client.cod}`} className={client.status}>
-                    {client.status}
+                  <td id={`credito${client.cod}`} className={client.credito}>
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(client.credito)}
+                  </td>
+                  <td id={`saldo${client.cod}`} className={client.saldo}>
+                    {client.saldo}
                   </td>
                   <td>
                     <img

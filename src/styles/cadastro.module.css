@@ -34,10 +34,18 @@
   gap: 2rem;
 
   width: 600px;
-  height: 600px;
+  height: 650px;
 
   text-align: center;
   border-radius: 15px;
+}
+
+.formContainer p {
+  color: white;
+  font-size: 0.875rem;
+  max-width: 300px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .formCadastro {

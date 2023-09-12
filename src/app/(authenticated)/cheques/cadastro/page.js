@@ -94,8 +94,6 @@ export default function CadastroCheques() {
       }
     }
 
-    console.log(total);
-
     if (credito && (totalValueClient + total) > credito) {
       notifyFailure(
         `Limite de crédito de ${credito} foi ultrapassado!`
@@ -156,7 +154,7 @@ export default function CadastroCheques() {
     const clientId = Number(e.target.value);
 
     setSelectedClient(clientId);
-    const client = clientList.find((client) => client.id === clientId);
+    const client = clientList?.find((client) => client.id === clientId);
     const clientCode = document.getElementById("cliente_cod");
     clientCode.value = client.cod;
     const vendedorName = document.getElementById("vendedor_name");
@@ -258,7 +256,7 @@ export default function CadastroCheques() {
 
   // GET TOTAL VALUE PER CLIENT
   const getValueByClient = async () => {
-    const cliente = clientList.filter((item) => item.id === selectedClient);
+    const cliente = clientList?.filter((item) => item.id === selectedClient);
 
     const { data } = await Cheques.getSearchedCheques({
       cliente_id: cliente[0].id,
@@ -273,7 +271,6 @@ export default function CadastroCheques() {
       credito,
       totalValueClient
     }
-
     return resultObj;
   };
 
