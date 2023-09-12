@@ -1,13 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { removeCookie } from "@/utils/cookie";
 import {
   ArrowsLeftRight,
   Briefcase,
   Gear,
-  Coins,
   List,
   MagnifyingGlass,
   NotePencil,
@@ -22,20 +19,6 @@ import styles from "@/styles/Header.module.css";
 import Image from 'next/image'
 
 export default function Header({ isOpen, handleSideBar }) {
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    const confirmation = confirm("Você realmente deseja sair?");
-    if (confirmation) {
-      removeCookie("token");
-      setTimeout(() => {
-        router.push("/login");
-      }, 1100);
-    } else {
-      return;
-    }
-  };
-
   return (
     <>
       <div

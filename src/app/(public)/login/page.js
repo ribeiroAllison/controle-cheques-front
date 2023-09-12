@@ -59,7 +59,7 @@ export default function Login() {
         <figure className={styles.imgWrapper}>
           <img src="/images/login-img.svg" alt="" />
           <h1>Seja bem-vindo!</h1>
-          <p>Acesse sua conta e organize suas entradas e saídas de cheques.</p>
+          <p>Acesse sua conta e organize seus recebimentos.</p>
         </figure>
         <div className={styles.formWrapper}>
           <LoginCard title="Faça login para continuar">

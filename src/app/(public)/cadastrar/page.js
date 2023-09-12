@@ -9,8 +9,6 @@ import Input from "@/components/Input";
 import styles from "@/styles/cadastro.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
-
-
 export default function Cadastro() {
   const router = useRouter();
 
@@ -20,6 +18,7 @@ export default function Cadastro() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [contraSenha, setContraSenha] = useState("");
+  const [isValid, setIsValid] = useState(false);
 
   const handleNome = (e) => {
     setNome(e.target.value);
@@ -39,6 +38,20 @@ export default function Cadastro() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const regexUpperCase = /[A-Z]/;
+    const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
+    const isPasswordValid =
+      senha.length >= 8 &&
+      regexUpperCase.test(senha) &&
+      regexSpecialCharacter.test(senha);
+
+    if (!isPasswordValid) {
+      notifyFailure("Senha deve ser mais complexa!");
+      setSenha('');
+      setContraSenha('');
+      return;
+    }
 
     if (senha !== contraSenha) {
       notifyFailure("Senhas devem ser iguais!");
@@ -75,6 +88,10 @@ export default function Cadastro() {
       <div className={styles.cadastroWrapper}>
         <div className={styles.formContainer}>
           <h1>Crie sua conta</h1>
+          <p>
+            Sua senha deve ter no mínimo 12 caracteres, uma letra maíuscula e um
+            caracter especial.
+          </p>
           <form
             className={styles.formCadastro}
             onSubmit={handleSubmit}

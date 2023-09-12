@@ -1,19 +1,34 @@
-"use client"
+"use client";
 
 import { UserFocus } from "@phosphor-icons/react";
 import Button from "./Button";
 import Link from "next/link";
 import styles from "@/styles/HeaderUser.module.css";
-import { getCookie } from "@/utils/cookie";
+import { getCookie, removeCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HeaderUser() {
   const [name, setName] = useState("");
 
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const confirmation = confirm("Você realmente deseja sair?");
+    if (confirmation) {
+      removeCookie("token");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1100);
+    } else {
+      return;
+    }
+  };
+
   useEffect(() => {
-    setName(getCookie('user'));
-  }, [])
-  
+    setName(getCookie("user"));
+  }, []);
+
   return (
     <div>
       <div className={styles.headerUserContainer}>
@@ -28,7 +43,7 @@ export default function HeaderUser() {
         </div>
         <div>
           <Link href="/">
-            <Button>Sair</Button>
+            <Button onClick={handleLogout}>Sair</Button>
           </Link>
         </div>
       </div>

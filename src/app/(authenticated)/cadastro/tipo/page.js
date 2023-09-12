@@ -193,7 +193,7 @@ export default function Tipos() {
         />
         <HeaderLine name="Tipos" />
         <div className={tableStyle.tableWrapper}>
-          <table className={tableStyle.table} id={styles.smallTable}>
+          <table className={tableStyle.table}>
             <thead>
               <tr>
                 <th>Tipo de Pagamento</th>
