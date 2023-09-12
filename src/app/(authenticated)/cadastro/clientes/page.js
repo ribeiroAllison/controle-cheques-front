@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import tableStyle from "@/styles/Table.module.css";
 import style from "@/styles/clientes.module.css";
 import { Cheques } from "@/apiServices/ChequeService";
+import { CaretUpDown } from "@phosphor-icons/react";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -42,6 +43,10 @@ export default function Clientes() {
   const [filteredList, setFilteredList] = useState([]);
   const [grupoList, setGrupoList] = useState([]);
   const [vendedorList, setVendedorList] = useState([]);
+  const [sortOrder, setSortOrder] = useState({
+    column: null,
+    direction: 'asc'
+  })
 
   // --------------------------------- CLIENTS FUNCTIONS ------------------------------------
 
@@ -182,10 +187,7 @@ export default function Clientes() {
           }, 0);
         const newItem = {
           ...item,
-          saldo: new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          }).format(totalValueClient),
+          saldo: totalValueClient,
         };
         return newItem;
       });
@@ -286,6 +288,32 @@ export default function Clientes() {
       telefone: "",
     });
   };
+
+  //SORT ROWS BY NAME OR VALUE
+  const handleSort = (column) => {
+    const isAscending = sortOrder.column === column && sortOrder.direction === 'asc';
+  
+    // Sort the data based on the selected column
+    const sortedData = [...filteredList].sort((a, b) => {
+      if (column === 'credito' || column == 'saldo') {
+        // Sort by numeric columns in descending order
+        return isAscending ? a[column] - b[column] : b[column] - a[column];
+      } else if (column === 'cliente' || column === 'cod') {
+        // Sort by string columns in ascending order
+        return isAscending ? a[column].localeCompare(b[column]) : b[column].localeCompare(a[column]);
+      }
+      // Add similar cases for other columns if needed
+    });
+  
+    // Update the state with the new sorting order and data
+    setSortOrder({
+      column,
+      direction: isAscending ? 'desc' : 'asc',
+    });
+    setFilteredList(sortedData);
+  };
+  
+  
 
   // --------------------------------- USE EFFECTS ------------------------------------
 
@@ -505,15 +533,39 @@ export default function Clientes() {
         <table className={tableStyle.table}>
           <thead>
             <tr>
-              <th>Código do Cliente</th>
-              <th>Nome</th>
+              <th>
+                Código do Cliente 
+                <CaretUpDown size={15} 
+                  color='white' 
+                  onClick={() => handleSort('cod')}
+                />
+              </th>
+              <th>
+                Nome 
+                <CaretUpDown 
+                  size={15} 
+                  color='white' 
+                  onClick={() => handleSort('cliente')}
+                />
+              </th>
               <th>CPF / CNPJ</th>
-              <th>Grupo</th>
-              <th>Vendedor</th>
-              <th>Limite</th>
-              <th>Saldo Aberto</th>
-              <th>Editar</th>
-              <th>Excluir</th>
+              <th>Grupo </th>
+              <th> Vendedor </th>
+              <th>Limite 
+                <CaretUpDown 
+                size={15} 
+                color='white' 
+                onClick={() => handleSort('credito')}/>
+              </th>
+              <th>
+                Saldo Aberto 
+                <CaretUpDown 
+                  size={15} 
+                  color='white' 
+                  onClick={() => handleSort('saldo')}/>
+              </th>
+              <th>Editar </th>
+              <th>Excluir </th>
             </tr>
           </thead>
           <tbody>
@@ -538,7 +590,10 @@ export default function Clientes() {
                     }).format(client.credito)}
                   </td>
                   <td id={`saldo${client.cod}`} className={client.saldo}>
-                    {client.saldo}
+                  {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(client.saldo)}
                   </td>
                   <td>
                     <img
