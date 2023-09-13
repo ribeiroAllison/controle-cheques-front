@@ -128,6 +128,10 @@
   max-width: 100%;
 }
 
+.checkForm span{
+  color: var(--redTd);
+}
+
 @media (max-width: 768px) {
 
   .title {
