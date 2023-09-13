@@ -159,11 +159,15 @@ export default function ChequeControl(props) {
     const data_vencDate = cheque.data_venc;
     const data_vencString = data_vencDate && transformDate(data_vencDate);
     const data_venc = data_vencString ? rearrangeDate(data_vencString) : null;
+    const dataCompDate = cheque.data_compen;
+    const dataCompString = dataCompDate && transformDate(dataCompDate);
+    const dataComp = dataCompString ? rearrangeDate(dataCompString) : null;
     const linha = cheque.linha;
     const vendedor = cheque.vendedor;
     const destino = cheque.destino;
     const cliente_id = cheque.cliente_id;
     const data_recDate = cheque.data_venc;
+    const tipo = cheque.tipo;
     const data_recString = data_recDate && transformDate(data_recDate);
     const data_rec = data_recString ? rearrangeDate(data_recString) : null;
 
@@ -195,6 +199,15 @@ export default function ChequeControl(props) {
       }
     }
 
+    const tipoInput = document.getElementById("editTipo");
+    const tipoOptions = tipoInput.options;
+    for (let option of tipoOptions) {
+      if (option.innerHTML === tipo) {
+        option.selected = true;
+        break;
+      }
+    }
+
     clienteInput.value = cliente;
     clienteInput.setAttribute("codCli", codCli);
     numChequeInput.value = numCheque;
@@ -204,13 +217,9 @@ export default function ChequeControl(props) {
     pedidoInput.value = pedido;
     obsInput.value = obs;
     data_cadastro.value = data_rec;
-
-    const dataCompDate = allCheques.find(
-      (cheque) => cheque.id === Number(id)
-    )?.data_compen;
-    const dataCompString = dataCompDate && transformDate(dataCompDate);
-    const dataComp = dataCompString ? rearrangeDate(dataCompString) : null;
     dataCompInput.value = dataComp;
+
+    
 
     setEditFormValues({
       ...editFormValues,
