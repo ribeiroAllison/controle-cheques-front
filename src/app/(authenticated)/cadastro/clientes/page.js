@@ -328,6 +328,8 @@ export default function Clientes() {
     fetchData();
   }, []);
 
+
+  //------------------------------------ RENDER --------------------------------------------
   return (
     <>
       <ToastContainer autoClose={2000} />
@@ -528,6 +530,9 @@ export default function Clientes() {
           placeHolder="Procurar cliente"
         />
       </section>
+
+      {/* TABLE SECTION */}
+      
       <HeaderLine name="Clientes" />
       <div className={tableStyle.tableWrapper}>
         <table className={tableStyle.table}>
@@ -535,9 +540,11 @@ export default function Clientes() {
             <tr>
               <th>
                 Código do Cliente 
-                <CaretUpDown size={15} 
+                <CaretUpDown 
+                  size={15} 
                   color='white' 
                   onClick={() => handleSort('cod')}
+                  className={tableStyle.thIcon}
                 />
               </th>
               <th>
@@ -546,6 +553,7 @@ export default function Clientes() {
                   size={15} 
                   color='white' 
                   onClick={() => handleSort('cliente')}
+                  className={tableStyle.thIcon}
                 />
               </th>
               <th>CPF / CNPJ</th>
@@ -555,14 +563,19 @@ export default function Clientes() {
                 <CaretUpDown 
                 size={15} 
                 color='white' 
-                onClick={() => handleSort('credito')}/>
+                onClick={() => handleSort('credito')}
+                className={tableStyle.thIcon}
+                />
+                
               </th>
               <th>
                 Saldo Aberto 
                 <CaretUpDown 
                   size={15} 
                   color='white' 
-                  onClick={() => handleSort('saldo')}/>
+                  onClick={() => handleSort('saldo')}
+                  className={tableStyle.thIcon}
+                />
               </th>
               <th>Editar </th>
               <th>Excluir </th>
@@ -589,7 +602,13 @@ export default function Clientes() {
                       currency: "BRL",
                     }).format(client.credito)}
                   </td>
-                  <td id={`saldo${client.cod}`} className={client.saldo}>
+                  <td 
+                    id={`saldo${client.cod}`} 
+                    className={`
+                      ${client.saldo} 
+                      ${client.saldo > client.credito && tableStyle.negativo}`
+                    }
+                  >
                   {new Intl.NumberFormat("pt-BR", {
                       style: "currency",
                       currency: "BRL",

@@ -109,19 +109,15 @@ export default function Page() {
             <ul>
               <li>
                 <span className={styles.compensado}></span>
-                <p>Cheque Compensado</p>
-              </li>
-              <li>
-                <span className={styles.aCompensar}></span>
-                <p>Cheque a Compensar</p>
+                <p>Recebível Compensado</p>
               </li>
               <li>
                 <span className={styles.semDestino}></span>
-                <p>Cheque Sem Destino</p>
+                <p>Recebível Sem Destino</p>
               </li>
               <li>
                 <span className={styles.estornado}></span>
-                <p>Cheque Estornado</p>
+                <p>Recebível Estornado</p>
               </li>
             </ul>
           </div>

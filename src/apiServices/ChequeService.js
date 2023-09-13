@@ -75,18 +75,18 @@ export class Cheques {
 
   // CREATE ONE OR MORE CHECKS IN DB
   static async addNewCheck(formValues, qtdCheques) {
-    const config = await Configuracao.getConfig();
-    const { tolerancia_venc, tolerancia_comp, ativo } = config.data[0];
+    const { data } = await Configuracao.getConfig();
+    console.log(data.length)
 
-    let vencDays, compDays;
+    let vencDays = 0;
+    let compDays = 0;
 
-    if (ativo) {
+    if(data.length > 0){
+      const { tolerancia_venc, tolerancia_comp } = data[0];
       vencDays = tolerancia_venc;
-      compDays = tolerancia_comp;
-    } else {
-      vencDays = 0;
-      compDays = 0;
+      compDays = tolerancia_comp
     }
+    
 
     try {
       let checksList = [];
