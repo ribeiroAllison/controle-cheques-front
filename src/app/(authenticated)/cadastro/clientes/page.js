@@ -355,7 +355,9 @@ export default function Clientes() {
             >
               Voltar
             </ButtonAlternative>
+            
           </div>
+          <p style={{margin: "15px 0"}}><span style={{color: "var(--redTd)"}}>*</span>Dados Obrigatórios</p>
           <div className={style.formLine}>
             <div className={style.inputCtr}>
               <label htmlFor="codigo">Código:</label>
@@ -370,7 +372,7 @@ export default function Clientes() {
               />
             </div>
             <div className={`${style.inputCtr}`}>
-              <label htmlFor="nome">Nome:</label>
+              <label htmlFor="nome">Nome<span style={{color: "var(--redTd)"}}>*</span>:</label>
               <input
                 type="text"
                 name="nome"
@@ -506,6 +508,7 @@ export default function Clientes() {
                 </div>
               </div>
             </fieldset>
+            
             <div className={style.btnContainer}>
               <ButtonAlternative id="adicionaCliente" type="submit">
                 Adicionar

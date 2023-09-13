@@ -285,13 +285,14 @@ export default function CadastroCheques() {
   return (
     <>
       <h1 className={styles.title}>Dados do Recebível</h1>
+      <p style={{margin: "0px 30px"}}><span style={{color: "var(--redTd)"}}>*</span>Campos Obrigatórios</p>
       <section>
         <ToastContainer autoClose={2000} />
         <form onSubmit={handleSubmit} className={styles.checkForm}>
           <div className={styles.formInputsWrapper}>
             <div className={styles.formLine}>
               <div className="formField">
-                <label htmlFor="checkQty">Qtd de Recebimentos</label>
+                <label htmlFor="checkQty">Qtd de Recebimentos<span>*</span></label>
                 <select
                   name="checkQty"
                   onChange={changeCheckQuantity}
@@ -310,7 +311,7 @@ export default function CadastroCheques() {
                 </select>
               </div>
               <div className="formField">
-                <label htmlFor="data_rec">Data de Recebimento:</label>
+                <label htmlFor="data_rec">Data de Recebimento<span>*</span></label>
                 <InputForms
                   type="date"
                   name="data_rec"
@@ -348,7 +349,7 @@ export default function CadastroCheques() {
               </div>
 
               <div className={styles.inputCtrMultiple}>
-                <h4>Valor:</h4>
+                <h4>Valor<span>*</span></h4>
                 {defineQtdValores(qtdCheques)}
                 <ButtonAlternative onClick={replicateValor}>
                   Replicar Valor
@@ -356,7 +357,7 @@ export default function CadastroCheques() {
               </div>
 
               <div className={`${styles.inputCtrMultiple}`}>
-                <h4>Data de Vencimento:</h4>
+                <h4>Data de Vencimento<span>*</span></h4>
                 {defineQtdVencimentos(qtdCheques)}
               </div>
             </section>
