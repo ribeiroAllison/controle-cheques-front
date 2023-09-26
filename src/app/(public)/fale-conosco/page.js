@@ -7,25 +7,27 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import styles from "@/styles/faleConosco.module.css";
 import Link from "next/link";
+import { useForm } from "@formspree/react";
 
 export default function FaleConosco() {
+  const [state, handleFormSubmit] = useForm("myyqewwp");
   const router = useRouter();
 
   const notifySuccess = (msg) => toast.success(msg);
 
-  const handleSubmit = (e) => {
+  if (state.succeeded) {
     notifySuccess("Mensagem enviada com sucesso!");
-    const inputs = document.querySelectorAll('input');
-    const textarea = document.querySelector('textarea');
+    const inputs = document.querySelectorAll("input");
+    const textarea = document.querySelector("textarea");
     inputs.forEach((input) => {
       input.value = "";
-    })
+    });
     textarea.value = "";
 
     setTimeout(() => {
       router.push("/");
     }, 2000);
-  };
+  }
 
   return (
     <>
@@ -33,14 +35,7 @@ export default function FaleConosco() {
       <section className={styles.faleConoscoWrapper}>
         <div className={styles.formContainer}>
           <h1>Envie sua mensagem para nosso time</h1>
-          <form
-            id="fs-frm"
-            name="simple-contact-form"
-            accept-charset="utf-8"
-            action="https://formspree.io/f/xgejabvp"
-            method="post"
-            onSubmit={(e) => handleSubmit(e)}
-          >
+          <form id="fs-frm" onSubmit={handleFormSubmit}>
             <fieldset id="fs-frm-inputs" className={styles.fieldSet}>
               <Input
                 type="text"
@@ -71,7 +66,7 @@ export default function FaleConosco() {
               />
             </fieldset>
           </form>
-          <Button type="submit" form="fs-frm">
+          <Button type="submit" form="fs-frm" disabled={state.submitting}>
             Enviar
           </Button>
           <Link href="/login">Voltar para login.</Link>
