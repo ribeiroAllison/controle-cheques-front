@@ -128,7 +128,7 @@ export default function Grupos() {
           <div className={styles.menuHeader}>
             <h1>Cadastro de Grupos</h1>
             <ButtonAlternative id="addButton" onClick={showAddForm}>
-              Novo Destino
+              Novo Grupo
             </ButtonAlternative>
           </div>
         </div>

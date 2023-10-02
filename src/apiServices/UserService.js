@@ -85,4 +85,22 @@ export default class User {
       return error.response;
     }
   };
+
+  // SEND MSG TO EMAIL
+  static sendIssue = async (issue) => {
+    try {
+      const response = await connection.post("/usuarios/issue", {
+        name: issue.name,
+        email: issue.email,
+        subject: issue.subject,
+        message: issue.message
+      });
+
+      if (response && response.status === 200) {
+        return response;
+      }
+    } catch (error) {
+      return error.response;
+    }
+  };
 }
