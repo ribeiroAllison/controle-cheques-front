@@ -41,7 +41,10 @@ export default function HeaderUser() {
             </Link>
           </div>
         </div>
-        <div>
+        <div className={styles.btnContainer}>
+          <Link href="/suporte">
+            <Button style={{ backgroundColor: "var(--orangeTd" }}>Suporte</Button>
+          </Link>
           <Link href="/">
             <Button onClick={handleLogout}>Sair</Button>
           </Link>

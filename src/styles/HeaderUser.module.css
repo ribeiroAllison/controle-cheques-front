@@ -25,6 +25,11 @@
   font-weight: bold;
 }
 
+.btnContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .headerUserContainer {
     flex-direction: column;

@@ -14,6 +14,7 @@ import {
   UsersThree,
   CurrencyCircleDollar,
   X,
+  Question,
 } from "@phosphor-icons/react";
 import styles from "@/styles/Header.module.css";
 import Image from 'next/image'
@@ -142,7 +143,15 @@ export default function Header({ isOpen, handleSideBar }) {
                 <span>Configurações</span>
               </Link>
             </li>
-            
+            <li>
+              <Link href="/suporte">
+                <Question
+                  size={`${isOpen ? "42" : "28"}`}
+                  color="white"
+                />
+                <span>Suporte</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
