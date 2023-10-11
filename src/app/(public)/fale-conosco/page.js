@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useForm } from "@formspree/react";
 
 export default function FaleConosco() {
-  const [state, handleFormSubmit] = useForm("myyqewwp");
+  const [state, handleFormSubmit] = useForm("xzblybnd");
   const router = useRouter();
 
   const notifySuccess = (msg) => toast.success(msg);
