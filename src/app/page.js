@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Button from "@/components/Button";
 import Link from "next/link";
@@ -7,10 +9,19 @@ import advantagesSection from "@/styles/landpage/Advantages.module.css";
 import secondarySection from "@/styles/landpage/Secondary.module.css";
 import contactSection from "@/styles/landpage/Contact.module.css";
 import footerSection from "@/styles/landpage/Footer.module.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 export default function Page() {
   return (
     <>
+      <a
+        className="wpp-btn"
+        href="https://wa.me/553530123787"
+        target="_blank"
+      >
+        <FontAwesomeIcon icon={faWhatsapp} beat color="#FFF" size="3x" />
+      </a>
       <header className={header.headerWrapper}>
         <figure className={header.imgContainer}>
           <img src="/images/cheques-logo.svg" alt="" />
@@ -66,29 +77,28 @@ export default function Page() {
               <img src="/images/card-imgs/automat.svg" alt="" />
               <h2>Controle</h2>
               <p>
-                Tenha controle sobre seus recebíveis!
-                O recebi.app te alerta sobre recebimentos  
-                vencidos, com vencimentos próximos, 
+                Tenha controle sobre seus recebíveis! O recebi.app te alerta
+                sobre recebimentos vencidos, com vencimentos próximos,
                 estornados e muitos mais.
-
               </p>
             </div>
-            
+
             <div className={advantagesSection.cardContainer}>
               <img src="/images/card-imgs/traceable.svg" alt="" />
               <h2>Automatização</h2>
               <p>
-                Todos seus recebimentos são atualizados de forma automática diariamente,
-                de acordo com critérios de compensação e vencimento definidos por você!
+                Todos seus recebimentos são atualizados de forma automática
+                diariamente, de acordo com critérios de compensação e vencimento
+                definidos por você!
               </p>
             </div>
             <div className={advantagesSection.cardContainer}>
               <img src="/images/card-imgs/safety.svg" alt="" />
               <h2>Segurança</h2>
               <p>
-                Software criptografado, com servidores nos Estados Unidos. 
-                Nenhum dado fica registrado no computador de acesso,
-                seus recebíveis estão sempre em segurança nos nossos servidores
+                Software criptografado, com servidores nos Estados Unidos.
+                Nenhum dado fica registrado no computador de acesso, seus
+                recebíveis estão sempre em segurança nos nossos servidores
                 americanos.
               </p>
             </div>
@@ -97,9 +107,8 @@ export default function Page() {
               <img src="/images/card-imgs/server.svg" alt="" />
               <h2>Liberdade</h2>
               <p>
-                Controle seus recebíveis de qualquer lugar! 
-                Faça seu login e tenha seu controle pronto a qualquer hora e lugar!
-
+                Controle seus recebíveis de qualquer lugar! Faça seu login e
+                tenha seu controle pronto a qualquer hora e lugar!
               </p>
             </div>
           </div>
@@ -120,20 +129,20 @@ export default function Page() {
               <p>
                 O recebi.app é uma sistema online que facilita a administração e
                 gerenciamento de recebíveis de forma simples e automatizada.
-                Tenha total controle sobre seus recebimentos a prazo via cheque, PIX, vale, 
-                e muito mais. Nunca mais deixe um recebimento vencer na sua mão ou se esqueça de 
-                fazer uma cobrança!
-
+                Tenha total controle sobre seus recebimentos a prazo via cheque,
+                PIX, vale, e muito mais. Nunca mais deixe um recebimento vencer
+                na sua mão ou se esqueça de fazer uma cobrança!
               </p>
             </div>
             <div className={secondarySection.cardContainer}>
               <img src="/images/secondary-cards/card2.svg" alt="" />
               <h1>Praticidade e automação</h1>
               <p>
-                O recebi.app te alerta diariamente sobre pagamentos vencidos, sem destinação,
-                próximos de vencer e estornados. Além disso você pode estipular limite de crédito
-                a seus clientes e filtrar seus recebíveis por cliente, pedido, vencimento, grupo 
-                , status de pagamento e outras formas!
+                O recebi.app te alerta diariamente sobre pagamentos vencidos,
+                sem destinação, próximos de vencer e estornados. Além disso você
+                pode estipular limite de crédito a seus clientes e filtrar seus
+                recebíveis por cliente, pedido, vencimento, grupo , status de
+                pagamento e outras formas!
               </p>
             </div>
           </section>
@@ -142,9 +151,11 @@ export default function Page() {
         <section className={contactSection.container}>
           <div className={contactSection.contactWrapper}>
             <h1>Entre em contato e conheça o sistema.</h1>
-            <Button style={{ backgroundColor: "var(--green-300)" }}>
-              Nos chame no Whatsapp! <img src="/images/whats-icon.svg" />
-            </Button>
+            <a href="https://wa.me/553530123787" target="_blank">
+              <Button style={{ backgroundColor: "var(--green-300)" }}>
+                Nos chame no Whatsapp! <img src="/images/whats-icon.svg" />
+              </Button>
+            </a>
           </div>
         </section>
       </main>

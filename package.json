@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@formspree/react": "^2.5.1",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@phosphor-icons/react": "^2.0.10",
     "@types/react-dom": "^18.2.7",
     "axios": "^1.4.0",
