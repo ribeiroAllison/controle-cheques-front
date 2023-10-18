@@ -15,6 +15,16 @@
   background: var(--green-200);
 }
 
+.orangeButton{
+  background-color:var(--orangeTd);
+}
+
+.orangeButton:hover{
+  transition: all 0.3s;
+  background: var(--orangeTd);
+  opacity: 0.6;
+}
+
 @media (max-width: 768px) {
   .button {
     font-size: 1.2rem;

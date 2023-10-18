@@ -52,7 +52,7 @@ export default function HeaderUser() {
             <FontAwesomeIcon beat icon={faWhatsapp} color="#FFF" size="3x" />
           </a>
           <Link href="/suporte">
-            <Button style={{ backgroundColor: "var(--orangeTd" }}>Suporte</Button>
+            <Button orangeButton={true}>Suporte</Button>
           </Link>
           <Link href="/">
             <Button onClick={handleLogout}>Sair</Button>

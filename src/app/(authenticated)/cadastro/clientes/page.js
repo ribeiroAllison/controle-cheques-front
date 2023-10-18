@@ -350,8 +350,8 @@ export default function Clientes() {
           <div className={style.clientFormHeader}>
             <h2>Dados do Cliente</h2>
             <ButtonAlternative
-              style={{ backgroundColor: "var(--redTd)" }}
               onClick={hideAddForm}
+              redButton={true}
             >
               Voltar
             </ButtonAlternative>
@@ -516,7 +516,7 @@ export default function Clientes() {
               <ButtonAlternative
                 id="limpar"
                 onClick={handleClear}
-                style={{ backgroundColor: "var(--orangeTd" }}
+                orangeButton={true}
               >
                 Limpar
               </ButtonAlternative>

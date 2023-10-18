@@ -149,7 +149,7 @@ export default function Tipos() {
           <div className={styles.destinationFormHeader}>
             <span>Dados do tipo</span>
             <ButtonAlternative
-              style={{ backgroundColor: "var(--redTd)" }}
+              redButton={true}
               onClick={hideAddForm}
             >
               Voltar
@@ -177,7 +177,7 @@ export default function Tipos() {
             <ButtonAlternative
               id="limpar"
               onClick={handleClear}
-              style={{ backgroundColor: "var(--orangeTd" }}
+              orangeButton={true}
             >
               Limpar
             </ButtonAlternative>

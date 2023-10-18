@@ -137,7 +137,7 @@ export default function Grupos() {
           <div className={styles.groupFormHeader}>
             <span>Dados do Grupo</span>
             <ButtonAlternative
-              style={{ backgroundColor: "var(--redTd)" }}
+              redButton={true}
               onClick={hideAddForm}
             >
               Voltar
@@ -163,7 +163,7 @@ export default function Grupos() {
             <ButtonAlternative
               onClick={handleClear}
               id="limpar"
-              style={{ backgroundColor: "var(--orangeTd" }}
+              orangeButton={true}
             >
               Limpar
             </ButtonAlternative>

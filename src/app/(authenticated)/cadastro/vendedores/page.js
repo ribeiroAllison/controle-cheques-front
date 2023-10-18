@@ -136,7 +136,7 @@ export default function Vendedores() {
           <div className={styles.salesFormHeader}>
             <span>Dados do Vendedor</span>
             <ButtonAlternative
-              style={{ backgroundColor: "var(--redTd)" }}
+              redButton={true}
               onClick={hideAddForm}
             >
               Voltar
@@ -162,7 +162,7 @@ export default function Vendedores() {
             <ButtonAlternative
               onClick={handleClear}
               id="limpar"
-              style={{ backgroundColor: "var(--orangeTd" }}
+              orangeButton={true}
             >
               Limpar
             </ButtonAlternative>

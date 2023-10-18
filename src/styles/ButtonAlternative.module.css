@@ -14,3 +14,23 @@
   transition: all 0.3s;
   background: var(--green-300);
 }
+
+.redButton{
+  background-color:var(--redTd);
+}
+
+.redButton:hover{
+  transition: all 0.3s;
+  background: var(--redTd);
+  opacity: 0.6;
+}
+
+.orangeButton{
+  background-color:var(--orangeTd);
+}
+
+.orangeButton:hover{
+  transition: all 0.3s;
+  background: var(--orangeTd);
+  opacity: 0.6;
+}
