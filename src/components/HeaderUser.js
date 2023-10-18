@@ -7,6 +7,8 @@ import styles from "@/styles/HeaderUser.module.css";
 import { getCookie, removeCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 export default function HeaderUser() {
   const [name, setName] = useState("");
@@ -42,6 +44,13 @@ export default function HeaderUser() {
           </div>
         </div>
         <div className={styles.btnContainer}>
+            <a
+            className={styles.wpp_btn}
+            href="https://wa.me/553530123787"
+            target="_blank"
+          >
+            <FontAwesomeIcon beat icon={faWhatsapp} color="#FFF" size="3x" />
+          </a>
           <Link href="/suporte">
             <Button style={{ backgroundColor: "var(--orangeTd" }}>Suporte</Button>
           </Link>

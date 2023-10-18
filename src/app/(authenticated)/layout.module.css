@@ -25,25 +25,7 @@
   transition: all 0.2s ease;
 }
 
-.wpp_btn {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 70px;
-  bottom: 40px;
-  left: 20px;
-  background-color: #25d366;
-  border-radius: 50px;
-  text-align: center;
-  z-index: 1000;
-}
 
-.wpp_btn:hover {
-  transform: scale(1.15);
-  transition: transform 0.3s;
-}
 
 @media (max-width: 768px) {
   .pageWrapper {
