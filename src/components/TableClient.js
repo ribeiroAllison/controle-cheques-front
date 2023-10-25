@@ -14,26 +14,15 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import tableStyle from "@/styles/Table.module.css";
 import { Cheques } from "@/apiServices/ChequeService";
-import { CaretUpDown } from "@phosphor-icons/react";
+import { CaretUpDown, IdentificationCard } from "@phosphor-icons/react";
+import ModalContact from "./ModalContact";
 
 export default function ClientTable() {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
   // STATES
-  const [formValues, setFormValues] = useState({
-    codigo: "",
-    nome: "",
-    doc: "",
-    status: "",
-    grupo: "",
-    vendedor_id: "",
-    contato: "",
-    telefone: "",
-    email: "",
-    credito: "",
-  });
-
+  const [contact, setContact] = useState();
   const [clientList, setClientList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [grupoList, setGrupoList] = useState([]);
@@ -60,65 +49,6 @@ export default function ClientTable() {
     }
   };
 
-
-
-  // EDITS CLIENT IN DB
-  const submitEdit = async (e) => {
-    e.preventDefault();
-
-    const {
-      codigo,
-      doc,
-      nome,
-      status,
-      grupo,
-      contato,
-      telefone,
-      email,
-      vendedor_id,
-      credito,
-      id,
-    } = formValues;
-
-    const user = {
-      grupoId: grupo,
-      cod: codigo,
-      doc: doc,
-      nome: nome,
-      status: status,
-      contato: contato,
-      telefone: telefone,
-      email: email,
-      vendedor_id: vendedor_id,
-      credito: credito,
-      id: id,
-    };
-
-    const response = await Cliente.editClient(user);
-    if (response && response.status === 200) {
-      getAllClients();
-      notifySuccess(response.data);
-
-      setFormValues({
-        codigo: "",
-        nome: "",
-        doc: "",
-        status: "",
-        grupo: "",
-        vendedor_id: "",
-        contato: "",
-        telefone: "",
-        email: "",
-        id: "",
-        credito: "",
-      });
-    } else {
-      notifyFailure(response.data);
-    }
-
-    const editWindow = document.getElementById("editWindowBackground");
-    editWindow.style.display = "none";
-  };
 
   // DELETE CLIENT FUNCTION
   const handleDelete = async (e) => {
@@ -161,13 +91,6 @@ export default function ClientTable() {
   };
 
   // --------------------------------- AUXILIARY FUNCTIONS ------------------------------------
-
-  // HANDLE INPUT CHANGE IN CLIENT FORM
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
   // GET GROUPS FUNCTION
   async function getGrupos() {
     try {
@@ -192,64 +115,17 @@ export default function ClientTable() {
     }
   }
 
-  // HANDLING EDITING FIELDS
-  const handleEdit = (e) => {
-    const id = Number(e.target.name);
-    const client = clientList.find((client) => client.id === id);
-
-    if (client) {
-      const {
-        cliente,
-        doc,
-        status,
-        grupo,
-        vendedor,
-        contato,
-        email,
-        telefone,
-        id,
-        credito,
-        cod,
-      } = client;
-      const grupo_id = getKeyByValue(grupoList, grupo);
-      const vendedor_id = getKeyByValue(vendedorList, vendedor);
-
-      setFormValues({
-        ...formValues,
-        codigo: cod,
-        nome: cliente,
-        doc: doc,
-        status: status,
-        grupo: grupo_id,
-        vendedor_id: vendedor_id,
-        contato: contato,
-        email: email,
-        telefone: telefone,
-        credito: credito,
-        id: id,
+    //HANDLE CLICK ON CLIENT CONTACT
+    const handleContactClick = (client) => {
+      setContact({
+        nome: client.cliente,
+        contato: client.contato || "",
+        telefone: client.telefone || "",
+        email: client.email || "",
       });
-      const editWindow = document.getElementById("editWindowBackground");
+      const editWindow = document.getElementById("contactWindowBackground");
       editWindow.style.display = "flex";
-    }
-  };
-
-  // CHANGES INPUT SECTION TO EDIT SECTION
-  const handleClear = (e) => {
-    e.preventDefault();
-    clearInputs("input");
-
-    setFormValues({
-      codigo: "",
-      nome: "",
-      doc: "",
-      status: "",
-      grupo: "",
-      vendedor_id: "",
-      contato: "",
-      email: "",
-      telefone: "",
-    });
-  };
+    };
 
   //SORT ROWS BY NAME OR VALUE
   const handleSort = (column) => {
@@ -294,10 +170,7 @@ export default function ClientTable() {
   //------------------------------------ RENDER --------------------------------------------
   return (
     <>
-      
-
       {/* TABLE SECTION */}
-
       <HeaderLine name="Clientes com limite ultrapassado" />
       <div className={tableStyle.tableWrapper}>
         <table className={tableStyle.table}>
@@ -342,8 +215,7 @@ export default function ClientTable() {
                   className={tableStyle.thIcon}
                 />
               </th>
-              <th>Editar </th>
-              <th>Excluir </th>
+              <th>Contato</th>
             </tr>
           </thead>
           <tbody>
@@ -381,19 +253,12 @@ export default function ClientTable() {
                     }).format(client.saldo)}
                   </td>
                   <td>
-                    <img
-                      src="/images/edit.svg"
-                      onClick={handleEdit}
-                      name={client.id}
-                      className={tableStyle.Icon}
-                    />
-                  </td>
-                  <td>
-                    <img
-                      src="/images/trash-bin.svg"
-                      onClick={handleDelete}
-                      className={tableStyle.Icon}
-                    />
+                  <IdentificationCard
+                    className={tableStyle.Icon}
+                    size={32}
+                    color="black"
+                    onClick={() => handleContactClick(client)}
+                  />
                   </td>
                 </tr>
               ))
@@ -401,16 +266,7 @@ export default function ClientTable() {
           </tbody>
         </table>
       </div>
-      <ModalCadastro
-        name="Clientes"
-        submitEdit={submitEdit}
-        handleInputChange={handleInputChange}
-        formValues={formValues}
-        grupo={grupoList}
-        vendedores={vendedorList}
-        clearInputs={clearInputs}
-        setFormValues={setFormValues}
-      />
+      <ModalContact contact={contact} />
     </>
   );
 }

@@ -85,7 +85,7 @@ export default function ChequeTable(props) {
           <tbody>
             {props.list?.map((cheque) => (
               <tr
-                key={`cheque-${cheque.id}`}
+                key={`${cheque.num}-${cheque.id}`}
                 id={`row${cheque.id}`}
                 className="chequeRow"
               >
