@@ -16,6 +16,7 @@ import tableStyle from "@/styles/Table.module.css";
 import { Cheques } from "@/apiServices/ChequeService";
 import { CaretUpDown, IdentificationCard } from "@phosphor-icons/react";
 import ModalContact from "./ModalContact";
+import uuid from "react-uuid";
 
 export default function ClientTable() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -228,7 +229,7 @@ export default function ClientTable() {
             ) : (
               filteredList?.map((client) => (
                 client.credito < client.saldo &&
-                <tr key={client.id} data-cod={client.id}>
+                <tr key={uuid()} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`doc${client.cod}`}>{client.doc}</td>

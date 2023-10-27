@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import uuid from 'react-uuid';
 import HeaderLine from "@/components/HeaderLine";
 import ChequeTable from "./ChequeTable";
 import ModalContact from "./ModalContact";
@@ -641,7 +642,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {destinoList?.map((destino) => (
-                      <option key={`destino-${destino.id}`} value={destino.id}>
+                      <option key={uuid()} value={destino.id}>
                         {destino.nome}
                       </option>
                     ))}
@@ -656,7 +657,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {grupos?.map((grupo) => (
-                      <option key={`grupo-${grupo.id}`} value={grupo.nome}>
+                      <option key={uuid()} value={grupo.nome}>
                         {grupo.nome}
                       </option>
                     ))}
@@ -840,7 +841,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {tipoList?.map((tipo) => (
-                      <option key={`tipoList-${tipo.id}`} value={tipo.id}>
+                      <option key={uuid()} value={tipo.id}>
                         {tipo.nome}
                       </option>
                     ))}
@@ -872,7 +873,7 @@ export default function ChequeControl(props) {
                     <option key="0"></option>
                     {destinoList?.map((destino) => (
                       <option
-                        key={`destinoList-${destino.id}`}
+                        key={uuid()}
                         value={destino.id}
                       >
                         {destino.nome}
@@ -894,7 +895,7 @@ export default function ChequeControl(props) {
                     <option key="0"></option>
                     {vendedorList?.map((seller) => (
                       <option
-                        key={`vendedorList-${seller.id}`}
+                        key={uuid()}
                         value={seller.id}
                       >
                         {seller.nome}
@@ -991,7 +992,7 @@ export default function ChequeControl(props) {
               >
                 <option key="0"></option>
                 {destinoList?.map((destino) => (
-                  <option key={`destinoList-${destino.id}`} value={destino.id}>
+                  <option key={uuid()} value={destino.id}>
                     {destino.nome}
                   </option>
                 ))}

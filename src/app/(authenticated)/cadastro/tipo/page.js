@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import uuid from 'react-uuid';
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import ButtonAlternative from "@/components/ButtonAlternative";
@@ -210,7 +211,7 @@ export default function Tipos() {
                 </tr>
               ) : (
                 filteredList?.map((tipo) => (
-                  <tr key={tipo.nome} data-cod={tipo.id}>
+                  <tr key={uuid()} data-cod={tipo.id}>
                     <td id={tipo.id}>{tipo.nome}</td>
                     <td>
                       <img

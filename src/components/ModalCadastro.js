@@ -1,6 +1,7 @@
 import styles from "@/styles/ModalCliente.module.css";
 import ButtonAlternative from "./ButtonAlternative";
 import { InputForms } from "./InputForms";
+import uuid from "react-uuid";
 
 export default function ModalCadastro(props) {
   // EDIT SCREEN CLOSING HANDLE
@@ -101,7 +102,7 @@ export default function ModalCadastro(props) {
                   ? props.grupo.map((emp) => {
                       return (
                         <option
-                          key={emp.id}
+                          key={uuid()}
                           value={emp.id}
                           selected={emp.id === props.formValues.grupo}
                         >
@@ -127,7 +128,7 @@ export default function ModalCadastro(props) {
                   ? props.vendedores?.map((emp) => {
                       return (
                         <option
-                          key={emp.id}
+                          key={uuid()}
                           value={emp.id}
                           selected={emp.id === props.formValues.vendedor_id}
                         >

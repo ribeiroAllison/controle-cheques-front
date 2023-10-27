@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import uuid from 'react-uuid';
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import ButtonAlternative from "@/components/ButtonAlternative";
@@ -209,7 +210,7 @@ export default function Destinos() {
                 </tr>
               ) : (
                 filteredList.map((destino) => (
-                  <tr key={destino.nome} data-cod={destino.id}>
+                  <tr key={uuid()} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
                     <td>
                       <img

@@ -3,6 +3,7 @@
 import styles from "@/styles/ClientSearchBox.module.css"
 import { useState, useEffect } from "react";
 import { InputForms } from "./InputForms";
+import uuid from "react-uuid";
 
 export default function ClientSearchBox(props) {
   const [searchResult, setSearchResult] = useState([{}]);
@@ -47,7 +48,7 @@ export default function ClientSearchBox(props) {
           {searchResult.map((client) => (
             <option
               onClick={props.handleClick}
-              key={`clientCodigo-${client.id}`}
+              key={uuid()}
               value={client.id}
               className={styles.customOption}
             >
