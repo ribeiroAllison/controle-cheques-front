@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ChequeControl from "@/components/ChequeControl";
+import ClientTable from "@/components/TableClient";
 import { Cheques } from "@/apiServices/ChequeService";
 import DoughnutChart from "@/components/DoughnutChart";
 import BarChartOne from "@/components/BarChartOne";
@@ -124,6 +125,7 @@ export default function Page() {
         </div>
       </section>
 
+      <ClientTable />
       <ChequeControl
         headerLine="Estornados"
         display="none"

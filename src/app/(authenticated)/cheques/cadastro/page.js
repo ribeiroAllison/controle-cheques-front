@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import uuid from 'react-uuid';
 import ClientSearchBox from "@/components/ClientSearchBox";
 import ButtonAlternative from "@/components/ButtonAlternative";
 import { InputForms } from "@/components/InputForms";
@@ -331,7 +332,7 @@ export default function CadastroCheques() {
                 >
                   <option key="0"></option>
                   {tipos?.map((tipo) => (
-                    <option key={tipo.nome} value={tipo.id}>
+                    <option key={uuid()} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -417,7 +418,7 @@ export default function CadastroCheques() {
                   <option key="0" id="vendedor_name"></option>
                   {vendedorList?.map((seller) => (
                     <option
-                      key={seller.nome}
+                      key={uuid()}
                       value={seller.id}
                       selected={seller.id === selectedSeller}
                     >

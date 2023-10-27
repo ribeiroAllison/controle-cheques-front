@@ -36,10 +36,9 @@
   word-break: normal;
 }
 
-.table th {
+/*.table th {
   position: sticky;
- 
-}
+}*/
 
 .thIcon:hover {
   cursor: pointer;

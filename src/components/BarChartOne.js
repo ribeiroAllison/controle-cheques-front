@@ -34,7 +34,7 @@ export default function BarChartOne() {
     labels,
     datasets: [
       {
-        label: 'Valor em BRL',
+        label: 'Valor em R$',
         data: dataValues,
         backgroundColor: ['#384B41'],
         borderColor: ['#000'],
@@ -48,9 +48,39 @@ export default function BarChartOne() {
   }, [])
 
   return (
-    <Bar
+<Bar
       data={data}
-      options={{ maintainAspectRatio: false, responsive: true }}
+      options={{
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+          x: {
+            ticks: {
+              font: {
+                size: 12,
+              }
+            },
+            beforeUpdate(axis) {
+              const labels = axis.chart.data.labels;
+              for (let i=0; i<labels.length; i++) {
+                const lbl = labels[i];
+                if (typeof lbl === 'string' && lbl.length > 10) {
+                  labels[i] = lbl.substring(0, 10); // cutting
+                }
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                size: 14,
+              },
+            },
+          },
+        },
+      }}
     />
   );
 }

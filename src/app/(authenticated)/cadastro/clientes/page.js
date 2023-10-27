@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import uuid from 'react-uuid';
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import ModalCadastro from "@/components/ModalCadastro";
@@ -422,7 +423,7 @@ export default function Clientes() {
                 {grupoList.length > 0
                   ? grupoList.map((emp) => {
                       return (
-                        <option key={emp.id} value={emp.id}>
+                        <option key={uuid()} value={emp.id}>
                           {emp.nome}
                         </option>
                       );
@@ -442,7 +443,7 @@ export default function Clientes() {
                 {vendedorList.length > 0
                   ? vendedorList?.map((vend) => {
                       return (
-                        <option key={vend.id} value={vend.id}>
+                        <option key={uuid()} value={vend.id}>
                           {vend.nome}
                         </option>
                       );
@@ -593,7 +594,7 @@ export default function Clientes() {
               </tr>
             ) : (
               filteredList?.map((client) => (
-                <tr key={client.id} data-cod={client.id}>
+                <tr key={uuid()} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`doc${client.cod}`}>{client.doc}</td>

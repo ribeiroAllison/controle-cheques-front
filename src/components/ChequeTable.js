@@ -1,5 +1,6 @@
 "use client";
 
+import uuid from 'react-uuid';
 import {
   convertToNumber,
   transformCurrency,
@@ -85,7 +86,7 @@ export default function ChequeTable(props) {
           <tbody>
             {props.list?.map((cheque) => (
               <tr
-                key={`cheque-${cheque.id}`}
+                key={uuid()}
                 id={`row${cheque.id}`}
                 className="chequeRow"
               >

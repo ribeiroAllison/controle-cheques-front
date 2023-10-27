@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import uuid from 'react-uuid';
 import HeaderLine from "@/components/HeaderLine";
 import SearchFilter from "@/components/SearchFilter";
 import { hideAddForm, showAddForm } from "@/utils/utils";
@@ -195,7 +196,7 @@ export default function Vendedores() {
                 </tr>
               ) : (
                 filteredList?.map((vendedor) => (
-                  <tr key={vendedor.nome} data-cod={vendedor.id}>
+                  <tr key={uuid()} data-cod={vendedor.id}>
                     <td id={vendedor.id}>{vendedor.nome}</td>
                     <td>
                       <img
