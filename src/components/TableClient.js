@@ -2,13 +2,10 @@
 
 import { useState, useEffect } from "react";
 import HeaderLine from "@/components/HeaderLine";
-import ModalCadastro from "@/components/ModalCadastro";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
 import { Cliente } from "@/apiServices/ClienteService";
-import clearInputs from "@/utils/clearInputs";
 import {
-  getKeyByValue,
   convertToNumber,
 } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
@@ -51,20 +48,7 @@ export default function ClientTable() {
   };
 
 
-  // DELETE CLIENT FUNCTION
-  const handleDelete = async (e) => {
-    const cod = e.target.closest("tr").getAttribute("data-cod");
-    const confirmation = confirm("Você realmente quer apagar este cliente?");
-    if (confirmation) {
-      const response = await Cliente.deleteClient(cod);
-      if (response && response.status === 201) {
-        getAllClients();
-        notifySuccess(response.data);
-      } else {
-        notifyFailure(response.data);
-      }
-    }
-  };
+
 
   // GET TOTAL VALUE PER CLIENT
   const calculateChequeValues = async (clientList) => {
@@ -195,9 +179,7 @@ export default function ClientTable() {
                   className={tableStyle.thIcon}
                 />
               </th>
-              <th>CPF / CNPJ</th>
               <th>Grupo </th>
-              <th> Vendedor </th>
               <th>Limite 
                 <CaretUpDown 
                 size={15} 
@@ -216,6 +198,7 @@ export default function ClientTable() {
                   className={tableStyle.thIcon}
                 />
               </th>
+              <th>Valor Excedido</th>
               <th>Contato</th>
             </tr>
           </thead>
@@ -232,9 +215,7 @@ export default function ClientTable() {
                 <tr key={uuid()} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
-                  <td id={`doc${client.cod}`}>{client.doc}</td>
                   <td id={`grupo${client.cod}`}>{client.grupo}</td>
-                  <td id={`vendedor${client.cod}`}>{client.vendedor}</td>
                   <td id={`credito${client.cod}`} className={client.credito}>
                     {new Intl.NumberFormat("pt-BR", {
                       style: "currency",
@@ -252,6 +233,18 @@ export default function ClientTable() {
                       style: "currency",
                       currency: "BRL",
                     }).format(client.saldo)}
+                  </td>
+                  <td 
+                    id={`delta${client.cod}`} 
+                    className={`
+                      ${client.saldo} 
+                      ${client.saldo > client.credito && tableStyle.delta}`
+                    }
+                  >
+                  {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(client.saldo - client.credito)}
                   </td>
                   <td>
                   <IdentificationCard

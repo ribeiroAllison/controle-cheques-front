@@ -230,7 +230,7 @@ export default function ChequeTable(props) {
             ))}
 
             <tr className={styles.finalRow}>
-              <td colSpan={3}>TOTAL CHEQUES</td>
+              <td colSpan={3}>TOTAL RECEBÍVEIS</td>
               <td>{props.list?.length}</td>
               <td colSpan={3}>
                 {props.list
