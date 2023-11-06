@@ -89,7 +89,7 @@ export default function Cadastro() {
         <div className={styles.formContainer}>
           <h1>Crie sua conta</h1>
           <p>
-            Sua senha deve ter no mínimo 12 caracteres, uma letra maíuscula e um
+            Sua senha deve ter no mínimo 08 caracteres, uma letra maíuscula e um
             caracter especial.
           </p>
           <form

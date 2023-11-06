@@ -1,7 +1,7 @@
 "use client";
 
-import styles from "@/styles/ClientSearchBox.module.css"
-import { useState, useEffect } from "react";
+import styles from "@/styles/ClientSearchBox.module.css";
+import { useEffect, useState } from "react";
 import { InputForms } from "./InputForms";
 
 export default function ClientSearchBox(props) {
@@ -47,7 +47,7 @@ export default function ClientSearchBox(props) {
           {searchResult.map((client) => (
             <option
               onClick={props.handleClick}
-              key={`clientCodigo-${client.id}`}
+              key={`${client.id}-${client.cliente}`}
               value={client.id}
               className={styles.customOption}
             >

@@ -75,7 +75,7 @@ export default function Login() {
                 required
                 onChange={handleEmail}
                 value={email}
-                autocomplete="off"
+                autoComplete="off"
               />
               <Input
                 id="senha"
@@ -84,7 +84,7 @@ export default function Login() {
                 required
                 onChange={handleSenha}
                 value={senha}
-                autocomplete="off"
+                autoComplete="off"
               />
               <div className={styles.linkWrapper}>
                 <Link href="/esqueceu-senha">

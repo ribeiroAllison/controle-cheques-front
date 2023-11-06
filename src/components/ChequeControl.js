@@ -1,29 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import HeaderLine from "@/components/HeaderLine";
-import ChequeTable from "./ChequeTable";
-import ModalContact from "./ModalContact";
-import ClientSearch from "./ClientSearch";
-import { InputForms } from "./InputForms";
-import { ModalObs } from "./ModalObs";
-import { getCookie } from "@/utils/cookie";
-import { baseURL } from "@/utils/url";
-import {
-  clearInputs,
-  transformDate,
-  rearrangeDate,
-} from "@/utils/utils";
-import { Vendedor } from "@/apiServices/VendedorService";
 import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
 import { Destino } from "@/apiServices/DestinoService";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Tipo } from "@/apiServices/TipoService";
-import ButtonAlternative from "./ButtonAlternative";
-import ClientSearchBox from "./ClientSearchBox";
-import { ToastContainer, toast } from "react-toastify";
+import { Vendedor } from "@/apiServices/VendedorService";
+import HeaderLine from "@/components/HeaderLine";
 import styles from "@/styles/ChequeControl.module.css";
+import { getCookie } from "@/utils/cookie";
+import { baseURL } from "@/utils/url";
+import {
+  clearInputs,
+  rearrangeDate,
+  transformDate,
+} from "@/utils/utils";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import ButtonAlternative from "./ButtonAlternative";
+import ChequeTable from "./ChequeTable";
+import ClientSearch from "./ClientSearch";
+import ClientSearchBox from "./ClientSearchBox";
+import { InputForms } from "./InputForms";
+import ModalContact from "./ModalContact";
+import { ModalObs } from "./ModalObs";
 
 
 export default function ChequeControl(props) {
@@ -639,9 +639,9 @@ export default function ChequeControl(props) {
                     placeholder="Selecione Vendedor"
                     className={`${styles.select} input`}
                   >
-                    <option key="0"></option>
+                    <option></option>
                     {destinoList?.map((destino) => (
-                      <option key={`destino-${destino.id}`} value={destino.id}>
+                      <option key={`${destino.id}-${destino.nome}`} value={destino.id}>
                         {destino.nome}
                       </option>
                     ))}
@@ -654,9 +654,9 @@ export default function ChequeControl(props) {
                     onChange={handleInputChange}
                     className={`${styles.select} input`}
                   >
-                    <option key="0"></option>
+                    <option></option>
                     {grupos?.map((grupo) => (
-                      <option key={`grupo-${grupo.id}`} value={grupo.nome}>
+                      <option key={`${grupo.id}-${grupo.nome}`} value={grupo.nome}>
                         {grupo.nome}
                       </option>
                     ))}
@@ -840,7 +840,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {tipoList?.map((tipo) => (
-                      <option key={`tipoList-${tipo.id}`} value={tipo.id}>
+                      <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
                         {tipo.nome}
                       </option>
                     ))}
@@ -869,10 +869,10 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editDestino"
                   >
-                    <option key="0"></option>
+                    <option></option>
                     {destinoList?.map((destino) => (
                       <option
-                        key={`destinoList-${destino.id}`}
+                        key={`${destino.id}-${destino.nome}`}
                         value={destino.id}
                       >
                         {destino.nome}
@@ -891,10 +891,10 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editVendedor"
                   >
-                    <option key="0"></option>
+                    <option></option>
                     {vendedorList?.map((seller) => (
                       <option
-                        key={`vendedorList-${seller.id}`}
+                        key={`${seller.id}-${seller.nome}`}
                         value={seller.id}
                       >
                         {seller.nome}
@@ -991,7 +991,7 @@ export default function ChequeControl(props) {
               >
                 <option key="0"></option>
                 {destinoList?.map((destino) => (
-                  <option key={`destinoList-${destino.id}`} value={destino.id}>
+                  <option key={`${destino.id}-${destino.nome}`} value={destino.id}>
                     {destino.nome}
                   </option>
                 ))}

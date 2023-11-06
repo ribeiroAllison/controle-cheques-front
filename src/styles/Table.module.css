@@ -36,10 +36,9 @@
   word-break: normal;
 }
 
-.table th {
+/*.table th {
   position: sticky;
- 
-}
+}*/
 
 .thIcon:hover {
   cursor: pointer;
@@ -114,6 +113,11 @@
 
 .negativo{
   background-color: var(--redTd);
+  color: white;
+}
+
+.delta{
+  background-color: var(--orangeTd);
   color: white;
 }
 
