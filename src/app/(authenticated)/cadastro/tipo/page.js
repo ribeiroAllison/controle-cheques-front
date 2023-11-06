@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
-import HeaderLine from "@/components/HeaderLine";
-import SearchFilter from "@/components/SearchFilter";
-import ButtonAlternative from "@/components/ButtonAlternative";
 import { Tipo } from "@/apiServices/TipoService";
-import { hideAddForm, showAddForm } from "@/utils/utils";
-import clearInputs from "@/utils/clearInputs";
+import ButtonAlternative from "@/components/ButtonAlternative";
+import HeaderLine from "@/components/HeaderLine";
 import ModalName from "@/components/ModalName";
-import styles from "@/styles/tipo.module.css";
+import SearchFilter from "@/components/SearchFilter";
 import tableStyle from "@/styles/Table.module.css";
+import styles from "@/styles/tipo.module.css";
+import clearInputs from "@/utils/clearInputs";
+import { hideAddForm, showAddForm } from "@/utils/utils";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import uuid from 'react-uuid';
 
 export default function Tipos() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -211,7 +211,7 @@ export default function Tipos() {
                 </tr>
               ) : (
                 filteredList?.map((tipo) => (
-                  <tr key={uuid()} data-cod={tipo.id}>
+                  <tr key={uuid} data-cod={tipo.id}>
                     <td id={tipo.id}>{tipo.nome}</td>
                     <td>
                       <img

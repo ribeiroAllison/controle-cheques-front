@@ -423,7 +423,7 @@ export default function Clientes() {
                 {grupoList.length > 0
                   ? grupoList.map((emp) => {
                       return (
-                        <option key={`${emp.id}-${emp.nome}`} value={emp.id}>
+                        <option key={uuid} value={emp.id}>
                           {emp.nome}
                         </option>
                       );
@@ -443,7 +443,7 @@ export default function Clientes() {
                 {vendedorList.length > 0
                   ? vendedorList?.map((vend) => {
                       return (
-                        <option key={`${vend.id}-${vend.nome}`} value={vend.id}>
+                        <option key={uuid} value={vend.id}>
                           {vend.nome}
                         </option>
                       );
@@ -594,7 +594,7 @@ export default function Clientes() {
               </tr>
             ) : (
               filteredList?.map((client) => (
-                <tr key={uuid()} data-cod={client.id}>
+                <tr key={uuid} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`doc${client.cod}`}>{client.doc}</td>

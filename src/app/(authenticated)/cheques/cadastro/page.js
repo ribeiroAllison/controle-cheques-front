@@ -15,6 +15,7 @@ import {
 } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import uuid from "react-uuid";
 
 export default function CadastroCheques() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -69,7 +70,7 @@ export default function CadastroCheques() {
           name={`num${i}`}
           onChange={handleInputChange}
           id={`num${i}`}
-          key={`num${i}`}
+          key={uuid}
           placeholder={`No. do Recebível ${i + 1}`}
           className="input numCheque"
           autoComplete="off"
@@ -220,7 +221,7 @@ export default function CadastroCheques() {
           name={`valor${i}`}
           onChange={handleInputChange}
           id={`valor${i}`}
-          key={`valor${i}`}
+          key={uuid}
           required
           placeholder={`Valor ${i + 1}`}
           className="input valorCheque"
@@ -247,7 +248,7 @@ export default function CadastroCheques() {
           name={`data_venc${i}`}
           onChange={handleInputChange}
           id={`data_venc${i}`}
-          key={`data_venc${i}`}
+          key={uuid}
           required
           className="input"
           autoComplete="off"
@@ -334,7 +335,7 @@ export default function CadastroCheques() {
                 >
                   <option></option>
                   {tipos?.map((tipo) => (
-                    <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
+                    <option key={uuid} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -420,7 +421,7 @@ export default function CadastroCheques() {
                   <option id="vendedor_name"></option>
                   {vendedorList?.map((seller) => (
                     <option
-                      key={`${seller.id}-${seller.nome}`}
+                      key={uuid}
                       value={seller.id}
                       selected={seller.id === selectedSeller}
                     >
