@@ -1,17 +1,17 @@
 "use client";
 
-import { Destino } from "@/apiServices/DestinoService";
-import ButtonAlternative from "@/components/ButtonAlternative";
-import HeaderLine from "@/components/HeaderLine";
-import ModalName from "@/components/ModalName";
-import SearchFilter from "@/components/SearchFilter";
-import tableStyle from "@/styles/Table.module.css";
-import styles from "@/styles/destino.module.css";
-import clearInputs from "@/utils/clearInputs";
-import { hideAddForm, showAddForm } from "@/utils/utils";
-import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { useState, useEffect } from "react";
 import uuid from 'react-uuid';
+import HeaderLine from "@/components/HeaderLine";
+import SearchFilter from "@/components/SearchFilter";
+import ButtonAlternative from "@/components/ButtonAlternative";
+import { Destino } from "@/apiServices/DestinoService";
+import { hideAddForm, showAddForm } from "@/utils/utils";
+import clearInputs from "@/utils/clearInputs";
+import ModalName from "@/components/ModalName";
+import styles from "@/styles/destino.module.css";
+import tableStyle from "@/styles/Table.module.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Destinos() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -210,7 +210,7 @@ export default function Destinos() {
                 </tr>
               ) : (
                 filteredList.map((destino) => (
-                  <tr key={uuid} data-cod={destino.id}>
+                  <tr key={uuid()} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
                     <td>
                       <img

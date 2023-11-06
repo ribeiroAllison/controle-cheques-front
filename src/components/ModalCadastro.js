@@ -1,5 +1,4 @@
 import styles from "@/styles/ModalCliente.module.css";
-import uuid from "react-uuid";
 import ButtonAlternative from "./ButtonAlternative";
 import { InputForms } from "./InputForms";
 
@@ -102,7 +101,7 @@ export default function ModalCadastro(props) {
                   ? props.grupo.map((emp) => {
                       return (
                         <option
-                          key={uuid}
+                          key={`${emp.id}-${emp.nome}`}
                           value={emp.id}
                           selected={emp.id === props.formValues.grupo}
                         >
@@ -128,7 +127,7 @@ export default function ModalCadastro(props) {
                   ? props.vendedores?.map((emp) => {
                       return (
                         <option
-                          key={uuid}
+                          key={`${emp.id}-${emp.nome}`}
                           value={emp.id}
                           selected={emp.id === props.formValues.vendedor_id}
                         >

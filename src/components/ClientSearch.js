@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "@/styles/ClientSearch.module.css";
-import uuid from "react-uuid";
 import { InputForms } from "./InputForms";
 
 export default function ClientSearch(props) {
@@ -24,7 +23,7 @@ export default function ClientSearch(props) {
           {props.searchResult.map((client) => (
             <option
               onClick={props.handleClick}
-              key={uuid}
+              key={`codClient-${client.cod}`}
               value={client.id}
               className={styles.customOption}
             >
