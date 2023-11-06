@@ -17,6 +17,7 @@ import {
 } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import uuid from "react-uuid";
 import ButtonAlternative from "./ButtonAlternative";
 import ChequeTable from "./ChequeTable";
 import ClientSearch from "./ClientSearch";
@@ -641,7 +642,7 @@ export default function ChequeControl(props) {
                   >
                     <option></option>
                     {destinoList?.map((destino) => (
-                      <option key={`${destino.id}-${destino.nome}`} value={destino.id}>
+                      <option key={uuid} value={destino.id}>
                         {destino.nome}
                       </option>
                     ))}
@@ -656,7 +657,7 @@ export default function ChequeControl(props) {
                   >
                     <option></option>
                     {grupos?.map((grupo) => (
-                      <option key={`${grupo.id}-${grupo.nome}`} value={grupo.nome}>
+                      <option key={uuid} value={grupo.nome}>
                         {grupo.nome}
                       </option>
                     ))}
@@ -838,9 +839,9 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editTipo"
                   >
-                    <option key="0"></option>
+                    <option></option>
                     {tipoList?.map((tipo) => (
-                      <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
+                      <option key={uuid} value={tipo.id}>
                         {tipo.nome}
                       </option>
                     ))}
@@ -872,7 +873,7 @@ export default function ChequeControl(props) {
                     <option></option>
                     {destinoList?.map((destino) => (
                       <option
-                        key={`${destino.id}-${destino.nome}`}
+                        key={uuid}
                         value={destino.id}
                       >
                         {destino.nome}
@@ -894,7 +895,7 @@ export default function ChequeControl(props) {
                     <option></option>
                     {vendedorList?.map((seller) => (
                       <option
-                        key={`${seller.id}-${seller.nome}`}
+                        key={uuid}
                         value={seller.id}
                       >
                         {seller.nome}
@@ -989,9 +990,9 @@ export default function ChequeControl(props) {
                 className={`${styles.select} editInput`}
                 id="massDestino"
               >
-                <option key="0"></option>
+                <option></option>
                 {destinoList?.map((destino) => (
-                  <option key={`${destino.id}-${destino.nome}`} value={destino.id}>
+                  <option key={uuid} value={destino.id}>
                     {destino.nome}
                   </option>
                 ))}
