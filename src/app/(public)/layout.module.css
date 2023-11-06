@@ -6,8 +6,8 @@
   background-image: url("/images/bg-login.png");
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 5rem;
-  height: 100%;
+  padding-top: 1rem;
+
 }
 
 @media (max-width: 768px) {
