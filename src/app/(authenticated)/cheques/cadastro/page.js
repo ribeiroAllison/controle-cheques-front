@@ -1,21 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
-import ClientSearchBox from "@/components/ClientSearchBox";
-import ButtonAlternative from "@/components/ButtonAlternative";
-import { InputForms } from "@/components/InputForms";
 import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
-import { Vendedor } from "@/apiServices/VendedorService";
 import { Tipo } from "@/apiServices/TipoService";
+import { Vendedor } from "@/apiServices/VendedorService";
+import ButtonAlternative from "@/components/ButtonAlternative";
+import ClientSearchBox from "@/components/ClientSearchBox";
+import { InputForms } from "@/components/InputForms";
+import styles from "@/styles/chequeCadastro.module.css";
 import {
   clearInputs,
   convertToNumber,
   getKeyByValue,
 } from "@/utils/utils";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import styles from "@/styles/chequeCadastro.module.css";
 
 export default function CadastroCheques() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -70,6 +69,7 @@ export default function CadastroCheques() {
           name={`num${i}`}
           onChange={handleInputChange}
           id={`num${i}`}
+          key={`num${i}`}
           placeholder={`No. do Recebível ${i + 1}`}
           className="input numCheque"
           autoComplete="off"
@@ -220,6 +220,7 @@ export default function CadastroCheques() {
           name={`valor${i}`}
           onChange={handleInputChange}
           id={`valor${i}`}
+          key={`valor${i}`}
           required
           placeholder={`Valor ${i + 1}`}
           className="input valorCheque"
@@ -246,6 +247,7 @@ export default function CadastroCheques() {
           name={`data_venc${i}`}
           onChange={handleInputChange}
           id={`data_venc${i}`}
+          key={`data_venc${i}`}
           required
           className="input"
           autoComplete="off"
@@ -330,9 +332,9 @@ export default function CadastroCheques() {
                   placeholder="Selecione Tipo"
                   className={`${styles.select} input`}
                 >
-                  <option key="0"></option>
+                  <option></option>
                   {tipos?.map((tipo) => (
-                    <option key={uuid()} value={tipo.id}>
+                    <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -415,10 +417,10 @@ export default function CadastroCheques() {
                   placeholder="Selecione Vendedor"
                   className={`${styles.select} input`}
                 >
-                  <option key="0" id="vendedor_name"></option>
+                  <option id="vendedor_name"></option>
                   {vendedorList?.map((seller) => (
                     <option
-                      key={uuid()}
+                      key={`${seller.id}-${seller.nome}`}
                       value={seller.id}
                       selected={seller.id === selectedSeller}
                     >
