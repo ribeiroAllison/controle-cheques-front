@@ -1,113 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
-import Input from "@/components/Input";
 import styles from "@/styles/cadastro.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
 export default function Cadastro() {
   const router = useRouter();
-  const {register} = useForm();
+  const {
+    register, 
+    formState: {errors},
+    handleSubmit
+  } = useForm({
+    defaultValues: {
+      nome: "",
+      email: "",
+      tax_id: "",
+      phones: "",
+      birth_date: "",
+      senha1: "",
+      senha2: ""
+    }
+  });
+
+  console.log(errors)
 
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
-  const [formValues, setFormValues] = useState({
 
-  })
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [billingInfo, setBillingInfo] = useState()
-  const [contraSenha, setContraSenha] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [PagSeguro, setPagSeguro] = useState();
-
-  const handleCreditCard = (data) => {
-    
-  }
-
-  const handleNome = (e) => {
-    setNome(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleSenha = (e) => {
-    setSenha(e.target.value);
-  };
-
-  const handleContraSenha = (e) => {
-    setContraSenha(e.target.value);
-  };
-
-  const handleBilling = (e) => {
-    setBillingInfo({
-      ...billingInfo,
-      type: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const regexUpperCase = /[A-Z]/;
-    const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
-    const isPasswordValid =
-      senha.length >= 8 &&
-      regexUpperCase.test(senha) &&
-      regexSpecialCharacter.test(senha);
-
-    if (!isPasswordValid) {
-      notifyFailure("Senha deve ser mais complexa!");
-      setSenha('');
-      setContraSenha('');
-      return;
-    }
-
-    if (senha !== contraSenha) {
-      notifyFailure("Senhas devem ser iguais!");
-      return;
-    }
-
-    const user = {
-      nome: nome,
-      email: email,
-      senha: senha,
-    };
-
-    const response = await User.registerUser(user);
-
-    if (response && response.status === 200) {
-      notifySuccess(response.data);
-
-      setNome("");
-      setEmail("");
-      setSenha("");
-      setContraSenha("");
-
-      setTimeout(() => {
-        router.push("/login");
-      }, 2200);
-    } else {
-      notifyFailure(response.data);
-    }
-  };
-
-  //EFFECTS
-  useEffect(() => {
-    const pagseguro = window.PagSeguro;
-
-    if(pagseguro){
-      setPagSeguro(pagseguro)
-    }
-  }, [])
 
   return (
     <>
@@ -121,103 +44,125 @@ export default function Cadastro() {
           </p>
           <form
             className={styles.formCadastro}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit( async (data) => {
+              console.log(data)
+              const regexUpperCase = /[A-Z]/;
+              const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
+              const isPasswordValid =
+                data.senha1.length >= 8 &&
+                regexUpperCase.test(data.senha1) &&
+                regexSpecialCharacter.test(data.senha1);
+
+              if (!isPasswordValid) {
+                notifyFailure("Senha deve ser mais complexa!");
+                return;
+              }
+
+              if (data.senha1 !== data.senha2) {
+                notifyFailure("Senhas devem ser iguais!");
+                return;
+              }
+
+              const user = {
+                nome: data.nome,
+                email: data.email,
+                senha: data.senha1,
+                tax_id: data.tax_id,
+                birth_date: data.birth_date,
+                phones: data.phones
+              };
+
+              const response = await User.registerUser(user);
+
+              if (response && response.status === 200) {
+                notifySuccess(response.data);
+
+                setTimeout(() => {
+                  router.push("/login");
+                }, 2200);
+              } else {
+                notifyFailure(response.data);
+              }
+            })}
             id="form"
           >
             <div className="formField">
-              <Input
+              <input
+                {...register("nome", {required: 'Campo Obrigatório'})}
                 id="nome"
                 type="text"
                 placeholder="Nome"
-                required
-                onChange={handleNome}
-                value={nome}
               />
+              <p>{errors.nome?.message}</p>
             </div>
             <div className="formField">
-              <Input
+              <input
+              {...register("email", {required:  'Campo Obrigatório'})}
                 id="email"
                 type="email"
                 placeholder="E-mail"
-                required
-                onChange={handleEmail}
-                value={email}
+
               />
+              <p>{errors.email?.message}</p>
             </div>
             <div className="formField">
-              <Input
+              <input
+                {...register("tax_id", {required:  'Campo Obrigatório'})}
                 id="tax_id"
                 type="text"
                 placeholder="CPF/CNPJ"
-                required
-                onChange={handleEmail}
-                value={email}
               />
+              <p>{errors.tax_id?.message}</p>
             </div>
             <div className="formField">
-              <Input
+              <input
+                {...register("phones", {required:  'Campo Obrigatório'})}
                 id="phones"
                 type="text"
                 placeholder="Telefone"
-                required
-                onChange={handleEmail}
-                value={email}
+
               />
+              <p>{errors.phones?.message}</p>
             </div>
+            
             <div className="formField">
-              <Input
-                id="phones"
+              <input
+                {...register("birth_date", {required:  'Campo Obrigatório'})}
+                id="birth"
                 type="date"
                 placeholder="Data de Nascimento"
-                required
-                onChange={handleEmail}
-                value={email}
+
               />
+              <p>{errors.birth_date?.message}</p>
             </div>
-            <div>
-              <fieldset className={styles.paymentOptions}>
-                <legend>
-                  Selecione a forma de pagamento
-                </legend>
-
-                <input 
-                  type="radio"
-                  id="boleto"
-                  name="paymentType"
-                  value="BOLETO"
-                  onChange={handleBilling}/>
-                  <label for="boleto">Boleto</label>
-
-                <input 
-                  type="radio"
-                  id="card"
-                  name="paymentType"
-                  value="CREDIT_CARD"
-                  onChange={handleBilling}/>
-                  <label for="card">Cartão de Crédito</label>
-              </fieldset>
-            </div>
+            
             <div className={styles.passwordCtr}>
               <div className="formField">
-                <Input
+                <input
+                  {...register("senha1", {required:  'Campo Obrigatório',
+                                          minLength: 8,
+                                          message: 'Mínimo de oito caracteres.'})}
                   id="senha1"
                   type="password"
                   placeholder="Senha"
-                  required
-                  onChange={handleSenha}
-                  value={senha}
+
                 />
+                <p>{errors.senha1?.message}</p>
               </div>
+              
               <div className="formField">
-                <Input
+                <input
+                  {...register("senha2", {required:  'Campo Obrigatório',
+                                          minLength: 8,
+                                          message: 'Mínimo de oito caracteres.'})}
                   id="senha2"
                   type="password"
                   placeholder="Confirme sua senha"
-                  required
-                  onChange={handleContraSenha}
-                  value={contraSenha}
+
                 />
+                <p>{errors.senha2?.message}</p>
               </div>
+              
             </div>
             
           </form>

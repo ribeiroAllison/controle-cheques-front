@@ -9,14 +9,17 @@ export default class User {
         nome: user.nome,
         email: user.email,
         senha: user.senha,
+        tax_id: user.tax_id,
+        birth_date: user.birth_date,
+        phones: user.phones
       });
       if (response) {
         return response;
       } else {
-        res.status(500).send("Erro ao criar usuário! Tente novamente.");
+        return;
       }
     } catch (error) {
-      return error.response;
+      return error.error;
     }
   };
 
