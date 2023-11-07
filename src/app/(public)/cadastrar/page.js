@@ -26,10 +26,49 @@ export default function Cadastro() {
     }
   });
 
-  console.log(errors)
-
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
+
+  const submit = async (data) => {
+    const regexUpperCase = /[A-Z]/;
+    const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
+    const isPasswordValid =
+      data.senha1.length >= 8 &&
+      regexUpperCase.test(data.senha1) &&
+      regexSpecialCharacter.test(data.senha1);
+
+    if (!isPasswordValid) {
+      notifyFailure("Senha deve ser mais complexa!");
+      return;
+    }
+
+    if (data.senha1 !== data.senha2) {
+      notifyFailure("Senhas devem ser iguais!");
+      return;
+    }
+
+    const user = {
+      nome: data.nome,
+      email: data.email,
+      senha: data.senha1,
+      tax_id: data.tax_id,
+      birth_date: data.birth_date,
+      phones: data.phones
+    };
+
+    const response = await User.registerUser(user);
+
+    if (response && response.status === 200) {
+      notifySuccess(response.data);
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 2200);
+    } else {
+      notifyFailure(response.data);
+    }
+    
+  }
 
 
   return (
@@ -44,46 +83,7 @@ export default function Cadastro() {
           </p>
           <form
             className={styles.formCadastro}
-            onSubmit={handleSubmit( async (data) => {
-              console.log(data)
-              const regexUpperCase = /[A-Z]/;
-              const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
-              const isPasswordValid =
-                data.senha1.length >= 8 &&
-                regexUpperCase.test(data.senha1) &&
-                regexSpecialCharacter.test(data.senha1);
-
-              if (!isPasswordValid) {
-                notifyFailure("Senha deve ser mais complexa!");
-                return;
-              }
-
-              if (data.senha1 !== data.senha2) {
-                notifyFailure("Senhas devem ser iguais!");
-                return;
-              }
-
-              const user = {
-                nome: data.nome,
-                email: data.email,
-                senha: data.senha1,
-                tax_id: data.tax_id,
-                birth_date: data.birth_date,
-                phones: data.phones
-              };
-
-              const response = await User.registerUser(user);
-
-              if (response && response.status === 200) {
-                notifySuccess(response.data);
-
-                setTimeout(() => {
-                  router.push("/login");
-                }, 2200);
-              } else {
-                notifyFailure(response.data);
-              }
-            })}
+            onSubmit={handleSubmit(submit)}
             id="form"
           >
             <div className="formField">

@@ -16,10 +16,11 @@ export default class User {
       if (response) {
         return response;
       } else {
-        return;
+        res.status(500).send("Erro ao criar usuário! Tente novamente.");
       }
     } catch (error) {
-      return error.error;
+      console.log(error)
+      return error.response;
     }
   };
 
