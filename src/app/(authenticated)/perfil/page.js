@@ -13,23 +13,14 @@ const Perfil = () => {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
-  const [nome, setNome] = useState("");
-  const [senha, setSenha] = useState("");
-  const [contraSenha, setContraSenha] = useState("");
+
   const [id, setId] = useState(null);
+  const [userData, setUserData] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (senha !== contraSenha) {
-      alert("Senhas devem ser iguais!");
-      return;
-    }
-
     const user = {
       id: id,
-      nome: nome,
-      senha: senha,
     };
 
     const response = await User.editUser(user);
@@ -43,11 +34,31 @@ const Perfil = () => {
     }
   };
 
+  //AUX FUNCTIONS
+
+  const getUser = async (id) => {
+    try {
+      const res = await User.getUserById(id);
+      if(res){
+        console.log(res)
+        setUserData(res)
+      }
+    } catch(error){
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     const token = document.cookie;
     const { id } = decode(token);
     setId(id);
   }, []);
+
+  useEffect(() => {
+    if(id){
+      getUser(id)
+    }
+  },[id])
 
   return (
     <>
@@ -60,27 +71,30 @@ const Perfil = () => {
               type="text"
               name="nome"
               id="nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              // value={nome}
+              // onChange={(e) => setNome(e.target.value)}
               placeholder="Nome"
+              autoComplete="off"
             />
             <Input
               type="password"
               name="senha"
               id="senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              // value={senha}
+              // onChange={(e) => setSenha(e.target.value)}
               placeholder="Digite sua nova senha"
               required
+              autoComplete="off"
             />
             <Input
               type="password"
               name="contrasenha"
               id="contrasenha"
-              value={contraSenha}
-              onChange={(e) => setContraSenha(e.target.value)}
+              // value={contraSenha}
+              // onChange={(e) => setContraSenha(e.target.value)}
               placeholder="Repita a senha"
               required
+              autoComplete="off"
             />
             <Button type="submit">Editar</Button>
           </form>
