@@ -2,9 +2,11 @@
 
 import Button from "@/components/Button";
 import styles from "@/styles/cadastro.module.css";
+import validarCNPJ from "@/utils/validarCNPJ";
+import validarCPF from "@/utils/validarCPF";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -16,11 +18,13 @@ export default function Cadastro() {
     const formattedValue = formatPhoneNumber(inputValue);
     setPhoneNumber(formattedValue);
   };
+
+  //SETUP
   const router = useRouter();
   const {
-    register,
-    formState: { errors },
-    handleSubmit,
+    register, 
+    formState: {errors},
+    handleSubmit
   } = useForm({
     defaultValues: {
       nome: "",
@@ -51,6 +55,26 @@ export default function Cadastro() {
     }
   }
 
+  // Função para formatar o telefone
+  function formatPhoneNumber(input) {
+    const phoneNumber = input.replace(/\D/g, "");
+    if (phoneNumber.length <= 2) {
+      return `${phoneNumber}`;
+    } else if (phoneNumber.length <= 7) {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
+    } else {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
+        2,
+        7
+      )}-${phoneNumber.slice(7)}`;
+    }
+  }
+
+  //STATE DECLARATION
+  const [validDoc, setValidDoc] = useState(false);
+  const [doc, setDoc] = useState()
+
+  //HANDLER FUNCTIONS
   const submit = async (data) => {
     const regexUpperCase = /[A-Z]/;
     const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
@@ -90,6 +114,17 @@ export default function Cadastro() {
       notifyFailure(response.data);
     }
   };
+  //AUX FUNCTION
+  const docData = watch('tax_id');
+
+  useEffect(() => {
+    if(validarCNPJ(docData) || validarCPF(docData)){
+      setValidDoc(true)
+    } else{
+      setValidDoc(false)
+    }
+  }, [docData])
+
 
   return (
     <>
@@ -136,7 +171,10 @@ export default function Cadastro() {
                   placeholder="CPF/CNPJ"
                 />
                 <p>{errors.tax_id?.message}</p>
-              </div>
+                {
+                (docData && !validDoc) && <p>Documento Inválido</p>
+              }
+            </div>
             </div>
 
             <div className={styles.fieldsWrapper}>

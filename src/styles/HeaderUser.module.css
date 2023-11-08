@@ -47,6 +47,34 @@
   transition: transform 0.3s;
 }
 
+.warning{
+  background-color: var(--blueTd-50);
+  color: var(--blueTd-100);
+  font-weight: 800;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+}
+
+.warningText{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subscribeButton{
+  border: 1px solid var(--blueTd-100);
+  padding: 0 3px;
+  border-radius: 5px;
+  background-color: var(--blueTd);
+  color: white;
+  text-decoration: none;
+  width: 170px;
+}
+
 @media (max-width: 768px) {
   .headerUserContainer {
     flex-direction: column;

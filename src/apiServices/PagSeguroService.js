@@ -1,8 +1,8 @@
 import { baseURL, token } from "@/utils/pagseguro";
 
-class pagseguroAPI {
+class PagSeguroAPI {
 
-    static criarAssinante = async (reference_id, name, email, tax_id, phones, birth_date, billing_info) => {
+    static criarAssinante = async (name, email, tax_id, phones, birth_date, billing_info) => {
         try{
             const response = await fetch(`${baseURL}/customers`, {
                 method: 'POST',
@@ -13,7 +13,6 @@ class pagseguroAPI {
                 body:
                     JSON.stringify(
                         {
-                            "reference_id": reference_id,
                             "name": name,
                             "email": email,
                             "tax_id": tax_id,
@@ -34,5 +33,5 @@ class pagseguroAPI {
 
 }
 
-export default pagseguroAPI;
+export default PagSeguroAPI;
 
