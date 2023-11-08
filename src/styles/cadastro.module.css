@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1 0;
   padding: 2rem 0;
 }
 
@@ -33,7 +32,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 2rem;
-  max-width: 1200px;
+  max-width: 900px;
   height: 650px;
 
   text-align: center;
@@ -49,14 +48,27 @@
 }
 
 .formCadastro {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 1.3rem;
-  width: 100%;
   margin: 0 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap:1rem;
+}
 
+.formCadastro input {
+  border-radius: 15px;
+  padding-inline: 0.75rem;
+  border-style: none;
+  border: 0;
+  height: 2rem;
+  background: var(--gray-200);
+  font-size: 1rem;
+  width: 250px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.formCadastro label {
+  color: var(--white);
+  text-align: left;
 }
 
 .paymentOptions{
@@ -68,7 +80,14 @@
 
 .passwordCtr{
   display: flex;
+  flex-wrap: wrap;
   gap: 1.3rem
+}
+
+.fieldsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3rem;
 }
 
 @media (max-width: 768px) {

@@ -1,19 +1,26 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
 import styles from "@/styles/cadastro.module.css";
-import { ToastContainer, toast } from "react-toastify";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Cadastro() {
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handlePhoneNumberChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatPhoneNumber(inputValue);
+    setPhoneNumber(formattedValue);
+  };
   const router = useRouter();
   const {
-    register, 
-    formState: {errors},
-    handleSubmit
+    register,
+    formState: { errors },
+    handleSubmit,
   } = useForm({
     defaultValues: {
       nome: "",
@@ -22,12 +29,27 @@ export default function Cadastro() {
       phones: "",
       birth_date: "",
       senha1: "",
-      senha2: ""
-    }
+      senha2: "",
+    },
   });
 
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
+
+  // Função para formatar o telefone
+  function formatPhoneNumber(input) {
+    const phoneNumber = input.replace(/\D/g, "");
+    if (phoneNumber.length <= 2) {
+      return `${phoneNumber}`;
+    } else if (phoneNumber.length <= 7) {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
+    } else {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
+        2,
+        7
+      )}-${phoneNumber.slice(7)}`;
+    }
+  }
 
   const submit = async (data) => {
     const regexUpperCase = /[A-Z]/;
@@ -53,7 +75,7 @@ export default function Cadastro() {
       senha: data.senha1,
       tax_id: data.tax_id,
       birth_date: data.birth_date,
-      phones: data.phones
+      phones: data.phones,
     };
 
     const response = await User.registerUser(user);
@@ -67,9 +89,7 @@ export default function Cadastro() {
     } else {
       notifyFailure(response.data);
     }
-    
-  }
-
+  };
 
   return (
     <>
@@ -86,85 +106,98 @@ export default function Cadastro() {
             onSubmit={handleSubmit(submit)}
             id="form"
           >
-            <div className="formField">
-              <input
-                {...register("nome", {required: 'Campo Obrigatório'})}
-                id="nome"
-                type="text"
-                placeholder="Nome"
-              />
-              <p>{errors.nome?.message}</p>
+            <div className={styles.fieldsWrapper}>
+              <div className="formField">
+                <label htmlFor="nome">Nome:</label>
+                <input
+                  {...register("nome", { required: "Campo Obrigatório" })}
+                  id="nome"
+                  type="text"
+                  placeholder="Nome"
+                />
+                <p>{errors.nome?.message}</p>
+              </div>
+              <div className="formField">
+                <label htmlFor="email">Email:</label>
+                <input
+                  {...register("email", { required: "Campo Obrigatório" })}
+                  id="email"
+                  type="email"
+                  placeholder="E-mail"
+                />
+                <p>{errors.email?.message}</p>
+              </div>
+              <div className="formField">
+                <label htmlFor="tax_id">CPF ou CNPJ:</label>
+                <input
+                  {...register("tax_id", { required: "Campo Obrigatório" })}
+                  id="tax_id"
+                  type="text"
+                  placeholder="CPF/CNPJ"
+                />
+                <p>{errors.tax_id?.message}</p>
+              </div>
             </div>
-            <div className="formField">
-              <input
-              {...register("email", {required:  'Campo Obrigatório'})}
-                id="email"
-                type="email"
-                placeholder="E-mail"
 
-              />
-              <p>{errors.email?.message}</p>
+            <div className={styles.fieldsWrapper}>
+              <div className="formField">
+                <label htmlFor="phones">Telefone\Celular:</label>
+                <input
+                  {...register("phones", {
+                    required: "Campo Obrigatório",
+                    pattern: /^\(\d{2}\) \d{5}-\d{4}$/,
+                  })}
+                  id="phones"
+                  type="text"
+                  placeholder="(11) 9950-7789"
+                  onChange={handlePhoneNumberChange}
+                  value={phoneNumber}
+                />
+                <p>{errors.phones?.message}</p>
+              </div>
+              <div className="formField">
+                <label htmlFor="birth_date">Data de Nascimento:</label>
+                <input
+                  {...register("birth_date", { required: "Campo Obrigatório" })}
+                  id="birth"
+                  type="date"
+                  placeholder="Data de Nascimento"
+                />
+                <p>{errors.birth_date?.message}</p>
+              </div>
             </div>
-            <div className="formField">
-              <input
-                {...register("tax_id", {required:  'Campo Obrigatório'})}
-                id="tax_id"
-                type="text"
-                placeholder="CPF/CNPJ"
-              />
-              <p>{errors.tax_id?.message}</p>
-            </div>
-            <div className="formField">
-              <input
-                {...register("phones", {required:  'Campo Obrigatório'})}
-                id="phones"
-                type="text"
-                placeholder="Telefone"
 
-              />
-              <p>{errors.phones?.message}</p>
-            </div>
-            
-            <div className="formField">
-              <input
-                {...register("birth_date", {required:  'Campo Obrigatório'})}
-                id="birth"
-                type="date"
-                placeholder="Data de Nascimento"
-
-              />
-              <p>{errors.birth_date?.message}</p>
-            </div>
-            
             <div className={styles.passwordCtr}>
               <div className="formField">
+                <label htmlFor="senha1">Senha:</label>
                 <input
-                  {...register("senha1", {required:  'Campo Obrigatório',
-                                          minLength: 8,
-                                          message: 'Mínimo de oito caracteres.'})}
+                  {...register("senha1", {
+                    required: "Campo Obrigatório",
+                    minLength: 8,
+                    message: "Mínimo de oito caracteres.",
+                  })}
                   id="senha1"
                   type="password"
                   placeholder="Senha"
-
                 />
                 <p>{errors.senha1?.message}</p>
               </div>
-              
+
               <div className="formField">
+                <label htmlFor="senha2">Confirme a Senha:</label>
                 <input
-                  {...register("senha2", {required:  'Campo Obrigatório',
-                                          minLength: 8,
-                                          message: 'Mínimo de oito caracteres.'})}
+                  {...register("senha2", {
+                    required: "Campo Obrigatório",
+                    minLength: 8,
+                    message: "Mínimo de oito caracteres.",
+                  })}
                   id="senha2"
                   type="password"
                   placeholder="Confirme sua senha"
-
                 />
                 <p>{errors.senha2?.message}</p>
               </div>
-              
             </div>
-            
           </form>
           <Button type="submit" form="form">
             Criar Conta
