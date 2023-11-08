@@ -7,13 +7,19 @@ import Button from "@/components/Button";
 import styles from "@/styles/cadastro.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import validarCNPJ from "@/utils/validarCNPJ";
+import validarCPF from "@/utils/validarCPF";
+import { useEffect, useState } from "react";
 
 export default function Cadastro() {
+
+  //SETUP
   const router = useRouter();
   const {
     register, 
     formState: {errors},
-    handleSubmit
+    handleSubmit,
+    watch
   } = useForm({
     defaultValues: {
       nome: "",
@@ -29,6 +35,11 @@ export default function Cadastro() {
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
+  //STATE DECLARATION
+  const [validDoc, setValidDoc] = useState(false);
+  const [doc, setDoc] = useState()
+
+  //HANDLER FUNCTIONS
   const submit = async (data) => {
     const regexUpperCase = /[A-Z]/;
     const regexSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/;
@@ -69,6 +80,17 @@ export default function Cadastro() {
     }
     
   }
+
+  //AUX FUNCTION
+  const docData = watch('tax_id');
+
+  useEffect(() => {
+    if(validarCNPJ(docData) || validarCPF(docData)){
+      setValidDoc(true)
+    } else{
+      setValidDoc(false)
+    }
+  }, [docData])
 
 
   return (
@@ -113,6 +135,9 @@ export default function Cadastro() {
                 placeholder="CPF/CNPJ"
               />
               <p>{errors.tax_id?.message}</p>
+              {
+                (docData && !validDoc) && <p>Documento Inválido</p>
+              }
             </div>
             <div className="formField">
               <input
