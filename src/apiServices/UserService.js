@@ -8,8 +8,7 @@ export default class User {
   static getUserById = async (id) => {
     try{
       const response = await connection.get(`/usuarios/${id}`);
-      if(response){
-        console.log(response.data[0])
+      if(response.status === 200){
         return response.data[0]; 
       }
     } catch(error){

@@ -40,7 +40,6 @@ const Perfil = () => {
     try {
       const res = await User.getUserById(id);
       if(res){
-        console.log(res)
         setUserData(res)
       }
     } catch(error){
