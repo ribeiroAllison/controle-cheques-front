@@ -12,6 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 
 export default function Cadastro() {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [validDoc, setValidDoc] = useState(false);
+  const [doc, setDoc] = useState();
 
   const handlePhoneNumberChange = (e) => {
     const inputValue = e.target.value;
@@ -19,12 +21,12 @@ export default function Cadastro() {
     setPhoneNumber(formattedValue);
   };
 
-  //SETUP
   const router = useRouter();
+
   const {
-    register, 
-    formState: {errors},
-    handleSubmit
+    register,
+    formState: { errors },
+    handleSubmit,
   } = useForm({
     defaultValues: {
       nome: "",
@@ -54,25 +56,6 @@ export default function Cadastro() {
       )}-${phoneNumber.slice(7)}`;
     }
   }
-
-  // Função para formatar o telefone
-  function formatPhoneNumber(input) {
-    const phoneNumber = input.replace(/\D/g, "");
-    if (phoneNumber.length <= 2) {
-      return `${phoneNumber}`;
-    } else if (phoneNumber.length <= 7) {
-      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
-    } else {
-      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
-        2,
-        7
-      )}-${phoneNumber.slice(7)}`;
-    }
-  }
-
-  //STATE DECLARATION
-  const [validDoc, setValidDoc] = useState(false);
-  const [doc, setDoc] = useState()
 
   //HANDLER FUNCTIONS
   const submit = async (data) => {
@@ -115,16 +98,15 @@ export default function Cadastro() {
     }
   };
   //AUX FUNCTION
-  const docData = watch('tax_id');
+  const docData = watch("tax_id");
 
   useEffect(() => {
-    if(validarCNPJ(docData) || validarCPF(docData)){
-      setValidDoc(true)
-    } else{
-      setValidDoc(false)
+    if (validarCNPJ(docData) || validarCPF(docData)) {
+      setValidDoc(true);
+    } else {
+      setValidDoc(false);
     }
-  }, [docData])
-
+  }, [docData]);
 
   return (
     <>
@@ -171,10 +153,8 @@ export default function Cadastro() {
                   placeholder="CPF/CNPJ"
                 />
                 <p>{errors.tax_id?.message}</p>
-                {
-                (docData && !validDoc) && <p>Documento Inválido</p>
-              }
-            </div>
+                {docData && !validDoc && <p>Documento Inválido</p>}
+              </div>
             </div>
 
             <div className={styles.fieldsWrapper}>
