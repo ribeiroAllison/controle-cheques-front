@@ -1,6 +1,5 @@
 "use client";
 
-import { UserFocus } from "@phosphor-icons/react";
 import Button from "./Button";
 import Link from "next/link";
 import styles from "@/styles/HeaderUser.module.css";
@@ -9,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { WarningOctagon } from "@phosphor-icons/react";
 
 export default function HeaderUser() {
   const [name, setName] = useState("");
@@ -35,13 +35,20 @@ export default function HeaderUser() {
     <div>
       <div className={styles.headerUserContainer}>
         <div className={styles.headerUserWrapper}>
-          <UserFocus size={90} weight="fill" color="#384b41" />
           <div className={styles.headerUserLeft}>
             <p>Olá, {name}!</p>
             <Link href="/perfil">
-              <Button style={{ height: "40px", width: "150px" }}>Editar</Button>
+              <Button style={{ height: "40px", width: "130px" }}>Editar</Button>
             </Link>
           </div>
+        </div>
+        <div className={styles.warning}>
+          <WarningOctagon size={30} weight="fill"/>
+          <div className={styles.warningText}>
+            <p>{`Restam 20 dias de teste grátis`}</p>
+            <Link href={""} className={styles.subscribeButton}>Ative sua conta agora</Link>
+          </div>
+          
         </div>
         <div className={styles.btnContainer}>
             <a
@@ -52,10 +59,10 @@ export default function HeaderUser() {
             <FontAwesomeIcon beat icon={faWhatsapp} color="#FFF" size="3x" />
           </a>
           <Link href="/suporte">
-            <Button orangeButton={true}>Suporte</Button>
+            <Button orangeButton={true} style={{width: "130px"}}>Suporte</Button>
           </Link>
           <Link href="/">
-            <Button onClick={handleLogout}>Sair</Button>
+            <Button onClick={handleLogout} style={{width: "130px"}}>Sair</Button>
           </Link>
         </div>
       </div>
