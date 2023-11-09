@@ -25,21 +25,27 @@ const Perfil = () => {
 
   //STATE DECLARATIONS
   const [id, setId] = useState(null);
-  const [userData, setUserData] = useState();
+  const [pagseguroId, setPagSeguroId] = useState();
 
 
   //EVENT HANDLERS
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     const user = {
       id: id,
+      nome: data.nome,
+      email: data.email,
+      birth_date: data.birth_date,
+      phones: data.phones,
+      pagseguro_id: pagseguroId
     };
 
     const response = await User.editUser(user);
-    if (response && response.status === 200) {
+    if (response.status === 201) {
       notifySuccess(response.data);
+      console.log(response)
     } else {
       notifyFailure(response.data);
+      console.log(response)
     }
   };
 
@@ -53,6 +59,7 @@ const Perfil = () => {
         const formattedDate = res.birth_date ? new Date(res.birth_date).toISOString().split('T')[0] : '';
         setValue('birth_date', formattedDate)
         setValue('phones', res.phones)
+        setPagSeguroId(res.pagseguro_id)
         
       }
     } catch(error){
@@ -81,7 +88,7 @@ const Perfil = () => {
       <div className={styles.editWrapper}>
         <div className={styles.editContainer}>
           <h1 className={styles.editTitle}>Edite sua conta</h1>
-          <form className={styles.editForm} onSubmit={handleSubmit}>
+          <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputCtr}>
               <label>Nome:</label>
               <input

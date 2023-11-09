@@ -64,7 +64,8 @@ export default class User {
         nome: user.nome,
         email: user.email,
         birth_date: user.birth_date,
-        phones: user.phones
+        phones: user.phones,
+        pagseguro_id: user.pagseguro_id
       });
       if (response && response.status === 200) {
         return response;
