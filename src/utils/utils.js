@@ -1,4 +1,3 @@
-import { Configuracao } from "@/apiServices/ConfigService";
 
 export const clearInputs = (inputId) => {
   const inputs = document.getElementsByClassName(inputId);
@@ -164,4 +163,16 @@ export function hideAddForm() {
 
   const addButton = document.getElementById("addButton");
   addButton.style.display = "block";
+}
+
+
+export function formatPhoneNumber(input) {
+  const phoneNumber = input.replace(/\D/g, '');
+  if (phoneNumber.length <= 2) {
+    return `${phoneNumber}`;
+  } else if (phoneNumber.length <= 7) {
+    return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
+  } else {
+    return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(7)}`;
+  }
 }
