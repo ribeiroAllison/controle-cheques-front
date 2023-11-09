@@ -1,25 +1,25 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
 import styles from "@/styles/cadastro.module.css";
-import { ToastContainer, toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import { formatPhoneNumber } from "@/utils/utils";
 import validarCNPJ from "@/utils/validarCNPJ";
 import validarCPF from "@/utils/validarCPF";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Cadastro() {
-
   //SETUP
   const router = useRouter();
   const {
-    register, 
-    formState: {errors},
+    register,
+    formState: { errors },
     handleSubmit,
-    watch
+    watch,
   } = useForm({
     defaultValues: {
       nome: "",
@@ -28,8 +28,8 @@ export default function Cadastro() {
       phones: "",
       birth_date: "",
       senha1: "",
-      senha2: ""
-    }
+      senha2: "",
+    },
   });
 
   const notifySuccess = (msg) => toast.success(msg);
@@ -37,7 +37,8 @@ export default function Cadastro() {
 
   //STATE DECLARATION
   const [validDoc, setValidDoc] = useState(false);
-  const [doc, setDoc] = useState()
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [doc, setDoc] = useState();
 
   //HANDLER FUNCTIONS
   const submit = async (data) => {
@@ -58,13 +59,15 @@ export default function Cadastro() {
       return;
     }
 
+    data.phones = data.phones.replace(/\D/g, '');
+
     const user = {
       nome: data.nome,
       email: data.email,
       senha: data.senha1,
       tax_id: data.tax_id,
       birth_date: data.birth_date,
-      phones: data.phones
+      phones: data.phones,
     };
 
     const response = await User.registerUser(user);
@@ -78,20 +81,24 @@ export default function Cadastro() {
     } else {
       notifyFailure(response.data);
     }
-    
-  }
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatPhoneNumber(inputValue);
+    setPhoneNumber(formattedValue);
+  };
 
   //AUX FUNCTION
-  const docData = watch('tax_id');
+  const docData = watch("tax_id");
 
   useEffect(() => {
-    if(validarCNPJ(docData) || validarCPF(docData)){
-      setValidDoc(true)
-    } else{
-      setValidDoc(false)
+    if (validarCNPJ(docData) || validarCPF(docData)) {
+      setValidDoc(true);
+    } else {
+      setValidDoc(false);
     }
-  }, [docData])
-
+  }, [docData]);
 
   return (
     <>
@@ -108,88 +115,96 @@ export default function Cadastro() {
             onSubmit={handleSubmit(submit)}
             id="form"
           >
-            <div className="formField">
-              <input
-                {...register("nome", {required: 'Campo Obrigatório'})}
-                id="nome"
-                type="text"
-                placeholder="Nome"
-              />
-              <p>{errors.nome?.message}</p>
+            <div className={styles.fieldsWrapper}>
+              <div className="formField">
+                <label htmlFor="nome">Nome:</label>
+                <input
+                  {...register("nome", { required: "Campo Obrigatório" })}
+                  id="nome"
+                  type="text"
+                  placeholder="Nome"
+                />
+                <p>{errors.nome?.message}</p>
+              </div>
+              <div className="formField">
+              <label htmlFor="email">Email:</label>
+                <input
+                  {...register("email", { required: "Campo Obrigatório" })}
+                  id="email"
+                  type="email"
+                  placeholder="E-mail"
+                />
+                <p>{errors.email?.message}</p>
+              </div>
+              <div className="formField">
+              <label htmlFor="tax_id">CPF \ CNPJ:</label>
+                <input
+                  {...register("tax_id", { required: "Campo Obrigatório" })}
+                  id="tax_id"
+                  type="text"
+                  placeholder="CPF/CNPJ"
+                />
+                <p>{errors.tax_id?.message}</p>
+                {docData && !validDoc && <p>Documento Inválido</p>}
+              </div>
             </div>
-            <div className="formField">
-              <input
-              {...register("email", {required:  'Campo Obrigatório'})}
-                id="email"
-                type="email"
-                placeholder="E-mail"
+            <div className={styles.fieldsWrapper}>
+              <div className="formField">
+              <label htmlFor="phones">Celular \ Telefone:</label>
+                <input
+                  {...register("phones", { required: "Campo Obrigatório" })}
+                  id="phones"
+                  type="text"
+                  placeholder="(11) 9995-7758"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
+                />
+                <p>{errors.phones?.message}</p>
+              </div>
 
-              />
-              <p>{errors.email?.message}</p>
+              <div className="formField">
+              <label htmlFor="birth_date">Data de Nascimento:</label>
+                <input
+                  {...register("birth_date", { required: "Campo Obrigatório" })}
+                  id="birth"
+                  type="date"
+                  placeholder="Data de Nascimento"
+                />
+                <p>{errors.birth_date?.message}</p>
+              </div>
             </div>
-            <div className="formField">
-              <input
-                {...register("tax_id", {required:  'Campo Obrigatório'})}
-                id="tax_id"
-                type="text"
-                placeholder="CPF/CNPJ"
-              />
-              <p>{errors.tax_id?.message}</p>
-              {
-                (docData && !validDoc) && <p>Documento Inválido</p>
-              }
-            </div>
-            <div className="formField">
-              <input
-                {...register("phones", {required:  'Campo Obrigatório'})}
-                id="phones"
-                type="text"
-                placeholder="Telefone"
 
-              />
-              <p>{errors.phones?.message}</p>
-            </div>
-            
-            <div className="formField">
-              <input
-                {...register("birth_date", {required:  'Campo Obrigatório'})}
-                id="birth"
-                type="date"
-                placeholder="Data de Nascimento"
-
-              />
-              <p>{errors.birth_date?.message}</p>
-            </div>
-            
             <div className={styles.passwordCtr}>
               <div className="formField">
+              <label htmlFor="senha1">Senha:</label>
                 <input
-                  {...register("senha1", {required:  'Campo Obrigatório',
-                                          minLength: 8,
-                                          message: 'Mínimo de oito caracteres.'})}
+                  {...register("senha1", {
+                    required: "Campo Obrigatório",
+                    minLength: 8,
+                    message: "Mínimo de oito caracteres.",
+                  })}
                   id="senha1"
                   type="password"
                   placeholder="Senha"
-
                 />
                 <p>{errors.senha1?.message}</p>
               </div>
-              
+
               <div className="formField">
+              <label htmlFor="senha2">Repita sua Senha:</label>
                 <input
-                  {...register("senha2", {required:  'Campo Obrigatório',
-                                          minLength: 8,
-                                          message: 'Mínimo de oito caracteres.'})}
+                  {...register("senha2", {
+                    required: "Campo Obrigatório",
+                    minLength: 8,
+                    message: "Mínimo de oito caracteres.",
+                  })}
                   id="senha2"
                   type="password"
                   placeholder="Confirme sua senha"
-
                 />
                 <p>{errors.senha2?.message}</p>
               </div>
-              
             </div>
-            
           </form>
           <Button type="submit" form="form">
             Criar Conta
