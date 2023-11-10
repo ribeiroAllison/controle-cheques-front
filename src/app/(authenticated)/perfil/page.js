@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import User from "@/apiServices/UserService";
+import LoadingScreen from "@/components/LoadingScreen";
 import decode from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -26,6 +27,7 @@ const Perfil = () => {
   //STATE DECLARATIONS
   const [id, setId] = useState(null);
   const [pagseguroId, setPagSeguroId] = useState();
+  const [isLoading, setIsLoading] = useState(false)
 
 
   //EVENT HANDLERS
@@ -39,12 +41,20 @@ const Perfil = () => {
       pagseguro_id: pagseguroId
     };
 
-    const response = await User.editUser(user);
-    if (response.status === 201) {
-      notifySuccess(response.data);
-    } else {
-      notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
-    }
+    const getResponse = async() => {
+      setIsLoading(true)
+      const response = await User.editUser(user);
+
+      if(response.status === 201){
+        setIsLoading(false)
+        notifySuccess("Usuário atualizado com sucesso")
+      } else{
+        setIsLoading(false);
+        notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
+      }
+    } 
+    
+    await getResponse();
   };
 
   //AUX FUNCTIONS
@@ -82,6 +92,7 @@ const Perfil = () => {
 
   return (
     <>
+    <LoadingScreen loading={isLoading}/>
       <ToastContainer autoClose={2000} />
       <div className={styles.editWrapper}>
         <div className={styles.editContainer}>
@@ -124,6 +135,7 @@ const Perfil = () => {
           </form>
         </div>
       </div>
+      
     </>
   );
 };
