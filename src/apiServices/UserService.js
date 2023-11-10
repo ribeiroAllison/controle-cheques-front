@@ -67,11 +67,11 @@ export default class User {
         phones: user.phones,
         pagseguro_id: user.pagseguro_id
       });
-      if (response && response.status === 200) {
+      if (response && response.status === 201) {
         return response;
       }
     } catch (error) {
-      return error.response;
+      return error;
     }
   };
 

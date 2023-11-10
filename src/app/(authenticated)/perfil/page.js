@@ -42,10 +42,8 @@ const Perfil = () => {
     const response = await User.editUser(user);
     if (response.status === 201) {
       notifySuccess(response.data);
-      console.log(response)
     } else {
-      notifyFailure(response.data);
-      console.log(response)
+      notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
     }
   };
 

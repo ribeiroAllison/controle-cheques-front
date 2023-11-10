@@ -9,7 +9,7 @@ function getUpdatedToken() {
 
 const connection = axios.create({
     baseURL: baseURL,
-    timeout: 3000,
+    timeout: 10000,
     headers: {
         'Authorization': `Bearer ${getUpdatedToken()}`
     }
