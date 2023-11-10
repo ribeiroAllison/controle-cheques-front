@@ -2,6 +2,19 @@ import { setCookie } from "@/utils/cookie";
 import { connection } from "@/utils/connection";
 
 export default class User {
+
+  // GET USER
+
+  static getUserById = async (id) => {
+    try{
+      const response = await connection.get(`/usuarios/${id}`);
+      if(response.status === 200){
+        return response.data[0]; 
+      }
+    } catch(error){
+      console.log(error)
+    }
+  }
   // USER CREATION
   static registerUser = async (user) => {
     try {
@@ -49,13 +62,16 @@ export default class User {
     try {
       const response = await connection.put(`/usuarios/${user.id}`, {
         nome: user.nome,
-        senha: user.senha,
+        email: user.email,
+        birth_date: user.birth_date,
+        phones: user.phones,
+        pagseguro_id: user.pagseguro_id
       });
-      if (response && response.status === 200) {
+      if (response && response.status === 201) {
         return response;
       }
     } catch (error) {
-      return error.response;
+      return error;
     }
   };
 

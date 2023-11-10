@@ -2,46 +2,71 @@
 
 import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
-import Input from "@/components/Input";
 import User from "@/apiServices/UserService";
 import decode from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
-
+import { useForm } from "react-hook-form";
 import styles from "@/styles/perfil.module.css";
 
 const Perfil = () => {
+
+  //SET UPS
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
-  const [nome, setNome] = useState("");
-  const [senha, setSenha] = useState("");
-  const [contraSenha, setContraSenha] = useState("");
+  const {
+    register,
+    formState: {errors},
+    handleSubmit,
+    watch,
+    setValue
+  } = useForm()
+
+
+  //STATE DECLARATIONS
   const [id, setId] = useState(null);
+  const [pagseguroId, setPagSeguroId] = useState();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    if (senha !== contraSenha) {
-      alert("Senhas devem ser iguais!");
-      return;
-    }
-
+  //EVENT HANDLERS
+  const onSubmit = async (data) => {
     const user = {
       id: id,
-      nome: nome,
-      senha: senha,
+      nome: data.nome,
+      email: data.email,
+      birth_date: data.birth_date,
+      phones: data.phones,
+      pagseguro_id: pagseguroId
     };
 
     const response = await User.editUser(user);
-    if (response && response.status === 200) {
+    if (response.status === 201) {
       notifySuccess(response.data);
-      setNome("");
-      setSenha("");
-      setContraSenha("");
     } else {
-      notifyFailure(response.data);
+      notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
     }
   };
+
+  //AUX FUNCTIONS
+  const getUser = async (id) => {
+    try {
+      const res = await User.getUserById(id);
+      if(res){
+        setValue('nome', res.nome)
+        setValue('email', res.email)
+        const formattedDate = res.birth_date ? new Date(res.birth_date).toISOString().split('T')[0] : '';
+        setValue('birth_date', formattedDate)
+        setValue('phones', res.phones)
+        setPagSeguroId(res.pagseguro_id)
+        
+      }
+    } catch(error){
+      console.log(error)
+    }
+  }
+
+
+  //EFFECTS
 
   useEffect(() => {
     const token = document.cookie;
@@ -49,39 +74,52 @@ const Perfil = () => {
     setId(id);
   }, []);
 
+  useEffect(() => {
+    if(id){
+      getUser(id)
+    }
+  },[id])
+
   return (
     <>
       <ToastContainer autoClose={2000} />
       <div className={styles.editWrapper}>
         <div className={styles.editContainer}>
           <h1 className={styles.editTitle}>Edite sua conta</h1>
-          <form className={styles.editForm} onSubmit={handleSubmit}>
-            <Input
+          <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.inputCtr}>
+              <label>Nome:</label>
+              <input
+                {...register("nome")}
+                type="text"
+              />
+            </div>
+            <div className={styles.inputCtr}>
+              <label>Email:</label>
+              <input
+              {...register("email")}
               type="text"
-              name="nome"
-              id="nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="Nome"
             />
-            <Input
-              type="password"
-              name="senha"
-              id="senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Digite sua nova senha"
-              required
+            </div>
+            <div className={styles.inputCtr}>
+              <label>Data de Nascimento:</label>
+              <input
+              {...register("birth_date")}
+              type="date"
             />
-            <Input
-              type="password"
-              name="contrasenha"
-              id="contrasenha"
-              value={contraSenha}
-              onChange={(e) => setContraSenha(e.target.value)}
-              placeholder="Repita a senha"
-              required
+            </div>
+            <div className={styles.inputCtr}>
+              <label>Telefone:</label>
+              <input
+              {...register("phones")}
+              type="text"
             />
+            </div>
+            
+            
+            
+            
+            
             <Button type="submit">Editar</Button>
           </form>
         </div>
