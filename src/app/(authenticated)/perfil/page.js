@@ -17,9 +17,8 @@ const Perfil = () => {
 
   const {
     register,
-    formState: {errors},
     handleSubmit,
-    watch,
+    formState: {errors},
     setValue
   } = useForm()
 
@@ -74,8 +73,6 @@ const Perfil = () => {
       console.log(error)
     }
   }
-
-
   //EFFECTS
 
   useEffect(() => {
@@ -101,36 +98,37 @@ const Perfil = () => {
             <div className={styles.inputCtr}>
               <label>Nome:</label>
               <input
-                {...register("nome")}
+                {...register("nome", {required: "Campo Obrigatório"})}
                 type="text"
               />
+              <p>{errors.nome?.message}</p>
             </div>
+            
             <div className={styles.inputCtr}>
               <label>Email:</label>
               <input
-              {...register("email")}
+              {...register("email", {required: "Campo Obrigatório"})}
               type="text"
             />
+            <p>{errors.email?.message}</p>
             </div>
             <div className={styles.inputCtr}>
               <label>Data de Nascimento:</label>
               <input
-              {...register("birth_date")}
+              {...register("birth_date", {required: "Campo Obrigatório"})}
               type="date"
             />
+            <p>{errors.birth_date?.message}</p>
             </div>
             <div className={styles.inputCtr}>
               <label>Telefone:</label>
               <input
-              {...register("phones")}
+              {...register("phones", {required: "Campo Obrigatório"})}
               type="text"
             />
+            <p>{errors.phones?.message}</p>
             </div>
-            
-            
-            
-            
-            
+
             <Button type="submit">Editar</Button>
           </form>
         </div>

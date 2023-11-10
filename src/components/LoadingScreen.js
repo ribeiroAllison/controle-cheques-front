@@ -18,14 +18,14 @@ export default function LoadingScreen(props) {
                 <ThreeCircles 
                     height="100"
                     width="100"
-                    color="#4fa94d"
+                    color=""
                     wrapperStyle={{}}
                     wrapperClass=""
                     visible={true}
                     ariaLabel="three-circles-rotating"
-                    outerCircleColor=""
-                    innerCircleColor=""
-                    middleCircleColor=""
+                    outerCircleColor="var(--green-100)"
+                    innerCircleColor="var(--green-200)"
+                    middleCircleColor="var(--menuGreen)"
                 />
 
             </div>
