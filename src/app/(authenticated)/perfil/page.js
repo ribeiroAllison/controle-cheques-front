@@ -1,32 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Button from "@/components/Button";
 import User from "@/apiServices/UserService";
-import decode from "jwt-decode";
-import { ToastContainer, toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import Button from "@/components/Button";
 import styles from "@/styles/perfil.module.css";
+import decode from "jwt-decode";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 
 const Perfil = () => {
-
   //SET UPS
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
 
   const {
     register,
-    formState: {errors},
+    formState: { errors },
     handleSubmit,
     watch,
-    setValue
-  } = useForm()
-
+    setValue,
+  } = useForm();
 
   //STATE DECLARATIONS
   const [id, setId] = useState(null);
   const [pagseguroId, setPagSeguroId] = useState();
-
 
   //EVENT HANDLERS
   const onSubmit = async (data) => {
@@ -36,7 +33,7 @@ const Perfil = () => {
       email: data.email,
       birth_date: data.birth_date,
       phones: data.phones,
-      pagseguro_id: pagseguroId
+      pagseguro_id: pagseguroId,
     };
 
     const response = await User.editUser(user);
@@ -51,20 +48,20 @@ const Perfil = () => {
   const getUser = async (id) => {
     try {
       const res = await User.getUserById(id);
-      if(res){
-        setValue('nome', res.nome)
-        setValue('email', res.email)
-        const formattedDate = res.birth_date ? new Date(res.birth_date).toISOString().split('T')[0] : '';
-        setValue('birth_date', formattedDate)
-        setValue('phones', res.phones)
-        setPagSeguroId(res.pagseguro_id)
-        
+      if (res) {
+        setValue("nome", res.nome);
+        setValue("email", res.email);
+        const formattedDate = res.birth_date
+          ? new Date(res.birth_date).toISOString().split("T")[0]
+          : "";
+        setValue("birth_date", formattedDate);
+        setValue("phones", res.phones);
+        setPagSeguroId(res.pagseguro_id);
       }
-    } catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
-  }
-
+  };
 
   //EFFECTS
 
@@ -75,10 +72,10 @@ const Perfil = () => {
   }, []);
 
   useEffect(() => {
-    if(id){
-      getUser(id)
+    if (id) {
+      getUser(id);
     }
-  },[id])
+  }, [id]);
 
   return (
     <>
@@ -89,37 +86,20 @@ const Perfil = () => {
           <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputCtr}>
               <label>Nome:</label>
-              <input
-                {...register("nome")}
-                type="text"
-              />
+              <input {...register("nome")} type="text" />
             </div>
             <div className={styles.inputCtr}>
               <label>Email:</label>
-              <input
-              {...register("email")}
-              type="text"
-            />
+              <input {...register("email")} type="text" />
             </div>
             <div className={styles.inputCtr}>
               <label>Data de Nascimento:</label>
-              <input
-              {...register("birth_date")}
-              type="date"
-            />
+              <input {...register("birth_date")} type="date" />
             </div>
             <div className={styles.inputCtr}>
               <label>Telefone:</label>
-              <input
-              {...register("phones")}
-              type="text"
-            />
+              <input {...register("phones")} type="text" />
             </div>
-            
-            
-            
-            
-            
             <Button type="submit">Editar</Button>
           </form>
         </div>
