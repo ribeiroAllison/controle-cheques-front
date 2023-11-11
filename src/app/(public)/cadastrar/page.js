@@ -38,7 +38,6 @@ export default function Cadastro() {
   //STATE DECLARATION
   const [validDoc, setValidDoc] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
-  const [doc, setDoc] = useState();
 
   //HANDLER FUNCTIONS
   const submit = async (data) => {

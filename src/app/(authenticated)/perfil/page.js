@@ -2,6 +2,7 @@
 
 import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
+import LoadingScreen from "@/components/LoadingScreen";
 import styles from "@/styles/perfil.module.css";
 import decode from "jwt-decode";
 import { useEffect, useState } from "react";
@@ -15,15 +16,17 @@ const Perfil = () => {
 
   const {
     register,
-    formState: { errors },
     handleSubmit,
-    watch,
-    setValue,
-  } = useForm();
+    formState: {errors},
+    setValue
+  } = useForm()
+
 
   //STATE DECLARATIONS
   const [id, setId] = useState(null);
   const [pagseguroId, setPagSeguroId] = useState();
+  const [isLoading, setIsLoading] = useState(false)
+
 
   //EVENT HANDLERS
   const onSubmit = async (data) => {
@@ -36,12 +39,20 @@ const Perfil = () => {
       pagseguro_id: pagseguroId,
     };
 
-    const response = await User.editUser(user);
-    if (response.status === 201) {
-      notifySuccess(response.data);
-    } else {
-      notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
-    }
+    const getResponse = async() => {
+      setIsLoading(true)
+      const response = await User.editUser(user);
+
+      if(response.status === 201){
+        setIsLoading(false)
+        notifySuccess("Usuário atualizado com sucesso")
+      } else{
+        setIsLoading(false);
+        notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
+      }
+    } 
+    
+    await getResponse();
   };
 
   //AUX FUNCTIONS
@@ -61,8 +72,7 @@ const Perfil = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
+  }
   //EFFECTS
 
   useEffect(() => {
@@ -79,6 +89,7 @@ const Perfil = () => {
 
   return (
     <>
+    <LoadingScreen loading={isLoading}/>
       <ToastContainer autoClose={2000} />
       <div className={styles.editWrapper}>
         <div className={styles.editContainer}>
@@ -86,24 +97,43 @@ const Perfil = () => {
           <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputCtr}>
               <label>Nome:</label>
-              <input {...register("nome")} type="text" />
+              <input
+                {...register("nome", {required: "Campo Obrigatório"})}
+                type="text"
+              />
+              <p>{errors.nome?.message}</p>
             </div>
+            
             <div className={styles.inputCtr}>
               <label>Email:</label>
-              <input {...register("email")} type="text" />
+              <input
+              {...register("email", {required: "Campo Obrigatório"})}
+              type="text"
+            />
+            <p>{errors.email?.message}</p>
             </div>
             <div className={styles.inputCtr}>
               <label>Data de Nascimento:</label>
-              <input {...register("birth_date")} type="date" />
+              <input
+              {...register("birth_date", {required: "Campo Obrigatório"})}
+              type="date"
+            />
+            <p>{errors.birth_date?.message}</p>
             </div>
             <div className={styles.inputCtr}>
               <label>Telefone:</label>
-              <input {...register("phones")} type="text" />
+              <input
+              {...register("phones", {required: "Campo Obrigatório"})}
+              type="text"
+            />
+            <p>{errors.phones?.message}</p>
             </div>
+
             <Button type="submit">Editar</Button>
           </form>
         </div>
       </div>
+      
     </>
   );
 };
