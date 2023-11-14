@@ -17,7 +17,7 @@ export default function SearchFilter(props) {
           item[props.param]
             .toLowerCase()
             .includes(searchParams?.toLowerCase()) ||
-          item[props.param2].toLowerCase().includes(searchParams?.toLowerCase())
+          item[props.param2]?.toLowerCase().includes(searchParams?.toLowerCase())
         );
       });
       props.setFilteredList(filtered);

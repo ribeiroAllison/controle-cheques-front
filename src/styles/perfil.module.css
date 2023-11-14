@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  bottom: -15%;
+  gap: 2rem;
+  margin: 5rem 0;
 }
 
 .editContainer {
@@ -35,6 +35,13 @@
   flex-wrap: wrap;
 }
 
+.paymentForm{
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  gap: 2rem;
+}
+
 .inputCtr{
   display: flex;
   flex-direction: column;
@@ -50,6 +57,67 @@
   background: transparent;
   color: var(--white);
 }
+
+.cardWrapper{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cardCtr{
+  border: 1px solid white;
+  height: 10rem;
+  width: 15rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.cardCtr:hover{
+  cursor: pointer;
+  height: 10.2rem;
+  width: 15.2rem;
+  transition: 0.5s ease;
+  background-color: var(--gray-50);
+}
+
+#clicked{
+  height: 10.2rem;
+  width: 15.2rem;
+  background-color: var(--green-200);
+}
+
+.cardFooter{
+  font-size: 12px;
+  position: relative;
+  bottom: -30px;
+  margin: 0 5px;
+}
+
+.paymentWrapper{
+  display: flex;
+  gap: 10px;
+  color: white;;
+}
+
+.creditCard{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  align-content: center;
+  gap: 2rem;
+  
+}
+
+.cardInfo{
+  display: flex;
+  gap: 2rem;
+}
+
 
 @media (max-width: 768px) {
   .editWrapper {
