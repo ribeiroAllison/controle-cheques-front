@@ -1,17 +1,18 @@
 "use client";
 
-import Button from "./Button";
-import Link from "next/link";
 import styles from "@/styles/HeaderUser.module.css";
 import { getCookie, removeCookie } from "@/utils/cookie";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { WarningOctagon } from "@phosphor-icons/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Button from "./Button";
 
 export default function HeaderUser() {
   const [name, setName] = useState("");
+  const [trialDays, setTrialDays] = useState(0);
 
   const router = useRouter();
 
@@ -29,6 +30,7 @@ export default function HeaderUser() {
 
   useEffect(() => {
     setName(getCookie("user"));
+    setTrialDays(getCookie("trialDays"));
   }, []);
 
   return (
@@ -43,15 +45,18 @@ export default function HeaderUser() {
           </div>
         </div>
         <div className={styles.warning}>
-          <WarningOctagon size={30} weight="fill"/>
+          <WarningOctagon size={30} weight="fill" />
           <div className={styles.warningText}>
-            <p>{`Restam 20 dias de teste grátis`}</p>
-            <Link href={""} className={styles.subscribeButton}>Ative sua conta agora</Link>
+            <p>{`${trialDays > 1 ? "Restam" : "Resta"} ${trialDays} ${
+              trialDays > 1 ? "dias" : "dia"
+            } de teste grátis`}</p>
+            <Link href={""} className={styles.subscribeButton}>
+              Ative sua conta agora
+            </Link>
           </div>
-          
         </div>
         <div className={styles.btnContainer}>
-            <a
+          <a
             className={styles.wpp_btn}
             href="https://wa.me/553530123787"
             target="_blank"
@@ -59,10 +64,14 @@ export default function HeaderUser() {
             <FontAwesomeIcon beat icon={faWhatsapp} color="#FFF" size="3x" />
           </a>
           <Link href="/suporte">
-            <Button orangeButton={true} style={{width: "130px"}}>Suporte</Button>
+            <Button orangeButton={true} style={{ width: "130px" }}>
+              Suporte
+            </Button>
           </Link>
           <Link href="/">
-            <Button onClick={handleLogout} style={{width: "130px"}}>Sair</Button>
+            <Button onClick={handleLogout} style={{ width: "130px" }}>
+              Sair
+            </Button>
           </Link>
         </div>
       </div>

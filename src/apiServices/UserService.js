@@ -1,5 +1,5 @@
-import { setCookie } from "@/utils/cookie";
 import { connection } from "@/utils/connection";
+import { setCookie } from "@/utils/cookie";
 
 export default class User {
 
@@ -48,6 +48,8 @@ export default class User {
       if (response && response.status === 200) {
         setCookie("token", response.data.token.token);
         setCookie("user", response.data.userName);
+        setCookie("userAllowed", response.data.isUserAllowed);
+        setCookie("trialDays", response.data.trialDays)
         return response;
       } else {
         return;
