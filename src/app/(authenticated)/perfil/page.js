@@ -1,16 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Button from "@/components/Button";
 import User from "@/apiServices/UserService";
+import Button from "@/components/Button";
 import LoadingScreen from "@/components/LoadingScreen";
-import decode from "jwt-decode";
-import { ToastContainer, toast } from "react-toastify";
-import { useForm } from "react-hook-form";
 import styles from "@/styles/perfil.module.css";
+import decode from "jwt-decode";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 
 const Perfil = () => {
-
   //SET UPS
   const notifySuccess = (msg) => toast.success(msg);
   const notifyFailure = (msg) => toast.error(msg);
@@ -37,7 +36,7 @@ const Perfil = () => {
       email: data.email,
       birth_date: data.birth_date,
       phones: data.phones,
-      pagseguro_id: pagseguroId
+      pagseguro_id: pagseguroId,
     };
 
     const getResponse = async() => {
@@ -60,17 +59,18 @@ const Perfil = () => {
   const getUser = async (id) => {
     try {
       const res = await User.getUserById(id);
-      if(res){
-        setValue('nome', res.nome)
-        setValue('email', res.email)
-        const formattedDate = res.birth_date ? new Date(res.birth_date).toISOString().split('T')[0] : '';
-        setValue('birth_date', formattedDate)
-        setValue('phones', res.phones)
-        setPagSeguroId(res.pagseguro_id)
-        
+      if (res) {
+        setValue("nome", res.nome);
+        setValue("email", res.email);
+        const formattedDate = res.birth_date
+          ? new Date(res.birth_date).toISOString().split("T")[0]
+          : "";
+        setValue("birth_date", formattedDate);
+        setValue("phones", res.phones);
+        setPagSeguroId(res.pagseguro_id);
       }
-    } catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   }
   //EFFECTS
@@ -82,10 +82,10 @@ const Perfil = () => {
   }, []);
 
   useEffect(() => {
-    if(id){
-      getUser(id)
+    if (id) {
+      getUser(id);
     }
-  },[id])
+  }, [id]);
 
   return (
     <>

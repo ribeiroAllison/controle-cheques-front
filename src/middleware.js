@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { getCookie } from "./utils/cookie";
 
 export default function middleware(request) {
   const token = request.cookies.get("token")?.value;
+  const expired = getCookie("userAllowed")
 
   if (!token) {
     const redirectUrl = new URL("/login", request.nextUrl.origin);
@@ -9,6 +11,12 @@ export default function middleware(request) {
       "Set-Cookie": `redirectTo=${request.url}; Path=/; HttpOnly; max-age=20`,
     });
   }
+
+  if (expired) {
+    const redirectUrl = new URL("/perfil", request.nextUrl.origin);
+    return NextResponse.redirect(redirectUrl);
+  }
+
   const cookieMaxAge = 60 * 60 * 24;
 
   return NextResponse.next({
@@ -25,5 +33,5 @@ export default function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/cadastro/:path*", "/cheques/:path*", "/dashboard/:path*", "/perfil/:path*"],
+  matcher: ["/cadastro/:path*", "/cheques/:path*"],
 };

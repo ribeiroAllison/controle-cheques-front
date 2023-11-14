@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import LoginCard from "@/components/LoginCard";
-import User from "@/apiServices/UserService";
-import Link from "next/link";
 import styles from "@/styles/login.module.css";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 
@@ -45,7 +45,7 @@ export default function Login() {
 
       setTimeout(() => {
         router.push("/dashboard");
-      }, 1100);
+      }, 1500);
     } else {
       notifyFailure(response.data);
       setSenha("");
@@ -54,7 +54,7 @@ export default function Login() {
 
   return (
     <>
-      <ToastContainer autoClose={1500} />
+      <ToastContainer autoClose={2000} />
       <section className={styles.loginWrapper}>
         <figure className={styles.imgWrapper}>
           <img src="/images/login-img.svg" alt="" />
