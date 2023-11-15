@@ -1,23 +1,23 @@
 "use client";
 
-import Link from "next/link";
+import styles from "@/styles/Header.module.css";
 import {
   ArrowsLeftRight,
   Briefcase,
+  CurrencyCircleDollar,
   Gear,
   List,
   MagnifyingGlass,
   NotePencil,
   PresentationChart,
+  Question,
   UserCircle,
   UserGear,
   UsersThree,
-  CurrencyCircleDollar,
   X,
-  Question,
 } from "@phosphor-icons/react";
-import styles from "@/styles/Header.module.css";
-import Image from 'next/image'
+import Image from 'next/image';
+import Link from "next/link";
 
 export default function Header({ isOpen, handleSideBar }) {
   return (

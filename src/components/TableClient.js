@@ -1,19 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import HeaderLine from "@/components/HeaderLine";
+import { Cheques } from "@/apiServices/ChequeService";
+import { Cliente } from "@/apiServices/ClienteService";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
-import { Cliente } from "@/apiServices/ClienteService";
+import HeaderLine from "@/components/HeaderLine";
+import tableStyle from "@/styles/Table.module.css";
 import {
   convertToNumber,
 } from "@/utils/utils";
-import { ToastContainer, toast } from "react-toastify";
-import tableStyle from "@/styles/Table.module.css";
-import { Cheques } from "@/apiServices/ChequeService";
 import { CaretUpDown, IdentificationCard } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import ModalContact from "./ModalContact";
-import uuid from "react-uuid";
 
 export default function ClientTable() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -212,7 +211,7 @@ export default function ClientTable() {
             ) : (
               filteredList?.map((client) => (
                 client.credito < client.saldo &&
-                <tr key={uuid()} data-cod={client.id}>
+                <tr key={client.id} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`grupo${client.cod}`}>{client.grupo}</td>

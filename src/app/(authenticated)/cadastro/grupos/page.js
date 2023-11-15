@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
+import { Grupo } from "@/apiServices/GrupoService";
 import HeaderLine from "@/components/HeaderLine";
+import ModalName from "@/components/ModalName";
 import SearchFilter from "@/components/SearchFilter";
+import tableStyle from "@/styles/Table.module.css";
+import styles from "@/styles/grupos.module.css";
 import clearInputs from "@/utils/clearInputs";
 import { hideAddForm, showAddForm } from "@/utils/utils";
-import { Grupo } from "@/apiServices/GrupoService";
-import ModalName from "@/components/ModalName";
-import styles from "@/styles/grupos.module.css";
-import tableStyle from "@/styles/Table.module.css";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import ButtonAlternative from "@/components/ButtonAlternative";
@@ -197,7 +196,7 @@ export default function Grupos() {
                 </tr>
               ) : (
                 filteredList?.map((destino) => (
-                  <tr key={uuid()} data-cod={destino.id}>
+                  <tr key={destino.id} data-cod={destino.id}>
                     <td id={destino.id}>{destino.nome}</td>
                     <td>
                       <img

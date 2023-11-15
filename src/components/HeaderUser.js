@@ -19,7 +19,10 @@ export default function HeaderUser() {
   const handleLogout = async () => {
     const confirmation = confirm("Você realmente deseja sair?");
     if (confirmation) {
-      removeCookie("token");
+      removeCookie('token');
+      removeCookie('user');
+      removeCookie('userAllowed');
+      removeCookie('trialDays');
       setTimeout(() => {
         router.push("/login");
       }, 1100);
@@ -50,7 +53,7 @@ export default function HeaderUser() {
             <p>{`${trialDays > 1 ? "Restam" : "Resta"} ${trialDays} ${
               trialDays > 1 ? "dias" : "dia"
             } de teste grátis`}</p>
-            <Link href={""} className={styles.subscribeButton}>
+            <Link href="/perfil" className={styles.subscribeButton}>
               Ative sua conta agora
             </Link>
           </div>

@@ -1,26 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
-import HeaderLine from "@/components/HeaderLine";
-import SearchFilter from "@/components/SearchFilter";
-import ModalCadastro from "@/components/ModalCadastro";
-import ButtonAlternative from "@/components/ButtonAlternative";
+import { Cheques } from "@/apiServices/ChequeService";
+import { Cliente } from "@/apiServices/ClienteService";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Vendedor } from "@/apiServices/VendedorService";
-import { Cliente } from "@/apiServices/ClienteService";
-import clearInputs from "@/utils/clearInputs";
-import {
-  getKeyByValue,
-  showAddForm,
-  hideAddForm,
-  convertToNumber,
-} from "@/utils/utils";
-import { ToastContainer, toast } from "react-toastify";
+import ButtonAlternative from "@/components/ButtonAlternative";
+import HeaderLine from "@/components/HeaderLine";
+import ModalCadastro from "@/components/ModalCadastro";
+import SearchFilter from "@/components/SearchFilter";
 import tableStyle from "@/styles/Table.module.css";
 import style from "@/styles/clientes.module.css";
-import { Cheques } from "@/apiServices/ChequeService";
+import clearInputs from "@/utils/clearInputs";
+import {
+  convertToNumber,
+  getKeyByValue,
+  hideAddForm,
+  showAddForm,
+} from "@/utils/utils";
 import { CaretUpDown } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -423,7 +422,7 @@ export default function Clientes() {
                 {grupoList.length > 0
                   ? grupoList.map((emp) => {
                       return (
-                        <option key={uuid()} value={emp.id}>
+                        <option key={emp.id} value={emp.id}>
                           {emp.nome}
                         </option>
                       );
@@ -443,7 +442,7 @@ export default function Clientes() {
                 {vendedorList.length > 0
                   ? vendedorList?.map((vend) => {
                       return (
-                        <option key={uuid()} value={vend.id}>
+                        <option key={vend.id} value={vend.id}>
                           {vend.nome}
                         </option>
                       );
@@ -594,7 +593,7 @@ export default function Clientes() {
               </tr>
             ) : (
               filteredList?.map((client) => (
-                <tr key={uuid()} data-cod={client.id}>
+                <tr key={client.id} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`doc${client.cod}`}>{client.doc}</td>

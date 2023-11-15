@@ -1,30 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
-import HeaderLine from "@/components/HeaderLine";
-import ChequeTable from "./ChequeTable";
-import ModalContact from "./ModalContact";
-import ClientSearch from "./ClientSearch";
-import { InputForms } from "./InputForms";
-import { ModalObs } from "./ModalObs";
-import { getCookie } from "@/utils/cookie";
-import { baseURL } from "@/utils/url";
-import {
-  clearInputs,
-  transformDate,
-  rearrangeDate,
-} from "@/utils/utils";
-import { Vendedor } from "@/apiServices/VendedorService";
 import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
 import { Destino } from "@/apiServices/DestinoService";
 import { Grupo } from "@/apiServices/GrupoService";
 import { Tipo } from "@/apiServices/TipoService";
-import ButtonAlternative from "./ButtonAlternative";
-import ClientSearchBox from "./ClientSearchBox";
-import { ToastContainer, toast } from "react-toastify";
+import { Vendedor } from "@/apiServices/VendedorService";
+import HeaderLine from "@/components/HeaderLine";
 import styles from "@/styles/ChequeControl.module.css";
+import { getCookie } from "@/utils/cookie";
+import { baseURL } from "@/utils/url";
+import {
+  clearInputs,
+  rearrangeDate,
+  transformDate,
+} from "@/utils/utils";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import ButtonAlternative from "./ButtonAlternative";
+import ChequeTable from "./ChequeTable";
+import ClientSearch from "./ClientSearch";
+import ClientSearchBox from "./ClientSearchBox";
+import { InputForms } from "./InputForms";
+import ModalContact from "./ModalContact";
+import { ModalObs } from "./ModalObs";
 
 
 export default function ChequeControl(props) {
@@ -642,7 +641,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {destinoList?.map((destino) => (
-                      <option key={uuid()} value={destino.id}>
+                      <option key={destino.id} value={destino.id}>
                         {destino.nome}
                       </option>
                     ))}
@@ -657,7 +656,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {grupos?.map((grupo) => (
-                      <option key={uuid()} value={grupo.nome}>
+                      <option key={grupo.nome} value={grupo.nome}>
                         {grupo.nome}
                       </option>
                     ))}
@@ -841,7 +840,7 @@ export default function ChequeControl(props) {
                   >
                     <option key="0"></option>
                     {tipoList?.map((tipo) => (
-                      <option key={uuid()} value={tipo.id}>
+                      <option key={tipo.id} value={tipo.id}>
                         {tipo.nome}
                       </option>
                     ))}
@@ -873,7 +872,7 @@ export default function ChequeControl(props) {
                     <option key="0"></option>
                     {destinoList?.map((destino) => (
                       <option
-                        key={uuid()}
+                        key={destino.id}
                         value={destino.id}
                       >
                         {destino.nome}
@@ -895,7 +894,7 @@ export default function ChequeControl(props) {
                     <option key="0"></option>
                     {vendedorList?.map((seller) => (
                       <option
-                        key={uuid()}
+                        key={seller.id}
                         value={seller.id}
                       >
                         {seller.nome}
@@ -992,7 +991,7 @@ export default function ChequeControl(props) {
               >
                 <option key="0"></option>
                 {destinoList?.map((destino) => (
-                  <option key={uuid()} value={destino.id}>
+                  <option key={destino.id} value={destino.id}>
                     {destino.nome}
                   </option>
                 ))}
