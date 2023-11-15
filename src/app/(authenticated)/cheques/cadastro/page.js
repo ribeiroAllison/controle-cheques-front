@@ -1,21 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
-import ClientSearchBox from "@/components/ClientSearchBox";
-import ButtonAlternative from "@/components/ButtonAlternative";
-import { InputForms } from "@/components/InputForms";
 import { Cheques } from "@/apiServices/ChequeService";
 import { Cliente } from "@/apiServices/ClienteService";
-import { Vendedor } from "@/apiServices/VendedorService";
 import { Tipo } from "@/apiServices/TipoService";
+import { Vendedor } from "@/apiServices/VendedorService";
+import ButtonAlternative from "@/components/ButtonAlternative";
+import ClientSearchBox from "@/components/ClientSearchBox";
+import { InputForms } from "@/components/InputForms";
+import styles from "@/styles/chequeCadastro.module.css";
 import {
   clearInputs,
   convertToNumber,
   getKeyByValue,
 } from "@/utils/utils";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import styles from "@/styles/chequeCadastro.module.css";
 
 export default function CadastroCheques() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -332,7 +331,7 @@ export default function CadastroCheques() {
                 >
                   <option key="0"></option>
                   {tipos?.map((tipo) => (
-                    <option key={uuid()} value={tipo.id}>
+                    <option key={tipo.id} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -342,7 +341,7 @@ export default function CadastroCheques() {
 
             <section className={styles.checkMultiplerWrapper}>
               <div className={styles.inputCtrMultiple}>
-                <h4>Número:</h4>
+                <label>Número:</label>
                 {defineQtdCheques(qtdCheques)}
                 <ButtonAlternative onClick={replicateNumCheque}>
                   Replicar Número
@@ -350,7 +349,7 @@ export default function CadastroCheques() {
               </div>
 
               <div className={styles.inputCtrMultiple}>
-                <h4>Valor<span>*</span></h4>
+                <label>Valor<span>*</span></label>
                 {defineQtdValores(qtdCheques)}
                 <ButtonAlternative onClick={replicateValor}>
                   Replicar Valor
@@ -358,7 +357,7 @@ export default function CadastroCheques() {
               </div>
 
               <div className={`${styles.inputCtrMultiple}`}>
-                <h4>Data de Vencimento<span>*</span></h4>
+                <label>Data de Vencimento<span>*</span></label>
                 {defineQtdVencimentos(qtdCheques)}
               </div>
             </section>
@@ -418,7 +417,7 @@ export default function CadastroCheques() {
                   <option key="0" id="vendedor_name"></option>
                   {vendedorList?.map((seller) => (
                     <option
-                      key={uuid()}
+                      key={seller.id}
                       value={seller.id}
                       selected={seller.id === selectedSeller}
                     >

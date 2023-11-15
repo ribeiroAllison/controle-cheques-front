@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  bottom: -15%;
 }
 
 .editContainer {
@@ -14,16 +13,75 @@
   );
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1.5rem;
 
   padding: 4rem;
   border-radius: 15px;
   align-items: center;
 }
 
+.paymentForm{
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  gap: 2rem;
+}
+
+.paymentWrapper{
+  display: flex;
+  gap: 10px;
+  color: white;
+}
+
+
+.labelRadio {
+  padding-right: 1rem;
+}
+
+.cardWrapper{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cardCtr{
+  border: 1px solid white;
+  height: 10rem;
+  width: 15rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.cardCtr:hover{
+  cursor: pointer;
+  height: 10.2rem;
+  width: 15.2rem;
+  transition: 0.5s ease;
+  background-color: var(--gray-50);
+}
+
+.cardFooter{
+  font-size: 12px;
+  position: relative;
+  bottom: -30px;
+  margin: 0 5px;
+}
+
+#clicked{
+  height: 10.2rem;
+  width: 15.2rem;
+  background-color: var(--green-200);
+}
+
 .editTitle {
   font-size: 3rem;
   color: var(--green-100);
+  text-align: center;
+  padding-bottom: 0.5rem;
 }
 
 .editExplain{

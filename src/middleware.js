@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { getCookie } from "./utils/cookie";
 
 export default function middleware(request) {
   const token = request.cookies.get("token")?.value;
-  const expired = getCookie("userAllowed")
+  const expired = request.cookies.get("userAllowed")?.value;
 
   if (!token) {
     const redirectUrl = new URL("/login", request.nextUrl.origin);
@@ -13,7 +12,7 @@ export default function middleware(request) {
   }
 
   if (expired) {
-    const redirectUrl = new URL("/perfil", request.nextUrl.origin);
+    const redirectUrl = new URL("/teste-finalizado", request.nextUrl.origin);
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -33,5 +32,5 @@ export default function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/cadastro/:path*", "/cheques/:path*"],
+  matcher: ["/cadastro/:path*", "/cheques/:path*", "/configuracoes/:path*", "/dashboard/:path*"],
 };

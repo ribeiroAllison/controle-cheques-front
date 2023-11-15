@@ -56,6 +56,11 @@
   color: var(--white);
 }
 
+.menuOptions li:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+
 .closedSideBar {
   width: 100px;
   transition: all 0.3s;
