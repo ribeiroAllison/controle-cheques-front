@@ -1,11 +1,3 @@
-.editWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin: 5rem 0;
-}
-
 .editContainer {
   background: linear-gradient(
     180deg,
@@ -32,18 +24,72 @@
   text-transform: uppercase;
 }
 
-.editForm {
+.paymentForm {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+}
+
+.cardWrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1.5rem;
 }
 
-.inputWrapper {
+.cardCtr {
+  border: 1px solid white;
+  height: 8rem;
+  width: 12rem;
+  border-radius: 10px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.cardCtr:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.5s ease;
+  background-color: var(--gray-50);
+}
+
+#clicked {
+  transform: scale(1.05);
+  background-color: var(--green-200);
+}
+
+.cardFooter {
+  font-size: 0.75rem;
+  position: relative;
+  bottom: -15px;
+  margin: 0 5px;
+}
+
+.paymentWrapper {
+  display: flex;
+  gap: 10px;
+  color: white;
+}
+
+.labelRadio {
+  padding-right: 1rem;
+}
+
+.creditCard {
+  display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
+  align-content: center;
+  gap: 2rem;
+}
+
+.cardInfo {
+  display: flex;
+  gap: 2rem;
 }
 
 .inputCtr {
@@ -68,35 +114,23 @@
 }
 
 @media (max-width: 1000px) {
-  .editWrapper {
-    padding-top: 0rem;
-    padding-inline: 1rem;
-  }
-
   .editContainer {
-    padding: 3rem;
+    gap: 1rem;
+    padding-inline: 0.875rem;
     width: auto;
   }
 
   .editTitle {
     font-size: 2.5rem;
+    text-align: center;
   }
 
-  .inputCtr input {
-    padding: 1rem;
+  .labelRadio {
     font-size: 1rem;
-    max-width: 300px;
   }
 }
 
 @media (max-width: 450px) {
-  .editWrapper {
-    height: auto;
-    padding-top: 5rem;
-    padding-inline: 1rem;
-    position: inherit;
-  }
-
   .editContainer {
     gap: 1rem;
     padding-inline: 0.875rem;
@@ -108,16 +142,7 @@
     text-align: center;
   }
 
-  .editForm {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .inputCtr input {
-    padding: 1rem;
-    font-size: 0.9rem;
-    height: 2.4rem;
-    width: 220px;
+  .labelRadio {
+    font-size: 1rem;
   }
 }
