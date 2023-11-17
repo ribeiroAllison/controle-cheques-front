@@ -1,4 +1,6 @@
 .pageWrapper {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
@@ -6,17 +8,16 @@
   background-image: url("/images/bg-login.png");
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 1rem;
+  padding-top: 3%;
   height: 100%;
 }
 
 @media (max-width: 768px) {
   .pageWrapper {
-    height: auto;
+    height: 100%;
   }
 
   .childrenWrapper {
     padding-top: 2rem;
-    height: 100lvh;
   }
 }

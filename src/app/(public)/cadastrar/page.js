@@ -20,6 +20,7 @@ export default function Cadastro() {
     formState: { errors },
     handleSubmit,
     watch,
+    reset,
   } = useForm({
     defaultValues: {
       nome: "",
@@ -58,7 +59,7 @@ export default function Cadastro() {
       return;
     }
 
-    data.phones = data.phones.replace(/\D/g, '');
+    data.phones = data.phones.replace(/\D/g, "");
 
     const user = {
       nome: data.nome,
@@ -73,6 +74,7 @@ export default function Cadastro() {
 
     if (response && response.status === 200) {
       notifySuccess(response.data);
+      reset();
 
       setTimeout(() => {
         router.push("/login");
@@ -126,7 +128,7 @@ export default function Cadastro() {
                 <p>{errors.nome?.message}</p>
               </div>
               <div className="formField">
-              <label htmlFor="email">Email:</label>
+                <label htmlFor="email">Email:</label>
                 <input
                   {...register("email", { required: "Campo Obrigatório" })}
                   id="email"
@@ -136,7 +138,7 @@ export default function Cadastro() {
                 <p>{errors.email?.message}</p>
               </div>
               <div className="formField">
-              <label htmlFor="tax_id">CPF \ CNPJ:</label>
+                <label htmlFor="tax_id">CPF \ CNPJ:</label>
                 <input
                   {...register("tax_id", { required: "Campo Obrigatório" })}
                   id="tax_id"
@@ -149,7 +151,7 @@ export default function Cadastro() {
             </div>
             <div className={styles.fieldsWrapper}>
               <div className="formField">
-              <label htmlFor="phones">Celular \ Telefone:</label>
+                <label htmlFor="phones">Celular \ Telefone:</label>
                 <input
                   {...register("phones", { required: "Campo Obrigatório" })}
                   id="phones"
@@ -162,7 +164,7 @@ export default function Cadastro() {
               </div>
 
               <div className="formField">
-              <label htmlFor="birth_date">Data de Nascimento:</label>
+                <label htmlFor="birth_date">Data de Nascimento:</label>
                 <input
                   {...register("birth_date", { required: "Campo Obrigatório" })}
                   id="birth"
@@ -175,7 +177,7 @@ export default function Cadastro() {
 
             <div className={styles.passwordCtr}>
               <div className="formField">
-              <label htmlFor="senha1">Senha:</label>
+                <label htmlFor="senha1">Senha:</label>
                 <input
                   {...register("senha1", {
                     required: "Campo Obrigatório",
@@ -190,7 +192,7 @@ export default function Cadastro() {
               </div>
 
               <div className="formField">
-              <label htmlFor="senha2">Repita sua Senha:</label>
+                <label htmlFor="senha2">Repita sua Senha:</label>
                 <input
                   {...register("senha2", {
                     required: "Campo Obrigatório",
@@ -208,10 +210,12 @@ export default function Cadastro() {
           <Button type="submit" form="form">
             Criar Conta
           </Button>
-          <Link href="/login">
-            Já possui conta? <br />
-            Clique aqui para fazer o login.
-          </Link>
+          <div style={{display: 'flex', justifyContent: "center"}}>
+            <Link href="/login">
+              Já possui conta? <br />
+              Clique aqui para fazer o login.
+            </Link>
+          </div>
         </div>
       </div>
     </>

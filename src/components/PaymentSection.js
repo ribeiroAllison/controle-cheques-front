@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 
-export default function PaymentSection({ isEdit, title }) {
+export default function PaymentSection({ isEdit, title, userId }) {
   const {
     register,
     handleSubmit,

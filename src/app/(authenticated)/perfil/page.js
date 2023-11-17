@@ -75,6 +75,7 @@ const Perfil = () => {
   //EFFECTS
   useEffect(() => {
     const token = document.cookie;
+    console.log(token);
     const { id } = decode(token);
     setId(id);
   }, []);
@@ -130,11 +131,10 @@ const Perfil = () => {
                 <p>{errors.phones?.message}</p>
               </div>
             </div>
-
             <Button type="submit">Salvar</Button>
           </form>
         </section>
-        <PaymentSection title={"Edite seu Plano"} />
+        <PaymentSection userId={pagseguroId} title={"Edite seu Plano"} isEdit={true} />
       </main>
     </>
   );
