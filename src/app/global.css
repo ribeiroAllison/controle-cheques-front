@@ -110,4 +110,7 @@ label {
   transition: transform 0.3s;
 }
 
+.checkbox:hover {
+  cursor: pointer;
+}
 
