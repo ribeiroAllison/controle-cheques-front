@@ -1,6 +1,6 @@
 "use client";
 
-import uuid from 'react-uuid';
+import styles from "@/styles/Table.module.css";
 import {
   convertToNumber,
   transformCurrency,
@@ -12,7 +12,6 @@ import {
   PencilLine,
   Trash,
 } from "@phosphor-icons/react";
-import styles from "@/styles/Table.module.css";
 import ButtonAlternative from "./ButtonAlternative";
 
 export default function ChequeTable(props) {
@@ -86,7 +85,7 @@ export default function ChequeTable(props) {
           <tbody>
             {props.list?.map((cheque) => (
               <tr
-                key={uuid()}
+                key={cheque.id}
                 id={`row${cheque.id}`}
                 className="chequeRow"
               >

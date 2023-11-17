@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import uuid from 'react-uuid';
-import HeaderLine from "@/components/HeaderLine";
-import SearchFilter from "@/components/SearchFilter";
-import { hideAddForm, showAddForm } from "@/utils/utils";
-import clearInputs from "@/utils/clearInputs";
-import ModalName from "@/components/ModalName";
-import ButtonAlternative from "@/components/ButtonAlternative";
 import { Vendedor } from "@/apiServices/VendedorService";
-import styles from "@/styles/vendedores.module.css";
+import ButtonAlternative from "@/components/ButtonAlternative";
+import HeaderLine from "@/components/HeaderLine";
+import ModalName from "@/components/ModalName";
+import SearchFilter from "@/components/SearchFilter";
 import tableStyle from "@/styles/Table.module.css";
+import styles from "@/styles/vendedores.module.css";
+import clearInputs from "@/utils/clearInputs";
+import { hideAddForm, showAddForm } from "@/utils/utils";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Vendedores() {
@@ -196,7 +195,7 @@ export default function Vendedores() {
                 </tr>
               ) : (
                 filteredList?.map((vendedor) => (
-                  <tr key={uuid()} data-cod={vendedor.id}>
+                  <tr key={vendedor.id} data-cod={vendedor.id}>
                     <td id={vendedor.id}>{vendedor.nome}</td>
                     <td>
                       <img

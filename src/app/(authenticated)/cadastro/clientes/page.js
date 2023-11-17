@@ -20,7 +20,6 @@ import {
 import { CaretUpDown } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import uuid from 'react-uuid';
 
 export default function Clientes() {
   const notifySuccess = (msg) => toast.success(msg);
@@ -594,7 +593,7 @@ export default function Clientes() {
               </tr>
             ) : (
               filteredList?.map((client) => (
-                <tr key={uuid()} data-cod={client.id}>
+                <tr key={client.id} data-cod={client.id}>
                   <td>{client.cod}</td>
                   <td id={`client${client.cod}`}>{client.cliente}</td>
                   <td id={`doc${client.cod}`}>{client.doc}</td>
