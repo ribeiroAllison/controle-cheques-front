@@ -116,11 +116,16 @@ const Perfil = () => {
               onSubmit={handleSubmit(onPlanSubmit)}
             >
               <div className={styles.cardWrapper}>
-                {renderController("plano", "mensal", "Mensal", "R$ 79,90/mês")}
+                {renderController(
+                  "plano", 
+                  "PLAN_3F974C03-3D01-466B-B2D8-080DA0800E53", 
+                  "Mensal", 
+                  "R$ 79,90/mês"
+                )}
 
                 {renderController(
                   "plano",
-                  "trimestral",
+                  "PLAN_5C176F39-9BCA-4CFF-86C8-13AEC18B88C4",
                   "Trimestral",
                   "R$ 69,90/mês",
                   " * Um pagamento de R$ 209,70 a cada 03 meses"
@@ -128,7 +133,7 @@ const Perfil = () => {
 
                 {renderController(
                   "plano",
-                  "anual",
+                  "PLAN_10583870-020D-4644-B176-7247E2024DFC",
                   "Anual",
                   "R$ 62,90/mês",
                   " * Um pagamento de R$ 754,80 a cada 12 meses"

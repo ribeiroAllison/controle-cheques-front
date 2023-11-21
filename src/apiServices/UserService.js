@@ -17,12 +17,13 @@ export default class User {
   }
   // USER CREATION
   static registerUser = async (user) => {
+    const tax_id = user.tax_id.replace('.', "").replace("-", "")
     try {
       const response = await connection.post("/usuarios/register", {
         nome: user.nome,
         email: user.email,
         senha: user.senha,
-        tax_id: user.tax_id,
+        tax_id: tax_id,
         birth_date: user.birth_date,
         phones: user.phones
       });

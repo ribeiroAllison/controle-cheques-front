@@ -113,6 +113,22 @@
   color: var(--white);
 }
 
+.boletoLink{
+  color: white;
+  border: 1px solid white;
+  width: 30%;
+  padding: 3px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: var(--green-200);
+}
+
+.boletoLink:hover{
+  cursor: pointer;
+  background-color: var(--gray-200);
+  transition: ease 0.2s;
+}
+
 @media (max-width: 1000px) {
   .editContainer {
     gap: 1rem;

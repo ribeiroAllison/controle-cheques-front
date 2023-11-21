@@ -1,9 +1,16 @@
+"use client"
 import styles from "@/styles/PaymentSection.module.css";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
+import Assinatura from "@/apiServices/AssinaturaService";
+import LoadingScreen from "./LoadingScreen";
+import { useRouter } from "next/navigation";
 
-export default function PaymentSection({ isEdit, title, userId }) {
+
+export default function PaymentSection({ isEdit, title, userId}) {
+
+  //SETUPS
   const {
     register,
     handleSubmit,
@@ -13,7 +20,12 @@ export default function PaymentSection({ isEdit, title, userId }) {
     watch,
   } = useForm();
 
+  const router = useRouter();
+
+  //STATES
   const [clickedCard, setClickedCard] = useState({});
+  const [boletoUrl, setBoletoUrl] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -42,26 +54,34 @@ export default function PaymentSection({ isEdit, title, userId }) {
   );
 
   const onPlanSubmit = async (data) => {
-    const info = {
-      plano: data.plano,
-    };
 
-    console.log(info)
+    setLoading(true);
+    const response = await Assinatura.criarAssinaturaBoleto(userId, data.plano);
+    setBoletoUrl(response[0].href);
+    setLoading(false);
+    router.push(response[0].href);
+    
   };
 
   return (
     <section className={styles.editContainer}>
+      <LoadingScreen loading={loading} />
       <h1 className={styles.editTitle}>{title}</h1>
       <form
         className={styles.paymentForm}
         onSubmit={handleSubmit(onPlanSubmit)}
       >
         <div className={styles.cardWrapper}>
-          {renderController("plano", "mensal", "Mensal", "R$ 79,90/mês")}
+          {renderController(
+            "plano", 
+            "PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19", 
+            "Mensal", 
+            "R$ 79,90/mês"
+          )}
 
           {renderController(
             "plano",
-            "trimestral",
+            "PLAN_E4CE4617-A23C-4A30-AD90-B5C4D6D09BD7",
             "Trimestral",
             "R$ 69,90/mês",
             " * Um pagamento de R$ 209,70 a cada 03 meses"
@@ -69,7 +89,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
 
           {renderController(
             "plano",
-            "anual",
+            "PLAN_530536A7-941B-45D0-A350-9E5D219A42C0",
             "Anual",
             "R$ 62,90/mês",
             " * Um pagamento de R$ 754,80 a cada 12 meses"
@@ -78,7 +98,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
         <div className={styles.paymentWrapper}>
           <input
             type="radio"
-            value="credit_card"
+            value="CREDIT_CARD"
             name="payment_type"
             {...register("payment_type")}
           />
@@ -88,14 +108,18 @@ export default function PaymentSection({ isEdit, title, userId }) {
 
           <input
             type="radio"
-            value="boleto"
+            value="BOLETO"
             name="payment_type"
             {...register("payment_type")}
           />
           <label htmlFor="payment_type" className={styles.labelRadio}>
             Boleto
           </label>
+
+          
         </div>
+        {boletoUrl && 
+          <a href={boletoUrl} className={styles.boletoLink}> Baixe o Boleto Aqui! </a>}
 
         {paymentType === "credit_card" && (
           <div className={styles.creditCard}>
