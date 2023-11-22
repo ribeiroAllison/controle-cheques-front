@@ -73,8 +73,7 @@ export default function Cadastro() {
     };
 
     const response = await User.registerUser(user);
-    console.log(response)
-    if (response && response.status === 200) {
+    if (response && response.status === 201) {
       notifySuccess(response.data);
       reset();
       setIsLoading(false);
@@ -83,7 +82,7 @@ export default function Cadastro() {
         router.push("/login");
       }, 2200);
     } else {
-      //notifyFailure(response.data);
+      notifyFailure(response.data);
       setIsLoading(false);
     }
   };
