@@ -5,16 +5,14 @@ import Button from "@/components/Button";
 import LoadingScreen from "@/components/LoadingScreen";
 import PaymentSection from "@/components/PaymentSection";
 import styles from "@/styles/perfil.module.css";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
 import decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const Perfil = () => {
   //SET UPS
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   const {
     register,
     handleSubmit,
@@ -75,7 +73,6 @@ const Perfil = () => {
   //EFFECTS
   useEffect(() => {
     const token = document.cookie;
-    console.log(token);
     const { id } = decode(token);
     setId(id);
   }, []);
@@ -134,7 +131,7 @@ const Perfil = () => {
             <Button type="submit">Salvar</Button>
           </form>
         </section>
-        <PaymentSection userId={pagseguroId} title={"Edite seu Plano"} isEdit={true} />
+        <PaymentSection userId={pagseguroId} title={"Planos & Pagamento"} isEdit={true} />
       </main>
     </>
   );

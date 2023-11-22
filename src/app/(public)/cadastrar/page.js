@@ -2,15 +2,16 @@
 
 import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
+import LoadingScreen from "@/components/LoadingScreen";
 import styles from "@/styles/cadastro.module.css";
-import { formatPhoneNumber } from "@/utils/utils";
+import { formatPhoneNumber, notifyFailure, notifySuccess } from "@/utils/utils";
 import validarCNPJ from "@/utils/validarCNPJ";
 import validarCPF from "@/utils/validarCPF";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 export default function Cadastro() {
   //SETUP
@@ -33,12 +34,10 @@ export default function Cadastro() {
     },
   });
 
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   //STATE DECLARATION
   const [validDoc, setValidDoc] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   //HANDLER FUNCTIONS
   const submit = async (data) => {
@@ -48,14 +47,17 @@ export default function Cadastro() {
       data.senha1.length >= 8 &&
       regexUpperCase.test(data.senha1) &&
       regexSpecialCharacter.test(data.senha1);
+    setIsLoading(true);
 
     if (!isPasswordValid) {
-      notifyFailure("Senha deve ser mais complexa!");
+      notifyFailure("Senha fora do padrão!");
+      setIsLoading(false);
       return;
     }
 
     if (data.senha1 !== data.senha2) {
       notifyFailure("Senhas devem ser iguais!");
+      setIsLoading(false);
       return;
     }
 
@@ -71,16 +73,18 @@ export default function Cadastro() {
     };
 
     const response = await User.registerUser(user);
-
+    console.log(response)
     if (response && response.status === 200) {
       notifySuccess(response.data);
       reset();
+      setIsLoading(false);
 
       setTimeout(() => {
         router.push("/login");
       }, 2200);
     } else {
-      notifyFailure(response.data);
+      //notifyFailure(response.data);
+      setIsLoading(false);
     }
   };
 
@@ -104,6 +108,7 @@ export default function Cadastro() {
   return (
     <>
       <ToastContainer autoClose={1500} />
+      <LoadingScreen loading={isLoading} />
       <div className={styles.cadastroWrapper}>
         <div className={styles.formContainer}>
           <h1>Crie sua conta</h1>
@@ -210,7 +215,7 @@ export default function Cadastro() {
           <Button type="submit" form="form">
             Criar Conta
           </Button>
-          <div style={{display: 'flex', justifyContent: "center"}}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <Link href="/login">
               Já possui conta? <br />
               Clique aqui para fazer o login.

@@ -78,6 +78,42 @@
   padding-right: 1rem;
 }
 
+.addressWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.addressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.addressSectionTitle {
+  font-size: 1.5rem;
+  color: var(--green-100);
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+}
+
+.cepSearch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+
 .creditCard {
   display: flex;
   flex-wrap: wrap;

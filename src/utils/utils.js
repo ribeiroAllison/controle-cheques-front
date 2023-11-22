@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 export const clearInputs = (inputId) => {
   const inputs = document.getElementsByClassName(inputId);
@@ -176,3 +177,7 @@ export function formatPhoneNumber(input) {
     return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(7)}`;
   }
 }
+
+// toastify messages
+export const notifySuccess = (msg) => toast.success(msg);
+export const notifyFailure = (msg) => toast.error(msg);

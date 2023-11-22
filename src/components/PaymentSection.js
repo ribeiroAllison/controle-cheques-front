@@ -1,15 +1,15 @@
-"use client"
+"use client";
+import Assinatura from "@/apiServices/AssinaturaService";
 import styles from "@/styles/PaymentSection.module.css";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
+import { MagnifyingGlass } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
-import Assinatura from "@/apiServices/AssinaturaService";
 import LoadingScreen from "./LoadingScreen";
-import { useRouter } from "next/navigation";
 
-
-export default function PaymentSection({ isEdit, title, userId}) {
-
+export default function PaymentSection({ isEdit, title, userId }) {
   //SETUPS
   const {
     register,
@@ -53,14 +53,38 @@ export default function PaymentSection({ isEdit, title, userId}) {
     />
   );
 
-  const onPlanSubmit = async (data) => {
+  const onAddressSubmit = async (data) => {
+    const address = {
+      street: data.street,
+      number: data.number,
+      locality: data.locality,
+      city: data.city,
+      complement: '',
+      region_code: data.region_code,
+      postal_code: data.postal_code,
+      country: 'BRA',
+    }
 
+    const response = await Assinatura.editarEnderecoAssinante(userId, address);
+    console.log(response);
+  }
+
+  const onPlanSubmit = async (data) => {
     setLoading(true);
     const response = await Assinatura.criarAssinaturaBoleto(userId, data.plano);
-    setBoletoUrl(response[0].href);
-    setLoading(false);
-    router.push(response[0].href);
-    
+    const responseAddress = await onAddressSubmit();
+    console.log(responseAddress)
+    if(response.status === 200) {
+      setBoletoUrl(response[0].href);
+      notifySuccess('Boleto gerado com sucesso!')
+      setTimeout(() => {
+        setLoading(false);
+        router.push(response[0].href);
+      }, 1000)
+    } else {
+      setLoading(false)
+      notifyFailure('Falha ao gerar boleto! Tente mais tarde.')
+    }
   };
 
   return (
@@ -73,9 +97,9 @@ export default function PaymentSection({ isEdit, title, userId}) {
       >
         <div className={styles.cardWrapper}>
           {renderController(
-            "plano", 
-            "PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19", 
-            "Mensal", 
+            "plano",
+            "PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19",
+            "Mensal",
             "R$ 79,90/mês"
           )}
 
@@ -115,13 +139,93 @@ export default function PaymentSection({ isEdit, title, userId}) {
           <label htmlFor="payment_type" className={styles.labelRadio}>
             Boleto
           </label>
-
-          
         </div>
-        {boletoUrl && 
-          <a href={boletoUrl} className={styles.boletoLink}> Baixe o Boleto Aqui! </a>}
 
-        {paymentType === "credit_card" && (
+        {paymentType === "BOLETO" && (
+          <div className={styles.addressWrapper}>
+            <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
+            <div className={styles.addressSection}>
+              <div className={styles.inputWrapper}>
+              <div className={styles.inputCtr}>
+                <label>CEP:</label>
+                <div className={styles.cepSearch}>
+                  <input
+                    placeholder="XX.XXX-XXX"
+                    type="text" 
+                    inputMode="numeric"
+                    style={{ width: "180px" }}
+                    {...register("postal_code")}
+                  />
+                  <MagnifyingGlass
+                    width={36}
+                    height={36}
+                    color="#0CD494"
+                    weight="fill"
+                    className={styles.icon}
+                    alt="Clique para buscar!"
+                  />
+                </div>
+              </div>
+                <div className={styles.inputCtr}>
+                  <label>Endereço:</label>
+                  <input
+                    placeholder="Avenida dos Estados"
+                    type="text"
+                    {...register("street")}
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Número:</label>
+                  <input
+                    placeholder="1508"
+                    type="text" 
+                    inputMode="numeric"
+                    style={{ width: "100px" }}
+                    {...register("number")}
+                  />
+                </div>
+              </div>
+              <div className={styles.inputWrapper}>
+                <div className={styles.inputCtr}>
+                  <label>Bairro:</label>
+                  <input
+                    placeholder="Centro"
+                    type="text"
+                    style={{ width: "200px" }}
+                    {...register("locality")}
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Cidade:</label>
+                  <input
+                    placeholder="São Paulo"
+                    type="text"
+                    style={{ width: "250px" }}
+                    {...register("city")}
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Estado:</label>
+                  <input
+                    placeholder="SP"
+                    type="text"
+                    style={{ width: "60px" }}
+                    {...register("region_code")}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {boletoUrl && (
+          <a href={boletoUrl} className={styles.boletoLink}>
+            {" "}
+            Baixe o Boleto Aqui!{" "}
+          </a>
+        )}
+
+        {paymentType === "CREDIT_CARD" && (
           <div className={styles.creditCard}>
             <div className={styles.cardInfo}>
               <div className={styles.inputCtr}>
@@ -130,7 +234,8 @@ export default function PaymentSection({ isEdit, title, userId}) {
                   {...register("card_number", {
                     required: "Campo Obrigatório",
                   })}
-                  type="number"
+                  type="text" 
+                  inputMode="numeric"
                   style={{ width: "500px" }}
                 />
                 <p>{errors.card_number?.message}</p>
@@ -143,7 +248,8 @@ export default function PaymentSection({ isEdit, title, userId}) {
                     required: "Campo Obrigatório",
                     maxLength: 3,
                   })}
-                  type="number"
+                  type="text" 
+                  inputMode="numeric"
                   style={{ width: "90px" }}
                 />
                 <p>{errors.security_code?.message}</p>
