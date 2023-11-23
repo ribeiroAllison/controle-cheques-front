@@ -44,7 +44,7 @@ export default function ChequeControl(props) {
     data_compen: null,
     pedido: null,
     grupo: null,
-    número_cheque: null
+    número_cheque: null,
   });
   const [editFormValues, setEditFormValues] = useState({
     id: null,
@@ -59,6 +59,7 @@ export default function ChequeControl(props) {
     data_compen: null,
     data_destino: null,
     pedido: null,
+    tipo_id: null,
   });
   const [clientList, setClientList] = useState(null);
   const [allCheques, setAllCheques] = useState(null);
@@ -92,6 +93,7 @@ export default function ChequeControl(props) {
 
   // HANDLE INPUTS FOR EDITING EXISTING CHECKS
   const handleEditInputChange = (e) => {
+    console.log(e.target)
     const { name, value } = e.target;
     setEditFormValues({ ...editFormValues, [name]: value });
   };
@@ -219,8 +221,6 @@ export default function ChequeControl(props) {
     data_cadastro.value = data_rec;
     dataCompInput.value = dataComp;
 
-    
-
     setEditFormValues({
       ...editFormValues,
       cliente_cod: codCli,
@@ -234,8 +234,10 @@ export default function ChequeControl(props) {
       obs: obs,
       vendedor_id: vendedorInput.value,
       cliente_id: cliente_id,
+      tipo_id: Number(tipoInput.value)
     });
   };
+
 
   // CHECK EDIT SUBMIT HANDLING
   const handleEditSubmit = async (e) => {
@@ -838,7 +840,7 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editTipo"
                   >
-                    <option key="0"></option>
+                    <option value={null} defaultChecked disabled></option>
                     {tipoList?.map((tipo) => (
                       <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
                         {tipo.nome}
