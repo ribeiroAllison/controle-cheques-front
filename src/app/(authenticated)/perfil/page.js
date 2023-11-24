@@ -38,39 +38,42 @@ const Perfil = () => {
       phones: data.phones,
       pagseguro_id: pagseguroId,
     };
-
-    const getResponse = async () => {
-      setIsLoading(true);
-      const response = await User.editUser(user);
-
-      if (response.status === 201) {
-        setIsLoading(false);
-        notifySuccess("Usuário atualizado com sucesso");
-      } else {
-        setIsLoading(false);
-        notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
-      }
-    };
-
-    await getResponse();
+    await getResponse(user);
   };
 
   //AUX FUNCTIONS
   const getUser = async (id) => {
     try {
+      setIsLoading(true);
       const res = await User.getUserById(id);
+      console.log(res);
       if (res) {
-        setValue("nome", res.nome);
+        setValue("nome", res.name);
         setValue("email", res.email);
         const formattedDate = res.birth_date
           ? new Date(res.birth_date).toISOString().split("T")[0]
           : "";
         setValue("birth_date", formattedDate);
-        setValue("phones", formatPhoneNumber(res.phones));
-        setPagSeguroId(res.pagseguro_id);
+        setValue("phones", formatPhoneNumber(res.phones[0].area.concat(res.phones[0].number)));
+        setPagSeguroId(res.id);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const getResponse = async (user) => {
+    setIsLoading(true);
+    const response = await User.editUser(user);
+
+    if (response.status === 201) {
+      setIsLoading(false);
+      notifySuccess("Usuário atualizado com sucesso");
+    } else {
+      setIsLoading(false);
+      notifyFailure(`Erro ao editar. Erro: ${response.response.data}`);
     }
   };
 

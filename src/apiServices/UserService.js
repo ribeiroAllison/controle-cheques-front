@@ -7,7 +7,7 @@ export default class User {
     try {
       const response = await connection.get(`/usuarios/${id}`);
       if (response.status === 200) {
-        return response.data[0];
+        return response.data;
       }
     } catch (error) {
       console.log(error);
