@@ -86,11 +86,11 @@ export default function PaymentSection({ isEdit, title, userId }) {
     );
     console.log(response);
     if (response.status === 200) {
-      setBoletoUrl(response[0].href);
+      setBoletoUrl(response.data[0].href);
       notifySuccess("Boleto gerado com sucesso!");
       setTimeout(() => {
         setLoading(false);
-        router.push(response[0].href);
+        router.push(response.data[0].href);
       }, 1000);
     } else {
       notifyFailure("Erro ao buscar CEP!");
