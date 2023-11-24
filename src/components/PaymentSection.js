@@ -4,7 +4,7 @@ import styles from "@/styles/PaymentSection.module.css";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
@@ -26,13 +26,37 @@ export default function PaymentSection({ isEdit, title, userId }) {
   const [clickedCard, setClickedCard] = useState({});
   const [boletoUrl, setBoletoUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const [PagSeguro, setPagSeguro] = useState();
+  const [cardInfo, setCardInfo] = useState();
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
     setClickedCard(value);
   };
 
+  //EFFECTS
+
   const paymentType = watch("payment_type");
+
+  useEffect(() => {
+    const pagLib = window.PagSeguro;
+    if(pagLib){
+      setPagSeguro(pagLib);
+    }
+  })
+
+  //SETUPS
+
+  const publicKey = `-----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3fDp77YPlSoLRQejGalj
+  6/w3Ef1hZGrMrjFj1ddRdczzJ63rxIoQ01qxWC3UQfJs4zWD3cOulbtY5XmARN0z
+  CmAUFNzcYrI+HU7Yipr/Nk9fgZ6lAaB4F+6hWdGXj2Dxb4ibZ37yGne/vHydzX7y
+  v2Z07m6RBUX0tG5q83u/yj/c1EjUcEpVqO5DLI8x+whecHQAxkTXS2K9OIrQoq0F
+  nw3jl0P1fhjI/4YwCn4W9Uo8m09FIIvc8qy8akmNLCAfwOwFGCrlcvi/jHK1VTwd
+  +hUMlucdLYoD3GKtyTkTGbb6xHV5NcxGGHYYeEvORhhA75hoVKXQnWM6hg4m1uL9
+  bwIDAQAB
+  -----END PUBLIC KEY-----
+  `
 
   const renderController = (fieldName, defaultValue, text1, text2, text3) => (
     <Controller
@@ -69,10 +93,10 @@ export default function PaymentSection({ isEdit, title, userId }) {
     console.log(response);
   }
 
-  const onPlanSubmit = async (data) => {
+  const makeBoletoSub = async (data) => {
     setLoading(true);
-    const response = await Assinatura.criarAssinaturaBoleto(userId, data.plano);
     const responseAddress = await onAddressSubmit();
+    const response = await Assinatura.criarAssinaturaBoleto(userId, data.plano);
     console.log(responseAddress)
     if(response.status === 200) {
       setBoletoUrl(response[0].href);
@@ -84,6 +108,59 @@ export default function PaymentSection({ isEdit, title, userId }) {
     } else {
       setLoading(false)
       notifyFailure('Falha ao gerar boleto! Tente mais tarde.')
+    }
+  }
+
+  const makeCardSub = async (data) => {
+    const card = {
+      publicKey: publicKey,
+      holder: data.holder,
+      number: data.card_number,
+      expMonth: data.exp_month,
+      expYear: data.exp_year,
+      securityCode: data.security_code
+    };
+
+    const encrypted = PagSeguro.encryptCard(card);
+
+    const cardData = {
+      encrypted: encrypted.encryptedCard,
+      security_code: data.security_code,
+      holder: {
+        name: data.holder
+      } 
+    }
+
+    // const cardData = {
+    //   number: data.card_number,
+    //   exp_month: data.exp_month,
+    //   exp_year: data.exp_year,
+    //   security_code: data.security_code,
+    //   holder: {
+    //     name: data.holder
+    //   },
+    //   store: true
+    // }
+
+    console.log(cardData)
+
+    setLoading(true);
+    const response = await Assinatura.criarAssinaturaCartao(userId, data.plano, cardData);
+    setLoading(false);
+    console.log(response);
+    if(response.status === 200) {
+      notifySuccess('Pagamento processado com sucesso!')
+    } else {
+      notifyFailure(`Falha ao processar pagarmento: ${response.error_message[0].description}`)
+    }
+    
+  }
+
+  const onPlanSubmit = async (data) => {
+    if(paymentType === "BOLETO"){
+      await makeBoletoSub(data);
+    } else if(paymentType === "CREDIT_CARD"){
+      await makeCardSub(data)
     }
   };
 
@@ -146,26 +223,26 @@ export default function PaymentSection({ isEdit, title, userId }) {
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
               <div className={styles.inputWrapper}>
-              <div className={styles.inputCtr}>
-                <label>CEP:</label>
-                <div className={styles.cepSearch}>
-                  <input
-                    placeholder="XX.XXX-XXX"
-                    type="text" 
-                    inputMode="numeric"
-                    style={{ width: "180px" }}
-                    {...register("postal_code")}
-                  />
-                  <MagnifyingGlass
-                    width={36}
-                    height={36}
-                    color="#0CD494"
-                    weight="fill"
-                    className={styles.icon}
-                    alt="Clique para buscar!"
-                  />
+                <div className={styles.inputCtr}>
+                  <label>CEP:</label>
+                  <div className={styles.cepSearch}>
+                    <input
+                      placeholder="XX.XXX-XXX"
+                      type="text"
+                      inputMode="numeric"
+                      style={{ width: "180px" }}
+                      {...register("postal_code")}
+                    />
+                    <MagnifyingGlass
+                      width={36}
+                      height={36}
+                      color="#0CD494"
+                      weight="fill"
+                      className={styles.icon}
+                      alt="Clique para buscar!"
+                    />
+                  </div>
                 </div>
-              </div>
                 <div className={styles.inputCtr}>
                   <label>Endereço:</label>
                   <input
@@ -178,7 +255,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                   <label>Número:</label>
                   <input
                     placeholder="1508"
-                    type="text" 
+                    type="text"
                     inputMode="numeric"
                     style={{ width: "100px" }}
                     {...register("number")}
@@ -234,7 +311,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                   {...register("card_number", {
                     required: "Campo Obrigatório",
                   })}
-                  type="text" 
+                  type="text"
                   inputMode="numeric"
                   style={{ width: "500px" }}
                 />
@@ -248,7 +325,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     required: "Campo Obrigatório",
                     maxLength: 3,
                   })}
-                  type="text" 
+                  type="text"
                   inputMode="numeric"
                   style={{ width: "90px" }}
                 />
@@ -257,16 +334,29 @@ export default function PaymentSection({ isEdit, title, userId }) {
             </div>
 
             <div className={styles.cardInfo}>
-              <div className={styles.inputCtr}>
-                <label>Data de Vencimento:</label>
-                <input
-                  {...register("exp_date", {
-                    required: "Campo Obrigatório",
-                  })}
-                  type="date"
-                  style={{ width: "200px" }}
-                />
-                <p>{errors.exp_date?.message}</p>
+              <div className={styles.expDate}>
+                <div className={styles.inputCtr}>
+                  <label>Mês</label>
+                  <input
+                    {...register("exp_month", {
+                      required: "Campo Obrigatório",
+                    })}
+                    type="number"
+                    style={{ width: "80px" }}
+                  />
+                  <p>{errors.exp_month?.message}</p>
+                </div>{" "}
+                <div className={styles.inputCtr}>
+                  <label>Ano</label>
+                  <input
+                    {...register("exp_year", {
+                      required: "Campo Obrigatório",
+                    })}
+                    type="number"
+                    style={{ width: "80px" }}
+                  />
+                  <p>{errors.exp_date?.message}</p>
+                </div>
               </div>
 
               <div className={styles.inputCtr}>

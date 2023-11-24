@@ -73,8 +73,9 @@ export default function Cadastro() {
     };
 
     const response = await User.registerUser(user);
-    console.log(response)
-    if (response && response.status === 200) {
+    console.log(`Essa é a response: ${response}`)
+    if (response.status === 201) {
+      console.log('entrei no success')
       notifySuccess(response.data);
       reset();
       setIsLoading(false);
@@ -83,7 +84,8 @@ export default function Cadastro() {
         router.push("/login");
       }, 2200);
     } else {
-      //notifyFailure(response.data);
+      console.log('entrei no error handling')
+      notifyFailure(response);
       setIsLoading(false);
     }
   };

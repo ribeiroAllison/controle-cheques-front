@@ -159,6 +159,17 @@
   background-color: var(--green-200);
 }
 
+.expDate{
+  display: flex;
+  gap: 0.5rem;
+}
+
+.expDate input[type="number"]::-webkit-inner-spin-button,
+.expDate [type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .boletoLink:hover{
   cursor: pointer;
   background-color: var(--gray-200);

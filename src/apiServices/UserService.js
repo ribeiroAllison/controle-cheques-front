@@ -15,7 +15,7 @@ export default class User {
   };
   // USER CREATION
   static registerUser = async (user) => {
-    const tax_id = user.tax_id.replace(".", "").replace("-", "");
+    const tax_id = user.tax_id.replace(/\D/g, "");
     try {
       const response = await connection.post("/usuarios/register", {
         nome: user.nome,
@@ -25,9 +25,7 @@ export default class User {
         birth_date: user.birth_date,
         phones: user.phones,
       });
-      if (response.status === 201) {
-        return response;
-      }
+      return response;
     } catch (error) {
       return error;
     }
