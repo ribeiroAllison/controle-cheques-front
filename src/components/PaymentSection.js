@@ -1,10 +1,11 @@
 "use client";
 import Assinatura from "@/apiServices/AssinaturaService";
 import styles from "@/styles/PaymentSection.module.css";
+import { fetchCEP } from "@/utils/cep";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
@@ -18,6 +19,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
     setValue,
     control,
     watch,
+    getValues,
   } = useForm();
 
   const router = useRouter();
@@ -35,29 +37,16 @@ export default function PaymentSection({ isEdit, title, userId }) {
   };
 
   //EFFECTS
-
   const paymentType = watch("payment_type");
 
   useEffect(() => {
     const pagLib = window.PagSeguro;
-    if(pagLib){
+    if (pagLib) {
       setPagSeguro(pagLib);
     }
-  })
+  });
 
   //SETUPS
-
-  const publicKey = `-----BEGIN PUBLIC KEY-----
-  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3fDp77YPlSoLRQejGalj
-  6/w3Ef1hZGrMrjFj1ddRdczzJ63rxIoQ01qxWC3UQfJs4zWD3cOulbtY5XmARN0z
-  CmAUFNzcYrI+HU7Yipr/Nk9fgZ6lAaB4F+6hWdGXj2Dxb4ibZ37yGne/vHydzX7y
-  v2Z07m6RBUX0tG5q83u/yj/c1EjUcEpVqO5DLI8x+whecHQAxkTXS2K9OIrQoq0F
-  nw3jl0P1fhjI/4YwCn4W9Uo8m09FIIvc8qy8akmNLCAfwOwFGCrlcvi/jHK1VTwd
-  +hUMlucdLYoD3GKtyTkTGbb6xHV5NcxGGHYYeEvORhhA75hoVKXQnWM6hg4m1uL9
-  bwIDAQAB
-  -----END PUBLIC KEY-----
-  `
-
   const renderController = (fieldName, defaultValue, text1, text2, text3) => (
     <Controller
       name={fieldName}
@@ -77,48 +66,45 @@ export default function PaymentSection({ isEdit, title, userId }) {
     />
   );
 
-  const onAddressSubmit = async (data) => {
+  const makeBoletoSub = async (data) => {
+    setLoading(true);
     const address = {
       street: data.street,
       number: data.number,
       locality: data.locality,
       city: data.city,
-      complement: '',
+      complement: "n/a",
       region_code: data.region_code,
       postal_code: data.postal_code,
-      country: 'BRA',
-    }
+      country: "BRA",
+    };
 
-    const response = await Assinatura.editarEnderecoAssinante(userId, address);
+    const response = await Assinatura.criarAssinaturaBoleto(
+      userId,
+      data.plano,
+      address
+    );
     console.log(response);
-  }
-
-  const makeBoletoSub = async (data) => {
-    setLoading(true);
-    const responseAddress = await onAddressSubmit();
-    const response = await Assinatura.criarAssinaturaBoleto(userId, data.plano);
-    console.log(responseAddress)
-    if(response.status === 200) {
+    if (response.status === 200) {
       setBoletoUrl(response[0].href);
-      notifySuccess('Boleto gerado com sucesso!')
+      notifySuccess("Boleto gerado com sucesso!");
       setTimeout(() => {
         setLoading(false);
         router.push(response[0].href);
-      }, 1000)
+      }, 1000);
     } else {
-      setLoading(false)
-      notifyFailure('Falha ao gerar boleto! Tente mais tarde.')
+      notifyFailure("Erro ao buscar CEP!");
     }
-  }
+  };
 
   const makeCardSub = async (data) => {
     const card = {
-      publicKey: publicKey,
+      publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY,
       holder: data.holder,
       number: data.card_number,
       expMonth: data.exp_month,
       expYear: data.exp_year,
-      securityCode: data.security_code
+      securityCode: data.security_code,
     };
 
     const encrypted = PagSeguro.encryptCard(card);
@@ -127,9 +113,9 @@ export default function PaymentSection({ isEdit, title, userId }) {
       encrypted: encrypted.encryptedCard,
       security_code: data.security_code,
       holder: {
-        name: data.holder
-      } 
-    }
+        name: data.holder,
+      },
+    };
 
     // const cardData = {
     //   number: data.card_number,
@@ -142,25 +128,45 @@ export default function PaymentSection({ isEdit, title, userId }) {
     //   store: true
     // }
 
-    console.log(cardData)
+    console.log(cardData);
 
     setLoading(true);
-    const response = await Assinatura.criarAssinaturaCartao(userId, data.plano, cardData);
+    const response = await Assinatura.criarAssinaturaCartao(
+      userId,
+      data.plano,
+      cardData
+    );
     setLoading(false);
     console.log(response);
-    if(response.status === 200) {
-      notifySuccess('Pagamento processado com sucesso!')
+    if (response.status === 200) {
+      notifySuccess("Pagamento processado com sucesso!");
     } else {
-      notifyFailure(`Falha ao processar pagarmento: ${response.error_message[0].description}`)
+      notifyFailure(
+        `Falha ao processar pagarmento: ${response.error_message[0].description}`
+      );
     }
-    
-  }
+  };
 
   const onPlanSubmit = async (data) => {
-    if(paymentType === "BOLETO"){
+    if (paymentType === "BOLETO") {
       await makeBoletoSub(data);
-    } else if(paymentType === "CREDIT_CARD"){
-      await makeCardSub(data)
+    } else if (paymentType === "CREDIT_CARD") {
+      await makeCardSub(data);
+    }
+  };
+
+  // cep search
+  const searchAddress = async () => {
+    const cep = getValues("postal_code");
+
+    const response = await fetchCEP(cep);
+    if (response) {
+      setValue("street", response.logradouro);
+      setValue("city", response.localidade);
+      setValue("locality", response.bairro);
+      setValue("region_code", response.uf);
+    } else {
+      notifyFailure("Erro ao buscar CEP!");
     }
   };
 
@@ -240,6 +246,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                       weight="fill"
                       className={styles.icon}
                       alt="Clique para buscar!"
+                      onClick={searchAddress}
                     />
                   </div>
                 </div>
@@ -249,6 +256,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     placeholder="Avenida dos Estados"
                     type="text"
                     {...register("street")}
+                    required
                   />
                 </div>
                 <div className={styles.inputCtr}>
@@ -256,9 +264,9 @@ export default function PaymentSection({ isEdit, title, userId }) {
                   <input
                     placeholder="1508"
                     type="text"
-                    inputMode="numeric"
                     style={{ width: "100px" }}
                     {...register("number")}
+                    required
                   />
                 </div>
               </div>
@@ -270,6 +278,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     type="text"
                     style={{ width: "200px" }}
                     {...register("locality")}
+                    required
                   />
                 </div>
                 <div className={styles.inputCtr}>
@@ -279,6 +288,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     type="text"
                     style={{ width: "250px" }}
                     {...register("city")}
+                    required
                   />
                 </div>
                 <div className={styles.inputCtr}>
@@ -288,6 +298,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     type="text"
                     style={{ width: "60px" }}
                     {...register("region_code")}
+                    required
                   />
                 </div>
               </div>

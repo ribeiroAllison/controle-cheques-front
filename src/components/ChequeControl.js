@@ -59,6 +59,7 @@ export default function ChequeControl(props) {
     data_compen: null,
     data_destino: null,
     pedido: null,
+    tipo_id: null,
   });
   const [clientList, setClientList] = useState(null);
   const [allCheques, setAllCheques] = useState(null);
@@ -234,6 +235,7 @@ export default function ChequeControl(props) {
       obs: obs,
       vendedor_id: vendedorInput.value,
       cliente_id: cliente_id,
+      tipo_id: Number(tipoInput.value)
     });
   };
 
