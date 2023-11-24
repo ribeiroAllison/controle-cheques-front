@@ -5,7 +5,7 @@ import { fetchCEP } from "@/utils/cep";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
@@ -28,14 +28,25 @@ export default function PaymentSection({ isEdit, title, userId }) {
   const [clickedCard, setClickedCard] = useState({});
   const [boletoUrl, setBoletoUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const [PagSeguro, setPagSeguro] = useState();
+  const [cardInfo, setCardInfo] = useState();
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
     setClickedCard(value);
   };
 
+  //EFFECTS
   const paymentType = watch("payment_type");
 
+  useEffect(() => {
+    const pagLib = window.PagSeguro;
+    if (pagLib) {
+      setPagSeguro(pagLib);
+    }
+  });
+
+  //SETUPS
   const renderController = (fieldName, defaultValue, text1, text2, text3) => (
     <Controller
       name={fieldName}
@@ -55,7 +66,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
     />
   );
 
-  const onPlanSubmit = async (data) => {
+  const makeBoletoSub = async (data) => {
     setLoading(true);
     const address = {
       street: data.street,
@@ -68,31 +79,79 @@ export default function PaymentSection({ isEdit, title, userId }) {
       country: "BRA",
     };
 
-    const responseAddress = await Assinatura.editarEnderecoAssinante(
+    const response = await Assinatura.criarAssinaturaBoleto(
       userId,
+      data.plano,
       address
     );
-
-    console.log(responseAddress);
-    if (responseAddress) {
-      const response = await Assinatura.criarAssinaturaBoleto(
-        userId,
-        data.plano
-      );
-      if (response.status === 200) {
-        setBoletoUrl(response[0].href);
-        notifySuccess("Boleto gerado com sucesso!");
-        setTimeout(() => {
-          setLoading(false);
-          router.push(response[0].href);
-        }, 1000);
-      } else {
+    console.log(response);
+    if (response.status === 200) {
+      setBoletoUrl(response[0].href);
+      notifySuccess("Boleto gerado com sucesso!");
+      setTimeout(() => {
         setLoading(false);
-        notifyFailure("Falha ao gerar boleto! Tente mais tarde.");
-      }
+        router.push(response[0].href);
+      }, 1000);
     } else {
-      setLoading(false);
-      notifyFailure("Falha ao atualizar endereço! Tente mais tarde.");
+      notifyFailure("Erro ao buscar CEP!");
+    }
+  };
+
+  const makeCardSub = async (data) => {
+    const card = {
+      publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY,
+      holder: data.holder,
+      number: data.card_number,
+      expMonth: data.exp_month,
+      expYear: data.exp_year,
+      securityCode: data.security_code,
+    };
+
+    const encrypted = PagSeguro.encryptCard(card);
+
+    const cardData = {
+      encrypted: encrypted.encryptedCard,
+      security_code: data.security_code,
+      holder: {
+        name: data.holder,
+      },
+    };
+
+    // const cardData = {
+    //   number: data.card_number,
+    //   exp_month: data.exp_month,
+    //   exp_year: data.exp_year,
+    //   security_code: data.security_code,
+    //   holder: {
+    //     name: data.holder
+    //   },
+    //   store: true
+    // }
+
+    console.log(cardData);
+
+    setLoading(true);
+    const response = await Assinatura.criarAssinaturaCartao(
+      userId,
+      data.plano,
+      cardData
+    );
+    setLoading(false);
+    console.log(response);
+    if (response.status === 200) {
+      notifySuccess("Pagamento processado com sucesso!");
+    } else {
+      notifyFailure(
+        `Falha ao processar pagarmento: ${response.error_message[0].description}`
+      );
+    }
+  };
+
+  const onPlanSubmit = async (data) => {
+    if (paymentType === "BOLETO") {
+      await makeBoletoSub(data);
+    } else if (paymentType === "CREDIT_CARD") {
+      await makeCardSub(data);
     }
   };
 
@@ -286,16 +345,29 @@ export default function PaymentSection({ isEdit, title, userId }) {
             </div>
 
             <div className={styles.cardInfo}>
-              <div className={styles.inputCtr}>
-                <label>Data de Vencimento:</label>
-                <input
-                  {...register("exp_date", {
-                    required: "Campo Obrigatório",
-                  })}
-                  type="date"
-                  style={{ width: "200px" }}
-                />
-                <p>{errors.exp_date?.message}</p>
+              <div className={styles.expDate}>
+                <div className={styles.inputCtr}>
+                  <label>Mês</label>
+                  <input
+                    {...register("exp_month", {
+                      required: "Campo Obrigatório",
+                    })}
+                    type="number"
+                    style={{ width: "80px" }}
+                  />
+                  <p>{errors.exp_month?.message}</p>
+                </div>{" "}
+                <div className={styles.inputCtr}>
+                  <label>Ano</label>
+                  <input
+                    {...register("exp_year", {
+                      required: "Campo Obrigatório",
+                    })}
+                    type="number"
+                    style={{ width: "80px" }}
+                  />
+                  <p>{errors.exp_date?.message}</p>
+                </div>
               </div>
 
               <div className={styles.inputCtr}>
