@@ -1,6 +1,7 @@
 "use client";
 import Assinatura from "@/apiServices/AssinaturaService";
 import styles from "@/styles/PaymentSection.module.css";
+import { fetchCEP } from "@/utils/cep";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
     setValue,
     control,
     watch,
+    getValues,
   } = useForm();
 
   const router = useRouter();
@@ -53,37 +55,59 @@ export default function PaymentSection({ isEdit, title, userId }) {
     />
   );
 
-  const onAddressSubmit = async (data) => {
+  const onPlanSubmit = async (data) => {
+    setLoading(true);
     const address = {
       street: data.street,
       number: data.number,
       locality: data.locality,
       city: data.city,
-      complement: '',
+      complement: "n/a",
       region_code: data.region_code,
       postal_code: data.postal_code,
-      country: 'BRA',
-    }
+      country: "BRA",
+    };
 
-    const response = await Assinatura.editarEnderecoAssinante(userId, address);
-    console.log(response);
-  }
+    const responseAddress = await Assinatura.editarEnderecoAssinante(
+      userId,
+      address
+    );
 
-  const onPlanSubmit = async (data) => {
-    setLoading(true);
-    const response = await Assinatura.criarAssinaturaBoleto(userId, data.plano);
-    const responseAddress = await onAddressSubmit();
-    console.log(responseAddress)
-    if(response.status === 200) {
-      setBoletoUrl(response[0].href);
-      notifySuccess('Boleto gerado com sucesso!')
-      setTimeout(() => {
+    console.log(responseAddress);
+    if (responseAddress) {
+      const response = await Assinatura.criarAssinaturaBoleto(
+        userId,
+        data.plano
+      );
+      if (response.status === 200) {
+        setBoletoUrl(response[0].href);
+        notifySuccess("Boleto gerado com sucesso!");
+        setTimeout(() => {
+          setLoading(false);
+          router.push(response[0].href);
+        }, 1000);
+      } else {
         setLoading(false);
-        router.push(response[0].href);
-      }, 1000)
+        notifyFailure("Falha ao gerar boleto! Tente mais tarde.");
+      }
     } else {
-      setLoading(false)
-      notifyFailure('Falha ao gerar boleto! Tente mais tarde.')
+      setLoading(false);
+      notifyFailure("Falha ao atualizar endereço! Tente mais tarde.");
+    }
+  };
+
+  // cep search
+  const searchAddress = async () => {
+    const cep = getValues("postal_code");
+
+    const response = await fetchCEP(cep);
+    if (response) {
+      setValue("street", response.logradouro);
+      setValue("city", response.localidade);
+      setValue("locality", response.bairro);
+      setValue("region_code", response.uf);
+    } else {
+      notifyFailure("Erro ao buscar CEP!");
     }
   };
 
@@ -146,42 +170,44 @@ export default function PaymentSection({ isEdit, title, userId }) {
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
               <div className={styles.inputWrapper}>
-              <div className={styles.inputCtr}>
-                <label>CEP:</label>
-                <div className={styles.cepSearch}>
-                  <input
-                    placeholder="XX.XXX-XXX"
-                    type="text" 
-                    inputMode="numeric"
-                    style={{ width: "180px" }}
-                    {...register("postal_code")}
-                  />
-                  <MagnifyingGlass
-                    width={36}
-                    height={36}
-                    color="#0CD494"
-                    weight="fill"
-                    className={styles.icon}
-                    alt="Clique para buscar!"
-                  />
+                <div className={styles.inputCtr}>
+                  <label>CEP:</label>
+                  <div className={styles.cepSearch}>
+                    <input
+                      placeholder="XX.XXX-XXX"
+                      type="text"
+                      inputMode="numeric"
+                      style={{ width: "180px" }}
+                      {...register("postal_code")}
+                    />
+                    <MagnifyingGlass
+                      width={36}
+                      height={36}
+                      color="#0CD494"
+                      weight="fill"
+                      className={styles.icon}
+                      alt="Clique para buscar!"
+                      onClick={searchAddress}
+                    />
+                  </div>
                 </div>
-              </div>
                 <div className={styles.inputCtr}>
                   <label>Endereço:</label>
                   <input
                     placeholder="Avenida dos Estados"
                     type="text"
                     {...register("street")}
+                    required
                   />
                 </div>
                 <div className={styles.inputCtr}>
                   <label>Número:</label>
                   <input
                     placeholder="1508"
-                    type="text" 
-                    inputMode="numeric"
+                    type="text"
                     style={{ width: "100px" }}
                     {...register("number")}
+                    required
                   />
                 </div>
               </div>
@@ -193,6 +219,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     type="text"
                     style={{ width: "200px" }}
                     {...register("locality")}
+                    required
                   />
                 </div>
                 <div className={styles.inputCtr}>
@@ -202,6 +229,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     type="text"
                     style={{ width: "250px" }}
                     {...register("city")}
+                    required
                   />
                 </div>
                 <div className={styles.inputCtr}>
@@ -211,6 +239,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     type="text"
                     style={{ width: "60px" }}
                     {...register("region_code")}
+                    required
                   />
                 </div>
               </div>
@@ -234,7 +263,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                   {...register("card_number", {
                     required: "Campo Obrigatório",
                   })}
-                  type="text" 
+                  type="text"
                   inputMode="numeric"
                   style={{ width: "500px" }}
                 />
@@ -248,7 +277,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
                     required: "Campo Obrigatório",
                     maxLength: 3,
                   })}
-                  type="text" 
+                  type="text"
                   inputMode="numeric"
                   style={{ width: "90px" }}
                 />

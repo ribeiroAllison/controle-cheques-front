@@ -1,21 +1,14 @@
-import { baseURL } from "@/utils/url";
+import { connection } from "@/utils/connection";
 
 export default class Assinatura {
   // USER CREATION
   static criarAssinaturaBoleto = async (user_id, plan_id) => {
     try {
-      const response = await fetch(`${baseURL}/assinaturas/assinatura-boleto`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: user_id,
-          plan_id: plan_id,
-        }),
+      const response = await connection.post("/assinaturas/assinatura-boleto", {
+        user_id,
+        plan_id,
       });
-      const responseData = await response.json();
-      return responseData;
+      return response;
     } catch (error) {
       console.log(error);
       return error.response;
@@ -24,18 +17,12 @@ export default class Assinatura {
 
   static editarEnderecoAssinante = async (user_id, address) => {
     try {
-      const response = await fetch(`${baseURL}/usuarios/endereco`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: user_id,
-          address: address,
-        }),
+      const response = await connection.put("/assinantes/endereco", {
+        user_id,
+        address,
       });
-      const responseData = await response.json();
-      return responseData;
+      console.log("Resposta axios => ", response)
+      return response;
     } catch (error) {
       console.log(error);
       return error.response;

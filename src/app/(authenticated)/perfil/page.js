@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import LoadingScreen from "@/components/LoadingScreen";
 import PaymentSection from "@/components/PaymentSection";
 import styles from "@/styles/perfil.module.css";
-import { notifyFailure, notifySuccess } from "@/utils/utils";
+import { formatPhoneNumber, notifyFailure, notifySuccess } from "@/utils/utils";
 import decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,9 +24,12 @@ const Perfil = () => {
   const [id, setId] = useState(null);
   const [pagseguroId, setPagSeguroId] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState();
 
   //EVENT HANDLERS
   const onSubmit = async (data) => {
+    data.phones = data.phones.replace(/\D/g, "");
+
     const user = {
       id: id,
       nome: data.nome,
@@ -35,6 +38,7 @@ const Perfil = () => {
       phones: data.phones,
       pagseguro_id: pagseguroId,
     };
+
     const getResponse = async () => {
       setIsLoading(true);
       const response = await User.editUser(user);
@@ -62,12 +66,18 @@ const Perfil = () => {
           ? new Date(res.birth_date).toISOString().split("T")[0]
           : "";
         setValue("birth_date", formattedDate);
-        setValue("phones", res.phones);
+        setValue("phones", formatPhoneNumber(res.phones));
         setPagSeguroId(res.pagseguro_id);
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatPhoneNumber(inputValue);
+    setPhoneNumber(formattedValue);
   };
 
   //EFFECTS
@@ -124,6 +134,8 @@ const Perfil = () => {
                 <input
                   {...register("phones", { required: "Campo Obrigatório" })}
                   type="text"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
                 />
                 <p>{errors.phones?.message}</p>
               </div>
@@ -131,7 +143,11 @@ const Perfil = () => {
             <Button type="submit">Salvar</Button>
           </form>
         </section>
-        <PaymentSection userId={pagseguroId} title={"Planos & Pagamento"} isEdit={true} />
+        <PaymentSection
+          userId={pagseguroId}
+          title={"Planos & Pagamento"}
+          isEdit={true}
+        />
       </main>
     </>
   );
