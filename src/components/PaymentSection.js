@@ -36,15 +36,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
     setClickedCard(value);
   };
 
-  //EFFECTS
   const paymentType = watch("payment_type");
-
-  useEffect(() => {
-    const pagLib = window.PagSeguro;
-    if (pagLib) {
-      setPagSeguro(pagLib);
-    }
-  });
 
   //SETUPS
   const renderController = (fieldName, defaultValue, text1, text2, text3) => (
@@ -93,7 +85,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
         router.push(response.data[0].href);
       }, 1000);
     } else {
-      notifyFailure("Erro ao buscar CEP!");
+      notifyFailure("Erro ao gerar boleto! Tente novamente.");
     }
   };
 
@@ -169,6 +161,13 @@ export default function PaymentSection({ isEdit, title, userId }) {
       notifyFailure("Erro ao buscar CEP!");
     }
   };
+
+  useEffect(() => {
+    const pagLib = window.PagSeguro;
+    if (pagLib) {
+      setPagSeguro(pagLib);
+    }
+  });
 
   return (
     <section className={styles.editContainer}>
