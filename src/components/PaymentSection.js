@@ -24,12 +24,14 @@ export default function PaymentSection({ isEdit, title, userId }) {
 
   const router = useRouter();
 
+  const publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB"
+
   //STATES
   const [clickedCard, setClickedCard] = useState({});
   const [boletoUrl, setBoletoUrl] = useState();
   const [loading, setLoading] = useState(false);
   const [PagSeguro, setPagSeguro] = useState();
-  const [cardInfo, setCardInfo] = useState();
+
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -99,7 +101,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
 
   const makeCardSub = async (data) => {
     const card = {
-      publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY,
+      publicKey: publicKey,
       holder: data.holder,
       number: data.card_number,
       expMonth: data.exp_month,
@@ -115,20 +117,8 @@ export default function PaymentSection({ isEdit, title, userId }) {
       holder: {
         name: data.holder,
       },
+      store: true
     };
-
-    // const cardData = {
-    //   number: data.card_number,
-    //   exp_month: data.exp_month,
-    //   exp_year: data.exp_year,
-    //   security_code: data.security_code,
-    //   holder: {
-    //     name: data.holder
-    //   },
-    //   store: true
-    // }
-
-    console.log(cardData);
 
     setLoading(true);
     const response = await Assinatura.criarAssinaturaCartao(
@@ -138,11 +128,16 @@ export default function PaymentSection({ isEdit, title, userId }) {
     );
     setLoading(false);
     console.log(response);
-    if (response.status === 200) {
-      notifySuccess("Pagamento processado com sucesso!");
+    if (response) {
+      notifySuccess("Pagamento processado com sucesso! Bem vindo ao recebi.app!");
+      setValue("card_number", "");
+      setValue("security_code", "");
+      setValue("exp_month", "");
+      setValue("exp_year", "")
+      setValue("holder", "")
     } else {
       notifyFailure(
-        `Falha ao processar pagarmento: ${response.error_message[0].description}`
+        `Falha ao processar pagarmento: ${response.error_messages[0].description}`
       );
     }
   };

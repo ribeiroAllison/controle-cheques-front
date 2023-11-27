@@ -1,4 +1,5 @@
 import { connection } from "@/utils/connection";
+import { baseURL } from "@/utils/url";
 
 export default class Assinatura {
   // USER CREATION
