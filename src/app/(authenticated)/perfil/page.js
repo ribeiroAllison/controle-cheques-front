@@ -25,7 +25,7 @@ const Perfil = () => {
   const [pagseguroId, setPagSeguroId] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
-  const [billingInfo, setBillingInfo] = useState();
+  const [user, setUser] = useState();
 
   //EVENT HANDLERS
   const onSubmit = async (data) => {
@@ -47,6 +47,7 @@ const Perfil = () => {
     try {
       setIsLoading(true);
       const res = await User.getUserById(id);
+      setUser(res)
       console.log(res);
       if (res) {
         setValue("nome", res.name);
@@ -57,9 +58,6 @@ const Perfil = () => {
         setValue("birth_date", formattedDate);
         setValue("phones", formatPhoneNumber(res.phones[0].area.concat(res.phones[0].number)));
         setPagSeguroId(res.id);
-        if(res.billing_info) {
-          setBillingInfo(res.billing_info)
-        }
         setIsLoading(false);
       }
     } catch (error) {
@@ -154,7 +152,7 @@ const Perfil = () => {
           userId={pagseguroId}
           title={"Planos & Pagamento"}
           isEdit={true}
-          billingInfo={billingInfo}
+          user={user}
         />
       </main>
     </>

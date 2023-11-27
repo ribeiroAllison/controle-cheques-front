@@ -2,6 +2,7 @@
   position: fixed;
   top: 0;
   width: 100%;
+  margin-left: -200px;
   height: 100%;
   background-color: rgba(48, 48, 48, 0.7);
   display: none;
@@ -84,4 +85,8 @@
 .btnContainer {
   display: flex;
   gap: 1rem;
+}
+
+.popupMessage {
+  font-size: 1.15rem;
 }
