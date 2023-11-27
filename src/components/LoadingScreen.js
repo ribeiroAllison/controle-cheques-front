@@ -2,13 +2,13 @@ import { ThreeCircles } from "react-loader-spinner";
 import { useState, useEffect } from "react";
 import styles from '@/styles/Loading.module.css'
 
-export default function LoadingScreen(props) {
+export default function LoadingScreen({loading}) {
 
     const [isLoading, setIsLoading] = useState()
 
     useEffect(() => {
-        props.loading ? setIsLoading(true) : setIsLoading(false)
-    }, [props.loading])
+        loading? setIsLoading(true) : setIsLoading(false)
+    }, [loading])
 
     return (
         <>

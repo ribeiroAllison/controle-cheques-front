@@ -120,7 +120,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
     );
     setLoading(false);
     console.log(response);
-    if (response) {
+    if (response.id) {
       notifySuccess("Pagamento processado com sucesso! Bem vindo ao recebi.app!");
       setValue("card_number", "");
       setValue("security_code", "");
@@ -129,7 +129,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
       setValue("holder", "")
     } else {
       notifyFailure(
-        `Falha ao processar pagarmento: ${response.error_messages[0].description}`
+        `Falha ao processar pagamento: ${response.error_messages[0].description}`
       );
     }
   };

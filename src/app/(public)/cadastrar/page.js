@@ -62,6 +62,7 @@ export default function Cadastro() {
     }
 
     data.phones = data.phones.replace(/\D/g, "");
+    data.tax_id = data.tax_id.replace(/\D/g, "");
 
     const user = {
       nome: data.nome,
