@@ -10,7 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
 
-export default function PaymentSection({ isEdit, title, userId }) {
+export default function PaymentSection({ isEdit, title, userId, billingInfo }) {
   //SETUPS
   const {
     register,
