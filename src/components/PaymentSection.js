@@ -9,8 +9,9 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
+import { ModalCancel } from "./ModalCancel";
 
-export default function PaymentSection({ isEdit, title, userId }) {
+export default function PaymentSection({ isEdit, title, userId, user }) {
   //SETUPS
   const {
     register,
@@ -24,14 +25,15 @@ export default function PaymentSection({ isEdit, title, userId }) {
 
   const router = useRouter();
 
-  const publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB"
+  const publicKey =
+    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB";
 
   //STATES
   const [clickedCard, setClickedCard] = useState({});
   const [boletoUrl, setBoletoUrl] = useState();
   const [loading, setLoading] = useState(false);
   const [PagSeguro, setPagSeguro] = useState();
-
+  const [editPayment, setEditPayment] = useState(false);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -78,7 +80,6 @@ export default function PaymentSection({ isEdit, title, userId }) {
       data.plano,
       address
     );
-    console.log(response);
     if (response.status === 200) {
       setBoletoUrl(response.data[0].href);
       notifySuccess("Boleto gerado com sucesso!");
@@ -109,7 +110,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
       holder: {
         name: data.holder,
       },
-      store: true
+      store: true,
     };
 
     setLoading(true);
@@ -121,12 +122,14 @@ export default function PaymentSection({ isEdit, title, userId }) {
     setLoading(false);
     console.log(response);
     if (response.id) {
-      notifySuccess("Pagamento processado com sucesso! Bem vindo ao recebi.app!");
+      notifySuccess(
+        "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
+      );
       setValue("card_number", "");
       setValue("security_code", "");
       setValue("exp_month", "");
-      setValue("exp_year", "")
-      setValue("holder", "")
+      setValue("exp_year", "");
+      setValue("holder", "");
     } else {
       notifyFailure(
         `Falha ao processar pagamento: ${response.error_messages[0].description}`
@@ -157,12 +160,42 @@ export default function PaymentSection({ isEdit, title, userId }) {
     }
   };
 
+  // modal cancel opening
+  const handleCancelModalOpen = () => {
+    const module = document.getElementsByClassName("obsScreen")[0];
+    module.style.display = "flex";
+  };
+
+  // modal cancel closing
+  const handleCancelModalClose = () => {
+    const module = document.getElementsByClassName("obsScreen")[0];
+    module.style.display = "none";
+  };
+
+  const updateUserPaymentInfo = () => {
+    handleDivClick("plano", user?.plan.id)
+    if(user?.status === "ACTIVE") {
+      //setClickedCard(user?.plan.id);
+      setValue("payment_type", user.payment_method[0].type);
+      setValue("street", user.address.street);
+      setValue("number", user.address.number);
+      setValue("city", user.address.city);
+      setValue("locality", user.address.locality);
+      setValue("region_code", user.address.region_code);
+      setValue("postal_code", user.address.postal_code);
+    }
+  }
+
   useEffect(() => {
     const pagLib = window.PagSeguro;
     if (pagLib) {
       setPagSeguro(pagLib);
     }
   });
+
+  useEffect(() => {
+    updateUserPaymentInfo();
+  }, [user]);
 
   return (
     <section className={styles.editContainer}>
@@ -172,53 +205,68 @@ export default function PaymentSection({ isEdit, title, userId }) {
         className={styles.paymentForm}
         onSubmit={handleSubmit(onPlanSubmit)}
       >
-        <div className={styles.cardWrapper}>
-          {renderController(
-            "plano",
-            "PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19",
-            "Mensal",
-            "R$ 79,90/mês"
-          )}
+        {user?.status === "ACTIVE" && !editPayment ? (
+          <div className={styles.actualPlanSection}>
+            <p className={styles.actualPlanText}>
+              Plano Atual: <strong>{user?.plan.name}</strong>
+            </p>
+            <p className={styles.actualPlanText}>
+              Vigência: <strong>{user?.next_invoice_at}</strong>
+            </p>
+          </div>
+        ) : (
+          <div className={styles.cardWrapper}>
+            {renderController(
+              "plano",
+              "PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19",
+              "Mensal",
+              "R$ 79,90/mês"
+            )}
 
-          {renderController(
-            "plano",
-            "PLAN_E4CE4617-A23C-4A30-AD90-B5C4D6D09BD7",
-            "Trimestral",
-            "R$ 69,90/mês",
-            " * Um pagamento de R$ 209,70 a cada 03 meses"
-          )}
+            {renderController(
+              "plano",
+              "PLAN_E4CE4617-A23C-4A30-AD90-B5C4D6D09BD7",
+              "Trimestral",
+              "R$ 69,90/mês",
+              " * Um pagamento de R$ 209,70 a cada 03 meses"
+            )}
 
-          {renderController(
-            "plano",
-            "PLAN_530536A7-941B-45D0-A350-9E5D219A42C0",
-            "Anual",
-            "R$ 62,90/mês",
-            " * Um pagamento de R$ 754,80 a cada 12 meses"
-          )}
-        </div>
-        <div className={styles.paymentWrapper}>
-          <input
-            type="radio"
-            value="CREDIT_CARD"
-            name="payment_type"
-            {...register("payment_type")}
-          />
-          <label htmlFor="payment_type" className={styles.labelRadio}>
-            Cartão de Crédito
-          </label>
+            {renderController(
+              "plano",
+              "PLAN_530536A7-941B-45D0-A350-9E5D219A42C0",
+              "Anual",
+              "R$ 62,90/mês",
+              " * Um pagamento de R$ 754,80 a cada 12 meses"
+            )}
+          </div>
+        )}
+        {user?.status === "ACTIVE" && !editPayment ? (
+          <div></div>
+        ) : (
+          <div className={styles.paymentWrapper}>
+            <input
+              type="radio"
+              value="CREDIT_CARD"
+              name="payment_type"
+              {...register("payment_type")}
+            />
+            <label htmlFor="payment_type" className={styles.labelRadio}>
+              Cartão de Crédito
+            </label>
 
-          <input
-            type="radio"
-            value="BOLETO"
-            name="payment_type"
-            {...register("payment_type")}
-          />
-          <label htmlFor="payment_type" className={styles.labelRadio}>
-            Boleto
-          </label>
-        </div>
+            <input
+              type="radio"
+              value="BOLETO"
+              name="payment_type"
+              {...register("payment_type")}
+            />
+            <label htmlFor="payment_type" className={styles.labelRadio}>
+              Boleto
+            </label>
+          </div>
+        )}
 
-        {paymentType === "BOLETO" && (
+        {paymentType === "BOLETO" && editPayment && (
           <div className={styles.addressWrapper}>
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
@@ -307,7 +355,7 @@ export default function PaymentSection({ isEdit, title, userId }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" && (
+        {paymentType === "CREDIT_CARD" && editPayment && (
           <div className={styles.creditCard}>
             <div className={styles.cardInfo}>
               <div className={styles.inputCtr}>
@@ -377,10 +425,24 @@ export default function PaymentSection({ isEdit, title, userId }) {
           </div>
         )}
 
-        <div>
-          <Button type="submit">Salvar</Button>
-        </div>
+        {user?.status === "ACTIVE" && !editPayment ? (
+          <div className={styles.bottomSection}>
+            <div onClick={() => setEditPayment(true)} className={styles.editBtn}>Editar</div>
+            <span onClick={handleCancelModalOpen} className={styles.cancelBtn}>
+              Desejo cancelar minha assinatura.
+            </span>
+          </div>
+        ) : (
+          <div className={styles.bottomSection}>
+            <Button type="submit">Salvar</Button>
+            {editPayment && <Button type="button" onClick={() => setEditPayment(false)} style={{ backgroundColor: 'var(--redTd)'}}>Cancelar Edição</Button>}
+          </div>
+        )}
       </form>
+      <ModalCancel
+        handleCancelModalClose={handleCancelModalClose}
+        assinaturaId={user?.assinatura_id}
+      />
     </section>
   );
 }

@@ -8,7 +8,7 @@ export default class Assinatura {
       const response = await connection.post("/assinaturas/assinatura-boleto", {
         user_id,
         plan_id,
-        address
+        address,
       });
       return response;
     } catch (error) {
@@ -16,7 +16,7 @@ export default class Assinatura {
       return error.response;
     }
   };
-  
+
   static criarAssinaturaCartao = async (user_id, plan_id, cardInfo) => {
     try {
       const response = await fetch(`${baseURL}/assinaturas/assinatura-cartao`, {
@@ -27,7 +27,7 @@ export default class Assinatura {
         body: JSON.stringify({
           user_id: user_id,
           plan_id: plan_id,
-          cardInfo: cardInfo
+          cardInfo: cardInfo,
         }),
       });
       const responseData = await response.json();
@@ -36,5 +36,17 @@ export default class Assinatura {
       console.log(error);
       return error.response;
     }
-  }
+  };
+
+  static cancelarAssinatura = async (plan_id) => {
+    try {
+      const response = await connection.put("/assinaturas/cancelamento", {
+        plan_id,
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  };
 }

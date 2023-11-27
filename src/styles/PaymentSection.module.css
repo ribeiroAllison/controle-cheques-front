@@ -176,6 +176,58 @@
   transition: ease 0.2s;
 }
 
+.bottomSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cancelBtn {
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.cancelBtn:hover {
+  cursor: pointer;
+  color: var(--green-100);
+  transition: color 0.3s;
+}
+
+.editBtn {
+  font-size: 1.5rem;
+  background: var(--green-100);
+  border-radius: var(--button-radius);
+  color: var(--white);
+  border: 0;
+  cursor: pointer;
+  width: 12rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editBtn:hover {
+  transition: all 0.3s;
+  background: var(--green-300);
+}
+
+.actualPlanSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.actualPlanText {
+  color: var(--white);
+  font-size: 1.1rem;
+}
+
+.actualPlanText strong {
+  color: var(--green-100);
+}
+
 @media (max-width: 1000px) {
   .editContainer {
     gap: 1rem;
