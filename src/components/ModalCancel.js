@@ -4,6 +4,7 @@ import { notifyFailure, notifySuccess } from "@/utils/utils";
 import ButtonAlternative from "./ButtonAlternative";
 
 export const ModalCancel = ({ handleCancelModalClose, assinaturaId }) => {
+
   const handleCancelSubscription = async () => {
     if(assinaturaId) {
       const response = await Assinatura.cancelarAssinatura(assinaturaId);

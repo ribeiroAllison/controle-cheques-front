@@ -47,9 +47,9 @@ const Perfil = () => {
     try {
       setIsLoading(true);
       const res = await User.getUserById(id);
-      setUser(res)
       console.log(res);
       if (res) {
+        setUser(res);
         setValue("nome", res.name);
         setValue("email", res.email);
         const formattedDate = res.birth_date

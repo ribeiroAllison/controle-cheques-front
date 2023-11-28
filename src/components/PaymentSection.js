@@ -63,77 +63,105 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
   );
 
   const makeBoletoSub = async (data) => {
-    setLoading(true);
-    const address = {
-      street: data.street,
-      number: data.number,
-      locality: data.locality,
-      city: data.city,
-      complement: "n/a",
-      region_code: data.region_code,
-      postal_code: data.postal_code,
-      country: "BRA",
-    };
-
-    const response = await Assinatura.criarAssinaturaBoleto(
-      userId,
-      data.plano,
-      address
-    );
-    if (response.status === 200) {
-      setBoletoUrl(response.data[0].href);
-      notifySuccess("Boleto gerado com sucesso!");
-      setTimeout(() => {
-        setLoading(false);
-        router.push(response.data[0].href);
-      }, 1000);
+    if (user?.status === "PENDING") {
+      notifyFailure(
+        "Assinatura consta como pendente! Favor aguardar aprovação."
+      );
     } else {
-      notifyFailure("Erro ao gerar boleto! Tente novamente.");
+      setLoading(true);
+      const address = {
+        street: data.street,
+        number: data.number,
+        locality: data.locality,
+        city: data.city,
+        complement: "n/a",
+        region_code: data.region_code,
+        postal_code: data.postal_code,
+        country: "BRA",
+      };
+
+      if (!user?.assinatura_id) {
+        const response = await Assinatura.criarAssinaturaBoleto(
+          userId,
+          data.plano,
+          address
+        );
+        if (response.status === 200) {
+          setBoletoUrl(response.data[0].href);
+          notifySuccess("Boleto gerado com sucesso!");
+          setTimeout(() => {
+            setLoading(false);
+            router.push(response.data[0].href);
+          }, 1000);
+        } else {
+          notifyFailure("Erro ao gerar boleto! Tente novamente.");
+        }
+      } else {
+        const response = await Assinatura.alterarAssinatura(
+          user.assinatura_id,
+          data.plano
+        );
+        if (response.status === 200) {
+          notifySuccess("Plano alterado com sucesso!");
+        } else {
+          notifyFailure("Erro alterar plano! Tente novamente.");
+        }
+      }
     }
   };
 
   const makeCardSub = async (data) => {
-    const card = {
-      publicKey: publicKey,
-      holder: data.holder,
-      number: data.card_number,
-      expMonth: data.exp_month,
-      expYear: data.exp_year,
-      securityCode: data.security_code,
-    };
-
-    const encrypted = PagSeguro.encryptCard(card);
-
-    const cardData = {
-      encrypted: encrypted.encryptedCard,
-      security_code: data.security_code,
-      holder: {
-        name: data.holder,
-      },
-      store: true,
-    };
-
-    setLoading(true);
-    const response = await Assinatura.criarAssinaturaCartao(
-      userId,
-      data.plano,
-      cardData
-    );
-    setLoading(false);
-    console.log(response);
-    if (response.id) {
-      notifySuccess(
-        "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
-      );
-      setValue("card_number", "");
-      setValue("security_code", "");
-      setValue("exp_month", "");
-      setValue("exp_year", "");
-      setValue("holder", "");
-    } else {
+    if (user.status === "PENDING") {
       notifyFailure(
-        `Falha ao processar pagamento: ${response.error_messages[0].description}`
+        "Assinatura consta como pendente! Favor aguardar aprovação."
       );
+    } else {
+      if (!user?.assinatura_id) {
+        const card = {
+          publicKey: publicKey,
+          holder: data.holder,
+          number: data.card_number,
+          expMonth: data.exp_month,
+          expYear: data.exp_year,
+          securityCode: data.security_code,
+        };
+
+        const encrypted = PagSeguro.encryptCard(card);
+
+        const cardData = {
+          encrypted: encrypted.encryptedCard,
+          security_code: data.security_code,
+          holder: {
+            name: data.holder,
+          },
+          store: true,
+        };
+
+        setLoading(true);
+        const response = await Assinatura.criarAssinaturaCartao(
+          userId,
+          data.plano,
+          cardData
+        );
+        setLoading(false);
+        console.log(response);
+        if (response.id) {
+          notifySuccess(
+            "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
+          );
+          setValue("card_number", "");
+          setValue("security_code", "");
+          setValue("exp_month", "");
+          setValue("exp_year", "");
+          setValue("holder", "");
+        } else {
+          notifyFailure(
+            `Falha ao processar pagamento: ${response.error_messages[0].description}`
+          );
+        }
+      } else {
+        // logica para alterar cartão
+      }
     }
   };
 
@@ -173,18 +201,19 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
   };
 
   const updateUserPaymentInfo = () => {
-    handleDivClick("plano", user?.plan.id)
-    if(user?.status === "ACTIVE") {
-      //setClickedCard(user?.plan.id);
-      setValue("payment_type", user.payment_method[0].type);
-      setValue("street", user.address.street);
-      setValue("number", user.address.number);
-      setValue("city", user.address.city);
-      setValue("locality", user.address.locality);
-      setValue("region_code", user.address.region_code);
-      setValue("postal_code", user.address.postal_code);
+    if (user?.plan) {
+      handleDivClick("plano", user?.plan.id);
+      setValue("payment_type", user?.payment_method[0].type);
+      if (user?.payment_method[0].type === "BOLETO") {
+        setValue("street", user.address.street);
+        setValue("number", user.address.number);
+        setValue("city", user.address.city);
+        setValue("locality", user.address.locality);
+        setValue("region_code", user.address.region_code);
+        setValue("postal_code", user.address.postal_code);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     const pagLib = window.PagSeguro;
@@ -266,7 +295,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           </div>
         )}
 
-        {paymentType === "BOLETO" && editPayment && (
+        {paymentType === "BOLETO" && (
           <div className={styles.addressWrapper}>
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
@@ -355,7 +384,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" && editPayment && (
+        {paymentType === "CREDIT_CARD" && (
           <div className={styles.creditCard}>
             <div className={styles.cardInfo}>
               <div className={styles.inputCtr}>
@@ -427,7 +456,12 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
 
         {user?.status === "ACTIVE" && !editPayment ? (
           <div className={styles.bottomSection}>
-            <div onClick={() => setEditPayment(true)} className={styles.editBtn}>Editar</div>
+            <div
+              onClick={() => setEditPayment(true)}
+              className={styles.editBtn}
+            >
+              Editar
+            </div>
             <span onClick={handleCancelModalOpen} className={styles.cancelBtn}>
               Desejo cancelar minha assinatura.
             </span>
@@ -435,7 +469,15 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         ) : (
           <div className={styles.bottomSection}>
             <Button type="submit">Salvar</Button>
-            {editPayment && <Button type="button" onClick={() => setEditPayment(false)} style={{ backgroundColor: 'var(--redTd)'}}>Cancelar Edição</Button>}
+            {editPayment && (
+              <Button
+                type="button"
+                onClick={() => setEditPayment(false)}
+                style={{ backgroundColor: "var(--redTd)" }}
+              >
+                Cancelar Edição
+              </Button>
+            )}
           </div>
         )}
       </form>
