@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 
 export default function middleware(request) {
   const token = request.cookies.get("token")?.value;
-  const isUserAllowed = request.cookies.get("userAllowed")?.value;
+  const isUserAllowed = request.cookies.get("userAllowed")?.value === "true";
   
+
   if (!token) {
     const redirectUrl = new URL("/login", request.nextUrl.origin);
     return NextResponse.redirect(redirectUrl, {

@@ -38,10 +38,25 @@ export default class Assinatura {
     }
   };
 
-  static cancelarAssinatura = async (plan_id) => {
+  static cancelarAssinatura = async (sub_id) => {
     try {
       const response = await connection.put("/assinaturas/cancelamento", {
-        plan_id,
+        sub_id,
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  };
+
+  static alterarAssinatura = async (sub_id, plan_id) => {
+    try {
+      const response = await connection.put("/assinaturas/alterar-assinatura", {
+        sub_id,
+        plan: {
+          id: plan_id,
+        },
       });
       return response;
     } catch (error) {
