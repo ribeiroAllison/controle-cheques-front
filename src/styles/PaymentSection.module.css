@@ -164,8 +164,8 @@
   gap: 0.5rem;
 }
 
-.expDate input[type="number"]::-webkit-inner-spin-button,
-.expDate [type="number"]::-webkit-outer-spin-button {
+.inputCtr input[type="number"]::-webkit-inner-spin-button,
+.inputCtr [type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

@@ -52,7 +52,7 @@ export default class Assinatura {
           id: plan_id,
         },
       });
-      return response;
+     return response;
     } catch (error) {
       console.log(error);
       return error.response;

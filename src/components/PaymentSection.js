@@ -137,6 +137,8 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           store: true,
         };
 
+        console.log(cardData);
+
         setLoading(true);
         const response = await Assinatura.criarAssinaturaCartao(
           userId,
@@ -154,13 +156,26 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           setValue("exp_month", "");
           setValue("exp_year", "");
           setValue("holder", "");
+          setEditPayment(true);
         } else {
           notifyFailure(
             `Falha ao processar pagamento: ${response.data.error_messages[0].error}`
           );
         }
       } else {
-        // logica para alterar cartão
+        setLoading(true);
+        const response = await Assinatura.alterarAssinatura(
+          user.assinatura_id,
+          data.plano
+        );
+
+        if (response.status === 200) {
+          notifySuccess("Plano alterado com sucesso!");
+        } else {
+          notifyFailure(`Erro alterar plano! Tente novamente. Erro: ${response}`);
+        }
+
+        setLoading(false);
       }
     }
   };
@@ -405,7 +420,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
                   {...register("card_number", {
                     required: "Campo Obrigatório",
                   })}
-                  type="text"
+                  type="number"
                   inputMode="numeric"
                   style={{ width: "500px" }}
                 />
@@ -419,7 +434,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
                     required: "Campo Obrigatório",
                     maxLength: 3,
                   })}
-                  type="text"
+                  type="number"
                   inputMode="numeric"
                   style={{ width: "90px" }}
                 />
