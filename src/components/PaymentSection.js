@@ -74,7 +74,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         number: data.number,
         locality: data.locality,
         city: data.city,
-        complement: "n/a",
+        complement: data.complement || "n/a",
         region_code: data.region_code,
         postal_code: data.postal_code,
         country: "BRA",
@@ -145,7 +145,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         );
         setLoading(false);
         console.log(response);
-        if (response.id) {
+        if (response.status === 200) {
           notifySuccess(
             "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
           );
@@ -156,7 +156,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           setValue("holder", "");
         } else {
           notifyFailure(
-            `Falha ao processar pagamento: ${response.error_messages[0].description}`
+            `Falha ao processar pagamento: ${response.data.error_messages[0].error}`
           );
         }
       } else {
@@ -211,6 +211,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         setValue("locality", user.address.locality);
         setValue("region_code", user.address.region_code);
         setValue("postal_code", user.address.postal_code);
+        setValue("complement", user.address.complement)
       }
     }
   };
@@ -295,7 +296,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           </div>
         )}
 
-        {paymentType === "BOLETO" && (
+        {paymentType === "BOLETO" && (user.status !== "ACTIVE" || editPayment) && (
           <div className={styles.addressWrapper}>
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
@@ -308,6 +309,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
                       type="text"
                       inputMode="numeric"
                       style={{ width: "180px" }}
+                      onBlur={searchAddress}
                       {...register("postal_code")}
                     />
                     <MagnifyingGlass
@@ -353,6 +355,16 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
                   />
                 </div>
                 <div className={styles.inputCtr}>
+                  <label>Complemento:</label>
+                  <input
+                    placeholder="Apto 01"
+                    type="text"
+                    style={{ width: "150px" }}
+                    {...register("complement")}
+                    required
+                  />
+                </div>
+                <div className={styles.inputCtr}>
                   <label>Cidade:</label>
                   <input
                     placeholder="São Paulo"
@@ -384,7 +396,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" && (
+        {paymentType === "CREDIT_CARD" && (user.status !== "ACTIVE" || editPayment) &&(
           <div className={styles.creditCard}>
             <div className={styles.cardInfo}>
               <div className={styles.inputCtr}>
