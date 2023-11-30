@@ -1,5 +1,4 @@
 import { connection } from "@/utils/connection";
-import { baseURL } from "@/utils/url";
 
 export default class Assinatura {
   // USER CREATION
@@ -32,11 +31,12 @@ export default class Assinatura {
     }
   };
 
-  static cancelarAssinatura = async (sub_id) => {
+  static cancelarAssinatura = async (plan_id) => {
     try {
       const response = await connection.put("/assinaturas/cancelamento", {
-        sub_id,
+        plan_id,
       });
+      console.log(response)
       return response;
     } catch (error) {
       console.log(error);
