@@ -31,12 +31,23 @@ export default class Assinatura {
     }
   };
 
-  static cancelarAssinatura = async (plan_id) => {
+  static ativarAssinatura = async (sub_id) => {
     try {
-      const response = await connection.put("/assinaturas/cancelamento", {
-        plan_id,
+      const response = await connection.put("/assinaturas/ativar", {
+        sub_id,
       });
-      console.log(response)
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  };
+
+  static suspenderAssinatura = async (sub_id) => {
+    try {
+      const response = await connection.put("/assinaturas/suspender", {
+        sub_id,
+      });
       return response;
     } catch (error) {
       console.log(error);

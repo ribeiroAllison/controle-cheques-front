@@ -2,12 +2,19 @@
 import Assinatura from "@/apiServices/AssinaturaService";
 import styles from "@/styles/PaymentSection.module.css";
 import { fetchCEP } from "@/utils/cep";
+import {
+  handleActivateModalClose,
+  handleActivateModalOpen,
+  handleCancelModalClose,
+  handleCancelModalOpen,
+} from "@/utils/modal-functions";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
+import { ModalActivate } from "./ModalActivate";
 import { ModalCancel } from "./ModalCancel";
 
 export default function PaymentSection({ isEdit, title, userId, user }) {
@@ -85,7 +92,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
           data.plano,
           address
         );
-        console.log(response);
+
         if (response.status === 200) {
           setBoletoUrl(response.data[0].href);
           notifySuccess("Boleto gerado com sucesso!");
@@ -144,7 +151,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         cardData
       );
       setLoading(false);
-        console.log(response);
+      console.log(response);
       if (response.status === 200) {
         notifySuccess(
           "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
@@ -209,17 +216,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
     fields.forEach((field) => setValue(field, ""));
   };
 
-  // modal cancel opening
-  const handleCancelModalOpen = () => {
-    const module = document.getElementsByClassName("obsScreen")[0];
-    module.style.display = "flex";
-  };
-
-  // modal cancel closing
-  const handleCancelModalClose = () => {
-    const module = document.getElementsByClassName("obsScreen")[0];
-    module.style.display = "none";
-  };
+  const handleActivateSubscription = () => {};
 
   // update user payment info + address data for boleto
   const updateUserPaymentInfo = () => {
@@ -265,7 +262,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
               Plano Atual: <strong>{user?.plan.name}</strong>
             </p>
             <p className={styles.actualPlanText}>
-              Vigência: <strong>{user?.next_invoice_at}</strong>
+              Vigência: <strong>{user?.next_invoice_at ?? "N/A"}</strong>
             </p>
             {user?.status === "PENDING" && (
               <p className={styles.actualPlanText}>
@@ -512,13 +509,26 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
             >
               Editar
             </div>
-            <span onClick={handleCancelModalOpen} className={styles.cancelBtn}>
-              Desejo cancelar minha assinatura.
-            </span>
+            {user?.status !== "SUSPENDED" ? (
+              <span
+                onClick={handleCancelModalOpen}
+                className={styles.cancelBtn}
+              >
+                Desejo suspender minha assinatura.
+              </span>
+            ) : null}
           </div>
         ) : (
           <div className={styles.bottomSection}>
             <Button type="submit">Salvar</Button>
+            {user?.status === "SUSPENDED" ? (
+              <span
+                onClick={handleActivateModalOpen}
+                className={styles.cancelBtn}
+              >
+                Desejo ativar minha assinatura.
+              </span>
+            ) : null}
             {editPayment && (
               <Button
                 type="button"
@@ -533,6 +543,10 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
       </form>
       <ModalCancel
         handleCancelModalClose={handleCancelModalClose}
+        assinaturaId={user?.assinatura_id}
+      />
+      <ModalActivate
+        handleActivateModalClose={handleActivateModalClose}
         assinaturaId={user?.assinatura_id}
       />
     </section>
