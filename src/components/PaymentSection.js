@@ -17,7 +17,7 @@ import LoadingScreen from "./LoadingScreen";
 import { ModalActivate } from "./ModalActivate";
 import { ModalCancel } from "./ModalCancel";
 
-export default function PaymentSection({ isEdit, title, userId, user }) {
+export default function PaymentSection({ title, userId, user, text }) {
   //SETUPS
   const {
     register,
@@ -251,7 +251,8 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
   return (
     <section className={styles.editContainer}>
       <LoadingScreen loading={loading} />
-      <h1 className={styles.editTitle}>{title}</h1>
+      {text && <h2 className={styles.editText}>{text}</h2>}
+      {!text && <h1 className={styles.editTitle}>{title}</h1>}
       <form
         className={styles.paymentForm}
         onSubmit={handleSubmit(onPlanSubmit)}
@@ -327,7 +328,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         )}
 
         {paymentType === "BOLETO" &&
-          (user.status !== "ACTIVE" || editPayment) && (
+          (!user.status|| editPayment) && (
             <div className={styles.addressWrapper}>
               <h3 className={styles.addressSectionTitle}>
                 Endereço de Cobrança
@@ -394,7 +395,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
                       type="text"
                       style={{ width: "150px" }}
                       {...register("complement")}
-                      required
+                      
                     />
                   </div>
                   <div className={styles.inputCtr}>
@@ -412,7 +413,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
                     <input
                       placeholder="SP"
                       type="text"
-                      style={{ width: "60px" }}
+                      style={{ width: "70px" }}
                       {...register("region_code")}
                       required
                     />
@@ -430,7 +431,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
         )}
 
         {paymentType === "CREDIT_CARD" &&
-          (user.status !== "ACTIVE" || editPayment) && (
+          (!user.status|| editPayment) && (
             <div className={styles.creditCard}>
               <div className={styles.cardInfo}>
                 <div className={styles.inputCtr}>
@@ -501,7 +502,7 @@ export default function PaymentSection({ isEdit, title, userId, user }) {
             </div>
           )}
 
-        {user?.status === "ACTIVE" && !editPayment ? (
+        {user?.status && !editPayment ? (
           <div className={styles.bottomSection}>
             <div
               onClick={() => setEditPayment(true)}

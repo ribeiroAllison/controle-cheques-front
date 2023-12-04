@@ -1,15 +1,20 @@
+.pageWrapper, .pageWrapper body, .pageWrapper html {
+  margin: 0;
+  padding: 0;
+  height: 100lvh;
+}
+
 .pageWrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 .childrenWrapper {
   background-image: url("/images/bg-login.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size:cover;
   padding-top: 3%;
-  height: 100%;
+  flex: 1; /* Allow this wrapper to take up remaining space */
 }
 
 @media (max-width: 768px) {

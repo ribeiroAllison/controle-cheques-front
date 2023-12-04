@@ -24,6 +24,13 @@
   text-transform: uppercase;
 }
 
+.editText {
+  font-size: 1.5rem;
+  color: var(--green-100);
+  text-align: justify;
+  
+}
+
 .paymentForm {
   display: flex;
   flex-direction: column;

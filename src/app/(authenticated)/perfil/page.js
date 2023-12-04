@@ -151,7 +151,6 @@ const Perfil = () => {
         <PaymentSection
           userId={pagseguroId}
           title={"Planos & Pagamento"}
-          isEdit={true}
           user={user}
         />
       </main>
