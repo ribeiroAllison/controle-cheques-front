@@ -21,3 +21,15 @@ export const handleActivateModalClose = () => {
   const module = document.getElementsByClassName("activateScreen")[0];
   module.style.display = "none";
 };
+
+// edit payment modal close
+export const handleCloseEditPayment = () => {
+  const editWindow = document.getElementById("paymentEditWindowBackground");
+  editWindow.style.display = "none";
+};
+
+// edit payment modal open
+export const handleOpenEditPayment = () => {
+  const editWindow = document.getElementById("paymentEditWindowBackground");
+  editWindow.style.display = "flex";
+};

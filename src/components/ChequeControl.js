@@ -122,7 +122,6 @@ export default function ChequeControl(props) {
   };
 
   // CHECK EDIT HANDLING
-
   const openMassEdit = () => {
     const editWindow = document.getElementById("MassWindowBackground");
     editWindow.style.display = "flex";
@@ -840,7 +839,7 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editTipo"
                   >
-                    <option key="0"></option>
+                    <option value={null} defaultChecked disabled></option>
                     {tipoList?.map((tipo) => (
                       <option key={tipo.id} value={tipo.id}>
                         {tipo.nome}

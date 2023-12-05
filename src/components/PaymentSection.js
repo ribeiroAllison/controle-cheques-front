@@ -7,12 +7,14 @@ import {
   handleActivateModalOpen,
   handleCancelModalClose,
   handleCancelModalOpen,
+  handleOpenEditPayment,
 } from "@/utils/modal-functions";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
+import EditPaymentModal from "./EditPaymentModal";
 import LoadingScreen from "./LoadingScreen";
 import { ModalActivate } from "./ModalActivate";
 import { ModalCancel } from "./ModalCancel";
@@ -28,8 +30,6 @@ export default function PaymentSection({ title, userId, user, text }) {
     watch,
     getValues,
   } = useForm();
-
-  //const router = useRouter();
 
   const publicKey =
     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB";
@@ -101,16 +101,7 @@ export default function PaymentSection({ title, userId, user, text }) {
           notifyFailure("Erro ao gerar boleto! Tente novamente.");
         }
       } else {
-        const response = await Assinatura.alterarAssinatura(
-          user.assinatura_id,
-          data.plano
-        );
-        if (response.status === 200) {
-          notifySuccess("Plano alterado com sucesso!");
-          location.reload();
-        } else {
-          notifyFailure("Erro alterar plano! Tente novamente.");
-        }
+        setLoading(false);
       }
     }
   };
@@ -165,19 +156,7 @@ export default function PaymentSection({ title, userId, user, text }) {
         );
       }
     } else {
-      setLoading(true);
-      const response = await Assinatura.alterarAssinatura(
-        user.assinatura_id,
-        data.plano
-      );
       setLoading(false);
-
-      if (response.status === 200) {
-        notifySuccess("Plano alterado com sucesso!");
-        location.reload();
-      } else {
-        notifyFailure(`Erro alterar plano! Tente novamente. Erro: ${response}`);
-      }
     }
   };
 
@@ -216,37 +195,12 @@ export default function PaymentSection({ title, userId, user, text }) {
     fields.forEach((field) => setValue(field, ""));
   };
 
-  const handleActivateSubscription = () => {};
-
-  // update user payment info + address data for boleto
-  const updateUserPaymentInfo = () => {
-    if (user?.plan) {
-      handleDivClick("plano", user?.plan.id);
-      setValue("payment_type", user?.payment_method[0].type);
-      if (user?.payment_method[0].type === "BOLETO") {
-        setValue("street", user.address.street);
-        setValue("number", user.address.number);
-        setValue("city", user.address.city);
-        setValue("locality", user.address.locality);
-        setValue("region_code", user.address.region_code);
-        setValue("postal_code", user.address.postal_code);
-        setValue("complement", user.address.complement);
-      }
-    } else {
-      return;
-    }
-  };
-
   useEffect(() => {
     const pagLib = window.PagSeguro;
     if (pagLib) {
       setPagSeguro(pagLib);
     }
   });
-
-  useEffect(() => {
-    updateUserPaymentInfo();
-  }, [user]);
 
   return (
     <section className={styles.editContainer}>
@@ -257,7 +211,7 @@ export default function PaymentSection({ title, userId, user, text }) {
         className={styles.paymentForm}
         onSubmit={handleSubmit(onPlanSubmit)}
       >
-        {user?.status && user?.status !== "CANCELED" && !editPayment ? (
+        {user?.status && user?.status !== "CANCELED" ? (
           <div className={styles.actualPlanSection}>
             <p className={styles.actualPlanText}>
               Plano Atual: <strong>{user?.plan.name}</strong>
@@ -302,8 +256,7 @@ export default function PaymentSection({ title, userId, user, text }) {
             )}
           </div>
         )}
-        {(user?.status === "ACTIVE" || user?.status === "PENDING") &&
-        !editPayment ? null : (
+        {user?.status === "ACTIVE" || user?.status === "PENDING" ? null : (
           <div className={styles.paymentWrapper}>
             <input
               type="radio"
@@ -327,101 +280,97 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         )}
 
-        {paymentType === "BOLETO" &&
-          (!user.status|| editPayment) && (
-            <div className={styles.addressWrapper}>
-              <h3 className={styles.addressSectionTitle}>
-                Endereço de Cobrança
-              </h3>
-              <div className={styles.addressSection}>
-                <div className={styles.inputWrapper}>
-                  <div className={styles.inputCtr}>
-                    <label>CEP:</label>
-                    <div className={styles.cepSearch}>
-                      <input
-                        placeholder="XX.XXX-XXX"
-                        type="text"
-                        inputMode="numeric"
-                        style={{ width: "180px" }}
-                        onBlur={searchAddress}
-                        {...register("postal_code")}
-                      />
-                      <MagnifyingGlass
-                        width={36}
-                        height={36}
-                        color="#0CD494"
-                        weight="fill"
-                        className={styles.icon}
-                        alt="Clique para buscar!"
-                        onClick={searchAddress}
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.inputCtr}>
-                    <label>Endereço:</label>
+        {paymentType === "BOLETO" && !user.status && (
+          <div className={styles.addressWrapper}>
+            <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
+            <div className={styles.addressSection}>
+              <div className={styles.inputWrapper}>
+                <div className={styles.inputCtr}>
+                  <label>CEP:</label>
+                  <div className={styles.cepSearch}>
                     <input
-                      placeholder="Avenida dos Estados"
+                      placeholder="XX.XXX-XXX"
                       type="text"
-                      {...register("street")}
-                      required
+                      inputMode="numeric"
+                      style={{ width: "180px" }}
+                      onBlur={searchAddress}
+                      {...register("postal_code")}
                     />
-                  </div>
-                  <div className={styles.inputCtr}>
-                    <label>Número:</label>
-                    <input
-                      placeholder="1508"
-                      type="text"
-                      style={{ width: "100px" }}
-                      {...register("number")}
-                      required
+                    <MagnifyingGlass
+                      width={36}
+                      height={36}
+                      color="#0CD494"
+                      weight="fill"
+                      className={styles.icon}
+                      alt="Clique para buscar!"
+                      onClick={searchAddress}
                     />
                   </div>
                 </div>
-                <div className={styles.inputWrapper}>
-                  <div className={styles.inputCtr}>
-                    <label>Bairro:</label>
-                    <input
-                      placeholder="Centro"
-                      type="text"
-                      style={{ width: "200px" }}
-                      {...register("locality")}
-                      required
-                    />
-                  </div>
-                  <div className={styles.inputCtr}>
-                    <label>Complemento:</label>
-                    <input
-                      placeholder="Apto 01"
-                      type="text"
-                      style={{ width: "150px" }}
-                      {...register("complement")}
-                      
-                    />
-                  </div>
-                  <div className={styles.inputCtr}>
-                    <label>Cidade:</label>
-                    <input
-                      placeholder="São Paulo"
-                      type="text"
-                      style={{ width: "250px" }}
-                      {...register("city")}
-                      required
-                    />
-                  </div>
-                  <div className={styles.inputCtr}>
-                    <label>Estado:</label>
-                    <input
-                      placeholder="SP"
-                      type="text"
-                      style={{ width: "70px" }}
-                      {...register("region_code")}
-                      required
-                    />
-                  </div>
+                <div className={styles.inputCtr}>
+                  <label>Endereço:</label>
+                  <input
+                    placeholder="Avenida dos Estados"
+                    type="text"
+                    {...register("street")}
+                    required
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Número:</label>
+                  <input
+                    placeholder="1508"
+                    type="text"
+                    style={{ width: "100px" }}
+                    {...register("number")}
+                    required
+                  />
+                </div>
+              </div>
+              <div className={styles.inputWrapper}>
+                <div className={styles.inputCtr}>
+                  <label>Bairro:</label>
+                  <input
+                    placeholder="Centro"
+                    type="text"
+                    style={{ width: "200px" }}
+                    {...register("locality")}
+                    required
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Complemento:</label>
+                  <input
+                    placeholder="Apto 01"
+                    type="text"
+                    style={{ width: "150px" }}
+                    {...register("complement")}
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Cidade:</label>
+                  <input
+                    placeholder="São Paulo"
+                    type="text"
+                    style={{ width: "250px" }}
+                    {...register("city")}
+                    required
+                  />
+                </div>
+                <div className={styles.inputCtr}>
+                  <label>Estado:</label>
+                  <input
+                    placeholder="SP"
+                    type="text"
+                    style={{ width: "70px" }}
+                    {...register("region_code")}
+                    required
+                  />
                 </div>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
         {boletoUrl && (
           <a href={boletoUrl} target="_blank" className={styles.boletoLink}>
@@ -430,87 +379,86 @@ export default function PaymentSection({ title, userId, user, text }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" &&
-          (!user.status|| editPayment) && (
-            <div className={styles.creditCard}>
-              <div className={styles.cardInfo}>
-                <div className={styles.inputCtr}>
-                  <label>Número do Cartão:</label>
-                  <input
-                    {...register("card_number", {
-                      required: "Campo Obrigatório",
-                    })}
-                    type="number"
-                    inputMode="numeric"
-                    style={{ width: "500px" }}
-                  />
-                  <p>{errors.card_number?.message}</p>
-                </div>
-
-                <div className={styles.inputCtr}>
-                  <label>CV:</label>
-                  <input
-                    {...register("security_code", {
-                      required: "Campo Obrigatório",
-                      maxLength: 3,
-                    })}
-                    type="number"
-                    inputMode="numeric"
-                    style={{ width: "90px" }}
-                  />
-                  <p>{errors.security_code?.message}</p>
-                </div>
+        {paymentType === "CREDIT_CARD" && !user.status && (
+          <div className={styles.creditCard}>
+            <div className={styles.cardInfo}>
+              <div className={styles.inputCtr}>
+                <label>Número do Cartão:</label>
+                <input
+                  {...register("card_number", {
+                    required: "Campo Obrigatório",
+                  })}
+                  type="number"
+                  inputMode="numeric"
+                  style={{ width: "500px" }}
+                />
+                <p>{errors.card_number?.message}</p>
               </div>
 
-              <div className={styles.cardInfo}>
-                <div className={styles.expDate}>
-                  <div className={styles.inputCtr}>
-                    <label>Mês:</label>
-                    <input
-                      {...register("exp_month", {
-                        required: "Campo Obrigatório",
-                      })}
-                      type="number"
-                      style={{ width: "80px" }}
-                    />
-                    <p>{errors.exp_month?.message}</p>
-                  </div>{" "}
-                  <div className={styles.inputCtr}>
-                    <label>Ano:</label>
-                    <input
-                      {...register("exp_year", {
-                        required: "Campo Obrigatório",
-                      })}
-                      type="number"
-                      maxLength={2}
-                      style={{ width: "80px" }}
-                    />
-                    <p>{errors.exp_date?.message}</p>
-                  </div>
-                </div>
-
-                <div className={styles.inputCtr}>
-                  <label>Nome do Titular:</label>
-                  <input
-                    {...register("holder", { required: "Campo Obrigatório" })}
-                    type="text"
-                    style={{ width: "390px" }}
-                  />
-                  <p>{errors.holder?.message}</p>
-                </div>
+              <div className={styles.inputCtr}>
+                <label>CV:</label>
+                <input
+                  {...register("security_code", {
+                    required: "Campo Obrigatório",
+                    maxLength: 3,
+                  })}
+                  type="number"
+                  inputMode="numeric"
+                  style={{ width: "90px" }}
+                />
+                <p>{errors.security_code?.message}</p>
               </div>
             </div>
-          )}
 
-        {user?.status && !editPayment ? (
+            <div className={styles.cardInfo}>
+              <div className={styles.expDate}>
+                <div className={styles.inputCtr}>
+                  <label>Mês:</label>
+                  <input
+                    {...register("exp_month", {
+                      required: "Campo Obrigatório",
+                    })}
+                    type="number"
+                    style={{ width: "80px" }}
+                  />
+                  <p>{errors.exp_month?.message}</p>
+                </div>{" "}
+                <div className={styles.inputCtr}>
+                  <label>Ano:</label>
+                  <input
+                    {...register("exp_year", {
+                      required: "Campo Obrigatório",
+                    })}
+                    type="number"
+                    maxLength={2}
+                    style={{ width: "90px" }}
+                  />
+                  <p>{errors.exp_date?.message}</p>
+                </div>
+              </div>
+
+              <div className={styles.inputCtr}>
+                <label>Nome do Titular:</label>
+                <input
+                  {...register("holder", { required: "Campo Obrigatório" })}
+                  type="text"
+                  style={{ width: "390px" }}
+                />
+                <p>{errors.holder?.message}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {user?.status ? (
           <div className={styles.bottomSection}>
             <div
-              onClick={() => setEditPayment(true)}
+              onClick={handleOpenEditPayment}
               className={styles.editBtn}
             >
               Editar
             </div>
-            {user?.status !== "SUSPENDED" ? (
+            {user?.status && user?.status !== "SUSPENDED" ? (
               <span
                 onClick={handleCancelModalOpen}
                 className={styles.cancelBtn}
@@ -530,15 +478,6 @@ export default function PaymentSection({ title, userId, user, text }) {
                 Desejo ativar minha assinatura.
               </span>
             ) : null}
-            {editPayment && (
-              <Button
-                type="button"
-                onClick={() => setEditPayment(false)}
-                style={{ backgroundColor: "var(--redTd)" }}
-              >
-                Cancelar Edição
-              </Button>
-            )}
           </div>
         )}
       </form>
@@ -550,6 +489,7 @@ export default function PaymentSection({ title, userId, user, text }) {
         handleActivateModalClose={handleActivateModalClose}
         assinaturaId={user?.assinatura_id}
       />
+      <EditPaymentModal title="Edite Seu Plano" user={user} />
     </section>
   );
 }
