@@ -16,7 +16,6 @@ export default function EditPaymentModal({ title, user }) {
     formState: { errors },
     setValue,
     control,
-    watch,
   } = useForm();
 
   const publicKey =
@@ -62,8 +61,10 @@ export default function EditPaymentModal({ title, user }) {
     );
     if (response.status === 200) {
       notifySuccess("Plano alterado com sucesso!");
-      setLoading(false);
-      location.reload();
+      setTimeout(() => {
+        setLoading(false);
+        location.reload();
+      }, 1000);
     } else {
       notifyFailure("Erro alterar plano! Tente novamente.");
       setLoading(false);
@@ -91,8 +92,12 @@ export default function EditPaymentModal({ title, user }) {
 
     setLoading(true);
 
-    if(alterCreditCard) {
-      const responseCard = await Assinatura.alterarCartaoAssinante(user?.customer.id, cardData)
+    if (alterCreditCard) {
+      const responseCard = await Assinatura.alterarCartaoAssinante(
+        user?.customer.id,
+        cardData
+      );
+
       if (responseCard.status === 200) {
         notifySuccess("Cartão alterado com sucesso!");
       } else {
@@ -102,18 +107,18 @@ export default function EditPaymentModal({ title, user }) {
 
     const response = await Assinatura.alterarAssinatura(
       user.assinatura_id,
-      data.plano,
+      data.plano
     );
-    setLoading(false);
-
-    console.log()
-
     if (response.status === 200) {
       notifySuccess("Plano alterado com sucesso!");
       resetCardFormValues();
-      location.reload();
+      setTimeout(() => {
+        setLoading(false);
+        location.reload();
+      }, 1000);
     } else {
       notifyFailure(`Erro alterar plano! Tente novamente. Erro: ${response}`);
+      setLoading(false);
     }
   };
 
@@ -176,6 +181,13 @@ export default function EditPaymentModal({ title, user }) {
       handleDivClick("plano", user?.plan.id);
     }
   }, [user]);
+
+  useEffect(() => {
+    const pagLib = window.PagSeguro;
+    if (pagLib) {
+      setPagSeguro(pagLib);
+    }
+  });
 
   return (
     <div
