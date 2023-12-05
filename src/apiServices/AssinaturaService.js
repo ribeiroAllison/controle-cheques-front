@@ -21,7 +21,7 @@ export default class Assinatura {
       const response = await connection.post("/assinaturas/assinatura-cartao", {
         user_id,
         plan_id,
-        cardInfo
+        cardInfo,
       });
 
       return response;
@@ -63,10 +63,23 @@ export default class Assinatura {
           id: plan_id,
         },
       });
-     return response;
+      return response;
     } catch (error) {
       console.log(error);
       return error.response;
     }
   };
+
+  static alterarCartaoAssinante = async (user_id, card) => {
+    try {
+      const response = await connection.put("/assinaturas/alterar-cartao", {
+        user_id,
+        card
+      })
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  }
 }
