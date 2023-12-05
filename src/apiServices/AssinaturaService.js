@@ -70,11 +70,11 @@ export default class Assinatura {
     }
   };
 
-  static alterarCartaoAssinante = async (user_id, card) => {
+  static alterarCartaoAssinante = async (user_id, cardData) => {
     try {
       const response = await connection.put("/assinaturas/alterar-cartao", {
         user_id,
-        card
+        card: cardData
       })
       return response;
     } catch (error) {
