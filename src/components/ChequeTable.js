@@ -84,6 +84,7 @@ export default function ChequeTable(props) {
           </thead>
           <tbody>
             {props.list?.map((cheque) => (
+              cheque.cliente_id &&
               <tr
                 key={cheque.id}
                 id={`row${cheque.id}`}
@@ -230,10 +231,10 @@ export default function ChequeTable(props) {
 
             <tr className={styles.finalRow}>
               <td colSpan={3}>TOTAL RECEBÍVEIS</td>
-              <td>{props.list?.length}</td>
+              <td>{props.list?.filter((cheque) => cheque.cliente_id !== null).length}</td>
               <td colSpan={3}>
                 {props.list
-                  ? props.list
+                  ? props.list?.filter((cheque) => cheque.cliente_id !== null)
                       .reduce((acc, item) => {
                         acc += convertToNumber(item.valor);
                         return acc;
