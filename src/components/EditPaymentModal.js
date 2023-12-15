@@ -187,7 +187,7 @@ export default function EditPaymentModal({ title, user }) {
     if (pagLib) {
       setPagSeguro(pagLib);
     }
-  });
+  }, []);
 
   return (
     <div

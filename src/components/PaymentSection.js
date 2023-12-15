@@ -39,7 +39,6 @@ export default function PaymentSection({ title, userId, user, text }) {
   const [boletoUrl, setBoletoUrl] = useState();
   const [loading, setLoading] = useState(false);
   const [PagSeguro, setPagSeguro] = useState();
-  const [editPayment, setEditPayment] = useState(false);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -133,8 +132,6 @@ export default function PaymentSection({ title, userId, user, text }) {
         store: true,
       };
 
-      console.log(cardData);
-
       setLoading(true);
       const response = await Assinatura.criarAssinaturaCartao(
         userId,
@@ -148,7 +145,6 @@ export default function PaymentSection({ title, userId, user, text }) {
           "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
         );
         resetCardFormValues();
-        setEditPayment(true);
         location.reload();
       } else {
         notifyFailure(
@@ -195,12 +191,23 @@ export default function PaymentSection({ title, userId, user, text }) {
     fields.forEach((field) => setValue(field, ""));
   };
 
+  const getLastBoleto = async () => {
+    const response = await Assinatura.buscarUltimoBoleto(user.id);
+    console.log(response);
+  };
+
   useEffect(() => {
     const pagLib = window.PagSeguro;
     if (pagLib) {
       setPagSeguro(pagLib);
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+      getLastBoleto()
+    }
+  }, [user]);
 
   return (
     <section className={styles.editContainer}>
@@ -452,10 +459,7 @@ export default function PaymentSection({ title, userId, user, text }) {
 
         {user?.status ? (
           <div className={styles.bottomSection}>
-            <div
-              onClick={handleOpenEditPayment}
-              className={styles.editBtn}
-            >
+            <div onClick={handleOpenEditPayment} className={styles.editBtn}>
               Editar
             </div>
             {user?.status && user?.status !== "SUSPENDED" ? (

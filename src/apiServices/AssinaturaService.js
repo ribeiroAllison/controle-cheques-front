@@ -82,4 +82,16 @@ export default class Assinatura {
       return error.response;
     }
   }
+
+  static buscarUltimoBoleto = async (assinaturaId) => {
+    try {
+      const response = await connection.post("/assinaturas/boleto/pendencia", {
+        sub_id: assinaturaId
+      })
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  }
 }
