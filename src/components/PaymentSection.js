@@ -9,7 +9,11 @@ import {
   handleCancelModalOpen,
   handleOpenEditPayment,
 } from "@/utils/modal-functions";
-import { notifyFailure, notifySuccess } from "@/utils/utils";
+import {
+  notifyFailure,
+  notifySuccess,
+  resetCardFormValues,
+} from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -31,15 +35,14 @@ export default function PaymentSection({ title, userId, user, text }) {
     getValues,
   } = useForm();
 
-  const publicKey =
-    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB";
+  const publicKey = process.env.NEXT_PUBLIC_CARD_ENCRYPT_KEY;
 
   //STATES
   const [clickedCard, setClickedCard] = useState({});
   const [boletoUrl, setBoletoUrl] = useState();
   const [loading, setLoading] = useState(false);
   const [PagSeguro, setPagSeguro] = useState();
-  const [editPayment, setEditPayment] = useState(false);
+  const [lastBoleto, setLastBoleto] = useState(null);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -133,8 +136,6 @@ export default function PaymentSection({ title, userId, user, text }) {
         store: true,
       };
 
-      console.log(cardData);
-
       setLoading(true);
       const response = await Assinatura.criarAssinaturaCartao(
         userId,
@@ -148,7 +149,6 @@ export default function PaymentSection({ title, userId, user, text }) {
           "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
         );
         resetCardFormValues();
-        setEditPayment(true);
         location.reload();
       } else {
         notifyFailure(
@@ -183,16 +183,11 @@ export default function PaymentSection({ title, userId, user, text }) {
     }
   };
 
-  // reset card fields
-  const resetCardFormValues = () => {
-    const fields = [
-      "card_number",
-      "security_code",
-      "exp_month",
-      "exp_year",
-      "holder",
-    ];
-    fields.forEach((field) => setValue(field, ""));
+  const getLastBoleto = async () => {
+    const response = await Assinatura.buscarUltimoBoleto(user?.id);
+    if (response) {
+      setLastBoleto(response.data);
+    }
   };
 
   useEffect(() => {
@@ -200,7 +195,13 @@ export default function PaymentSection({ title, userId, user, text }) {
     if (pagLib) {
       setPagSeguro(pagLib);
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+      getLastBoleto();
+    }
+  }, [user]);
 
   return (
     <section className={styles.editContainer}>
@@ -219,6 +220,13 @@ export default function PaymentSection({ title, userId, user, text }) {
             <p className={styles.actualPlanText}>
               Vigência: <strong>{user?.next_invoice_at ?? "N/A"}</strong>
             </p>
+            {(user?.payment_method[0].type === "BOLETO" && lastBoleto) && (
+              <a href={lastBoleto} target="_blank" className={styles.boletoLink}>
+                {" "}
+                Baixe seu último boleto aqui!{" "}
+              </a>
+            )}
+
             {user?.status === "PENDING" && (
               <p className={styles.actualPlanText}>
                 Situação: <strong>Pendente</strong>
@@ -452,10 +460,7 @@ export default function PaymentSection({ title, userId, user, text }) {
 
         {user?.status ? (
           <div className={styles.bottomSection}>
-            <div
-              onClick={handleOpenEditPayment}
-              className={styles.editBtn}
-            >
+            <div onClick={handleOpenEditPayment} className={styles.editBtn}>
               Editar
             </div>
             {user?.status && user?.status !== "SUSPENDED" ? (
