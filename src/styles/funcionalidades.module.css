@@ -1,0 +1,88 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.funcionalidadesSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 1) 0%,
+    rgba(68, 68, 68, 1) 100%
+  );
+  padding: 2rem 4rem;
+  border-radius: 10px;
+  max-width: 900px;
+}
+
+.funcionalidadesTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--green-100);
+}
+
+.funcionalidadesParagraph {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--white);
+}
+
+.funcionalidadesContent ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.funcionalidadesContent li {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.funcionalidadesVideo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.funcionalidadesVideo > div {
+  background-color: var(--green-100);
+  height: 300px;
+  flex: 1;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .funcionalidadesTitle {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .funcionalidadesTitle {
+    font-size: 2.75rem;
+  }
+
+  .funcionalidadesParagraph {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--white);
+  }
+}
