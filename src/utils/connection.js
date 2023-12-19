@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { baseURL } from './url';
 import { getCookie } from './cookie';
+import { baseURL } from './url';
 
 
 function getUpdatedToken() {
@@ -9,7 +9,6 @@ function getUpdatedToken() {
 
 const connection = axios.create({
     baseURL: baseURL,
-    timeout: 3000,
     headers: {
         'Authorization': `Bearer ${getUpdatedToken()}`
     }

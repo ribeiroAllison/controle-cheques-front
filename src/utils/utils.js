@@ -1,5 +1,6 @@
-import { Configuracao } from "@/apiServices/ConfigService";
+import { toast } from "react-toastify";
 
+//FORMS & AUX FUNCTIONS
 export const clearInputs = (inputId) => {
   const inputs = document.getElementsByClassName(inputId);
   for (let input of inputs) {
@@ -8,17 +9,48 @@ export const clearInputs = (inputId) => {
 };
 
 export const linhas = [
-  11, 12, 13, 14, 20, 22, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44,
-  45, 48, 49, 59, 60, 61, 64,
+  11, 12, 13, 14, 20, 22, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43,
+  44, 45, 48, 49, 59, 60, 61, 64,
 ];
 
+//SHOW ADD DATA FORM
+export function showAddForm() {
+  const addForm = document.getElementById("addForm");
+  addForm.style.display = "flex";
+
+  const addButton = document.getElementById("addButton");
+  addButton.style.display = "none";
+}
+
+export function hideAddForm() {
+  const addForm = document.getElementById("addForm");
+  addForm.style.display = "none";
+
+  const addButton = document.getElementById("addButton");
+  addButton.style.display = "block";
+}
+
+// reset card fields
+export const resetCardFormValues = () => {
+  const fields = [
+    "card_number",
+    "security_code",
+    "exp_month",
+    "exp_year",
+    "holder",
+  ];
+  fields.forEach((field) => setValue(field, ""));
+};
+
+
+// PAYMENT CALCULATION & VALIDATION
 export const isVencido = (formValues, excessDays) => {
   const hoje = new Date();
   const compDate = formValues.data_compen
     ? new Date(formValues.data_compen)
     : "";
   const vencDate = new Date(formValues.data_venc);
-  vencDate.setDate(vencDate.getDate() + (excessDays+1));
+  vencDate.setDate(vencDate.getDate() + (excessDays + 1));
 
   let result;
 
@@ -104,6 +136,7 @@ export const isCompensadoVar = (formValues, excessDays, i) => {
   return result;
 };
 
+// DATE & CURRENCY FORMATTING
 export const transformDate = (data) => {
   const date = new Date(data);
   return new Intl.DateTimeFormat("pt-BR").format(date);
@@ -149,19 +182,20 @@ export const convertToNumber = (value) => {
   return Number(value.replace(/[^0-9.-]+/g, ""));
 };
 
-//SHOW ADD DATA FORM
-export function showAddForm() {
-  const addForm = document.getElementById("addForm");
-  addForm.style.display = "flex";
-
-  const addButton = document.getElementById("addButton");
-  addButton.style.display = "none";
+export function formatPhoneNumber(input) {
+  const phoneNumber = input.replace(/\D/g, "");
+  if (phoneNumber.length <= 2) {
+    return `${phoneNumber}`;
+  } else if (phoneNumber.length <= 7) {
+    return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
+  } else {
+    return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
+      2,
+      7
+    )}-${phoneNumber.slice(7)}`;
+  }
 }
 
-export function hideAddForm() {
-  const addForm = document.getElementById("addForm");
-  addForm.style.display = "none";
-
-  const addButton = document.getElementById("addButton");
-  addButton.style.display = "block";
-}
+// TOASTIFY MESSAGES
+export const notifySuccess = (msg) => toast.success(msg);
+export const notifyFailure = (msg) => toast.error(msg);

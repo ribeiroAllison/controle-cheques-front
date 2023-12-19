@@ -69,7 +69,6 @@ export default function CadastroCheques() {
           name={`num${i}`}
           onChange={handleInputChange}
           id={`num${i}`}
-          key={`num${i}`}
           placeholder={`No. do Recebível ${i + 1}`}
           className="input numCheque"
           autoComplete="off"
@@ -220,7 +219,6 @@ export default function CadastroCheques() {
           name={`valor${i}`}
           onChange={handleInputChange}
           id={`valor${i}`}
-          key={`valor${i}`}
           required
           placeholder={`Valor ${i + 1}`}
           className="input valorCheque"
@@ -247,7 +245,6 @@ export default function CadastroCheques() {
           name={`data_venc${i}`}
           onChange={handleInputChange}
           id={`data_venc${i}`}
-          key={`data_venc${i}`}
           required
           className="input"
           autoComplete="off"
@@ -332,9 +329,9 @@ export default function CadastroCheques() {
                   placeholder="Selecione Tipo"
                   className={`${styles.select} input`}
                 >
-                  <option></option>
+                  <option key="0"></option>
                   {tipos?.map((tipo) => (
-                    <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
+                    <option key={tipo.id} value={tipo.id}>
                       {tipo.nome}
                     </option>
                   ))}
@@ -344,7 +341,7 @@ export default function CadastroCheques() {
 
             <section className={styles.checkMultiplerWrapper}>
               <div className={styles.inputCtrMultiple}>
-                <h4>Número:</h4>
+                <label>Número:</label>
                 {defineQtdCheques(qtdCheques)}
                 <ButtonAlternative onClick={replicateNumCheque}>
                   Replicar Número
@@ -352,7 +349,7 @@ export default function CadastroCheques() {
               </div>
 
               <div className={styles.inputCtrMultiple}>
-                <h4>Valor<span>*</span></h4>
+                <label>Valor<span>*</span></label>
                 {defineQtdValores(qtdCheques)}
                 <ButtonAlternative onClick={replicateValor}>
                   Replicar Valor
@@ -360,7 +357,7 @@ export default function CadastroCheques() {
               </div>
 
               <div className={`${styles.inputCtrMultiple}`}>
-                <h4>Data de Vencimento<span>*</span></h4>
+                <label>Data de Vencimento<span>*</span></label>
                 {defineQtdVencimentos(qtdCheques)}
               </div>
             </section>
@@ -417,10 +414,10 @@ export default function CadastroCheques() {
                   placeholder="Selecione Vendedor"
                   className={`${styles.select} input`}
                 >
-                  <option id="vendedor_name"></option>
+                  <option key="0" id="vendedor_name"></option>
                   {vendedorList?.map((seller) => (
                     <option
-                      key={`${seller.id}-${seller.nome}`}
+                      key={seller.id}
                       value={seller.id}
                       selected={seller.id === selectedSeller}
                     >

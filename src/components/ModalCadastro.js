@@ -101,7 +101,7 @@ export default function ModalCadastro(props) {
                   ? props.grupo.map((emp) => {
                       return (
                         <option
-                          key={`${emp.id}-${emp.nome}`}
+                          key={emp.id}
                           value={emp.id}
                           selected={emp.id === props.formValues.grupo}
                         >
@@ -127,7 +127,7 @@ export default function ModalCadastro(props) {
                   ? props.vendedores?.map((emp) => {
                       return (
                         <option
-                          key={`${emp.id}-${emp.nome}`}
+                          key={emp.id}
                           value={emp.id}
                           selected={emp.id === props.formValues.vendedor_id}
                         >

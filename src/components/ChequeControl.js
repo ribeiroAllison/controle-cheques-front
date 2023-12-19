@@ -123,7 +123,6 @@ export default function ChequeControl(props) {
   };
 
   // CHECK EDIT HANDLING
-
   const openMassEdit = () => {
     const editWindow = document.getElementById("MassWindowBackground");
     editWindow.style.display = "flex";
@@ -641,9 +640,9 @@ export default function ChequeControl(props) {
                     placeholder="Selecione Vendedor"
                     className={`${styles.select} input`}
                   >
-                    <option></option>
+                    <option key="0"></option>
                     {destinoList?.map((destino) => (
-                      <option key={`${destino.id}-${destino.nome}`} value={destino.id}>
+                      <option key={destino.id} value={destino.id}>
                         {destino.nome}
                       </option>
                     ))}
@@ -656,9 +655,9 @@ export default function ChequeControl(props) {
                     onChange={handleInputChange}
                     className={`${styles.select} input`}
                   >
-                    <option></option>
+                    <option key="0"></option>
                     {grupos?.map((grupo) => (
-                      <option key={`${grupo.id}-${grupo.nome}`} value={grupo.nome}>
+                      <option key={grupo.nome} value={grupo.nome}>
                         {grupo.nome}
                       </option>
                     ))}
@@ -842,7 +841,7 @@ export default function ChequeControl(props) {
                   >
                     <option value={null} defaultChecked disabled></option>
                     {tipoList?.map((tipo) => (
-                      <option key={`${tipo.id}-${tipo.nome}`} value={tipo.id}>
+                      <option key={tipo.id} value={tipo.id}>
                         {tipo.nome}
                       </option>
                     ))}
@@ -871,10 +870,10 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editDestino"
                   >
-                    <option></option>
+                    <option key="0"></option>
                     {destinoList?.map((destino) => (
                       <option
-                        key={`${destino.id}-${destino.nome}`}
+                        key={destino.id}
                         value={destino.id}
                       >
                         {destino.nome}
@@ -893,10 +892,10 @@ export default function ChequeControl(props) {
                     className={`${styles.select} editInput`}
                     id="editVendedor"
                   >
-                    <option></option>
+                    <option key="0"></option>
                     {vendedorList?.map((seller) => (
                       <option
-                        key={`${seller.id}-${seller.nome}`}
+                        key={seller.id}
                         value={seller.id}
                       >
                         {seller.nome}
@@ -993,7 +992,7 @@ export default function ChequeControl(props) {
               >
                 <option key="0"></option>
                 {destinoList?.map((destino) => (
-                  <option key={`${destino.id}-${destino.nome}`} value={destino.id}>
+                  <option key={destino.id} value={destino.id}>
                     {destino.nome}
                   </option>
                 ))}

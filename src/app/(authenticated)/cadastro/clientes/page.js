@@ -422,7 +422,7 @@ export default function Clientes() {
                 {grupoList.length > 0
                   ? grupoList.map((emp) => {
                       return (
-                        <option key={`${emp.id}-${emp.nome}`} value={emp.id}>
+                        <option key={emp.id} value={emp.id}>
                           {emp.nome}
                         </option>
                       );
@@ -442,7 +442,7 @@ export default function Clientes() {
                 {vendedorList.length > 0
                   ? vendedorList?.map((vend) => {
                       return (
-                        <option key={`${vend.id}-${vend.nome}`} value={vend.id}>
+                        <option key={vend.id} value={vend.id}>
                           {vend.nome}
                         </option>
                       );

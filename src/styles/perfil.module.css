@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  bottom: -15%;
+  gap: 2rem;
+  margin: 5rem 0;
 }
 
 .editContainer {
@@ -14,10 +14,16 @@
   );
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  
-  padding: 4rem;
+  gap: 2rem;
+
+  padding: 3rem;
   border-radius: 15px;
+  align-items: center;
+  width: 800px;
+
+  box-shadow: 1px -1px 22px 7px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 1px -1px 22px 7px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px -1px 22px 7px rgba(0, 0, 0, 0.75);
 }
 
 .editTitle {
@@ -32,26 +38,86 @@
   gap: 1.5rem;
 }
 
-@media (max-width: 768px) {
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.inputCtr {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.inputCtr label {
+  padding-bottom: 0.5rem;
+}
+
+.inputCtr input {
+  border-radius: 50px;
+  border: 1px solid white;
+  font-size: 1.25rem;
+  width: 21rem;
+  height: 2.5rem;
+  padding: 1rem;
+  background: transparent;
+  color: var(--white);
+}
+
+@media (max-width: 1000px) {
+  .editWrapper {
+    padding-top: 0rem;
+    padding-inline: 1rem;
+  }
+
+  .editContainer {
+    padding: 3rem;
+    width: auto;
+  }
+
+  .editTitle {
+    font-size: 2.5rem;
+  }
+
+  .inputCtr input {
+    padding: 1rem;
+    font-size: 1rem;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 450px) {
   .editWrapper {
     height: auto;
     padding-top: 5rem;
+    padding-inline: 1rem;
     position: inherit;
   }
 
   .editContainer {
     gap: 1rem;
     padding-inline: 0.875rem;
+    width: 300px;
   }
-  
+
   .editTitle {
     font-size: 1.75rem;
     text-align: center;
   }
-  
+
   .editForm {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  .inputCtr input {
+    padding: 1rem;
+    font-size: 0.9rem;
+    height: 2.4rem;
+    width: 220px;
   }
 }

@@ -1,22 +1,28 @@
+.pageWrapper, .pageWrapper body, .pageWrapper html {
+  margin: 0;
+  padding: 0;
+  height: 100lvh;
+}
+
 .pageWrapper {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .childrenWrapper {
   background-image: url("/images/bg-login.png");
   background-repeat: no-repeat;
-  background-size: cover;
-  padding-top: 5rem;
-  height: 100%;
+  background-size:cover;
+  padding-top: 3%;
+  flex: 1; /* Allow this wrapper to take up remaining space */
 }
 
 @media (max-width: 768px) {
   .pageWrapper {
-    height: auto;
+    height: 100%;
   }
 
   .childrenWrapper {
     padding-top: 2rem;
-    height: 100lvh;
   }
 }

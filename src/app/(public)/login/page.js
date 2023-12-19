@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import LoadingScreen from "@/components/LoadingScreen";
 import LoginCard from "@/components/LoginCard";
-import User from "@/apiServices/UserService";
-import Link from "next/link";
 import styles from "@/styles/login.module.css";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 
@@ -19,6 +20,7 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -30,7 +32,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const user = {
       email: email,
       senha: senha,
@@ -45,16 +47,19 @@ export default function Login() {
 
       setTimeout(() => {
         router.push("/dashboard");
-      }, 1100);
+        setLoading(false);
+      }, 1500);
     } else {
       notifyFailure(response.data);
       setSenha("");
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <ToastContainer autoClose={1500} />
+      <LoadingScreen loading={loading} />
+      <ToastContainer autoClose={2000} />
       <section className={styles.loginWrapper}>
         <figure className={styles.imgWrapper}>
           <img src="/images/login-img.svg" alt="" />

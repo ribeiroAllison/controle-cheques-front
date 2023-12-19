@@ -1,22 +1,33 @@
-import { setCookie } from "@/utils/cookie";
 import { connection } from "@/utils/connection";
+import { setCookie } from "@/utils/cookie";
 
 export default class User {
+  // GET USER
+  static getUserById = async (id) => {
+    try {
+      const response = await connection.get(`/usuarios/${id}`);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // USER CREATION
   static registerUser = async (user) => {
+    const tax_id = user.tax_id.replace(/\D/g, "");
     try {
       const response = await connection.post("/usuarios/register", {
         nome: user.nome,
         email: user.email,
         senha: user.senha,
+        tax_id: tax_id,
+        birth_date: user.birth_date,
+        phones: user.phones,
       });
-      if (response) {
-        return response;
-      } else {
-        res.status(500).send("Erro ao criar usuário! Tente novamente.");
-      }
+      return response;
     } catch (error) {
-      return error.response;
+      return error;
     }
   };
 
@@ -31,6 +42,8 @@ export default class User {
       if (response && response.status === 200) {
         setCookie("token", response.data.token.token);
         setCookie("user", response.data.userName);
+        setCookie("userAllowed", response.data.isUserAllowed);
+        setCookie("trialDays", response.data.trialDays);
         return response;
       } else {
         return;
@@ -45,13 +58,16 @@ export default class User {
     try {
       const response = await connection.put(`/usuarios/${user.id}`, {
         nome: user.nome,
-        senha: user.senha,
+        email: user.email,
+        birth_date: user.birth_date,
+        phones: user.phones,
+        pagseguro_id: user.pagseguro_id,
       });
-      if (response && response.status === 200) {
+      if (response && response.status === 201) {
         return response;
       }
     } catch (error) {
-      return error.response;
+      return error;
     }
   };
 
@@ -93,7 +109,7 @@ export default class User {
         name: issue.name,
         email: issue.email,
         subject: issue.subject,
-        message: issue.message
+        message: issue.message,
       });
 
       if (response && response.status === 200) {

@@ -1,5 +1,3 @@
-import { connection } from "../utils/connection";
-import { Configuracao } from "./ConfigService";
 import {
   isCompensado,
   isCompensadoVar,
@@ -7,6 +5,8 @@ import {
   isVencidoVar,
   transformValue,
 } from "@/utils/utils";
+import { connection } from "../utils/connection";
+import { Configuracao } from "./ConfigService";
 
 export class Cheques {
   // QUERY ALL CHEQUES
@@ -76,7 +76,6 @@ export class Cheques {
   // CREATE ONE OR MORE CHECKS IN DB
   static async addNewCheck(formValues, qtdCheques) {
     const { data } = await Configuracao.getConfig();
-    console.log(data.length)
 
     let vencDays = 0;
     let compDays = 0;
