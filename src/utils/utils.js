@@ -30,18 +30,6 @@ export function hideAddForm() {
   addButton.style.display = "block";
 }
 
-// reset card fields
-export const resetCardFormValues = () => {
-  const fields = [
-    "card_number",
-    "security_code",
-    "exp_month",
-    "exp_year",
-    "holder",
-  ];
-  fields.forEach((field) => setValue(field, ""));
-};
-
 
 // PAYMENT CALCULATION & VALIDATION
 export const isVencido = (formValues, excessDays) => {
