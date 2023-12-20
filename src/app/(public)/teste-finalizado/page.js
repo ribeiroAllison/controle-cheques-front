@@ -49,7 +49,7 @@ const TesteFinalizado = () => {
       <PaymentSection 
         userId={user && user.id}
         title={"Planos & Pagamento"}
-        text={"Infelizmente seu período de testes acabou :( , por favor preencha os dados de pagamento para continuar usando o sistema!"}
+        text={"Infelizmente seu período de testes acabou, por favor preencha os dados de pagamento para continuar usando o sistema!"}
         user={user}
       />
     </div>
