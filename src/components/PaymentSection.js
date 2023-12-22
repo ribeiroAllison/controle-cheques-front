@@ -242,14 +242,14 @@ export default function PaymentSection({ title, userId, user, text }) {
           <div className={styles.cardWrapper}>
             {renderController(
               "plano",
-              "PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19",
+              "PLAN_77225D8F-BF7F-4531-A563-77051192B2D4",
               "Mensal",
               "R$ 79,90/mês"
             )}
 
             {renderController(
               "plano",
-              "PLAN_E4CE4617-A23C-4A30-AD90-B5C4D6D09BD7",
+              "PLAN_21EE7E43-C3F5-4644-B55B-CD2FFC37A545",
               "Trimestral",
               "R$ 69,90/mês",
               " * Um pagamento de R$ 209,70 a cada 03 meses"
@@ -257,7 +257,7 @@ export default function PaymentSection({ title, userId, user, text }) {
 
             {renderController(
               "plano",
-              "PLAN_530536A7-941B-45D0-A350-9E5D219A42C0",
+              "PLAN_0B04A8E2-41EE-43F8-A726-382E954E7B42",
               "Anual",
               "R$ 62,90/mês",
               " * Um pagamento de R$ 754,80 a cada 12 meses"
