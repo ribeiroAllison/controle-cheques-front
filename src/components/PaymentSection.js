@@ -9,11 +9,7 @@ import {
   handleCancelModalOpen,
   handleOpenEditPayment,
 } from "@/utils/modal-functions";
-import {
-  notifyFailure,
-  notifySuccess,
-  resetCardFormValues,
-} from "@/utils/utils";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -43,6 +39,8 @@ export default function PaymentSection({ title, userId, user, text }) {
   const [loading, setLoading] = useState(false);
   const [PagSeguro, setPagSeguro] = useState();
   const [lastBoleto, setLastBoleto] = useState(null);
+
+  console.log(user);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -160,6 +158,18 @@ export default function PaymentSection({ title, userId, user, text }) {
     }
   };
 
+  // reset card fields
+  const resetCardFormValues = () => {
+    const fields = [
+      "card_number",
+      "security_code",
+      "exp_month",
+      "exp_year",
+      "holder",
+    ];
+    fields.forEach((field) => setValue(field, ""));
+  };
+
   const onPlanSubmit = async (data) => {
     if (paymentType === "BOLETO") {
       await makeBoletoSub(data);
@@ -212,7 +222,7 @@ export default function PaymentSection({ title, userId, user, text }) {
         className={styles.paymentForm}
         onSubmit={handleSubmit(onPlanSubmit)}
       >
-        {user?.status && user?.status !== "CANCELED" ? (
+        {user?.status && user?.status !== "SUSPENDED" ? (
           <div className={styles.actualPlanSection}>
             <p className={styles.actualPlanText}>
               Plano Atual: <strong>{user?.plan.name}</strong>
@@ -220,8 +230,12 @@ export default function PaymentSection({ title, userId, user, text }) {
             <p className={styles.actualPlanText}>
               Vigência: <strong>{user?.next_invoice_at ?? "N/A"}</strong>
             </p>
-            {(user?.payment_method[0].type === "BOLETO" && lastBoleto) && (
-              <a href={lastBoleto} target="_blank" className={styles.boletoLink}>
+            {user?.payment_method[0].type === "BOLETO" && lastBoleto && (
+              <a
+                href={lastBoleto}
+                target="_blank"
+                className={styles.boletoLink}
+              >
                 {" "}
                 Baixe seu último boleto aqui!{" "}
               </a>
@@ -288,13 +302,13 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         )}
 
-        {paymentType === "BOLETO" && !user.status && (
+        {paymentType === "BOLETO" && !user?.status && (
           <div className={styles.addressWrapper}>
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
               <div className={styles.inputWrapper}>
                 <div className={styles.inputCtr}>
-                  <label>CEP:</label>
+                  <label htmlFor="postal_code">CEP:</label>
                   <div className={styles.cepSearch}>
                     <input
                       placeholder="XX.XXX-XXX"
@@ -316,7 +330,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   </div>
                 </div>
                 <div className={styles.inputCtr}>
-                  <label>Endereço:</label>
+                  <label htmlFor="street">Endereço:</label>
                   <input
                     placeholder="Avenida dos Estados"
                     type="text"
@@ -325,7 +339,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   />
                 </div>
                 <div className={styles.inputCtr}>
-                  <label>Número:</label>
+                  <label htmlFor="number">Número:</label>
                   <input
                     placeholder="1508"
                     type="text"
@@ -337,7 +351,7 @@ export default function PaymentSection({ title, userId, user, text }) {
               </div>
               <div className={styles.inputWrapper}>
                 <div className={styles.inputCtr}>
-                  <label>Bairro:</label>
+                  <label htmlFor="locality">Bairro:</label>
                   <input
                     placeholder="Centro"
                     type="text"
@@ -347,7 +361,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   />
                 </div>
                 <div className={styles.inputCtr}>
-                  <label>Complemento:</label>
+                  <label htmlFor="complement">Complemento:</label>
                   <input
                     placeholder="Apto 01"
                     type="text"
@@ -356,7 +370,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   />
                 </div>
                 <div className={styles.inputCtr}>
-                  <label>Cidade:</label>
+                  <label htmlFor="city">Cidade:</label>
                   <input
                     placeholder="São Paulo"
                     type="text"
@@ -366,7 +380,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   />
                 </div>
                 <div className={styles.inputCtr}>
-                  <label>Estado:</label>
+                  <label htmlFor="region_code">Estado:</label>
                   <input
                     placeholder="SP"
                     type="text"
@@ -387,11 +401,11 @@ export default function PaymentSection({ title, userId, user, text }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" && !user.status && (
+        {paymentType === "CREDIT_CARD" && !user?.status && (
           <div className={styles.creditCard}>
             <div className={styles.cardInfo}>
               <div className={styles.inputCtr}>
-                <label>Número do Cartão:</label>
+                <label htmlFor="card_number">Número do Cartão:</label>
                 <input
                   {...register("card_number", {
                     required: "Campo Obrigatório",
@@ -404,7 +418,7 @@ export default function PaymentSection({ title, userId, user, text }) {
               </div>
 
               <div className={styles.inputCtr}>
-                <label>CV:</label>
+                <label htmlFor="security_code">CV:</label>
                 <input
                   {...register("security_code", {
                     required: "Campo Obrigatório",
@@ -421,7 +435,7 @@ export default function PaymentSection({ title, userId, user, text }) {
             <div className={styles.cardInfo}>
               <div className={styles.expDate}>
                 <div className={styles.inputCtr}>
-                  <label>Mês:</label>
+                  <label htmlFor="exp_month">Mês:</label>
                   <input
                     {...register("exp_month", {
                       required: "Campo Obrigatório",
@@ -432,7 +446,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   <p>{errors.exp_month?.message}</p>
                 </div>{" "}
                 <div className={styles.inputCtr}>
-                  <label>Ano:</label>
+                  <label htmlFor="exp_year">Ano:</label>
                   <input
                     {...register("exp_year", {
                       required: "Campo Obrigatório",
@@ -446,7 +460,7 @@ export default function PaymentSection({ title, userId, user, text }) {
               </div>
 
               <div className={styles.inputCtr}>
-                <label>Nome do Titular:</label>
+                <label htmlFor="holder">Nome do Titular:</label>
                 <input
                   {...register("holder", { required: "Campo Obrigatório" })}
                   type="text"

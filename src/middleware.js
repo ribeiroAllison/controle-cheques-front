@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 export default function middleware(request) {
   const token = request.cookies.get("token")?.value;
   const isUserAllowed = request.cookies.get("userAllowed")?.value === "true";
-  
 
   if (!token) {
     const redirectUrl = new URL("/login", request.nextUrl.origin);
@@ -33,5 +32,10 @@ export default function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/cadastro/:path*", "/cheques/:path*", "/configuracoes/:path*", "/dashboard/:path*"],
+  matcher: [
+    "/cadastro/:path*",
+    "/cheques/:path*",
+    "/configuracoes/:path*",
+    "/dashboard/:path*",
+  ],
 };

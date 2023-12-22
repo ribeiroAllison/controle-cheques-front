@@ -28,7 +28,7 @@ export default function Page() {
         </figure>
         <nav>
           <ul className={header.menuWrapper}>
-            <Link href="/">
+            <Link href="/funcionalidades">
               <li>Funcionalidades</li>
             </Link>
             <Link href="/">
