@@ -41,7 +41,7 @@ export default function PaymentSection({ title, userId, user, text }) {
   const [PagSeguro, setPagSeguro] = useState();
   const [lastBoleto, setLastBoleto] = useState(null);
 
-  console.log(user);
+  // console.log(user);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -127,6 +127,8 @@ export default function PaymentSection({ title, userId, user, text }) {
       };
 
       const encrypted = PagSeguro.encryptCard(card);
+      const jsonEnc = JSON.stringify(encrypted);
+      console.log(`encrypted: ${jsonEnc}`)
 
       const cardData = {
         encrypted: encrypted.encryptedCard,
@@ -134,6 +136,10 @@ export default function PaymentSection({ title, userId, user, text }) {
         holder: { name: data.holder },
         store: true,
       };
+
+      const cartDataJson = JSON.stringify(cardData);
+
+      console.log(`carData: ${cartDataJson}`);
 
       setLoading(true);
       const response = await Assinatura.criarAssinaturaCartao(
@@ -156,7 +162,7 @@ export default function PaymentSection({ title, userId, user, text }) {
       }
     } else {
       setLoading(false);
-    }
+      }
   };
 
   // reset card fields
