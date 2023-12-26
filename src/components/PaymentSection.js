@@ -18,6 +18,7 @@ import EditPaymentModal from "./EditPaymentModal";
 import LoadingScreen from "./LoadingScreen";
 import { ModalActivate } from "./ModalActivate";
 import { ModalCancel } from "./ModalCancel";
+import { planoAnual, planoMensal, planoTrimestral } from "@/utils/url";
 
 export default function PaymentSection({ title, userId, user, text }) {
   //SETUPS
@@ -40,7 +41,7 @@ export default function PaymentSection({ title, userId, user, text }) {
   const [PagSeguro, setPagSeguro] = useState();
   const [lastBoleto, setLastBoleto] = useState(null);
 
-  console.log(user);
+  // console.log(user);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -126,6 +127,8 @@ export default function PaymentSection({ title, userId, user, text }) {
       };
 
       const encrypted = PagSeguro.encryptCard(card);
+      const jsonEnc = JSON.stringify(encrypted);
+      console.log(`encrypted: ${jsonEnc}`)
 
       const cardData = {
         encrypted: encrypted.encryptedCard,
@@ -133,6 +136,10 @@ export default function PaymentSection({ title, userId, user, text }) {
         holder: { name: data.holder },
         store: true,
       };
+
+      const cartDataJson = JSON.stringify(cardData);
+
+      console.log(`carData: ${cartDataJson}`);
 
       setLoading(true);
       const response = await Assinatura.criarAssinaturaCartao(
@@ -155,7 +162,7 @@ export default function PaymentSection({ title, userId, user, text }) {
       }
     } else {
       setLoading(false);
-    }
+      }
   };
 
   // reset card fields
@@ -256,14 +263,14 @@ export default function PaymentSection({ title, userId, user, text }) {
           <div className={styles.cardWrapper}>
             {renderController(
               "plano",
-              "PLAN_77225D8F-BF7F-4531-A563-77051192B2D4",
+              planoMensal,
               "Mensal",
               "R$ 79,90/mês"
             )}
 
             {renderController(
               "plano",
-              "PLAN_21EE7E43-C3F5-4644-B55B-CD2FFC37A545",
+              planoTrimestral,
               "Trimestral",
               "R$ 69,90/mês",
               " * Um pagamento de R$ 209,70 a cada 03 meses"
@@ -271,7 +278,7 @@ export default function PaymentSection({ title, userId, user, text }) {
 
             {renderController(
               "plano",
-              "PLAN_0B04A8E2-41EE-43F8-A726-382E954E7B42",
+              planoAnual,
               "Anual",
               "R$ 62,90/mês",
               " * Um pagamento de R$ 754,80 a cada 12 meses"
