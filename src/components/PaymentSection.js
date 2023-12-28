@@ -19,6 +19,7 @@ import LoadingScreen from "./LoadingScreen";
 import { ModalActivate } from "./ModalActivate";
 import { ModalCancel } from "./ModalCancel";
 import { planoAnual, planoMensal, planoTrimestral } from "@/utils/url";
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function PaymentSection({ title, userId, user, text }) {
   //SETUPS
@@ -122,13 +123,11 @@ export default function PaymentSection({ title, userId, user, text }) {
         holder: data.holder,
         number: data.card_number,
         expMonth: data.exp_month,
-        expYear: data.exp_year,
+        expYear: "20" + data.exp_year,
         securityCode: data.security_code,
       };
 
       const encrypted = PagSeguro.encryptCard(card);
-      const jsonEnc = JSON.stringify(encrypted);
-      console.log(`encrypted: ${jsonEnc}`)
 
       const cardData = {
         encrypted: encrypted.encryptedCard,
@@ -237,6 +236,21 @@ export default function PaymentSection({ title, userId, user, text }) {
             <p className={styles.actualPlanText}>
               Vigência: <strong>{user?.next_invoice_at ?? "N/A"}</strong>
             </p>
+            {user?.payment_method[0].type === "BOLETO" && !lastBoleto && (
+              <div className={styles.boletoLoading}>
+                <p>Baixando Boleto</p>
+                <ThreeDots
+                  visible={true}
+                  height="40"
+                  width="40"
+                  color="#4fa94d"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            )}
             {user?.payment_method[0].type === "BOLETO" && lastBoleto && (
               <a
                 href={lastBoleto}
@@ -261,12 +275,7 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         ) : (
           <div className={styles.cardWrapper}>
-            {renderController(
-              "plano",
-              planoMensal,
-              "Mensal",
-              "R$ 79,90/mês"
-            )}
+            {renderController("plano", planoMensal, "Mensal", "R$ 79,90/mês")}
 
             {renderController(
               "plano",
@@ -309,7 +318,7 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         )}
 
-        {paymentType === "BOLETO" && !user?.status && (
+        {paymentType === "BOLETO" && (!user?.status || user.status === "SUSPENDED") && (
           <div className={styles.addressWrapper}>
             <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
             <div className={styles.addressSection}>
@@ -408,7 +417,7 @@ export default function PaymentSection({ title, userId, user, text }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" && !user?.status && (
+        {paymentType === "CREDIT_CARD" && (!user?.status || user.status === "SUSPENDED") && (
           <div className={styles.creditCard}>
             <div className={styles.cardInfo}>
               <div className={styles.inputCtr}>
@@ -420,6 +429,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   type="number"
                   inputMode="numeric"
                   style={{ width: "500px" }}
+                  placeholder="xxxx.xxxx.xxxx.xxxx"
                 />
                 <p>{errors.card_number?.message}</p>
               </div>
@@ -434,6 +444,8 @@ export default function PaymentSection({ title, userId, user, text }) {
                   type="number"
                   inputMode="numeric"
                   style={{ width: "90px" }}
+                  placeholder="123"
+                  
                 />
                 <p>{errors.security_code?.message}</p>
               </div>
@@ -447,8 +459,10 @@ export default function PaymentSection({ title, userId, user, text }) {
                     {...register("exp_month", {
                       required: "Campo Obrigatório",
                     })}
-                    type="number"
+                    type="text"
                     style={{ width: "80px" }}
+                    maxLength={2}
+                    placeholder="MM"
                   />
                   <p>{errors.exp_month?.message}</p>
                 </div>{" "}
@@ -458,9 +472,10 @@ export default function PaymentSection({ title, userId, user, text }) {
                     {...register("exp_year", {
                       required: "Campo Obrigatório",
                     })}
-                    type="number"
+                    type="text"
                     maxLength={2}
-                    style={{ width: "90px" }}
+                    style={{ width: "80px" }}
+                    placeholder="AA"
                   />
                   <p>{errors.exp_date?.message}</p>
                 </div>
@@ -472,6 +487,7 @@ export default function PaymentSection({ title, userId, user, text }) {
                   {...register("holder", { required: "Campo Obrigatório" })}
                   type="text"
                   style={{ width: "390px" }}
+                  placeholder="João da Silva"
                 />
                 <p>{errors.holder?.message}</p>
               </div>
@@ -479,7 +495,7 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         )}
 
-        {user?.status ? (
+        {user?.status  ? (
           <div className={styles.bottomSection}>
             <div onClick={handleOpenEditPayment} className={styles.editBtn}>
               Editar

@@ -235,6 +235,13 @@
   color: var(--green-100);
 }
 
+.boletoLoading {
+  display: flex;
+  color: white;
+  align-items: center;
+  gap: 1rem;
+}
+
 @media (max-width: 1000px) {
   .editContainer {
     gap: 1rem;

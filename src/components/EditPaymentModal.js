@@ -18,9 +18,7 @@ export default function EditPaymentModal({ title, user }) {
     control,
   } = useForm();
 
-  const publicKey =
-    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB";
-
+  const publicKey = process.env.NEXT_PUBLIC_CARD_ENCRYPT_KEY;
   //STATES
   const [clickedCard, setClickedCard] = useState({});
   const [loading, setLoading] = useState(false);
@@ -77,7 +75,7 @@ export default function EditPaymentModal({ title, user }) {
       holder: data.holder,
       number: data.card_number,
       expMonth: data.exp_month,
-      expYear: data.exp_year,
+      expYear: "20" + data.exp_year,
       securityCode: data.security_code,
     };
 
@@ -381,6 +379,7 @@ export default function EditPaymentModal({ title, user }) {
                     type="number"
                     inputMode="numeric"
                     style={{ width: "500px" }}
+                    placeholder="xxxx.xxxx.xxxx.xxxx"
                   />
                   <p>{errors.card_number?.message}</p>
                 </div>
@@ -392,9 +391,11 @@ export default function EditPaymentModal({ title, user }) {
                       required: "Campo Obrigatório",
                       maxLength: 3,
                     })}
-                    type="number"
+                    type="text"
                     inputMode="numeric"
                     style={{ width: "90px" }}
+                    maxLength={3}
+                    placeholder="123"
                   />
                   <p>{errors.security_code?.message}</p>
                 </div>
@@ -408,8 +409,12 @@ export default function EditPaymentModal({ title, user }) {
                       {...register("exp_month", {
                         required: "Campo Obrigatório",
                       })}
-                      type="number"
+                      type="text"
                       style={{ width: "80px" }}
+                      maxLength={2}
+                      minLength={2}
+                      placeholder="MM"
+
                     />
                     <p>{errors.exp_month?.message}</p>
                   </div>{" "}
@@ -419,9 +424,11 @@ export default function EditPaymentModal({ title, user }) {
                       {...register("exp_year", {
                         required: "Campo Obrigatório",
                       })}
-                      type="number"
+                      type="text"
                       maxLength={2}
-                      style={{ width: "90px" }}
+                      style={{ width: "80px" }}
+                      minLength={2}
+                      placeholder="AA"
                     />
                     <p>{errors.exp_date?.message}</p>
                   </div>
@@ -433,6 +440,7 @@ export default function EditPaymentModal({ title, user }) {
                     {...register("holder", { required: "Campo Obrigatório" })}
                     type="text"
                     style={{ width: "390px" }}
+                    placeholder="João da Silva"
                   />
                   <p>{errors.holder?.message}</p>
                 </div>
