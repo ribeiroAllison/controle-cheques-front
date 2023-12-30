@@ -495,31 +495,29 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         )}
 
-        {user?.status  ? (
+        {user?.status? (
           <div className={styles.bottomSection}>
             <div onClick={handleOpenEditPayment} className={styles.editBtn}>
               Editar
             </div>
-            {user?.status && user?.status !== "SUSPENDED" ? (
+            {user?.status !== "SUSPENDED" ? (
               <span
                 onClick={handleCancelModalOpen}
                 className={styles.cancelBtn}
               >
                 Desejo suspender minha assinatura.
               </span>
-            ) : null}
-          </div>
-        ) : (
-          <div className={styles.bottomSection}>
-            <Button type="submit">Salvar</Button>
-            {user?.status === "SUSPENDED" ? (
-              <span
+            ) : 
+            <span
                 onClick={handleActivateModalOpen}
                 className={styles.cancelBtn}
               >
                 Desejo ativar minha assinatura.
-              </span>
-            ) : null}
+              </span>}
+          </div>
+        ) : (
+          <div className={styles.bottomSection}>
+            <Button type="submit">Salvar</Button>
           </div>
         )}
       </form>
