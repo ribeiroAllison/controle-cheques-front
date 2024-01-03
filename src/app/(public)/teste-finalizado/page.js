@@ -5,6 +5,7 @@ import PaymentSection from "@/components/PaymentSection";
 import LoadingScreen from '@/components/LoadingScreen';
 import { useState , useEffect} from 'react';
 import styles from '@/styles/teste-finalizado.module.css'
+import { ToastContainer } from 'react-toastify';
 
 const TesteFinalizado = () => {
 
@@ -46,6 +47,7 @@ const TesteFinalizado = () => {
   return(
     <div className={styles.editWrapper}>
       <LoadingScreen loading={loading}/>
+      <ToastContainer autoClose={2000} />
       <PaymentSection 
         userId={user && user.id}
         title={"Planos & Pagamento"}

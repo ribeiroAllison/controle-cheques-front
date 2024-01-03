@@ -175,8 +175,8 @@ export default function EditPaymentModal({ title, user }) {
 
   useEffect(() => {
     if (user?.payment_method) {
-      setPaymentType(user?.payment_method[0]?.type);
-      handleDivClick("plano", user?.plan.id);
+      setPaymentType(user?.payment_method?.[0]?.type);
+      handleDivClick("plano", user?.plan?.id);
     }
   }, [user]);
 
@@ -414,7 +414,6 @@ export default function EditPaymentModal({ title, user }) {
                       maxLength={2}
                       minLength={2}
                       placeholder="MM"
-
                     />
                     <p>{errors.exp_month?.message}</p>
                   </div>{" "}

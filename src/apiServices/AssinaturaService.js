@@ -26,7 +26,6 @@ export default class Assinatura {
 
       return response;
     } catch (error) {
-      console.log(error);
       return error.response;
     }
   };

@@ -19,7 +19,7 @@ import LoadingScreen from "./LoadingScreen";
 import { ModalActivate } from "./ModalActivate";
 import { ModalCancel } from "./ModalCancel";
 import { planoAnual, planoMensal, planoTrimestral } from "@/utils/url";
-import { ThreeDots } from 'react-loader-spinner'
+import { ThreeDots } from "react-loader-spinner";
 
 export default function PaymentSection({ title, userId, user, text }) {
   //SETUPS
@@ -42,7 +42,7 @@ export default function PaymentSection({ title, userId, user, text }) {
   const [PagSeguro, setPagSeguro] = useState();
   const [lastBoleto, setLastBoleto] = useState(null);
 
-  // console.log(user);
+  console.log("Usuario => ", user);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -102,6 +102,7 @@ export default function PaymentSection({ title, userId, user, text }) {
           setLoading(false);
         } else {
           notifyFailure("Erro ao gerar boleto! Tente novamente.");
+          setLoading(false);
         }
       } else {
         setLoading(false);
@@ -117,51 +118,42 @@ export default function PaymentSection({ title, userId, user, text }) {
       return;
     }
 
-    if (!user?.assinatura_id) {
-      const card = {
-        publicKey,
-        holder: data.holder,
-        number: data.card_number,
-        expMonth: data.exp_month,
-        expYear: "20" + data.exp_year,
-        securityCode: data.security_code,
-      };
+    const card = {
+      publicKey,
+      holder: data.holder,
+      number: data.card_number,
+      expMonth: data.exp_month,
+      expYear: "20" + data.exp_year,
+      securityCode: data.security_code,
+    };
 
-      const encrypted = PagSeguro.encryptCard(card);
+    const encrypted = PagSeguro.encryptCard(card);
 
-      const cardData = {
-        encrypted: encrypted.encryptedCard,
-        security_code: data.security_code,
-        holder: { name: data.holder },
-        store: true,
-      };
+    const cardData = {
+      encrypted: encrypted.encryptedCard,
+      security_code: data.security_code,
+      holder: { name: data.holder },
+      store: true,
+    };
 
-      const cartDataJson = JSON.stringify(cardData);
-
-      console.log(`carData: ${cartDataJson}`);
-
-      setLoading(true);
-      const response = await Assinatura.criarAssinaturaCartao(
-        userId,
-        data.plano,
-        cardData
+    setLoading(true);
+    const response = await Assinatura.criarAssinaturaCartao(
+      userId,
+      data.plano,
+      cardData
+    );
+    console.log(response.data);
+    setLoading(false);
+    if (response.status === 200) {
+      notifySuccess(
+        "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
       );
-      setLoading(false);
-      console.log(response);
-      if (response.status === 200) {
-        notifySuccess(
-          "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
-        );
-        resetCardFormValues();
-        location.reload();
-      } else {
-        notifyFailure(
-          `Falha ao processar pagamento: ${response.data.error_messages[0].error}`
-        );
-      }
+      resetCardFormValues();
+      location.reload();
     } else {
-      setLoading(false);
-      }
+      console.log("estou entrando na condição de negação de cartão")
+      notifyFailure(response.data);
+    }
   };
 
   // reset card fields
@@ -214,7 +206,7 @@ export default function PaymentSection({ title, userId, user, text }) {
   }, []);
 
   useEffect(() => {
-    if (user?.id) {
+    if (user?.payment_method && user?.payment_method?.[0]?.type === "BOLETO") {
       getLastBoleto();
     }
   }, [user]);
@@ -228,7 +220,7 @@ export default function PaymentSection({ title, userId, user, text }) {
         className={styles.paymentForm}
         onSubmit={handleSubmit(onPlanSubmit)}
       >
-        {user?.status && user?.status !== "SUSPENDED" ? (
+        {user?.status ? (
           <div className={styles.actualPlanSection}>
             <p className={styles.actualPlanText}>
               Plano Atual: <strong>{user?.plan.name}</strong>
@@ -251,17 +243,6 @@ export default function PaymentSection({ title, userId, user, text }) {
                 />
               </div>
             )}
-            {user?.payment_method[0].type === "BOLETO" && lastBoleto && (
-              <a
-                href={lastBoleto}
-                target="_blank"
-                className={styles.boletoLink}
-              >
-                {" "}
-                Baixe seu último boleto aqui!{" "}
-              </a>
-            )}
-
             {user?.status === "PENDING" && (
               <p className={styles.actualPlanText}>
                 Situação: <strong>Pendente</strong>
@@ -271,6 +252,23 @@ export default function PaymentSection({ title, userId, user, text }) {
               <p className={styles.actualPlanText}>
                 Situação: <strong>Fatura atrasada.</strong>
               </p>
+            )}
+
+            {user?.status === "SUSPENDED" && (
+              <p className={styles.actualPlanText}>
+                Situação: <strong>Assinatura suspensa.</strong>
+              </p>
+            )}
+
+            {user?.payment_method[0].type === "BOLETO" && lastBoleto && (
+              <a
+                href={lastBoleto}
+                target="_blank"
+                className={styles.boletoLink}
+              >
+                {" "}
+                Baixe seu último boleto aqui!{" "}
+              </a>
             )}
           </div>
         ) : (
@@ -294,7 +292,10 @@ export default function PaymentSection({ title, userId, user, text }) {
             )}
           </div>
         )}
-        {user?.status === "ACTIVE" || user?.status === "PENDING" ? null : (
+
+        {user?.status === "ACTIVE" ||
+        user?.status === "PENDING" ||
+        user?.status === "SUSPENDED" ? null : (
           <div className={styles.paymentWrapper}>
             <input
               type="radio"
@@ -318,97 +319,100 @@ export default function PaymentSection({ title, userId, user, text }) {
           </div>
         )}
 
-        {paymentType === "BOLETO" && (!user?.status || user.status === "SUSPENDED") && (
-          <div className={styles.addressWrapper}>
-            <h3 className={styles.addressSectionTitle}>Endereço de Cobrança</h3>
-            <div className={styles.addressSection}>
-              <div className={styles.inputWrapper}>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="postal_code">CEP:</label>
-                  <div className={styles.cepSearch}>
+        {paymentType === "BOLETO" &&
+          (!user?.status || user.status === "SUSPENDED") && (
+            <div className={styles.addressWrapper}>
+              <h3 className={styles.addressSectionTitle}>
+                Endereço de Cobrança
+              </h3>
+              <div className={styles.addressSection}>
+                <div className={styles.inputWrapper}>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="postal_code">CEP:</label>
+                    <div className={styles.cepSearch}>
+                      <input
+                        placeholder="XX.XXX-XXX"
+                        type="text"
+                        inputMode="numeric"
+                        style={{ width: "180px" }}
+                        onBlur={searchAddress}
+                        {...register("postal_code")}
+                      />
+                      <MagnifyingGlass
+                        width={36}
+                        height={36}
+                        color="#0CD494"
+                        weight="fill"
+                        className={styles.icon}
+                        alt="Clique para buscar!"
+                        onClick={searchAddress}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="street">Endereço:</label>
                     <input
-                      placeholder="XX.XXX-XXX"
+                      placeholder="Avenida dos Estados"
                       type="text"
-                      inputMode="numeric"
-                      style={{ width: "180px" }}
-                      onBlur={searchAddress}
-                      {...register("postal_code")}
+                      {...register("street")}
+                      required
                     />
-                    <MagnifyingGlass
-                      width={36}
-                      height={36}
-                      color="#0CD494"
-                      weight="fill"
-                      className={styles.icon}
-                      alt="Clique para buscar!"
-                      onClick={searchAddress}
+                  </div>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="number">Número:</label>
+                    <input
+                      placeholder="1508"
+                      type="text"
+                      style={{ width: "100px" }}
+                      {...register("number")}
+                      required
                     />
                   </div>
                 </div>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="street">Endereço:</label>
-                  <input
-                    placeholder="Avenida dos Estados"
-                    type="text"
-                    {...register("street")}
-                    required
-                  />
-                </div>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="number">Número:</label>
-                  <input
-                    placeholder="1508"
-                    type="text"
-                    style={{ width: "100px" }}
-                    {...register("number")}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={styles.inputWrapper}>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="locality">Bairro:</label>
-                  <input
-                    placeholder="Centro"
-                    type="text"
-                    style={{ width: "200px" }}
-                    {...register("locality")}
-                    required
-                  />
-                </div>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="complement">Complemento:</label>
-                  <input
-                    placeholder="Apto 01"
-                    type="text"
-                    style={{ width: "150px" }}
-                    {...register("complement")}
-                  />
-                </div>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="city">Cidade:</label>
-                  <input
-                    placeholder="São Paulo"
-                    type="text"
-                    style={{ width: "250px" }}
-                    {...register("city")}
-                    required
-                  />
-                </div>
-                <div className={styles.inputCtr}>
-                  <label htmlFor="region_code">Estado:</label>
-                  <input
-                    placeholder="SP"
-                    type="text"
-                    style={{ width: "70px" }}
-                    {...register("region_code")}
-                    required
-                  />
+                <div className={styles.inputWrapper}>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="locality">Bairro:</label>
+                    <input
+                      placeholder="Centro"
+                      type="text"
+                      style={{ width: "200px" }}
+                      {...register("locality")}
+                      required
+                    />
+                  </div>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="complement">Complemento:</label>
+                    <input
+                      placeholder="Apto 01"
+                      type="text"
+                      style={{ width: "150px" }}
+                      {...register("complement")}
+                    />
+                  </div>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="city">Cidade:</label>
+                    <input
+                      placeholder="São Paulo"
+                      type="text"
+                      style={{ width: "250px" }}
+                      {...register("city")}
+                      required
+                    />
+                  </div>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="region_code">Estado:</label>
+                    <input
+                      placeholder="SP"
+                      type="text"
+                      style={{ width: "70px" }}
+                      {...register("region_code")}
+                      required
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
         {boletoUrl && (
           <a href={boletoUrl} target="_blank" className={styles.boletoLink}>
@@ -417,89 +421,91 @@ export default function PaymentSection({ title, userId, user, text }) {
           </a>
         )}
 
-        {paymentType === "CREDIT_CARD" && (!user?.status || user.status === "SUSPENDED") && (
-          <div className={styles.creditCard}>
-            <div className={styles.cardInfo}>
-              <div className={styles.inputCtr}>
-                <label htmlFor="card_number">Número do Cartão:</label>
-                <input
-                  {...register("card_number", {
-                    required: "Campo Obrigatório",
-                  })}
-                  type="number"
-                  inputMode="numeric"
-                  style={{ width: "500px" }}
-                  placeholder="xxxx.xxxx.xxxx.xxxx"
-                />
-                <p>{errors.card_number?.message}</p>
-              </div>
-
-              <div className={styles.inputCtr}>
-                <label htmlFor="security_code">CV:</label>
-                <input
-                  {...register("security_code", {
-                    required: "Campo Obrigatório",
-                    maxLength: 3,
-                  })}
-                  type="number"
-                  inputMode="numeric"
-                  style={{ width: "90px" }}
-                  placeholder="123"
-                  
-                />
-                <p>{errors.security_code?.message}</p>
-              </div>
-            </div>
-
-            <div className={styles.cardInfo}>
-              <div className={styles.expDate}>
+        {paymentType === "CREDIT_CARD" &&
+          (!user?.status || user.status === "SUSPENDED") && (
+            <div className={styles.creditCard}>
+              <div className={styles.cardInfo}>
                 <div className={styles.inputCtr}>
-                  <label htmlFor="exp_month">Mês:</label>
+                  <label htmlFor="card_number">Número do Cartão:</label>
                   <input
-                    {...register("exp_month", {
+                    {...register("card_number", {
                       required: "Campo Obrigatório",
                     })}
-                    type="text"
-                    style={{ width: "80px" }}
-                    maxLength={2}
-                    placeholder="MM"
+                    type="number"
+                    inputMode="numeric"
+                    style={{ width: "500px" }}
+                    placeholder="xxxx.xxxx.xxxx.xxxx"
                   />
-                  <p>{errors.exp_month?.message}</p>
-                </div>{" "}
+                  <p>{errors.card_number?.message}</p>
+                </div>
+
                 <div className={styles.inputCtr}>
-                  <label htmlFor="exp_year">Ano:</label>
+                  <label htmlFor="security_code">CV:</label>
                   <input
-                    {...register("exp_year", {
+                    {...register("security_code", {
                       required: "Campo Obrigatório",
+                      maxLength: 3,
                     })}
-                    type="text"
-                    maxLength={2}
-                    style={{ width: "80px" }}
-                    placeholder="AA"
+                    type="number"
+                    inputMode="numeric"
+                    style={{ width: "90px" }}
+                    placeholder="123"
                   />
-                  <p>{errors.exp_date?.message}</p>
+                  <p>{errors.security_code?.message}</p>
                 </div>
               </div>
 
-              <div className={styles.inputCtr}>
-                <label htmlFor="holder">Nome do Titular:</label>
-                <input
-                  {...register("holder", { required: "Campo Obrigatório" })}
-                  type="text"
-                  style={{ width: "390px" }}
-                  placeholder="João da Silva"
-                />
-                <p>{errors.holder?.message}</p>
+              <div className={styles.cardInfo}>
+                <div className={styles.expDate}>
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="exp_month">Mês:</label>
+                    <input
+                      {...register("exp_month", {
+                        required: "Campo Obrigatório",
+                      })}
+                      type="text"
+                      style={{ width: "80px" }}
+                      maxLength={2}
+                      placeholder="MM"
+                    />
+                    <p>{errors.exp_month?.message}</p>
+                  </div>{" "}
+                  <div className={styles.inputCtr}>
+                    <label htmlFor="exp_year">Ano:</label>
+                    <input
+                      {...register("exp_year", {
+                        required: "Campo Obrigatório",
+                      })}
+                      type="text"
+                      maxLength={2}
+                      style={{ width: "80px" }}
+                      placeholder="AA"
+                    />
+                    <p>{errors.exp_date?.message}</p>
+                  </div>
+                </div>
+
+                <div className={styles.inputCtr}>
+                  <label htmlFor="holder">Nome do Titular:</label>
+                  <input
+                    {...register("holder", { required: "Campo Obrigatório" })}
+                    type="text"
+                    style={{ width: "390px" }}
+                    placeholder="João da Silva"
+                  />
+                  <p>{errors.holder?.message}</p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {user?.status? (
+        {user?.status ? (
           <div className={styles.bottomSection}>
-            <div onClick={handleOpenEditPayment} className={styles.editBtn}>
-              Editar
-            </div>
+            {user.status !== "SUSPENDED" && (
+              <div onClick={handleOpenEditPayment} className={styles.editBtn}>
+                Editar Plano
+              </div>
+            )}
             {user?.status !== "SUSPENDED" ? (
               <span
                 onClick={handleCancelModalOpen}
@@ -507,13 +513,11 @@ export default function PaymentSection({ title, userId, user, text }) {
               >
                 Desejo suspender minha assinatura.
               </span>
-            ) : 
-            <span
-                onClick={handleActivateModalOpen}
-                className={styles.cancelBtn}
-              >
-                Desejo ativar minha assinatura.
-              </span>}
+            ) : (
+              <Button onClick={handleActivateModalOpen}>
+                Ativar Assinatura
+              </Button>
+            )}
           </div>
         ) : (
           <div className={styles.bottomSection}>

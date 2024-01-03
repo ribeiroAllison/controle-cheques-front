@@ -2,17 +2,20 @@ import Assinatura from "@/apiServices/AssinaturaService";
 import style from "@/styles/ModalObs.module.css";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import ButtonAlternative from "./ButtonAlternative";
+import Image from "next/image";
 
 export const ModalActivate = ({ handleActivateModalClose, assinaturaId }) => {
-
   const handleActivateSubscription = async () => {
-    if(assinaturaId) {
+    if (assinaturaId) {
       const response = await Assinatura.ativarAssinatura(assinaturaId);
-      if(response.status === 204) {
+      if (response.status === 204) {
         notifySuccess("Assinatura ativada com sucesso!");
-        handleActivateModalClose()
+        handleActivateModalClose();
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
       } else {
-        notifyFailure("Não foi possível ativada a assinatura!")
+        notifyFailure("Não foi possível ativada a assinatura!");
       }
     }
   };
@@ -20,10 +23,12 @@ export const ModalActivate = ({ handleActivateModalClose, assinaturaId }) => {
   return (
     <div id={style.obsBackground} className="activateScreen">
       <div className={style.obsCtr}>
-        <img
+        <Image
           src="/images/x-icon.svg"
           onClick={handleActivateModalClose}
           alt="Icone para fechar modal"
+          width={22}
+          height={22}
         />
         <div className={style.popupHeader}>
           <div className={style.popupHeaderTitle}>

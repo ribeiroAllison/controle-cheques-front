@@ -37,5 +37,7 @@ export const config = {
     "/cheques/:path*",
     "/configuracoes/:path*",
     "/dashboard/:path*",
+    "/perfil/:path*",
+    "/suporte/:path*",
   ],
 };

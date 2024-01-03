@@ -46,18 +46,21 @@ const Perfil = () => {
   const getUser = async (id) => {
     try {
       setIsLoading(true);
-      const res = await User.getUserById(id);
-      console.log(res);
-      if (res) {
-        setUser(res);
-        setValue("nome", res.name);
-        setValue("email", res.email);
-        const formattedDate = res.birth_date
-          ? new Date(res.birth_date).toISOString().split("T")[0]
+      const user = await User.getUserById(id);
+      console.log("Usuario => ", user);
+      if (user) {
+        setUser(user);
+        setValue("nome", user.name);
+        setValue("email", user.email);
+        const formattedDate = user.birth_date
+          ? new Date(user.birth_date).toISOString().split("T")[0]
           : "";
         setValue("birth_date", formattedDate);
-        setValue("phones", formatPhoneNumber(res.phones[0].area.concat(res.phones[0].number)));
-        setPagSeguroId(res.id);
+        setValue(
+          "phones",
+          formatPhoneNumber(user.phones[0].area.concat(user.phones[0].number))
+        );
+        setPagSeguroId(user.id);
         setIsLoading(false);
       }
     } catch (error) {
@@ -66,7 +69,7 @@ const Perfil = () => {
     }
   };
 
-  const getResponse = async (user) => {
+  const getResponse = async (user) => { 
     setIsLoading(true);
     const response = await User.editUser(user);
 
@@ -109,7 +112,7 @@ const Perfil = () => {
           <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputWrapper}>
               <div className={styles.inputCtr}>
-                <label>Nome:</label>
+                <label htmlFor="nome">Nome:</label>
                 <input
                   {...register("nome", { required: "Campo Obrigatório" })}
                   type="text"
@@ -117,7 +120,7 @@ const Perfil = () => {
                 <p>{errors.nome?.message}</p>
               </div>
               <div className={styles.inputCtr}>
-                <label>Email:</label>
+                <label htmlFor="email">Email:</label>
                 <input
                   {...register("email", { required: "Campo Obrigatório" })}
                   type="text"
@@ -127,7 +130,7 @@ const Perfil = () => {
             </div>
             <div className={styles.inputWrapper}>
               <div className={styles.inputCtr}>
-                <label>Data de Nascimento:</label>
+                <label htmlFor="birth_date">Data de Nascimento:</label>
                 <input
                   {...register("birth_date", { required: "Campo Obrigatório" })}
                   type="date"
@@ -135,7 +138,7 @@ const Perfil = () => {
                 <p>{errors.birth_date?.message}</p>
               </div>
               <div className={styles.inputCtr}>
-                <label>Telefone:</label>
+                <label htmlFor="phones">Telefone:</label>
                 <input
                   {...register("phones", { required: "Campo Obrigatório" })}
                   type="text"
