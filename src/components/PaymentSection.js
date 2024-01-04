@@ -100,6 +100,9 @@ export default function PaymentSection({ title, userId, user, text }) {
           setBoletoUrl(response.data[0].href);
           notifySuccess("Boleto gerado com sucesso!");
           setLoading(false);
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         } else {
           notifyFailure("Erro ao gerar boleto! Tente novamente.");
           setLoading(false);
@@ -151,7 +154,7 @@ export default function PaymentSection({ title, userId, user, text }) {
       resetCardFormValues();
       location.reload();
     } else {
-      console.log("estou entrando na condição de negação de cartão")
+      console.log("estou entrando na condição de negação de cartão");
       notifyFailure(response.data);
     }
   };
@@ -507,12 +510,13 @@ export default function PaymentSection({ title, userId, user, text }) {
               </div>
             )}
             {user?.status !== "SUSPENDED" ? (
-              <span
+              <button
                 onClick={handleCancelModalOpen}
                 className={styles.cancelBtn}
+                type="button"
               >
                 Desejo suspender minha assinatura.
-              </span>
+              </button>
             ) : (
               <Button onClick={handleActivateModalOpen}>
                 Ativar Assinatura

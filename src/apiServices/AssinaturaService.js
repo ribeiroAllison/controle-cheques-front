@@ -73,24 +73,37 @@ export default class Assinatura {
     try {
       const response = await connection.put("/assinaturas/alterar-cartao", {
         user_id,
-        card: cardData
-      })
+        card: cardData,
+      });
       return response;
     } catch (error) {
       console.log(error);
       return error.response;
     }
-  }
+  };
 
   static buscarUltimoBoleto = async (assinaturaId) => {
     try {
       const response = await connection.post("/assinaturas/boleto/pendencia", {
-        sub_id: assinaturaId
-      })
+        sub_id: assinaturaId,
+      });
       return response;
     } catch (error) {
       console.log(error);
       return error.response;
     }
-  }
+  };
+
+  static alterarEndereco = async (user_id, address) => {
+    try {
+      const response = await connection.put("/assinaturas/alterar-endereco", {
+        user_id,
+        address,
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  };
 }

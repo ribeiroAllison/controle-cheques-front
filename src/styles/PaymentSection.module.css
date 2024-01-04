@@ -193,6 +193,8 @@
 .cancelBtn {
   color: var(--white);
   font-size: 1rem;
+  background: transparent;
+  border: 0;
 }
 
 .cancelBtn:hover {
