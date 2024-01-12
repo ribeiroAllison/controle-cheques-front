@@ -10,6 +10,7 @@
 .titleWrapper {
   width: 90%;
   margin: 0 auto;
+  text-align: left;
 }
 
 .titleWrapper h1 {
