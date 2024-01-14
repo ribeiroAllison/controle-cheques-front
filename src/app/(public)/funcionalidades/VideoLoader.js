@@ -5,8 +5,8 @@ export default function VideoLoader ({url, title}) {
       <section className={styles.funcionalidadesSection}>
         <div className={styles.funcionalidadesVideo}>
           <iframe 
-            width={440}
-            height={250}
+            width={500}
+            height={282}
             src={url}
             frameBorder="0"
             allowFullScreen

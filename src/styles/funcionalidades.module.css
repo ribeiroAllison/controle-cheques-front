@@ -47,6 +47,7 @@
   display: flex;
   gap: 1rem;
   padding: 2rem 4rem;
+  justify-content: space-between;
 }
 
 .funcionalidadesTitle {
