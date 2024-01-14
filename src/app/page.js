@@ -132,7 +132,7 @@ export default function Page() {
               width={650}
               height={400}
               src="https://www.youtube.com/embed/RifTZ3UY-cQ"
-              title="YouTube video player"
+              title="Vídeo institucional recebi.app"
               frameBorder="0"
               allowFullScreen
             >
