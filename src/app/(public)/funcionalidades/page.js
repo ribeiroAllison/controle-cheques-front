@@ -243,7 +243,7 @@ export default function Funcionalidades() {
           </div>
           <VideoLoader
           title="Funcionalidades Cadastro Recebíveis"
-          url="https://www.youtube.com/embed/rYE_gXtDsS4"
+          url="https://www.youtube.com/embed/pJVQMDch5H8"
         />
         </section>
         
