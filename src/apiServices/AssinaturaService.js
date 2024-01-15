@@ -30,10 +30,11 @@ export default class Assinatura {
     }
   };
 
-  static ativarAssinatura = async (sub_id) => {
+  static ativarAssinatura = async (sub_id, user_id) => {
     try {
       const response = await connection.put("/assinaturas/ativar", {
         sub_id,
+        user_id
       });
       return response;
     } catch (error) {
@@ -42,10 +43,11 @@ export default class Assinatura {
     }
   };
 
-  static suspenderAssinatura = async (sub_id) => {
+  static suspenderAssinatura = async (sub_id, user_id) => {
     try {
       const response = await connection.put("/assinaturas/suspender", {
         sub_id,
+        user_id
       });
       return response;
     } catch (error) {

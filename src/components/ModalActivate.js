@@ -1,24 +1,17 @@
-import Assinatura from "@/apiServices/AssinaturaService";
-import style from "@/styles/ModalObs.module.css";
-import { notifyFailure, notifySuccess } from "@/utils/utils";
-import ButtonAlternative from "./ButtonAlternative";
 import Image from "next/image";
+import ButtonAlternative from "./ButtonAlternative";
+import style from "@/styles/ModalObs.module.css";
 
-export const ModalActivate = ({ handleActivateModalClose, assinaturaId }) => {
+export const ModalActivate = ({ handleOpenEditPayment, handleActivateModalClose, assinaturaId }) => {
   const handleActivateSubscription = async () => {
     if (assinaturaId) {
-      const response = await Assinatura.ativarAssinatura(assinaturaId);
-      if (response.status === 204) {
-        notifySuccess("Assinatura ativada com sucesso!");
-        handleActivateModalClose();
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
-      } else {
-        notifyFailure("Não foi possível ativada a assinatura!");
-      }
+      handleOpenModalEditPayment()
     }
   };
+
+  const handleOpenModalEditPayment = () => {
+    handleOpenEditPayment()
+  }
 
   return (
     <div id={style.obsBackground} className="activateScreen">
@@ -36,9 +29,6 @@ export const ModalActivate = ({ handleActivateModalClose, assinaturaId }) => {
           </div>
         </div>
         <div>
-          {/*<p className={style.popupMessage}>
-            Ao suspender a assinatura, você terá que reativa-la para voltar a utilizar o sistema.
-  </p>*/}
         </div>
         <div className={style.btnContainer}>
           <ButtonAlternative

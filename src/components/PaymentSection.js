@@ -1,6 +1,18 @@
 "use client";
+
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+
+import { ThreeDots } from "react-loader-spinner";
+import { MagnifyingGlass } from "@phosphor-icons/react";
+
+import Button from "./Button";
+import LoadingScreen from "./LoadingScreen";
+import EditPaymentModal from "./EditPaymentModal";
+import { ModalActivate } from "./ModalActivate";
+import { ModalCancel } from "./ModalCancel";
+
 import Assinatura from "@/apiServices/AssinaturaService";
-import styles from "@/styles/PaymentSection.module.css";
 import { fetchCEP } from "@/utils/cep";
 import {
   handleActivateModalClose,
@@ -10,16 +22,12 @@ import {
   handleOpenEditPayment,
 } from "@/utils/modal-functions";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
-import { MagnifyingGlass } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import Button from "./Button";
-import EditPaymentModal from "./EditPaymentModal";
-import LoadingScreen from "./LoadingScreen";
-import { ModalActivate } from "./ModalActivate";
-import { ModalCancel } from "./ModalCancel";
 import { planoAnual, planoMensal, planoTrimestral } from "@/utils/url";
-import { ThreeDots } from "react-loader-spinner";
+
+import styles from "@/styles/PaymentSection.module.css";
+import { useRouter } from "next/navigation";
+import { setCookie } from "@/utils/cookie";
+import Link from "next/link";
 
 export default function PaymentSection({ title, userId, user, text }) {
   //SETUPS
@@ -32,6 +40,7 @@ export default function PaymentSection({ title, userId, user, text }) {
     watch,
     getValues,
   } = useForm();
+  const router = useRouter();
 
   const publicKey = process.env.NEXT_PUBLIC_CARD_ENCRYPT_KEY;
 
@@ -41,8 +50,6 @@ export default function PaymentSection({ title, userId, user, text }) {
   const [loading, setLoading] = useState(false);
   const [PagSeguro, setPagSeguro] = useState();
   const [lastBoleto, setLastBoleto] = useState(null);
-
-  console.log("Usuario => ", user);
 
   const handleDivClick = (fieldName, value) => {
     setValue(fieldName, value);
@@ -98,10 +105,10 @@ export default function PaymentSection({ title, userId, user, text }) {
 
         if (response.status === 200) {
           setBoletoUrl(response.data[0].href);
-          notifySuccess("Boleto gerado com sucesso!");
+          notifySuccess("Boleto gerado com sucesso! Seja bem vindo ao Recebi.app!");
           setLoading(false);
           setTimeout(() => {
-            location.reload();
+            router.push('/dashboard');
           }, 2000);
         } else {
           notifyFailure("Erro ao gerar boleto! Tente novamente.");
@@ -145,16 +152,17 @@ export default function PaymentSection({ title, userId, user, text }) {
       data.plano,
       cardData
     );
-    console.log(response.data);
     setLoading(false);
     if (response.status === 200) {
       notifySuccess(
-        "Pagamento processado com sucesso! Bem vindo ao recebi.app!"
+        "Pagamento processado com sucesso! Bem vindo ao Recebi.app!"
       );
       resetCardFormValues();
-      location.reload();
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
     } else {
-      console.log("estou entrando na condição de negação de cartão");
+      console.log("Estou entrando na condição de negação de cartão");
       notifyFailure(response.data);
     }
   };
@@ -297,8 +305,8 @@ export default function PaymentSection({ title, userId, user, text }) {
         )}
 
         {user?.status === "ACTIVE" ||
-        user?.status === "PENDING" ||
-        user?.status === "SUSPENDED" ? null : (
+          user?.status === "PENDING" ||
+          user?.status === "SUSPENDED" ? null : (
           <div className={styles.paymentWrapper}>
             <input
               type="radio"
@@ -526,16 +534,24 @@ export default function PaymentSection({ title, userId, user, text }) {
         ) : (
           <div className={styles.bottomSection}>
             <Button type="submit">Salvar</Button>
+            <Link href="/login">
+              <Button style={{ backgroundColor: "var(--orangeTd)" }} type="button">
+                Voltar para Login
+              </Button>
+            </Link>
           </div>
         )}
       </form>
       <ModalCancel
         handleCancelModalClose={handleCancelModalClose}
         assinaturaId={user?.assinatura_id}
+        user_id={user?.userId}
       />
       <ModalActivate
         handleActivateModalClose={handleActivateModalClose}
+        handleOpenEditPayment={handleOpenEditPayment}
         assinaturaId={user?.assinatura_id}
+        user_id={user?.userId}
       />
       <EditPaymentModal title="Edite Seu Plano" user={user} />
     </section>

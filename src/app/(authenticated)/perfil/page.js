@@ -1,15 +1,18 @@
 "use client";
 
-import User from "@/apiServices/UserService";
-import Button from "@/components/Button";
-import LoadingScreen from "@/components/LoadingScreen";
-import PaymentSection from "@/components/PaymentSection";
-import styles from "@/styles/perfil.module.css";
-import { formatPhoneNumber, notifyFailure, notifySuccess } from "@/utils/utils";
-import decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
+import decode from "jwt-decode";
+
+import Button from "@/components/Button";
+import LoadingScreen from "@/components/LoadingScreen";
+import PaymentSection from "@/components/PaymentSection";
+
+import User from "@/apiServices/UserService";
+import { formatPhoneNumber, notifyFailure, notifySuccess } from "@/utils/utils";
+
+import styles from "@/styles/perfil.module.css";
 
 const Perfil = () => {
   //SET UPS
@@ -47,7 +50,6 @@ const Perfil = () => {
     try {
       setIsLoading(true);
       const user = await User.getUserById(id);
-      console.log("Usuario => ", user);
       if (user) {
         setUser(user);
         setValue("nome", user.name);

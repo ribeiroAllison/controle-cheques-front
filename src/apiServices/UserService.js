@@ -48,7 +48,6 @@ export default class User {
         setCookie("paymentMethod", response.data.paymentMethod);
         setCookie("nextInvoice", response.data.nextInvoice);
         setCookie("signatureDaysLeft", response.data.signatureDaysLeft);
-        console.log(response);
         return response;
         
       } else {

@@ -4,10 +4,10 @@ import { notifyFailure, notifySuccess } from "@/utils/utils";
 import ButtonAlternative from "./ButtonAlternative";
 import Image from "next/image";
 
-export const ModalCancel = ({ handleCancelModalClose, assinaturaId }) => {
+export const ModalCancel = ({ handleCancelModalClose, assinaturaId, user_id }) => {
   const handleCancelSubscription = async () => {
     if (assinaturaId) {
-      const response = await Assinatura.suspenderAssinatura(assinaturaId);
+      const response = await Assinatura.suspenderAssinatura(assinaturaId, user_id);
       if (response.status === 204) {
         notifySuccess("Assinatura suspensa com sucesso!");
         handleCancelModalClose();
