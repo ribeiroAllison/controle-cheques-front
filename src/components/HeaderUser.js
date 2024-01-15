@@ -24,11 +24,12 @@ export default function HeaderUser() {
     if (confirmation) {
       removeCookie('token');
       removeCookie('user');
-      removeCookie('userAllowed');
+      removeCookie('isUserAllowed');
       removeCookie('trialDays');
       removeCookie('paid');
       removeCookie('paymentMethod');
       removeCookie('nextInvoice');
+      removeCookie('signatureDaysLeft');
       setTimeout(() => {
         router.push("/login");
       }, 1100);

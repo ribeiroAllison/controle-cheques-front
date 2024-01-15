@@ -1,14 +1,19 @@
 "use client";
-import Assinatura from "@/apiServices/AssinaturaService";
-import styles from "@/styles/EditPaymentModal.module.css";
-import { handleCloseEditPayment } from "@/utils/modal-functions";
-import { notifyFailure, notifySuccess } from "@/utils/utils";
+
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { MagnifyingGlass } from "@phosphor-icons/react";
+
+import Assinatura from "@/apiServices/AssinaturaService";
+import { fetchCEP } from "@/utils/cep";
+
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
-import { MagnifyingGlass } from "@phosphor-icons/react";
-import { fetchCEP } from "@/utils/cep";
+
+import { handleActivateModalClose, handleCloseEditPayment } from "@/utils/modal-functions";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
+
+import styles from "@/styles/EditPaymentModal.module.css";
 
 export default function EditPaymentModal({ title, user }) {
   //SETUPS
@@ -154,10 +159,24 @@ export default function EditPaymentModal({ title, user }) {
   };
 
   const onPlanSubmit = async (data) => {
+    if (user?.status === "SUSPENDED") {
+      console.log(user);
+      const response = await Assinatura.ativarAssinatura(user.assinatura_id, user.id);
+      if (response.status === 204) {
+        notifySuccess("Assinatura ativada com sucesso!");
+        handleActivateModalClose();
+      }
+    }
     if (paymentType === "BOLETO") {
       await editBoletoEndereco(data);
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 1000);
     } else if (paymentType === "CREDIT_CARD") {
       await editCardSub(data);
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 1000);
     }
   };
 
@@ -199,6 +218,7 @@ export default function EditPaymentModal({ title, user }) {
         setValue("locality", user.address.locality);
         setValue("region_code", user.address.region_code);
         setValue("complement", user.address.complement);
+        setValue("postal_code", user.address.postal_code);
       }
     } else {
       return;
