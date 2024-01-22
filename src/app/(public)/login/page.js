@@ -39,6 +39,7 @@ export default function Login() {
     };
 
     const response = await User.loginUser(user);
+    console.log(response);
     if (response && response.status === 200) {
       notifySuccess(response.data.statusMessage);
 

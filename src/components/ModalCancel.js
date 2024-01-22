@@ -2,17 +2,20 @@ import Assinatura from "@/apiServices/AssinaturaService";
 import style from "@/styles/ModalObs.module.css";
 import { notifyFailure, notifySuccess } from "@/utils/utils";
 import ButtonAlternative from "./ButtonAlternative";
+import Image from "next/image";
 
-export const ModalCancel = ({ handleCancelModalClose, assinaturaId }) => {
-
+export const ModalCancel = ({ handleCancelModalClose, assinaturaId, user_id }) => {
   const handleCancelSubscription = async () => {
-    if(assinaturaId) {
-      const response = await Assinatura.suspenderAssinatura(assinaturaId);
-      if(response.status === 204) {
+    if (assinaturaId) {
+      const response = await Assinatura.suspenderAssinatura(assinaturaId, user_id);
+      if (response.status === 204) {
         notifySuccess("Assinatura suspensa com sucesso!");
-        handleCancelModalClose()
+        handleCancelModalClose();
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
       } else {
-        notifyFailure("Não foi possível suspender a assinatura!")
+        notifyFailure("Não foi possível suspender a assinatura!");
       }
     }
   };
@@ -20,10 +23,12 @@ export const ModalCancel = ({ handleCancelModalClose, assinaturaId }) => {
   return (
     <div id={style.obsBackground} className="obsScreen">
       <div className={style.obsCtr}>
-        <img
+        <Image
           src="/images/x-icon.svg"
           onClick={handleCancelModalClose}
           alt="Icone para fechar modal"
+          width={22}
+          height={22}
         />
         <div className={style.popupHeader}>
           <div className={style.popupHeaderTitle}>
@@ -32,7 +37,8 @@ export const ModalCancel = ({ handleCancelModalClose, assinaturaId }) => {
         </div>
         <div>
           <p className={style.popupMessage}>
-            Ao suspender a assinatura, você terá que reativa-la para voltar a utilizar o sistema.
+            Ao suspender a assinatura, você terá que reativa-la para voltar a
+            utilizar o sistema.
           </p>
         </div>
         <div className={style.btnContainer}>

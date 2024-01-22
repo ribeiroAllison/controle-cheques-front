@@ -26,15 +26,15 @@ export default class Assinatura {
 
       return response;
     } catch (error) {
-      console.log(error);
       return error.response;
     }
   };
 
-  static ativarAssinatura = async (sub_id) => {
+  static ativarAssinatura = async (sub_id, user_id) => {
     try {
       const response = await connection.put("/assinaturas/ativar", {
         sub_id,
+        user_id
       });
       return response;
     } catch (error) {
@@ -43,10 +43,11 @@ export default class Assinatura {
     }
   };
 
-  static suspenderAssinatura = async (sub_id) => {
+  static suspenderAssinatura = async (sub_id, user_id) => {
     try {
       const response = await connection.put("/assinaturas/suspender", {
         sub_id,
+        user_id
       });
       return response;
     } catch (error) {
@@ -74,24 +75,37 @@ export default class Assinatura {
     try {
       const response = await connection.put("/assinaturas/alterar-cartao", {
         user_id,
-        card: cardData
-      })
+        card: cardData,
+      });
       return response;
     } catch (error) {
       console.log(error);
       return error.response;
     }
-  }
+  };
 
   static buscarUltimoBoleto = async (assinaturaId) => {
     try {
       const response = await connection.post("/assinaturas/boleto/pendencia", {
-        sub_id: assinaturaId
-      })
+        sub_id: assinaturaId,
+      });
       return response;
     } catch (error) {
       console.log(error);
       return error.response;
     }
-  }
+  };
+
+  static alterarEndereco = async (user_id, address) => {
+    try {
+      const response = await connection.put("/assinaturas/alterar-endereco", {
+        user_id,
+        address,
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  };
 }

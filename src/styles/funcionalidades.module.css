@@ -3,48 +3,78 @@
   flex-direction: column;
   align-items: center;
   padding-bottom: 2rem;
+  gap: 2rem;
+  background-color: var(--white);
+  padding-top: 0;
+  margin-top: -3%;
+}
+
+.headBanner{
+  background-color: var(--gray-200);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.headBanner h1{
+  color: var(--green-100);
+  width: 40%;
+  margin: auto 0 ;
+  font-size: 3rem;
+}
+
+.headBanner img{
+  padding-bottom: 1rem;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+.alternativeBackground{
+  background-color: var(--bg-color);
+  padding-top: 1rem;
+}
+
+.container strong{
+  color: var(--green-100);
 }
 
 .funcionalidadesSection {
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 1rem;
-  background: linear-gradient(
-    180deg,
-    rgba(26, 26, 26, 1) 0%,
-    rgba(68, 68, 68, 1) 100%
-  );
   padding: 2rem 4rem;
-  border-radius: 10px;
-  max-width: 900px;
+  justify-content: space-between;
 }
 
 .funcionalidadesTitle {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
   color: var(--green-100);
 }
 
+.funcionalidadesDescription{
+  color: var(--green-300);
+  font-size: 1.4rem;
+
+}
+
 .funcionalidadesParagraph {
-  font-size: 1rem;
+  font-size: 1.5rem;
   line-height: 1.6;
-  color: var(--white);
+  color: var(--green-300);
 }
 
 .funcionalidadesContent ul {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem;
+  margin-top: 2rem;
 }
 
 .funcionalidadesContent li {
@@ -71,18 +101,44 @@
 
 @media (max-width: 768px) {
   .funcionalidadesTitle {
+    font-size: 1rem;
+  }
+
+  .headBanner{
+    flex-direction: column;
+    width: 100%;
+    margin-top: -5%;
+  }
+
+  .headBanner h1{
     font-size: 2rem;
+    width: 90%;
+    text-align: center;
+    margin: auto;
+  }
+
+  .headBanner img{
+    width: 70%;
+    margin: auto;
+  }
+
+  .funcionalidadesSection{
+    flex-direction: column;
+  }
+
+  .funcionalidadesParagraph{
+    font-size: 1.2rem;
   }
 }
 
 @media (min-width: 1440px) {
   .funcionalidadesTitle {
-    font-size: 2.75rem;
+    font-size: 2rem;
   }
 
   .funcionalidadesParagraph {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: var(--white);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--green-300);
   }
 }

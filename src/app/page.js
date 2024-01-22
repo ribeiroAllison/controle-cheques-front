@@ -31,7 +31,7 @@ export default function Page() {
             <Link href="/funcionalidades">
               <li>Funcionalidades</li>
             </Link>
-            <Link href="/">
+            <Link href="/planos">
               <li>Planos</li>
             </Link>
             <Link href="/fale-conosco">
@@ -122,7 +122,29 @@ export default function Page() {
               </Button>
             </Link>
           </div>
-          <section className={secondarySection.cardsWrapper}>
+          <section className={secondarySection.cardsWrapper} style={{paddingBottom: "50px"}}>
+          <div className={advantagesSection.titleWrapper}>
+            <h1>
+              Veja um tour pelo app!
+            </h1>
+          </div>
+            <iframe
+              width={650}
+              height={400}
+              src="https://www.youtube.com/embed/RifTZ3UY-cQ"
+              title="Vídeo institucional recebi.app"
+              frameBorder="0"
+              allowFullScreen
+            >
+            </iframe>
+          </section>
+          <section className={secondarySection.cardsWrapper} style={{backgroundColor: "white", paddingTop: "20px"}}>
+          
+          <div className={advantagesSection.titleWrapper}>
+            <h1>
+              Mais segurança para seus dados!
+            </h1>
+          </div>
             <div className={secondarySection.cardContainer}>
               <img src="/images/secondary-cards/card1.svg" alt="" />
               <h1>Não se perca nos recebimentos</h1>

@@ -15,13 +15,14 @@ import {
   UserGear,
   UsersThree,
   X,
+  Student
 } from "@phosphor-icons/react";
 import Image from 'next/image';
 import Link from "next/link";
 
 export default function Header({ isOpen, handleSideBar }) {
   return (
-    <>
+
       <div
         className={`${styles.sidebar} ${!isOpen ? "" : styles.closedSideBar}`}
         id="sidebar"
@@ -152,9 +153,18 @@ export default function Header({ isOpen, handleSideBar }) {
                 <span>Suporte</span>
               </Link>
             </li>
+            <li>
+              <Link href="/tutoriais">
+                <Student
+                  size={`${isOpen ? "42" : "28"}`}
+                  color="white"
+                />
+                <span>Tutoriais</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
-    </>
+
   );
 }

@@ -10,6 +10,7 @@
 .titleWrapper {
   width: 90%;
   margin: 0 auto;
+  text-align: left;
 }
 
 .titleWrapper h1 {
@@ -52,5 +53,9 @@
 @media (max-width: 768px) {
   .container {
     padding: 3rem 1rem;
+  }
+
+  .titleWrapper h1{
+    font-size: 1.5rem;
   }
 }

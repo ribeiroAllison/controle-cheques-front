@@ -44,7 +44,12 @@ export default class User {
         setCookie("user", response.data.userName);
         setCookie("userAllowed", response.data.isUserAllowed);
         setCookie("trialDays", response.data.trialDays);
+        setCookie("paid", response.data.paid);
+        setCookie("paymentMethod", response.data.paymentMethod);
+        setCookie("nextInvoice", response.data.nextInvoice);
+        setCookie("signatureDaysLeft", response.data.signatureDaysLeft);
         return response;
+        
       } else {
         return;
       }

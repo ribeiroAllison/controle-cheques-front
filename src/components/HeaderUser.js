@@ -13,6 +13,9 @@ import Button from "./Button";
 export default function HeaderUser() {
   const [name, setName] = useState("");
   const [trialDays, setTrialDays] = useState(0);
+  const [paid, setPaid] = useState();
+  const [paymentMethod, setPaymentMethod] = useState();
+  const [nextInvoice, setNextInvoice] = useState();
 
   const router = useRouter();
 
@@ -21,8 +24,12 @@ export default function HeaderUser() {
     if (confirmation) {
       removeCookie('token');
       removeCookie('user');
-      removeCookie('userAllowed');
+      removeCookie('isUserAllowed');
       removeCookie('trialDays');
+      removeCookie('paid');
+      removeCookie('paymentMethod');
+      removeCookie('nextInvoice');
+      removeCookie('signatureDaysLeft');
       setTimeout(() => {
         router.push("/login");
       }, 1100);
@@ -31,9 +38,29 @@ export default function HeaderUser() {
     }
   };
 
+  const getDaysDifference = date => {
+    // Parse the input date
+    const inputDate = new Date(date);
+    
+    // Get today's date
+    const today = new Date();
+  
+    // Calculate the time difference in milliseconds
+    const timeDifference = today.getTime() - inputDate.getTime();
+  
+    // Convert milliseconds to days
+    const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+  
+    return daysDifference;
+  }
+
   useEffect(() => {
     setName(getCookie("user"));
-    setTrialDays(getCookie("trialDays"));
+    setTrialDays(Number(getCookie("trialDays")));
+    const paymentStatus = getCookie("paid");
+    setPaid(paymentStatus !== "false");
+    setPaymentMethod(getCookie("paymentMethod"));
+    setNextInvoice(getCookie("nextInvoice"));
   }, []);
 
   return (
@@ -47,17 +74,32 @@ export default function HeaderUser() {
             </Link>
           </div>
         </div>
-        <div className={styles.warning}>
-          <WarningOctagon size={30} weight="fill" />
-          <div className={styles.warningText}>
-            <p>{`${trialDays > 1 ? "Restam" : "Resta"} ${trialDays} ${
-              trialDays > 1 ? "dias" : "dia"
-            } de teste grátis`}</p>
-            <Link href="/perfil" className={styles.subscribeButton}>
-              Ative sua conta agora
-            </Link>
+        {trialDays > 0 && !paid && (
+          <div className={styles.warning}>
+            <WarningOctagon size={30} weight="fill" />
+            <div className={styles.warningText}>
+              <p>{`${trialDays > 1 ? "Restam" : "Resta"} ${trialDays} ${
+                trialDays > 1 ? "dias" : "dia"
+              } de teste grátis`}</p>
+              <Link href="/perfil" className={styles.subscribeButton}>
+                Ative sua conta agora
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
+
+        {(paymentMethod === "BOLETO" && getDaysDifference(nextInvoice) >= -7 && getDaysDifference(nextInvoice) <=0) && 
+          <div className={styles.warning}>
+            <WarningOctagon size={30} weight="fill" />
+            <div className={styles.warningText}>
+              <p>{`Seu próximo boleto vence em ${Math.abs(getDaysDifference(nextInvoice))} dias`}</p>
+              <Link href="/perfil" className={styles.subscribeButton}>
+                Faça o download!
+              </Link>
+            </div>
+          </div>
+        }
+
         <div className={styles.btnContainer}>
           <a
             className={styles.wpp_btn}

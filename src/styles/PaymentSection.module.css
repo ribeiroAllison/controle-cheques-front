@@ -193,6 +193,8 @@
 .cancelBtn {
   color: var(--white);
   font-size: 1rem;
+  background: transparent;
+  border: 0;
 }
 
 .cancelBtn:hover {
@@ -233,6 +235,28 @@
 
 .actualPlanText strong {
   color: var(--green-100);
+}
+
+.boletoLoading {
+  display: flex;
+  color: white;
+  align-items: center;
+  gap: 1rem;
+}
+.paymentBar{
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagBank{
+  display: flex;
+  gap: 7px;
+  color: white;
+  align-items: center;
+}
+
+.pagBank img{
+  width: 80px;
 }
 
 @media (max-width: 1000px) {
