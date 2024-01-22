@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "@/styles/funcionalidades.module.css";
+import styles from "@/styles/Tutoriais.module.css";
 import advantagesSection from "@/styles/landpage/Advantages.module.css"
 import { Coin } from "@phosphor-icons/react";
 import VideoLoader from "@/components/VideoLoader";
@@ -8,25 +8,20 @@ import VideoLoader from "@/components/VideoLoader";
 export default function Funcionalidades() {
   return (
     <main className={styles.mainWrapper}>
-      <div className={styles.headBanner}>
-        <h1>
-          Conheça as funções do recebi.app que vão facilitar seu controle de
-          recebíveis!
-        </h1>
-        <img src="/images/funcionalidades.png" />
-      </div>
+      
       <div className={styles.container}>
         <div className={advantagesSection.titleWrapper}>
           <h1>
-            Dashboard, a sua <strong>central de controle!</strong>
+            Aprendendo a navegar o <strong>Dashboard</strong>
           </h1>
         </div>
         <section className={styles.funcionalidadesSection}>
           <div className={styles.funcionalidadesContent}>
             
             <p className={styles.funcionalidadesDescription}>
-              Através da tela inicial, o Dashboard, você tem um panorama geral
-              de seus recebíveis. Confira os detalhes no vídeo abaixo!
+              Aqui você encontra seus recebíveis que precisam de atenção e 
+              os seus principais indicadores financeiros! As principais informações 
+              do Dashboard são:
             </p>
             <ul>
               <li>
@@ -73,7 +68,7 @@ export default function Funcionalidades() {
           </div>
           <VideoLoader
             title="Funcionalidades do Dashboard"
-            url="https://www.youtube.com/embed/1Az4N8wJqqc"
+            url="https://www.youtube.com/embed/W81HNofSAco"
         />
         </section>
 
@@ -83,7 +78,7 @@ export default function Funcionalidades() {
       <div className={`${styles.container} ${styles.alternativeBackground}`}>
         <div className={advantagesSection.titleWrapper}>
             <h1>
-              Cadastre dados relevantes para seus recebíveis de forma <strong>customizada e inteligente!</strong>
+              <strong>Cadastre</strong> clientes, destinos, grupos financeiros, vendedores e tipo de pagamento!
             </h1>
         </div>
         <section className={styles.funcionalidadesSection}>
@@ -136,8 +131,8 @@ export default function Funcionalidades() {
             </ul>
           </div>
           <VideoLoader
-          title="Funcionalidades Cadastros"
-          url="https://www.youtube.com/embed/Iuzut6XEbh0"
+          title="Tutorial Cadastros"
+          url="https://www.youtube.com/embed/sbWenPTV_So"
         />
         </section>
         
@@ -146,7 +141,7 @@ export default function Funcionalidades() {
       <div className={styles.container}>
         <div className={advantagesSection.titleWrapper}>
           <h1>
-            Cadastre seus recebíveis de forma <strong>rápida e prática!</strong>
+            Cadastre <strong>seus recebíveis</strong>
           </h1>
         </div>
         <section className={styles.funcionalidadesSection}>
@@ -193,8 +188,8 @@ export default function Funcionalidades() {
             </ul>
           </div>
           <VideoLoader
-          title="Funcionalidades Cadastro Recebíveis"
-          url="https://www.youtube.com/embed/rYE_gXtDsS4"
+          title="Tutorial Cadastro Recebíveis"
+          url="https://www.youtube.com/embed/K8iAEX96C3s"
         />
         </section>
         
@@ -203,8 +198,7 @@ export default function Funcionalidades() {
       <div className={`${styles.container} ${styles.alternativeBackground}`}>
         <div className={advantagesSection.titleWrapper}>
           <h1>
-            Avançado <strong>sistema de filtros!</strong> encontre facilmente seus recebíveis,
-            e faça relatórios customizados!
+            Encontre recebíveis ou faça relatórios usando o <strong>sistema de filtros</strong>
           </h1>
         </div>
         <section className={styles.funcionalidadesSection}>
@@ -242,8 +236,8 @@ export default function Funcionalidades() {
             </ul>
           </div>
           <VideoLoader
-          title="Funcionalidades Cadastro Recebíveis"
-          url="https://www.youtube.com/embed/pJVQMDch5H8"
+          title="Tutorial Cadastro Recebíveis"
+          url="https://www.youtube.com/embed/K8iAEX96C3s"
         />
         </section>
         
@@ -252,7 +246,7 @@ export default function Funcionalidades() {
       <div className={styles.container}>
         <div className={advantagesSection.titleWrapper}>
           <h1>
-            Personalize o sistema para atender às <strong>suas necessidades!</strong>
+            Configure seus <strong>tempos de tolerância</strong>
           </h1>
         </div>
         <section className={styles.funcionalidadesSection}>
@@ -280,8 +274,8 @@ export default function Funcionalidades() {
             </ul>
           </div>
           <VideoLoader
-          title="Funcionalidades Cadastro Recebíveis"
-          url="https://www.youtube.com/embed/gHzpoAG97nI"
+          title="Tutorial Configurações"
+          url="https://www.youtube.com/embed/rFvIX1guCzY"
         />
         </section>
         

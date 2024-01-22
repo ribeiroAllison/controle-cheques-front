@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-bottom: 1rem;
+
 }
 
 .icon {
@@ -34,7 +34,7 @@
 
 .menuSection p {
   font-size: 1.15rem;
-  padding-top: 0.5rem;
+  padding-top: 0.2rem;
   color: var(--green-100);
   font-weight: bold;
 }
