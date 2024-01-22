@@ -50,6 +50,10 @@
   color: var(--gray-50);
 }
 
+#securityTitle{
+  margin-top: 2.5rem;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 3rem 1rem;

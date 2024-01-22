@@ -13,6 +13,10 @@
   transform: translateY(-50%);
 }
 
+#funcButton{
+  transform: translateY(50%);
+}
+
 .btnContainer button {
   width: 100%;
   padding: 0.5rem 3rem;
@@ -24,8 +28,10 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 3rem;
-  padding: 0 1rem 1rem;
+  padding: 0 1rem;
 }
+
+
 
 .cardContainer {
   display: flex;

@@ -15,11 +15,7 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 export default function Page() {
   return (
     <>
-      <a
-        className="wpp-btn"
-        href="https://wa.me/553530123787"
-        target="_blank"
-      >
+      <a className="wpp-btn" href="https://wa.me/553530123787" target="_blank">
         <FontAwesomeIcon icon={faWhatsapp} beat color="#FFF" size="3x" />
       </a>
       <header className={header.headerWrapper}>
@@ -122,12 +118,13 @@ export default function Page() {
               </Button>
             </Link>
           </div>
-          <section className={secondarySection.cardsWrapper} style={{paddingBottom: "50px"}}>
-          <div className={advantagesSection.titleWrapper}>
-            <h1>
-              Veja um tour pelo app!
-            </h1>
-          </div>
+          <section
+            className={secondarySection.cardsWrapper}
+            style={{ paddingBottom: "50px" }}
+          >
+            <div className={advantagesSection.titleWrapper}>
+              <h1>Veja um tour pelo app!</h1>
+            </div>
             <iframe
               width={650}
               height={400}
@@ -135,16 +132,22 @@ export default function Page() {
               title="Vídeo institucional recebi.app"
               frameBorder="0"
               allowFullScreen
-            >
-            </iframe>
+            />
           </section>
-          <section className={secondarySection.cardsWrapper} style={{backgroundColor: "white", paddingTop: "20px"}}>
-          
-          <div className={advantagesSection.titleWrapper}>
-            <h1>
-              Mais segurança para seus dados!
-            </h1>
+          <div className={secondarySection.btnContainer} id={secondarySection.funcButton}>
+            <Link href="/funcionalidades">
+              <Button style={{ height: "60px" }}>
+                Conheça todas as funcionalidades!
+              </Button>
+            </Link>
           </div>
+          <section
+            className={secondarySection.cardsWrapper}
+            style={{ backgroundColor: "white", paddingTop: "20px" }}
+          >
+            <div className={advantagesSection.titleWrapper} id={advantagesSection.securityTitle}>
+              <h1>Mais segurança para seus dados!</h1>
+            </div>
             <div className={secondarySection.cardContainer}>
               <img src="/images/secondary-cards/card1.svg" alt="" />
               <h1>Não se perca nos recebimentos</h1>
