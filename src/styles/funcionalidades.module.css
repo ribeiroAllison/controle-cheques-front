@@ -101,7 +101,33 @@
 
 @media (max-width: 768px) {
   .funcionalidadesTitle {
+    font-size: 1rem;
+  }
+
+  .headBanner{
+    flex-direction: column;
+    width: 100%;
+    margin-top: -5%;
+  }
+
+  .headBanner h1{
     font-size: 2rem;
+    width: 90%;
+    text-align: center;
+    margin: auto;
+  }
+
+  .headBanner img{
+    width: 70%;
+    margin: auto;
+  }
+
+  .funcionalidadesSection{
+    flex-direction: column;
+  }
+
+  .funcionalidadesParagraph{
+    font-size: 1.2rem;
   }
 }
 

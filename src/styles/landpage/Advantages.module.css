@@ -54,4 +54,8 @@
   .container {
     padding: 3rem 1rem;
   }
+
+  .titleWrapper h1{
+    font-size: 1.5rem;
+  }
 }
