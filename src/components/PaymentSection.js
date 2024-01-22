@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { ThreeDots } from "react-loader-spinner";
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { MagnifyingGlass, ShieldCheck } from "@phosphor-icons/react";
 
 import Button from "./Button";
 import LoadingScreen from "./LoadingScreen";
@@ -305,28 +305,36 @@ export default function PaymentSection({ title, userId, user, text }) {
         )}
 
         {user?.status === "ACTIVE" ||
-          user?.status === "PENDING" ||
-          user?.status === "SUSPENDED" ? null : (
-          <div className={styles.paymentWrapper}>
-            <input
-              type="radio"
-              value="CREDIT_CARD"
-              name="payment_type"
-              {...register("payment_type")}
-            />
-            <label htmlFor="payment_type" className={styles.labelRadio}>
-              Cartão de Crédito
-            </label>
+        user?.status === "PENDING" ||
+        user?.status === "SUSPENDED" ? null : (
+          <div className={styles.paymentBar}>
+            <div className={styles.paymentWrapper}>
+              <input
+                type="radio"
+                value="CREDIT_CARD"
+                name="payment_type"
+                {...register("payment_type")}
+              />
+              <label htmlFor="payment_type" className={styles.labelRadio}>
+                Cartão de Crédito
+              </label>
 
-            <input
-              type="radio"
-              value="BOLETO"
-              name="payment_type"
-              {...register("payment_type")}
-            />
-            <label htmlFor="payment_type" className={styles.labelRadio}>
-              Boleto
-            </label>
+              <input
+                type="radio"
+                value="BOLETO"
+                name="payment_type"
+                {...register("payment_type")}
+              />
+              <label htmlFor="payment_type" className={styles.labelRadio}>
+                Boleto
+              </label>
+            </div>
+            <div className={styles.pagBank}>
+              <ShieldCheck color="green" weight="fill" size={25}/>
+              <p>Protegido por:</p>
+              <img src="https://acq-static-pages.pagseguro.com.br/static-pages/website/website-home-pages/_next/static/media/logo-pagbank-negative-filled.d2e6fd1a.svg"/>
+            </div>
+            
           </div>
         )}
 
@@ -535,7 +543,10 @@ export default function PaymentSection({ title, userId, user, text }) {
           <div className={styles.bottomSection}>
             <Button type="submit">Salvar</Button>
             <Link href="/login">
-              <Button style={{ backgroundColor: "var(--orangeTd)" }} type="button">
+              <Button
+                style={{ backgroundColor: "var(--orangeTd)" }}
+                type="button"
+              >
                 Voltar para Login
               </Button>
             </Link>

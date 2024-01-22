@@ -243,6 +243,21 @@
   align-items: center;
   gap: 1rem;
 }
+.paymentBar{
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagBank{
+  display: flex;
+  gap: 7px;
+  color: white;
+  align-items: center;
+}
+
+.pagBank img{
+  width: 80px;
+}
 
 @media (max-width: 1000px) {
   .editContainer {
