@@ -31,7 +31,7 @@ export default function Page() {
             <Link href="/funcionalidades">
               <li>Funcionalidades</li>
             </Link>
-            <Link href="/">
+            <Link href="/planos">
               <li>Planos</li>
             </Link>
             <Link href="/fale-conosco">
