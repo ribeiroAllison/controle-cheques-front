@@ -331,7 +331,7 @@ export default function PaymentSection({ title, userId, user, text }) {
             </div>
             <div className={styles.pagBank}>
               <ShieldCheck color="green" weight="fill" size={25}/>
-              <p>Protegido por:</p>
+              <p>Protegido por</p>
               <img src="https://acq-static-pages.pagseguro.com.br/static-pages/website/website-home-pages/_next/static/media/logo-pagbank-negative-filled.d2e6fd1a.svg"/>
             </div>
             
