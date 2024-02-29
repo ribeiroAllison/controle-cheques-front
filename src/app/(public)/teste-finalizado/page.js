@@ -25,7 +25,6 @@ const TesteFinalizado = () => {
     try {
       setLoading(true);
       const response = await User.getUserById(id);
-      console.log(response);
       if (response) {
         setUser(response);
       }

@@ -133,7 +133,6 @@ export default function ChequeControl(props) {
   };
 
   const handleEdit = (cheque, param) => {
-    console.log(cheque);
     const editWindow = document.getElementById(param);
     editWindow.style.display = "flex";
     const id = cheque.id;
