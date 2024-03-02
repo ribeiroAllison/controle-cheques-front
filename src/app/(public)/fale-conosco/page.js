@@ -1,19 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
+
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import styles from "@/styles/faleConosco.module.css";
 import Link from "next/link";
 import { useForm } from "@formspree/react";
+import { notifySuccess } from "@/utils/utils";
 
 export default function FaleConosco() {
   const [state, handleFormSubmit] = useForm("xzblybnd");
   const router = useRouter();
-
-  const notifySuccess = (msg) => toast.success(msg);
 
   if (state.succeeded) {
     notifySuccess("Mensagem enviada com sucesso!");
@@ -31,7 +30,7 @@ export default function FaleConosco() {
 
   return (
     <>
-      <ToastContainer autoClose={1500} />
+      
       <section className={styles.faleConoscoWrapper}>
         <div className={styles.formContainer}>
           <h1>Envie sua mensagem para nosso time</h1>

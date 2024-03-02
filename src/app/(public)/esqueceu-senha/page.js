@@ -2,19 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
+
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import styles from "@/styles/esqueceuSenha.module.css";
 import Link from "next/link";
 import User from "@/apiServices/UserService";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
 
 export default function ForgotPwd() {
   const router = useRouter();
-
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
 
   const [email, setEmail] = useState("");
 
@@ -43,7 +41,7 @@ export default function ForgotPwd() {
 
   return (
     <>
-      <ToastContainer autoClose={1500} />
+      
       <div className={styles.esqueceuSenhaWrapper}>
         <div className={styles.formContainer}>
           <h1>Recupere sua senha</h1>

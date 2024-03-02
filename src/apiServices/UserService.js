@@ -124,4 +124,15 @@ export default class User {
       return error.response;
     }
   };
+
+  static registerEmail = async (email) => {
+    try {
+      const response = await connection.post("/usuarios/check-email", {
+        email,
+      });
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
 }

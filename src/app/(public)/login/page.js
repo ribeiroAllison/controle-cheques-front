@@ -6,17 +6,15 @@ import Input from "@/components/Input";
 import LoadingScreen from "@/components/LoadingScreen";
 import LoginCard from "@/components/LoginCard";
 import styles from "@/styles/login.module.css";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 
 
 export default function Login() {
   const router = useRouter();
-
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -39,7 +37,6 @@ export default function Login() {
     };
 
     const response = await User.loginUser(user);
-    console.log(response);
     if (response && response.status === 200) {
       notifySuccess(response.data.statusMessage);
 
@@ -60,7 +57,7 @@ export default function Login() {
   return (
     <>
       <LoadingScreen loading={loading} />
-      <ToastContainer autoClose={2000} />
+      
       <section className={styles.loginWrapper}>
         <figure className={styles.imgWrapper}>
           <img src="/images/login-img.svg" alt="" />

@@ -160,7 +160,6 @@ export default function EditPaymentModal({ title, user }) {
 
   const onPlanSubmit = async (data) => {
     if (user?.status === "SUSPENDED") {
-      console.log(user);
       const response = await Assinatura.ativarAssinatura(user.assinatura_id, user.id);
       if (response.status === 204) {
         notifySuccess("Assinatura ativada com sucesso!");

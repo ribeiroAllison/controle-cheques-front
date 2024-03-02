@@ -8,14 +8,11 @@ import SearchFilter from "@/components/SearchFilter";
 import tableStyle from "@/styles/Table.module.css";
 import styles from "@/styles/destino.module.css";
 import clearInputs from "@/utils/clearInputs";
-import { hideAddForm, showAddForm } from "@/utils/utils";
+import { hideAddForm, notifyFailure, notifySuccess, showAddForm } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 
 export default function Destinos() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   //STATES
   const [formValues, setFormValues] = useState({ nome: "" });
   const [destinos, setDestinos] = useState([]);
@@ -126,7 +123,7 @@ export default function Destinos() {
   return (
     <>
       <section className={styles.menuContainer}>
-        <ToastContainer autoClose={2000} />
+        
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
             <h2 className={styles.name}>Cadastro de Destinos</h2>

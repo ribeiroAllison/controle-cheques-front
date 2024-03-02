@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
+
 import decode from "jwt-decode";
 
 import Button from "@/components/Button";
@@ -106,7 +106,7 @@ const Perfil = () => {
   return (
     <>
       <LoadingScreen loading={isLoading} />
-      <ToastContainer autoClose={2000} />
+      
       <main className={styles.editWrapper}>
         {/* ACCOUNT SECTION */}
         <section className={styles.editContainer}>
