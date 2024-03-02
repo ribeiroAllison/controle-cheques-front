@@ -12,14 +12,13 @@ import {
   clearInputs,
   convertToNumber,
   getKeyByValue,
+  notifyFailure,
+  notifySuccess,
 } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 
 export default function CadastroCheques() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   const [formValues, setFormValues] = useState({
     num: "",
     valor: "",
@@ -287,7 +286,7 @@ export default function CadastroCheques() {
       <h1 className={styles.title}>Dados do Recebível</h1>
       <p style={{margin: "0px 30px"}}><span style={{color: "var(--redTd)"}}>*</span>Campos Obrigatórios</p>
       <section>
-        <ToastContainer autoClose={2000} />
+        
         <form onSubmit={handleSubmit} className={styles.checkForm}>
           <div className={styles.formInputsWrapper}>
             <div className={styles.formLine}>

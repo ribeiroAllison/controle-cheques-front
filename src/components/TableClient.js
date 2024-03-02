@@ -7,17 +7,13 @@ import { Vendedor } from "@/apiServices/VendedorService";
 import HeaderLine from "@/components/HeaderLine";
 import tableStyle from "@/styles/Table.module.css";
 import {
-  convertToNumber,
+  convertToNumber, notifyFailure,
 } from "@/utils/utils";
 import { CaretUpDown, IdentificationCard } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import ModalContact from "./ModalContact";
 
 export default function ClientTable() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   // STATES
   const [contact, setContact] = useState();
   const [clientList, setClientList] = useState([]);

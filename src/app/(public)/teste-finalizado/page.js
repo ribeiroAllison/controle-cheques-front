@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import decode from 'jwt-decode'
-import { ToastContainer } from 'react-toastify';
-
 
 import User from "@/apiServices/UserService";
 import PaymentSection from "@/components/PaymentSection";
@@ -51,7 +49,7 @@ const TesteFinalizado = () => {
   return (
     <div className={styles.editWrapper}>
       <LoadingScreen loading={loading} />
-      <ToastContainer autoClose={2000} />
+
       {(!user?.assinatura_id || user.status !== 'ACTIVE') && <PaymentSection
         userId={user && user.id}
         title={"Planos & Pagamento"}
@@ -68,7 +66,7 @@ const TesteFinalizado = () => {
           <Button>Ir Para Login!</Button>
         </Link>
       </div>}
-      
+
     </div>
   )
 };

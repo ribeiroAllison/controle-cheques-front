@@ -15,16 +15,15 @@ import {
   convertToNumber,
   getKeyByValue,
   hideAddForm,
+  notifyFailure,
+  notifySuccess,
   showAddForm,
 } from "@/utils/utils";
 import { CaretUpDown } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 
 export default function Clientes() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   // STATES
   const [formValues, setFormValues] = useState({
     codigo: "",
@@ -332,7 +331,6 @@ export default function Clientes() {
   //------------------------------------ RENDER --------------------------------------------
   return (
     <>
-      <ToastContainer autoClose={2000} />
       <section className={style.menuContainer}>
         <div className={style.menuWrapper}>
           <div className={style.menuHeader}>

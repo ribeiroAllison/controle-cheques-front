@@ -1,5 +1,5 @@
 //dev-DB:
-const baseURL = "https://controle-cheques-dev-b22e1941ba59.herokuapp.com";
+// const baseURL = "https://controle-cheques-dev-b22e1941ba59.herokuapp.com";
 const planoMensal = 'PLAN_8E129C7C-BB73-48F2-B265-DDDFDBAECF19';
 const planoTrimestral = 'PLAN_E4CE4617-A23C-4A30-AD90-B5C4D6D09BD7';
 const planoAnual = 'PLAN_530536A7-941B-45D0-A350-9E5D219A42C0';
@@ -13,7 +13,7 @@ const planoAnual = 'PLAN_530536A7-941B-45D0-A350-9E5D219A42C0';
 
 
 //local-Db
-// const baseURL = 'http://localhost:3351'
+const baseURL = 'http://localhost:3351'
 
 export { baseURL, planoAnual, planoMensal, planoTrimestral };
 
