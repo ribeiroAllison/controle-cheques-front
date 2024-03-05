@@ -8,6 +8,7 @@ import DoughnutChart from "@/components/DoughnutChart";
 import BarChartOne from "@/components/BarChartOne";
 import HeaderLine from "@/components/HeaderLine";
 import styles from "@/styles/dashboardPage.module.css";
+import ModalTutorial from "@/components/ModalTutorial";
 
 export default function Page() {
   const [cheques, setCheques] = useState([]);
@@ -131,6 +132,7 @@ export default function Page() {
         display="none"
         submitOnMount={true}
       />
+      <ModalTutorial />
     </>
   );
 }

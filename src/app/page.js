@@ -10,7 +10,8 @@ import secondarySection from "@/styles/landpage/Secondary.module.css";
 import contactSection from "@/styles/landpage/Contact.module.css";
 import footerSection from "@/styles/landpage/Footer.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faWhatsapp, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import Planos from "@/components/Planos";
 
 export default function Page() {
   return (
@@ -143,7 +144,7 @@ export default function Page() {
           </div>
           <section
             className={secondarySection.cardsWrapper}
-            style={{ backgroundColor: "white", paddingTop: "20px" }}
+            style={{ backgroundColor: "white", paddingTop: "20px", paddingBottom: "20px" }}
           >
             <div className={advantagesSection.titleWrapper} id={advantagesSection.securityTitle}>
               <h1>Mais segurança para seus dados!</h1>
@@ -171,7 +172,19 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <section
+            className={secondarySection.cardsWrapper}
+            style={{  paddingBottom: "20px" }}
+          >
+            <div className={advantagesSection.titleWrapper} id={advantagesSection.securityTitle}>
+              <h1>Conheça nossos planos!</h1>
+            </div>
+            <Planos />
+          </section>
         </section>
+
+        
 
         <section className={contactSection.container}>
           <div className={contactSection.contactWrapper}>
@@ -190,7 +203,15 @@ export default function Page() {
           <figure className={footerSection.imgContainer}>
             <img src="/images/cheques-logo.svg" alt="" />
           </figure>
-          <p>2023. Todos direitos reservados.</p>
+          <div className={footerSection.footerBox}>
+            <p>2023. Todos direitos reservados.</p>
+            <p style={{fontSize: "13px"}}>Antares Soluções em Software - Grupo Lisko</p>
+          </div>
+          
+          <a  href="https://www.instagram.com/recebi.app/" target="_blank" className={footerSection.footerBox}>
+            <FontAwesomeIcon icon={faInstagram} color="#FFF" size="3x" />
+            <p>@recebi.app</p>
+          </a>
         </section>
       </footer>
     </>

@@ -48,6 +48,9 @@ export default class User {
         setCookie("paymentMethod", response.data.paymentMethod);
         setCookie("nextInvoice", response.data.nextInvoice);
         setCookie("signatureDaysLeft", response.data.signatureDaysLeft);
+        // if(response.data.trialDays >= 21 && response.data.trialDays <=31){
+          setCookie("openTutorialModal", true)
+        // }
         return response;
         
       } else {
