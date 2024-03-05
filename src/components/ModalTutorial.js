@@ -19,7 +19,7 @@ export default function ModalTutorial () {
     return(
 
             <Modal
-            isOpen={isOpen === "true" ? true : false}
+            isOpen={isOpen === "true"}
             shouldCloseOnOverlayClick={false}
             style={{
               overlay: {
