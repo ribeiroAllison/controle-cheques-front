@@ -1,21 +1,25 @@
 import Modal from "react-modal";
 import styles from "@/styles/ModalTutorial.module.css"
-import { useState } from "react";
 import Image from "next/image";
 import VideoLoader from "./VideoLoader";
 import { Student } from "@phosphor-icons/react";
+import { getCookie, setCookie } from "@/utils/cookie";
+import { useEffect, useState } from "react";
+
+
 export default function ModalTutorial () {
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [ isOpen, setIsOpen ] = useState(getCookie('openTutorialModal'));
 
     const handleClose = () => {
-        setIsOpen(!isOpen)
+        setIsOpen(false);
+        setCookie( 'openTutorialModal', false);
     }
 
     return(
 
             <Modal
-            isOpen={isOpen}
+            isOpen={isOpen === "true" ? true : false}
             shouldCloseOnOverlayClick={false}
             style={{
               overlay: {
@@ -51,7 +55,7 @@ export default function ModalTutorial () {
                         title="Funcionalidades do Dashboard"
                         url="https://www.youtube.com/embed/W81HNofSAco"
                     />
-                    <a href="/tutoriais" className={styles.linkButton}>
+                    <a href="/tutoriais" className={styles.linkButton} onClick={handleClose}>
                         <Student size={40}/>
                         Veja todos os tutoriais aqui
                     </a>

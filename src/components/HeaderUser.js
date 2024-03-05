@@ -30,6 +30,7 @@ export default function HeaderUser() {
       removeCookie('paymentMethod');
       removeCookie('nextInvoice');
       removeCookie('signatureDaysLeft');
+      removeCookie("openTutorialModal");
       setTimeout(() => {
         router.push("/login");
       }, 1100);
