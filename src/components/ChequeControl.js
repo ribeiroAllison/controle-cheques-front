@@ -12,11 +12,13 @@ import { getCookie } from "@/utils/cookie";
 import { baseURL } from "@/utils/url";
 import {
   clearInputs,
+  notifyFailure,
+  notifySuccess,
   rearrangeDate,
   transformDate,
 } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 import ButtonAlternative from "./ButtonAlternative";
 import ChequeTable from "./ChequeTable";
 import ClientSearch from "./ClientSearch";
@@ -28,9 +30,6 @@ import { ModalObs } from "./ModalObs";
 
 export default function ChequeControl(props) {
   const token = getCookie("token");
-
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
 
   // STATES DEFINITION
   const [formValues, setFormValues] = useState({
@@ -133,7 +132,6 @@ export default function ChequeControl(props) {
   };
 
   const handleEdit = (cheque, param) => {
-    console.log(cheque);
     const editWindow = document.getElementById(param);
     editWindow.style.display = "flex";
     const id = cheque.id;
@@ -621,7 +619,7 @@ export default function ChequeControl(props) {
   //------------------------------ PAGE RENDERING ------------------------------------------------------------------
   return (
     <>
-      <ToastContainer autoClose={2000} />
+      
       {/* FILTER SCREEN */}
       <div
         className={styles.filterWrapper}

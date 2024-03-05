@@ -8,14 +8,11 @@ import SearchFilter from "@/components/SearchFilter";
 import tableStyle from "@/styles/Table.module.css";
 import styles from "@/styles/tipo.module.css";
 import clearInputs from "@/utils/clearInputs";
-import { hideAddForm, showAddForm } from "@/utils/utils";
+import { hideAddForm, notifyFailure, notifySuccess, showAddForm } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 
 export default function Tipos() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   //STATES
   const [formValues, setFormValues] = useState({ nome: "" });
   const [tipos, setTipos] = useState([]);
@@ -131,7 +128,7 @@ export default function Tipos() {
   return (
     <>
       <section className={styles.menuContainer}>
-        <ToastContainer autoClose={2000} />
+        
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
             <h2 className={styles.name}>Cadastro de tipos</h2>

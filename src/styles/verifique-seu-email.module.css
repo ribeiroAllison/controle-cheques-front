@@ -1,0 +1,48 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  height: 650px;
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  padding-block: 2rem;
+
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 1) 0%,
+    rgba(49, 49, 49, 0.9) 75%,
+    rgba(68, 68, 68, 0.7) 100%
+  );
+}
+
+.wrapper h1 {
+  font-size: 4rem;
+  color: var(--green-100);
+}
+
+.wrapper a {
+  color: var(--green-100);
+  line-height: 1.4;
+}
+
+.wrapper a:hover {
+  transition: color 0.3s;
+  color: var(--white);
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contentContainer p {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: var(--white);
+}

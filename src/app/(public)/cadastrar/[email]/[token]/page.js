@@ -1,21 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
+
+import { connection } from "@/utils/connection";
 import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
 import LoadingScreen from "@/components/LoadingScreen";
-import styles from "@/styles/cadastro.module.css";
 import { formatPhoneNumber, notifyFailure, notifySuccess } from "@/utils/utils";
 import validarCNPJ from "@/utils/validarCNPJ";
 import validarCPF from "@/utils/validarCPF";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
+import styles from "@/styles/cadastro.module.css";
 
 export default function Cadastro() {
   //SETUP
   const router = useRouter();
+  const params = useParams()
+  const { email, token } = params
+  const decodedEmail = decodeURIComponent(email);
   const {
     register,
     formState: { errors },
@@ -25,7 +29,7 @@ export default function Cadastro() {
   } = useForm({
     defaultValues: {
       nome: "",
-      email: "",
+      email: decodedEmail,
       tax_id: "",
       phones: "",
       birth_date: "",
@@ -95,6 +99,18 @@ export default function Cadastro() {
     setPhoneNumber(formattedValue);
   };
 
+  const handleTokenVerify = async () => {
+    try {
+      await connection.get(`/usuarios/verify-email/${token}`)
+      // notifySuccess("Token verificado com sucesso! Continue com a criação de sua conta.");
+    } catch (error) {
+      notifyFailure('Token inválido.')
+      setTimeout(() => {
+        router.push("/cadastrar-email")
+      }, 2200)
+    }
+  }
+
   //AUX FUNCTION
   const docData = watch("tax_id");
 
@@ -106,9 +122,10 @@ export default function Cadastro() {
     }
   }, [docData]);
 
+  handleTokenVerify()
+
   return (
     <>
-      <ToastContainer autoClose={1500} />
       <LoadingScreen loading={isLoading} />
       <div className={styles.cadastroWrapper}>
         <div className={styles.formContainer}>
@@ -140,6 +157,7 @@ export default function Cadastro() {
                   id="email"
                   type="email"
                   placeholder="E-mail"
+                  disabled
                 />
                 <p>{errors.email?.message}</p>
               </div>

@@ -8,14 +8,11 @@ import SearchFilter from "@/components/SearchFilter";
 import tableStyle from "@/styles/Table.module.css";
 import styles from "@/styles/vendedores.module.css";
 import clearInputs from "@/utils/clearInputs";
-import { hideAddForm, showAddForm } from "@/utils/utils";
+import { hideAddForm, notifyFailure, notifySuccess, showAddForm } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 
 export default function Vendedores() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   // STATE
   const [formValues, setFormValues] = useState({ nome: "" });
   const [vendedores, setVendedores] = useState();
@@ -121,7 +118,7 @@ export default function Vendedores() {
 
   return (
     <>
-      <ToastContainer autoClose={2000} />
+      
       <section className={styles.menuContainer}>
         <div className={styles.menuWrapper}>
           <div className={styles.menuHeader}>
