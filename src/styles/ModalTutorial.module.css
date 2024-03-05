@@ -1,0 +1,31 @@
+.close{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.header{
+    color: var(--green-100);
+    font-size: 1.5rem;
+}
+
+.main{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    flex-direction: column;
+}
+
+.linkButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 30px;
+    text-decoration: none;
+    color: var(--green-200);
+}

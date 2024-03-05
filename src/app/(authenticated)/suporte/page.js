@@ -5,13 +5,11 @@ import { getCookie } from "@/utils/cookie";
 import HeaderLine from "@/components/HeaderLine";
 import ButtonAlternative from "@/components/ButtonAlternative";
 import styles from "@/styles/suporte.module.css";
-import { ToastContainer, toast } from "react-toastify";
+
 import User from "@/apiServices/UserService";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
 
 export default function Suporte() {
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
-
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -54,7 +52,7 @@ export default function Suporte() {
 
   return (
     <>
-      <ToastContainer autoClose={2000} />
+      
       <HeaderLine name="Suporte" />
       <section className={styles.wrapper}>
         <h1>Precisa de ajuda?</h1>

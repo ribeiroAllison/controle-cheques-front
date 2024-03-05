@@ -6,15 +6,13 @@ import Link from "next/link";
 import User from "@/apiServices/UserService";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { ToastContainer, toast } from "react-toastify";
+
 
 import styles from "@/styles/recuperarSenha.module.css";
+import { notifyFailure, notifySuccess } from "@/utils/utils";
 
 export default function RecuperarSenha() {
   const router = useRouter();
-
-  const notifySuccess = (msg) => toast.success(msg);
-  const notifyFailure = (msg) => toast.error(msg);
 
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
@@ -70,7 +68,7 @@ export default function RecuperarSenha() {
 
   return (
     <>
-      <ToastContainer autoClose={1500} />
+      
       <section className={styles.recoverPwdWrapper}>
         <div className={styles.formContainer}>
           <h1>Redefina sua senha</h1>

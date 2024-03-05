@@ -162,7 +162,6 @@ export default function PaymentSection({ title, userId, user, text }) {
         router.push('/dashboard');
       }, 2000);
     } else {
-      console.log("Estou entrando na condição de negação de cartão");
       notifyFailure(response.data);
     }
   };
