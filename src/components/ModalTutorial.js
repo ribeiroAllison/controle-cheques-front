@@ -4,7 +4,7 @@ import Image from "next/image";
 import VideoLoader from "./VideoLoader";
 import { Student } from "@phosphor-icons/react";
 import { getCookie, setCookie } from "@/utils/cookie";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 export default function ModalTutorial () {
