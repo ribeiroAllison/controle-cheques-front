@@ -17,9 +17,6 @@ import styles from "@/styles/cadastro.module.css";
 export default function Cadastro() {
   //SETUP
   const router = useRouter();
-  const params = useParams()
-  const { email, token } = params
-  const decodedEmail = decodeURIComponent(email);
   const {
     register,
     formState: { errors },
@@ -29,7 +26,7 @@ export default function Cadastro() {
   } = useForm({
     defaultValues: {
       nome: "",
-      email: decodedEmail,
+      email: "",
       tax_id: "",
       phones: "",
       birth_date: "",
@@ -99,18 +96,6 @@ export default function Cadastro() {
     setPhoneNumber(formattedValue);
   };
 
-  const handleTokenVerify = async () => {
-    try {
-      await connection.get(`/usuarios/verify-email/${token}`)
-      // notifySuccess("Token verificado com sucesso! Continue com a criação de sua conta.");
-    } catch (error) {
-      notifyFailure('Token inválido.')
-      setTimeout(() => {
-        router.push("/cadastrar-email")
-      }, 2200)
-    }
-  }
-
   //AUX FUNCTION
   const docData = watch("tax_id");
 
@@ -121,8 +106,6 @@ export default function Cadastro() {
       setValidDoc(false);
     }
   }, [docData]);
-
-  handleTokenVerify()
 
   return (
     <>
@@ -157,7 +140,6 @@ export default function Cadastro() {
                   id="email"
                   type="email"
                   placeholder="E-mail"
-                  disabled
                 />
                 <p>{errors.email?.message}</p>
               </div>
