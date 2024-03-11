@@ -25,7 +25,7 @@ export default function VerifiqueSeuEmail() {
     } catch (error) {
       notifyFailure('Token inválido.')
       setTimeout(() => {
-        router.push("/cadastrar-email")
+        router.push("/cadastrar")
       }, 2200)
     }
   }
