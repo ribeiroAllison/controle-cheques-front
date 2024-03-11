@@ -37,7 +37,7 @@ export default function Page() {
           </ul>
         </nav>
         <div className={header.btnContainer}>
-          <Link href="/cadastrar-email">
+          <Link href="/cadastrar">
             <Button>Teste grátis</Button>
           </Link>
           <Link href="/login">
@@ -54,7 +54,7 @@ export default function Page() {
               <em>tenha controle total sobre</em> seus recebíveis.
             </h1>
             <h2>Sistema online de gestão de recebíveis</h2>
-            <Link href="/cadastrar-email">
+            <Link href="/cadastrar">
               <Button style={{ backgroundColor: "var(--green-300)" }}>
                 Teste grátis
               </Button>
@@ -113,7 +113,7 @@ export default function Page() {
 
         <section className={secondarySection.container}>
           <div className={secondarySection.btnContainer}>
-            <Link href="/cadastrar-email">
+            <Link href="/cadastrar">
               <Button style={{ height: "60px" }}>
                 Clique aqui e teste grátis
               </Button>

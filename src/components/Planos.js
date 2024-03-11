@@ -22,7 +22,7 @@ export default function Planos () {
             <h5>* Uma cobrança no valor de R$ 39,90 a cada 01 mês</h5>
           </div>
 
-          <Link className={styles.testButton} href="/cadastrar-email">
+          <Link className={styles.testButton} href="/cadastrar">
             <p>Teste Grátis 31 dias</p>
           </Link>
         </div>
@@ -46,7 +46,7 @@ export default function Planos () {
             <h5>* Uma cobrança no valor de R$ 107,70 a cada 03 meses</h5>
           </div>
 
-          <Link className={styles.testButton} href="/cadastrar-email">
+          <Link className={styles.testButton} href="/cadastrar">
             <p>Teste Grátis 31 dias</p>
           </Link>
         </div>
@@ -65,7 +65,7 @@ export default function Planos () {
             <h5>* Uma cobrança no valor de R$ 358,80 a cada 12 meses</h5>
           </div>
 
-          <Link className={styles.testButton} href="/cadastrar-email">
+          <Link className={styles.testButton} href="/cadastrar">
             <p>Teste Grátis 31 dias</p>
           </Link>
         </div>
