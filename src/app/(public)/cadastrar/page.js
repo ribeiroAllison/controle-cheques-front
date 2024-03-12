@@ -82,7 +82,7 @@ export default function Cadastro() {
       setIsLoading(false);
 
       setTimeout(() => {
-        router.push("/login");
+        router.push("/verifique-seu-email");
       }, 2200);
     } else {
       notifyFailure(response.response.data);

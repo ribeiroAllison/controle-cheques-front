@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { connection } from "@/utils/connection";
 import { useParams, useRouter } from "next/navigation";
 import styles from "@/styles/verifique-seu-email.module.css";
@@ -30,7 +30,9 @@ export default function VerifiqueSeuEmail() {
     }
   }
 
-  handleTokenVerify()
+  useEffect(() => {
+    handleTokenVerify()
+  }, []);
 
   return (
     <section className={styles.container}>
@@ -41,10 +43,13 @@ export default function VerifiqueSeuEmail() {
               <h1>Verificando...</h1>
               <p>Estamos verificando seu e-mail!</p>
             </div>
-            : <div className={styles.contentContainer}>
+            : 
+            <div className={styles.contentContainer}>
               <h1>E-mail verificado</h1>
-              <p>Pronto! Agora é só fazer o Login e começar a usar o Recebi.app!</p>
-            </div>}
+              <p>Pronto! Agora é só fazer o Login e começar a usar o recebi.app!</p>
+              <a href="/login">Ir para  login</a>
+            </div>
+          }
       </div>
     </section>
   );
