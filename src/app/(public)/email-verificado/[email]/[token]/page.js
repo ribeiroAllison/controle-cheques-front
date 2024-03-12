@@ -27,7 +27,7 @@ export default function VerifiqueSeuEmail() {
       console.log(error)
       notifyFailure('Token inválido.')
       setTimeout(() => {
-        router.push("/cadastro")
+        router.push("/cadastrar")
       }, 2200)
     }
   }
@@ -45,7 +45,8 @@ export default function VerifiqueSeuEmail() {
               <h1>Verificando...</h1>
               <p>Estamos verificando seu e-mail!</p>
             </div>
-            : <div className={styles.contentContainer}>
+            : 
+            <div className={styles.contentContainer}>
               <h1>E-mail verificado</h1>
               <p>Pronto! Agora é só fazer o Login e começar a usar o Recebi.app!</p>
             </div>

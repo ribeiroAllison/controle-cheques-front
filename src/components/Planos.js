@@ -15,14 +15,14 @@ export default function Planos () {
             <div className={styles.priceUpperCtn}>
                 <div className={styles.priceCtn}>
                     <h4>R$</h4>
-                    <h2>79,90</h2>
+                    <h2>39,90</h2>
                 </div>
                 <h5>/ mês</h5>
             </div>
-            <h5>* Uma cobrança no valor de R$ 79,90 a cada 01 mês</h5>
+            <h5>* Uma cobrança no valor de R$ 39,90 a cada 01 mês</h5>
           </div>
 
-          <Link className={styles.testButton} href="/cadastrar-email">
+          <Link className={styles.testButton} href="/cadastrar">
             <p>Teste Grátis 31 dias</p>
           </Link>
         </div>
@@ -39,14 +39,14 @@ export default function Planos () {
             <div className={styles.priceUpperCtn}>
                 <div className={styles.priceCtn}>
                     <h4>R$</h4>
-                    <h2>69,90</h2>
+                    <h2>35,90</h2>
                 </div>
                 <h5>/ mês</h5>
             </div>
-            <h5>* Uma cobrança no valor de R$ 209,70 a cada 03 meses</h5>
+            <h5>* Uma cobrança no valor de R$ 107,70 a cada 03 meses</h5>
           </div>
 
-          <Link className={styles.testButton} href="/cadastrar-email">
+          <Link className={styles.testButton} href="/cadastrar">
             <p>Teste Grátis 31 dias</p>
           </Link>
         </div>
@@ -58,14 +58,14 @@ export default function Planos () {
             <div className={styles.priceUpperCtn}>
                 <div className={styles.priceCtn}>
                     <h4>R$</h4>
-                    <h2>62,90</h2>
+                    <h2>29,90</h2>
                 </div>
                 <h5>/ mês</h5>
             </div>
-            <h5>* Uma cobrança no valor de R$ 754,80 a cada 12 meses</h5>
+            <h5>* Uma cobrança no valor de R$ 358,80 a cada 12 meses</h5>
           </div>
 
-          <Link className={styles.testButton} href="/cadastrar-email">
+          <Link className={styles.testButton} href="/cadastrar">
             <p>Teste Grátis 31 dias</p>
           </Link>
         </div>

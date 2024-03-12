@@ -22,6 +22,10 @@
     font-size: 30px;
 }
 
+.cardCtn h5{
+    margin-top: 10px;
+}
+
 #popularCtr{
     background-color: var(--blueTd-100);
     color: var(--white);
