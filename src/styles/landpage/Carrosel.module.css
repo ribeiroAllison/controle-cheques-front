@@ -1,0 +1,42 @@
+.testimonial{
+    font-size: 30px;
+    color: var(--gray-50);
+    margin: 0 5rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+}
+
+.signature{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.user{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.buttonCtr{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.buttonCtr button{
+    border-style: none;
+    background-color: var(--green-100);
+    color: white;
+    padding: 8px 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.buttonCtr button:hover{
+    opacity: 0.7;
+}

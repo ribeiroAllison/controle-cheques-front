@@ -9,11 +9,27 @@ import advantagesSection from "@/styles/landpage/Advantages.module.css";
 import secondarySection from "@/styles/landpage/Secondary.module.css";
 import contactSection from "@/styles/landpage/Contact.module.css";
 import footerSection from "@/styles/landpage/Footer.module.css";
+import fearSection from "@/styles/landpage/Fear.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import Planos from "@/components/Planos";
+import TestimonialsCarousel from "@/components/Carrosel";
+import guy1 from "../../public/images/faces/guy1.png";
+import guy2 from "../../public/images/faces/guy2.png";
+import guy3 from "../../public/images/faces/guy3.png";
+import guy4 from "../../public/images/faces/guy4.png";
+import takadapng from "../../public/images/faces/takadapng.png"
 
 export default function Page() {
+
+  const testimonialsData = [
+    {text:"O Recebi.app é uma ferramenta essencial para quem precisa controlar seus recebimentos. Agora consigo acompanhar todos os pagamentos de forma organizada e eficiente!", user: "Leandro Machado Chevalier", image: guy1},
+    {text: "Com o Recebi.app, nunca mais perco de vista os cheques e boletos pendentes. É uma solução prática e confiável para gerenciar minhas finanças.", user: "Robson Álvares Ribeiro", image: guy2},
+    {text: "Estou impressionada com a facilidade de uso do Recebi.app. Ele me ajuda a manter tudo em ordem e a evitar atrasos nos pagamentos.", user: "Janaína Takada", image: takadapng},
+    {text: "O aplicativo é intuitivo e me permite registrar todos os recebimentos de forma rápida. Recomendo a todos os empreendedores e autônomos!", user: "Jackson Monteiro", image: guy3},
+    {text: "Finalmente encontrei uma solução eficaz para controlar meus recebimentos. O Recebi.app é uma mão na roda!", user: "Rodrigo Oliveira Mendes", image: guy4}
+  ];
+
   return (
     <>
       <a className="wpp-btn" href="https://wa.me/553530123787" target="_blank">
@@ -23,19 +39,6 @@ export default function Page() {
         <figure className={header.imgContainer}>
           <img src="/images/cheques-logo.svg" alt="" />
         </figure>
-        <nav>
-          <ul className={header.menuWrapper}>
-            <Link href="/funcionalidades">
-              <li>Funcionalidades</li>
-            </Link>
-            <Link href="/planos">
-              <li>Planos</li>
-            </Link>
-            <Link href="/fale-conosco">
-              <li>Fale conosco</li>
-            </Link>
-          </ul>
-        </nav>
         <div className={header.btnContainer}>
           <Link href="/cadastrar">
             <Button>Teste grátis</Button>
@@ -50,10 +53,13 @@ export default function Page() {
         <section className={mainSection.container}>
           <div className={mainSection.textContainer}>
             <h1>
-              <span>Ganhe tempo e eficiência</span> ,{" "}
-              <em>tenha controle total sobre</em> seus recebíveis.
+              <span>Você não terá mais dor de cabeça </span> na hora de{" "}
+              <em>receber cheques, pix ou boletos</em>
             </h1>
-            <h2>Sistema online de gestão de recebíveis</h2>
+            <h2>
+              Com o recebi.app, a gestão dos seus recebíveis é feita na palma da
+              mão.
+            </h2>
             <Link href="/cadastrar">
               <Button style={{ backgroundColor: "var(--green-300)" }}>
                 Teste grátis
@@ -62,11 +68,36 @@ export default function Page() {
           </div>
         </section>
 
+        <section className={fearSection.container}>
+          <div className={advantagesSection.titleWrapper}>
+            <h1>
+              Você tem realmente{" "}
+              <strong style={{color: "var(--green-100)"}}>controle sobre seus recebimentos? </strong>
+            </h1>
+          </div>
+          <div className={fearSection.contentCtr}>
+            <figure className={fearSection.imageContainer}>
+              <img src="/images/redGraph.jpeg" />
+            </figure>
+            <div className={fearSection.info}>
+              <p>
+                Fazer o controle de recebíveis como cheques, boletos e pix a
+                cobrar, são exemplos de desafios que muitas empresas sofrem no
+                momento de <strong>fazer a cobrança dos seus clientes.</strong> <br /> <br />
+                A dor de cabeça, <strong> a falta de controle e a complexidade </strong> de realizar essa tarefa é
+                algo penoso e que nos faz perder muito tempo e energia. <br /> <br/>Sem
+                falar na chatice que é ficar o tempo todo, <strong> conferindo linha por
+                linha de excel ou anotação em caderno</strong>, para depois ter que cobrar cliente por cliente.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className={advantagesSection.container}>
           <div className={advantagesSection.titleWrapper}>
             <h1>
-              Conheça tudo o que o <strong>recebi.app </strong>
-              pode fazer pelo seu negócio
+              Pensando nisso criamos o <strong>recebi.app </strong>
+              um sistema online capaz de proporcionar:
             </h1>
           </div>
           <div className={advantagesSection.cardWrapper}>
@@ -124,7 +155,7 @@ export default function Page() {
             style={{ paddingBottom: "50px" }}
           >
             <div className={advantagesSection.titleWrapper}>
-              <h1>Veja um tour pelo app!</h1>
+              <h1>Veja o app funcionando!</h1>
             </div>
             <iframe
               width={650}
@@ -135,7 +166,10 @@ export default function Page() {
               allowFullScreen
             />
           </section>
-          <div className={secondarySection.btnContainer} id={secondarySection.funcButton}>
+          <div
+            className={secondarySection.btnContainer}
+            id={secondarySection.funcButton}
+          >
             <Link href="/funcionalidades">
               <Button style={{ height: "60px" }}>
                 Conheça todas as funcionalidades!
@@ -144,47 +178,34 @@ export default function Page() {
           </div>
           <section
             className={secondarySection.cardsWrapper}
-            style={{ backgroundColor: "white", paddingTop: "20px", paddingBottom: "20px" }}
+            style={{
+              backgroundColor: "white",
+              paddingTop: "20px",
+              paddingBottom: "20px",
+            }}
           >
-            <div className={advantagesSection.titleWrapper} id={advantagesSection.securityTitle}>
-              <h1>Mais segurança para seus dados!</h1>
+            <div
+              className={advantagesSection.titleWrapper}
+              id={advantagesSection.securityTitle}
+            >
+              <h1>Quem usa aprova!</h1>
             </div>
-            <div className={secondarySection.cardContainer}>
-              <img src="/images/secondary-cards/card1.svg" alt="" />
-              <h1>Não se perca nos recebimentos</h1>
-              <p>
-                O recebi.app é uma sistema online que facilita a administração e
-                gerenciamento de recebíveis de forma simples e automatizada.
-                Tenha total controle sobre seus recebimentos a prazo via cheque,
-                PIX, vale, e muito mais. Nunca mais deixe um recebimento vencer
-                na sua mão ou se esqueça de fazer uma cobrança!
-              </p>
-            </div>
-            <div className={secondarySection.cardContainer}>
-              <img src="/images/secondary-cards/card2.svg" alt="" />
-              <h1>Praticidade e automação</h1>
-              <p>
-                O recebi.app te alerta diariamente sobre pagamentos vencidos,
-                sem destinação, próximos de vencer e estornados. Além disso você
-                pode estipular limite de crédito a seus clientes e filtrar seus
-                recebíveis por cliente, pedido, vencimento, grupo , status de
-                pagamento e outras formas!
-              </p>
-            </div>
+            <TestimonialsCarousel testimonials={testimonialsData} />
           </section>
 
           <section
             className={secondarySection.cardsWrapper}
-            style={{  paddingBottom: "20px" }}
+            style={{ paddingBottom: "20px" }}
           >
-            <div className={advantagesSection.titleWrapper} id={advantagesSection.securityTitle}>
+            <div
+              className={advantagesSection.titleWrapper}
+              id={advantagesSection.securityTitle}
+            >
               <h1>Conheça nossos planos!</h1>
             </div>
             <Planos />
           </section>
         </section>
-
-        
 
         <section className={contactSection.container}>
           <div className={contactSection.contactWrapper}>
@@ -205,10 +226,16 @@ export default function Page() {
           </figure>
           <div className={footerSection.footerBox}>
             <p>2023. Todos direitos reservados.</p>
-            <p style={{fontSize: "13px"}}>Antares Soluções em Software - Grupo Lisko</p>
+            <p style={{ fontSize: "13px" }}>
+              Antares Soluções em Software - Grupo Lisko
+            </p>
           </div>
-          
-          <a  href="https://www.instagram.com/recebi.app/" target="_blank" className={footerSection.footerBox}>
+
+          <a
+            href="https://www.instagram.com/recebi.app/"
+            target="_blank"
+            className={footerSection.footerBox}
+          >
             <FontAwesomeIcon icon={faInstagram} color="#FFF" size="3x" />
             <p>@recebi.app</p>
           </a>
