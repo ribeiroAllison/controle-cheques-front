@@ -1,0 +1,33 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--gray-200);
+    padding: 2.5rem 0;
+
+}
+
+.contentCtr{
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+    margin: 2.5rem 2.5rem 0 2.5rem;
+}
+
+.info{
+    width: 50%;
+    text-align: justify;
+    font-size: 30px;
+    color: var(--gray-50);
+}
+
+.info strong{
+    color: var(--green-100);
+}
+
+.imageContainer{
+    width: 50%;
+}
+
+.imageContainer img{
+    width: 100%;
+}
