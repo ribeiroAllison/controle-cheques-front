@@ -40,3 +40,14 @@
 .buttonCtr button:hover{
     opacity: 0.7;
 }
+
+@media (max-width: 768px) {
+    .testimonial{
+        font-size: 20px;
+        margin: 0 1rem;
+    }
+
+    .buttonCtr{
+        margin-top: 1rem;
+    }
+}

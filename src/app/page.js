@@ -77,7 +77,7 @@ export default function Page() {
           </div>
           <div className={fearSection.contentCtr}>
             <figure className={fearSection.imageContainer}>
-              <img src="/images/redGraph.jpeg" />
+              <img src="/images/redGraph.jpeg" alt="grafico negativos" />
             </figure>
             <div className={fearSection.info}>
               <p>
@@ -171,7 +171,7 @@ export default function Page() {
             id={secondarySection.funcButton}
           >
             <Link href="/funcionalidades">
-              <Button style={{ height: "60px" }}>
+              <Button style={{ height: "80px" }} >
                 Conheça todas as funcionalidades!
               </Button>
             </Link>
