@@ -31,3 +31,23 @@
 .imageContainer img{
     width: 100%;
 }
+
+@media (max-width: 768px) {
+    .contentCtr{
+        flex-direction: column;
+        margin: 1rem 0;
+        align-items: center;
+        width: 90%
+    }
+
+    .info{
+        width: 90%;
+        font-size: 20px;
+    }
+
+    .imageContainer{
+        width: 70%;
+    }
+
+    
+}
